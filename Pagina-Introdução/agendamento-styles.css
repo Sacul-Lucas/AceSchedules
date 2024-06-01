@@ -1,0 +1,396 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Noto+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800&family=Roboto:ital,wght@0,100;0,300;1,100&family=Wix+Madefor+Text&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    font-family: Helvetica, Mo
+}
+
+
+header {
+    width: 100%;
+
+}
+a{
+  text-decoration: none;
+  color: black;
+}
+/* Barra Fundacao CSN*/
+.barrmenulink{
+  color: black;
+  background-color: transparent;
+  width: 5vw;
+  outline: white;
+
+}
+.navFundationCSN {
+    width: 100%;
+    height: 4.3vh;
+    background: #24243a;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.navFundationCSN img {
+    width: 1.9rem;
+    margin-right: 0.3rem;
+}
+
+.navFundationCSN p {
+    color: white;
+    font-family: 'Montserrat';
+    font-size: 17px;
+    font-weight: bold;
+}
+
+.Menu {
+  --button-color: rgb(255, 255, 255);
+  overflow: hidden;
+  position: absolute;
+  left: 4.3vw;
+  top: 2.65vh;
+
+}
+button {
+  background: transparent;
+  border: 0px solid var(--button-color, #000);
+  border-radius: 1rem;
+}
+.Menu .hamburger {
+  transition: translate 1s, rotate 1s;
+  width: 3vw;
+  cursor: pointer;
+}
+
+.Menu[aria-expanded="true"] .hamburger {
+  rotate: 0.125turn;
+}
+
+.Menu .line {
+  transition: 1s;
+  stroke-dasharray: 60 31 60 300;
+}
+
+.Menu[aria-expanded="true"] .line {
+  stroke-dasharray: 60 105 60 300;
+  stroke-dashoffset: -90;
+}
+
+.BarraMenu{
+  opacity: 0;
+  transform: translateY(0px);
+  pointer-events: auto;
+  position: absolute;
+}
+.listmenu{
+  list-style-type: none;
+  font-size: 0.5rem;
+  margin-top: 0.5vh;
+}
+.BarraMenu-show{
+  height: 10vh;
+  background-color: #edb700;
+  color: rgb(0, 0, 0);
+  position: absolute;
+  top: 10vh;
+  left: 4.6vw;
+  width: 7vw;
+  opacity: 1;
+  display: flex;
+  justify-content: center;
+  transform: translateY(-10px);
+  transition: opacity 150ms ease-in-out, transform 150ms ease-in-out;
+}
+/* Barra LINKS */ 
+
+.NavLinks {
+    width: 100%;
+    height: 3.6vh;
+    background: #292944;
+    display: flex;
+    align-items: center;
+}
+
+.NavLinks .subbarLinks {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    margin-right: 15rem;
+    gap: 1.8rem;
+}
+
+.NavLinks .subbarLinks p{
+    font-size: 14px;
+    color: #00B6CA;
+
+}
+
+.barSocial {
+    width: 7%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.4rem;
+    background: #3e3e57;
+}
+
+.barSocial img{
+    width: 1.3vw;
+    margin-top: 0.3rem;
+}
+
+/* Barra LOGO */ 
+
+.BarLogo {
+    width: 100%;
+    height: 12vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: white;
+}
+
+/*  Carossel  */
+  .slider{
+    width: 100%;
+    height: 500px;
+    overflow: hidden;
+  }
+
+  .slides{
+    width: 500%;
+    height: 500px;
+    display: flex;
+  }
+
+  .slides input{
+    display: none;
+  }
+
+  .slide{
+    width: 20%;
+    transition: 2s;
+  }
+
+  .slide img{
+    width: 100%;
+    height: 600px;
+  }
+
+  /*css for manual slide navigation*/
+
+  .navigation-manual{
+    position: absolute;
+    width: 800px;
+    margin-top: -40px;
+    display: flex;
+    justify-content: center;
+    left: 24%;
+  }
+
+  .manual-btn{
+    border: 2px solid #ffffff;
+    padding: 5px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 1s;
+    left: 24%;
+  }
+
+  .manual-btn:not(:last-child){
+    margin-right: 40px;
+  }
+
+  .manual-btn:hover{
+    background: #000000;
+  }
+
+  #radio1:checked ~ .first{
+    margin-left: 0;
+  }
+
+  #radio2:checked ~ .first{
+    margin-left: -20%;
+  }
+
+  #radio3:checked ~ .first{
+    margin-left: -40%;
+  }
+
+  #radio4:checked ~ .first{
+    margin-left: -60%;
+  }
+
+  /*css for automatic navigation*/
+
+  .navigation-auto{
+    position: absolute;
+    display: flex;
+    width: 800px;
+    justify-content: center;
+    margin-top: 460px;
+    left: 24%;
+  }
+
+  .navigation-auto div{
+    border: 2px solid #000000;
+    padding: 5px;
+    border-radius: 10px;
+    transition: 1s;
+    left: 30%;
+  }
+
+  .navigation-auto div:not(:last-child){
+    margin-right: 40px;
+  }
+
+  #radio1:checked ~ .navigation-auto .auto-btn1{
+    background: #000000;
+  }
+
+  #radio2:checked ~ .navigation-auto .auto-btn2{
+    background: #000000;
+  }
+
+  #radio3:checked ~ .navigation-auto .auto-btn3{
+    background: #000000;
+  }
+
+  #radio4:checked ~ .navigation-auto .auto-btn4{
+    background: #000000;
+  }
+
+/*   Apresentação  */
+
+.Main-apresentação-bar {
+  height: 21vh;
+  margin-top: 4vh;
+}
+
+.apresentação-equipediv {
+  margin-left: 5vw;
+  float: left;
+}
+p {
+  max-width: 43vw;
+  font-size: 0.8rem;
+}
+h1{
+  font-size: 2rem;
+}
+
+.apresentação-sistemadiv{
+  float: right;
+  margin-right: 5vw;
+}
+
+/*  Sobre a ETPC   */
+
+ul li::marker {
+  color: black;
+  font-size: 1rem;
+}
+li{
+  font-size: 1rem;
+}
+
+.Main-sobreetpc {
+  height: 32vh;
+  background-color: #edb700;
+}
+.Sobetpc {
+  width: 35vw;
+  margin-left: 6vw;
+  padding-top: 3vh;
+  float: left;
+}
+.Diferenciais {
+  width: 40vw;
+  margin-right: 5vw;
+  padding-top: 3vh;
+  float: right;
+}
+.painelir {
+  height: 50vh;
+  width: 100%;
+  background-image: url(img/etpc2.jpg);
+  background-position: center;
+  background-size: cover;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+}
+
+.painelir h2 {
+  color: #edb700;
+  font-size: 45px;
+}
+
+.painelir button {
+  color: #edb700;
+  background: #24243a;
+  padding: 20px 25px;
+  font-size: 20px;
+  cursor: pointer;
+  transition: 0.5s;
+  text-transform: uppercase;
+}
+
+.painelir button:hover {
+  background: #edb700;
+  color: #24243a;
+}
+
+.button span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+
+.button span:after {
+  content: '\00bb';
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+  transition: 0.5s;
+}
+
+.button:hover span {
+  padding-right: 25px;
+}
+
+.button:hover span:after {
+  opacity: 1;
+  right: 0;
+}
+
+.footeretpc{
+  height: auto;
+  width: 100%;
+}
+
+.footer-content {
+  height: 25vh;
+  background-color: #24243a;
+}
+.col-1 {
+  height: 22vh;
+  width: 45vh;
+  margin-left: 5vw;
+  padding-top: 1vw;
+}
+.fileira {
+  height: 24vh;
+}
+.contatos {
+  color: white;
+  font-size: 1rem;
+}
