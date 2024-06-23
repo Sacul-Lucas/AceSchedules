@@ -49,7 +49,7 @@ if (isset($_POST['email']) || isset($_POST['senha'])) {
                 </div>
 
                 <div class="forget">
-                    <label for="remember"><input id="remember" type="text" hidden="" onclick="window.location='http://localhost/AceSchedules/Cadastro%20-%20Ace%20Schedules/'">Ainda não é cadastrado? Cadastre-se</label>
+                    <label for="remember"><input id="remember" type="text" hidden="" onclick="window.location='/AceSchedules/Cadastro - Ace Schedules/index.php'">Ainda não é cadastrado? Cadastre-se</label>
                 </div>
 
                 <div class="typebox">

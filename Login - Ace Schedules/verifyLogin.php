@@ -13,19 +13,19 @@ $row = mysqli_fetch_assoc($result);
 
 if (mysqli_num_rows($result) > 0) {
 
-  if ($senha == $row['senha'] && ($email == $row['email'] || $email == $row['usuario']) && $usertype == $row['usertype']) {
+    if ($senha == $row['senha'] && ($email == $row['email'] || $email == $row['usuario']) && $usertype == $row['usertype']) {
 
-    if ($usertype == 'admin') {
+        if ($usertype == 'admin') {
 
-        if(!isset($_SESSION)) {
-            session_start();
-        }
+            if (!isset($_SESSION)) {
+                session_start();
+            }
 
-        $_SESSION['id'] = $row['id'];
-        $_SESSION['email'] = $row['email'];
-        $_SESSION['usuario'] = $row['usuario'];
-    
-        echo "<head>
+            $_SESSION['id'] = $row['id'];
+            $_SESSION['email'] = $row['email'];
+            $_SESSION['usuario'] = $row['usuario'];
+
+            echo "<head>
                   <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.all.min.js'></script>
                   <link href='https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.min.css' rel='stylesheet'>
               </head>
@@ -36,25 +36,23 @@ if (mysqli_num_rows($result) > 0) {
                           title: 'Pronto!',
                           text: 'Login realizado com sucesso',
                       }).then(function() {
-                          window.location = 'http://localhost/AceSchedules/Painel%20Admin%20Usu%c3%a1rio%20-%20Ace%20Schedules/';
+                          window.location = '/AceSchedules/Painel Admin Usuário - Ace Schedules/index.php';
                       });
                   </script> 
               </body>
         ";
-        exit;
-        
+            exit;
+        } else {
 
-    }else {
+            if (!isset($_SESSION)) {
+                session_start();
+            }
 
-        if(!isset($_SESSION)) {
-            session_start();
-        }
+            $_SESSION['id'] = $row['id'];
+            $_SESSION['email'] = $row['email'];
+            $_SESSION['usuario'] = $row['usuario'];
 
-        $_SESSION['id'] = $row['id'];
-        $_SESSION['email'] = $row['email'];
-        $_SESSION['usuario'] = $row['usuario'];
-    
-        echo "<head>
+            echo "<head>
                   <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.all.min.js'></script>
                   <link href='https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.min.css' rel='stylesheet'>
               </head>
@@ -65,19 +63,14 @@ if (mysqli_num_rows($result) > 0) {
                           title: 'Pronto!',
                           text: 'Login realizado com sucesso',
                       }).then(function() {
-                          window.location = 'http://localhost/AceSchedules/Painel%20-%20Ace%20Schedules/painel.php';
+                          window.location = '/AceSchedules/Painel - Ace Schedules/painel.php';
                       });
                   </script> 
               </body>
         ";
-        exit;
-
+            exit;
+        }
     }
-
-
-
-  }
-
 } else {
 
     echo "<head>
@@ -97,7 +90,4 @@ if (mysqli_num_rows($result) > 0) {
           </body>
     ";
     exit;
-
 }
-
-?>

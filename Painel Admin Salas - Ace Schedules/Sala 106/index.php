@@ -29,16 +29,16 @@ require 'dbcon.php';
                     <div class="card-header">
                         <h4>Detalhes do agendamento
                             <a href="schedule-create.php" class="btn btn-primary float-end">Adicionar Agendamento</a>
-                            <a href="http://localhost/AceSchedules/Painel%20Admin%20Usu%c3%a1rio%20-%20Ace%20Schedules/" class="btn btn-primary float-end" style="margin-right:2%">Administração de usuários</a>
+                            <a href="/AceSchedules/Painel Admin Usuário - Ace Schedules/index.php" class="btn btn-primary float-end" style="margin-right:2%">Administração de usuários</a>
                         </h4>
                         Selecione a sala:
                         <select name="types" id="types" onchange="window.location=this.value;">
-                                <option></option>
-                                <option value="http://localhost/AceSchedules/Painel%20Admin%20Salas%20-%20Ace%20Schedules/Audit%c3%b3rio/" href="http://localhost/AceSchedules/Painel%20Admin%20Salas%20-%20Ace%20Schedules/Audit%c3%b3rio/">Auditório</option>
-                                <option value="http://localhost/AceSchedules/Painel%20Admin%20Salas%20-%20Ace%20Schedules/Sala%20106/" href="http://localhost/AceSchedules/Painel%20Admin%20Salas%20-%20Ace%20Schedules/Sala%20106/">Sala 106</option>
-                                <option value="http://localhost/AceSchedules/Painel%20Admin%20Salas%20-%20Ace%20Schedules/Sala%20128/" href="http://localhost/AceSchedules/Painel%20Admin%20Salas%20-%20Ace%20Schedules/Sala%20128/">Sala 128</option>
-                                <option value="http://localhost/AceSchedules/Painel%20Admin%20Salas%20-%20Ace%20Schedules/Sala%20129/" href="http://localhost/AceSchedules/Painel%20Admin%20Salas%20-%20Ace%20Schedules/Sala%20129/">Sala 129</option>
-                                <option value="http://localhost/AceSchedules/Painel%20Admin%20Salas%20-%20Ace%20Schedules/Sala%20130/" href="http://localhost/AceSchedules/Painel%20Admin%20Salas%20-%20Ace%20Schedules/Sala%20130/">Sala 130</option>
+                            <option></option>
+                            <option value="/AceSchedules/Painel Admin Salas - Ace Schedules/Auditório/index.php" href="/AceSchedules/Painel Admin Salas - Ace Schedules/Auditório/index.php">Auditório</option>
+                            <option value="/AceSchedules/Painel Admin Salas - Ace Schedules/Sala 106/index.php" href="/AceSchedules/Painel Admin Salas - Ace Schedules/Sala 106/index.php">Sala 106</option>
+                            <option value="/AceSchedules/Painel Admin Salas - Ace Schedules/Sala 128/index.php" href="/AceSchedules/Painel Admin Salas - Ace Schedules/Sala 128/index.php">Sala 128</option>
+                            <option value="/AceSchedules/Painel Admin Salas - Ace Schedules/Sala 129/index.php" href="/AceSchedules/Painel Admin Salas - Ace Schedules/Sala 129/index.php">Sala 129</option>
+                            <option value="/AceSchedules/Painel Admin Salas - Ace Schedules/Sala 130/index.php" href="/AceSchedules/Painel Admin Salas - Ace Schedules/Sala 130/index.php">Sala 130</option>
                         </select>
                     </div>
                     <div class="card-body">

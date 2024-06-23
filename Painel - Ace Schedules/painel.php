@@ -42,7 +42,7 @@ include("tconect.php");
 
 
         <div class="listmenu" id="listmenu">
-            <button onclick="window.location='http://localhost/AceSchedules/Pagina-Introdu%c3%a7%c3%a3o/agendamento-index.html'" class="barrmenulink" id="barrmenulink1"> Home</button>
+            <button onclick="window.location=''" class="barrmenulink" id="barrmenulink1"> Home</button>
             <a href="#footer"><button class="barrmenulink" id="barrmenulink2"> Contato</button></a>
             <button form="logoutform" class="barrmenulink" id="barrmenulink3" name="logout"> Sair</button>
             <form id="logoutform" action="logout.php" method="GET"></form>
@@ -524,7 +524,7 @@ include("tconect.php");
 
                 </div>
 
-                <div class="logo-ace" onclick="window.location='http://localhost/Projeto%20n%c3%aamesis/1%20Player/Projeto%20n%c3%aamesis.html'">
+                <div class="logo-ace" onclick="window.location='/Projeto nêmesis/1 Player/Projeto nêmesis.html'">
                     <img src="img/logotipo_ace.png">
 
                 </div>

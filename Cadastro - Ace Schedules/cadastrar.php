@@ -14,7 +14,7 @@ $row = mysqli_fetch_assoc($result);
 
 
 
-if($row['total'] > 0) {
+if ($row['total'] > 0) {
 	$_SESSION['nome_existe'] = true;
 	echo "<head>
 	        <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.all.min.js'></script>
@@ -33,15 +33,15 @@ if($row['total'] > 0) {
 		  </body>
 		  ";
 	exit;
-}else {
-    $_SESSION['nome_existe'] = false;
+} else {
+	$_SESSION['nome_existe'] = false;
 	$sql = "INSERT INTO cadastro (email, usuario, senha, usertype) VALUES ('$email', '$usuario', '$senha', '$usertype')";
 
 
-	if($mysqli->query($sql) === TRUE) {
+	if ($mysqli->query($sql) === TRUE) {
 		$_SESSION['status_cadastro'] = true;
 	}
-		
+
 	$mysqli->close();
 
 	echo "<head>
@@ -55,14 +55,10 @@ if($row['total'] > 0) {
 					    title: 'Pronto!',
 					    text: 'Usuário cadastrado com sucesso',
 				    }).then(function() {
-                        window.location = 'http://localhost/AceSchedules/Login%20-%20Ace%20Schedules/LoginAgenda.php';
+					    window.location = '/AceSchedules/Login - Ace Schedules/LoginAgenda.php';
                     });
 				</script> 
 		  </body>
 	    ";
 	exit;
-
 }
-
-
-?>
