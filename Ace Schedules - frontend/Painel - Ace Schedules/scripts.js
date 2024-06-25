@@ -8,8 +8,8 @@ function abrirModal(id_sala, nome_sala, capacidade_sala, status_sala) {
         alert('Esta sala está bloqueada e não pode ser aberta para reserva.');
         return;
     }
-    modal.querySelector('h1').innerHTML = nome_sala;
-    modal.querySelector('p').innerHTML = capacidade_sala;
+    modal.querySelector('h1').innerHTML = `Informações ${nome_sala}`;
+    modal.querySelector('p').innerHTML = `Capacidade: ${capacidade_sala}`;
     modal.querySelector('#idSala').value = id_sala;
     modal.show();
 }

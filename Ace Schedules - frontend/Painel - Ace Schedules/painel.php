@@ -265,11 +265,9 @@ $result = $conn->query($sql);
         <div class="footer-tag">
             <div class="tag-content">
                 <div class="etpc-direitos">
-                    <p>Política de privacidade // © <script>
+                    <p>Política de privacidade // &copy; <script>
                             document.write(new Date().getFullYear());
                         </script> ETPC - Todos os direitos reservados</p>
-
-
                 </div>
 
                 <div class="logo-ace" onclick="window.location='/AceSchedules/Ace Schedules - frontend/Projeto nêmesis/1 Player/Projeto nêmesis.html'">
