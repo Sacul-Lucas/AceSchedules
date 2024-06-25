@@ -61,6 +61,7 @@ require 'dbcon.php';
                                         <label for="types" id="userType">
                                             Tipo de usuário:
                                             <select name="types" id="types">
+                                                <option value="<?= $cadastro['usertype'] ?>">--Selecione o tipo de usuário--</option>
                                                 <option value="Empresa">Empresa</option>
                                                 <option value="Administrador">Administrador</option>
                                             </select>

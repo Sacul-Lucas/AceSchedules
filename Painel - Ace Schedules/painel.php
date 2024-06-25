@@ -1,8 +1,25 @@
 <?php
 session_start();
-include("tconect.php");
+// Configurações do banco de dados
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "aceschedule";
+
+// Criar a conexão
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Verificar a conexão
+if ($conn->connect_error) {
+    die("Conexão falhou: " . $conn->connect_error);
+}
+
+// Query para buscar os dados da tabela "salas"
+$sql = "SELECT id, nome, capacidade, img, status FROM salas";
+$result = $conn->query($sql);
 
 ?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -42,7 +59,7 @@ include("tconect.php");
 
 
         <div class="listmenu" id="listmenu">
-            <button onclick="window.location=''" class="barrmenulink" id="barrmenulink1"> Home</button>
+            <button onclick="window.location='https://etpc.com.br/'" class="barrmenulink" id="barrmenulink1"> Home</button>
             <a href="#footer"><button class="barrmenulink" id="barrmenulink2"> Contato</button></a>
             <button form="logoutform" class="barrmenulink" id="barrmenulink3" name="logout"> Sair</button>
             <form id="logoutform" action="logout.php" method="GET"></form>
@@ -57,53 +74,37 @@ include("tconect.php");
 
     <div class="user">
         <h7 class="nome">
-            Bem-vindo, <?php echo $_SESSION["usuario"] ?>
+            Bem vindo, <?php echo $_SESSION["usuario"] ?>
         </h7>
     </div>
 
-    <div class="container">
-
-        <div class="row">
-            <div class="col">
-                <h1>Salas Disponíveis</h1>
-
-                <p>
-                    Nosso site de agendamento de salas simplifica a reserva de espaços para reuniões, <br>eventos e atividades,
-                    proporcionando conveniência e eficiência para todos os usuários.
-                </p>
-
-                <h6>Clique em uma sala para realizar um pedido de agendamento</h6>
-
-            </div>
-
-            <div class="col">
-
-                <div class="card card1" id="card1">
-                    <h5>Auditório</h5>
-                </div>
-
-                <div class="card card2" id="card2">
-                    <h5>Sala 106</h5>
-                </div>
-
-                <div class="card card3" id="card3">
-                    <h5>Sala 128</h5>
-                </div>
-
-                <div class="card card4" id="card4">
-                    <h5>Sala 129</h5>
-                </div>
-
-                <div class="card card5" id="card5">
-                    <h5>Sala 130</h5>
-                </div>
-
-            </div>
-
-
+    <div class="row">
+        <div class="col">
+            <h1>Salas Disponíveis</h1>
+            <p>
+                Nosso site de agendamento de salas simplifica a reserva de espaços para reuniões, <br>eventos e atividades,
+                proporcionando conveniência e eficiência para todos os usuários.
+            </p>
+            <h6>Clique em uma sala para realizar um pedido de agendamento</h6>
         </div>
+        <div class="colcards">
+
+            <?php
 
 
+            if ($result->num_rows > 0) {
+                // Output dos dados de cada linha
+                while ($row = $result->fetch_assoc()) {
+                    echo '<div class="card" idcard="' . $row["id"] . '" style="background-image: url(img_salas/' . $row["img"] . ')" onclick="abrirModal(' . $row["id"] . ', \'' . $row["nome"] . '\', ' . $row["capacidade"] . ', ' . $row["status"] . ')"><h5>' . $row["nome"] . '</h5></div>';
+                    //Caso o dado da capacidade virar string colocar o contrabarra e em seguida a aspas simples, igual no nome
+
+                }
+            } else {
+                echo "<h6> Nenhuma sala encontrada </h6>";
+            }
+            $conn->close();
+            ?>
+        </div>
     </div>
 
     <div class="background-effects">
@@ -116,345 +117,92 @@ include("tconect.php");
         </div>
     </div>
 
-
-
-    <!----------------------------POU-UPS 1--------------------------------------------------------------->
-
-    <dialog id="modal1">
+    <!----------------------------POU-UPS--------------------------------------------------------------->
+    <dialog id="modal">
         <div class="modal-container">
             <div class="modal">
-                <h1>Auditório Informações</h1>
-                <li>Capacidade Máxima: 120 pessoas</li>
-                <li>Capacidade Mínima: 90 pessoas</li>
-
+                <h1>Nome sala</h1>
+                <p>Descrição</p>
+                <input type="hidden" id="idSala" name="idSala" value="">
                 <button id="close">Fechar</button>
-                <button id="reserva">Reservar</button>
+                <button id="reserva" onlcick=reserva>Reservar</button>
             </div>
         </div>
     </dialog>
     <!------------------------------------------------------------------------------------------------------------>
+    <dialog id="poupup-reserva" class="poupup-reserva">
+        <div class="popupContainerAgenda">
+            <div class="popupAgenda">
+                <div class="light">
+                    <button id="FecharReserva" class="reserva-sair">X</button>
+                    <img alt="ETPC6277" src="https://aheioqhobo.cloudimg.io/v7/_playground-bucket-v2.teleporthq.io_/a3f00890-86aa-469d-81db-c61abcb20af5/7214d12c-1521-42ec-a653-1d1421805490?org_if_sml=13348" class="light-etpc">
+                    <div class="FrameMain">
+                        <div class="calendar">
+                            <div class="calendar-header">
+                                <span class="month-picker" id="month-picker">February</span>
+                                <div class="year-picker">
+                                    <span class="year-change" id="prev-year">
+                                        <pre><</pre>
+                                    </span>
+                                    <span id="year">2021</span>
+                                    <span class="year-change" id="next-year">
+                                        <pre>></pre>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="calendar-body">
+                                <div class="calendar-week-day">
+                                    <div>Dom</div>
+                                    <div>Seg</div>
+                                    <div>Ter</div>
+                                    <div>Qua</div>
+                                    <div>Qui</div>
+                                    <div>Sex</div>
+                                    <div>Sab</div>
+                                </div>
+                                <div class="calendar-days"></div>
+                            </div>
 
+                            <div class="month-list"></div>
+                        </div>
+                        <div class="calendarfuncional">
+                            <div class="funcional">
+                                <span class="func-text" id="func-text">
+                                    Selecione a data da reserva.
+                                </span>
+                                <spa class="func-text2" id="DataEscolhida"></spa>
+                                <button type="reset" class="func-excluir button" id="reset">X</button>
+                            </div>
+                            <form action='inserir_reservas.php' method='POST' class='d-inline' style="width: 20vw;">
+                                <input id="dataAgendamento" type="hidden" value="" name="dataAgendamento">
+                                <input id="nome_sala" type="hidden" value="" name="nome_sala">
+                                <input id="nome_usuario" type="hidden" value="<?= $_SESSION["id"] ?>" name="usuario">
+                                <select name="periodo" class="form-control" required>
+                                    <option value="">--Selecione o período--</option>
+                                    <option value="Manha">Manhã</option>
+                                    <option value="Tarde">Tarde</option>
+                                    <option value="Noite">Noite</option>
+                                </select>
+                                <button type="submit" id="mostrarPopup" class="funcenviar">Enviar</button>
+                            </form>
+                            <div id="popup" class="popupConcluir">
+                                <div></div>
+                                <div>
+                                    <div></div>
 
-    <!----------------------------POU-UPS 2--------------------------------------------------------------->
-    <dialog id="modal2">
-        <div class="modal-container">
-            <div class="modal">
-                <h1>Sala 106 Informações</h1>
-                <li>Capacidade Máxima: 50 pessoas</li>
-                <li>Capacidade Mínima: 25 pessoas</li>
-
-                <button id="close2">Fechar</button>
-                <button id="reserva2">Reservar</button>
-            </div>
-        </div>
-    </dialog>
-    <!------------------------------------------------------------------------------------------------------------>
-
-
-    <!----------------------------POU-UPS 3--------------------------------------------------------------->
-    <dialog id="modal3">
-        <div class="modal-container">
-            <div class="modal">
-                <h1>Sala 128 Informações</h1>
-                <li>Capacidade Máxima: 70 pessoas</li>
-                <li>Capacidade Mínima: 50 pessoas</li>
-
-                <button id="close3">Fechar</button>
-                <button id="reserva3">Reservar</button>
-            </div>
-        </div>
-    </dialog>
-    <!------------------------------------------------------------------------------------------------------------>
-
-
-    <!----------------------------POU-UPS 4--------------------------------------------------------------->
-    <dialog id="modal4">
-        <div class="modal-container">
-            <div class="modal">
-                <h1>Sala 129 Informações</h1>
-                <li>Capacidade Máxima: 80 pessoas</li>
-                <li>Capacidade Mínima: 6 pessoas</li>
-
-                <button id="close4">Fechar</button>
-                <button id="reserva4">Reservar</button>
-            </div>
-        </div>
-    </dialog>
-    <!------------------------------------------------------------------------------------------------------------>
-
-
-    <!----------------------------POU-UPS 5--------------------------------------------------------------->
-    <dialog id="modal5">
-        <div class="modal-container">
-            <div class="modal">
-                <h1>Sala 130 Informações</h1>
-                <li>Capacidade Máxima: 30 pessoas</li>
-                <li>Capacidade Mínima: 15 pessoas</li>
-
-                <button id="close5">Fechar</button>
-                <button id="reserva5">Reservar</button>
-            </div>
-        </div>
-    </dialog>
-    <!------------------------------------------------------------------------------------------------------------>
-
-    <dialog id="poupup-reserva-auditorio" class="poupup-reserva">
-        <div class="poupup-container">
-            <div class="poupup">
-
-                <div class="poupup-topo">
-                    <div class="bola-agenda">
-                        <img src="img/agenda.png">
-                    </div>
-                    <div class="barra-1"></div>
-                    <div class="bola-pagamento">
-                        <p>$</p>
-                    </div>
-                    <div class="barra-2"></div>
-                    <div class="bola-verificar">
-                        <img src="img/verificar.png">
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-
-                <div class="sub-poupup">
-                    <form action="typeloc1_audi.php" method="POST">
-                        <p>Dia da reserva</p>
-
-
-                        <input type="date" id="dataAgendamento" name="dataAgendamento" class="data" placeholder="Insira a data desejada" />
-
-
-                        <p>Período da Reserva</p>
-
-                        <select id="periodo" name="periodo">
-                            <option value="Manhã">Manhã</option>
-                            <option value="Tarde">Tarde</option>
-                            <option value="Noite">Noite</option>
-                        </select>
-
-
-                        <spaw></spaw>
-
-                        <div classe="btn-dolado">
-                            <button id="btn-agendar-auditorio" type="submit">Agendar</button>
-                        </div>
-
-
-                        <div classe="btn-dolado">
-                            <button id="btn-voltar" type="button">Voltar</button>
-                        </div>
-
-                    </form>
-                </div>
+                <main class="dark"></main>
             </div>
-        </div>
     </dialog>
 
-    <dialog id="poupup-reserva-106" class="poupup-reserva">
-        <div class="poupup-container">
-            <div class="poupup">
-
-                <div class="poupup-topo">
-                    <div class="bola-agenda">
-                        <img src="img/agenda.png">
-                    </div>
-                    <div class="barra-1"></div>
-                    <div class="bola-pagamento">
-                        <p>$</p>
-                    </div>
-                    <div class="barra-2"></div>
-                    <div class="bola-verificar">
-                        <img src="img/verificar.png">
-                    </div>
-                </div>
-
-                <div class="sub-poupup">
-                    <form action="typeloc_sala1.php" method="POST">
-                        <p>Dia da reserva</p>
-
-
-                        <input type="date" id="dataAgendamento" name="dataAgendamento" class="data" placeholder="Insira a data desejada" />
-
-
-                        <p>Período da Reserva</p>
-
-                        <select id="periodo" name="periodo">
-                            <option value="Manhã">Manhã</option>
-                            <option value="Tarde">Tarde</option>
-                            <option value="Noite">Noite</option>
-
-
-                        </select>
-                        <spaw></spaw>
-
-                        <div classe="btn-dolado">
-                            <button id="btn-agendar-sala106">Agendar</button>
-                        </div>
-
-                        <div classe="btn-dolado">
-                            <button id="btn-voltar2" type="button">Voltar</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </dialog>
-
-    <dialog id="poupup-reserva-128" class="poupup-reserva">
-        <div class="poupup-container">
-            <div class="poupup">
-
-                <div class="poupup-topo">
-                    <div class="bola-agenda">
-                        <img src="img/agenda.png">
-                    </div>
-                    <div class="barra-1"></div>
-                    <div class="bola-pagamento">
-                        <p>$</p>
-                    </div>
-                    <div class="barra-2"></div>
-                    <div class="bola-verificar">
-                        <img src="img/verificar.png">
-                    </div>
-                </div>
-
-                <div class="sub-poupup">
-                    <form action="typeloc_sala2.php" method="POST">
-                        <p>Dia da reserva</p>
-
-
-                        <input type="date" id="dataAgendamento" name="dataAgendamento" class="data" placeholder="Insira a data desejada" />
-
-
-                        <p>Período da Reserva</p>
-
-                        <select id="periodo" name="periodo">
-                            <option value="Manhã">Manhã</option>
-                            <option value="Tarde">Tarde</option>
-                            <option value="Noite">Noite</option>
-
-
-                        </select>
-
-                        <spaw></spaw>
-                        <div classe="btn-dolado">
-                            <button id="btn-agendar-sala128">Agendar</button>
-                        </div>
-
-                        <div classe="btn-dolado">
-                            <button id="btn-voltar3" type="button">Voltar</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </dialog>
-
-    <dialog id="poupup-reserva-129" class="poupup-reserva">
-        <div class="poupup-container">
-            <div class="poupup">
-
-                <div class="poupup-topo">
-                    <div class="bola-agenda">
-                        <img src="img/agenda.png">
-                    </div>
-                    <div class="barra-1"></div>
-                    <div class="bola-pagamento">
-                        <p>$</p>
-                    </div>
-                    <div class="barra-2"></div>
-                    <div class="bola-verificar">
-                        <img src="img/verificar.png">
-                    </div>
-                </div>
-
-                <div class="sub-poupup">
-                    <form action="typeloc_sala3.php" method="POST">
-                        <p>Dia da reserva</p>
-
-
-                        <input type="date" id="dataAgendamento" name="dataAgendamento" class="data" placeholder="Insira a data desejada" />
-
-
-                        <p>Período da Reserva</p>
-
-                        <select id="periodo" name="periodo">
-                            <option value="Manhã">Manhã</option>
-                            <option value="Tarde">Tarde</option>
-                            <option value="Noite">Noite</option>
-
-
-                        </select>
-
-                        <spaw></spaw>
-
-                        <div classe="btn-dolado">
-                            <button id="btn-agendar-sala129">Agendar</button>
-
-                        </div>
-
-                        <div classe="btn-dolado">
-                            <button id="btn-voltar4" type="button">Voltar</button>
-                        </div>
-
-                    </form>
-
-                </div>
-            </div>
-        </div>
-
-    </dialog>
-
-    <dialog id="poupup-reserva-sala130" class="poupup-reserva">
-        <div class="poupup-container">
-            <div class="poupup">
-
-                <div class="poupup-topo">
-                    <div class="bola-agenda">
-                        <img src="img/agenda.png">
-                    </div>
-                    <div class="barra-1"></div>
-                    <div class="bola-pagamento">
-                        <p>$</p>
-                    </div>
-                    <div class="barra-2"></div>
-                    <div class="bola-verificar">
-                        <img src="img/verificar.png">
-                    </div>
-                </div>
-
-                <div class="sub-poupup">
-                    <form action="typeloc_sala4.php" method="POST">
-                        <p>Dia da reserva</p>
-
-
-                        <input type="date" id="dataAgendamento" name="dataAgendamento" class="data" placeholder="Insira a data desejada" />
-
-
-                        <p>Período da Reserva</p>
-
-                        <select id="periodo" name="periodo">
-                            <option value="Manhã">Manhã</option>
-                            <option value="Tarde">Tarde</option>
-                            <option value="Noite">Noite</option>
-
-
-                        </select>
-                        <spaw></spaw>
-                        <div classe="btn-dolado">
-                            <button id="btn-agendar-sala130">Agendar</button>
-
-                        </div>
-
-                        <div classe="btn-dolado">
-                            <button id="btn-voltar5" type="button">Voltar</button>
-                        </div>
-
-                    </form>
-                </div>
-            </div>
-        </div>
-    </dialog>
+    <div class="painelir">
+        <h2>Agendar Salas</h2>
+        <button onclick="window.location='/AceSchedules/Painel Admin Salas - Ace Schedules/index.php'" class="Btn-painelir" style="vertical-align:middle"><span>Painel de administração</span></button>
+    </div>
 
     <footer id="footer">
         <div class="rodape-content">

@@ -12,8 +12,43 @@ require 'dbcon.php';
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- JQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <title>Painel Administrador</title>
+
+    <script>
+        $(document).ready(function() {
+            function loadUsuarios() {
+                var usertype = $('#user').val();
+                var email = $('#email').val();
+                var nome = $('#nome').val();
+
+                $.ajax({
+                    url: 'get_usuarios.php',
+                    type: 'GET',
+                    data: {
+                        user_type: usertype,
+                        email: email,
+                        nome: nome
+                    },
+                    success: function(data) {
+                        $('#usuarios tbody').html(data);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(error);
+                    }
+                });
+            }
+
+            $('#user, #email, #nome').on('change keyup', function() {
+                loadUsuarios();
+            });
+
+            // Carrega os usuários ao carregar a página
+            loadUsuarios();
+        });
+    </script>
 </head>
 
 <body>
@@ -28,12 +63,28 @@ require 'dbcon.php';
                     <div class="card-header">
                         <h4>Detalhes do usuário
                             <a href="student-create.php" class="btn btn-primary float-end">Adicionar usuário</a>
-                            <a href="/AceSchedules/Painel Admin Salas - Ace Schedules/Auditório/index.php" class="btn btn-primary float-end" style="margin-right:2%">Administração de salas</a>
+                            <a href="/AceSchedules/Painel Admin Usuário - Ace Schedules/index.php" class="btn btn-primary float-end" style="margin-right:2%">Administração de salas</a>
+                            <a href="/AceSchedules/Painel Admin Reservas - Ace Schedules/index.php" class="btn btn-primary float-end" style="margin-right:2%">Administração de reservas</a>
                         </h4>
+                        <div style="display: -webkit-box; margin-top: 2vh;">
+                            Selecione o tipo de usuário:
+                            <select id="user" name="user" required>
+                                <option user="">--Tipo de usuário--</option>
+                                <option value="Empresa">Empresa</option>
+                                <option value="Administrador">Administrador</option>
+                            </select>
+                            <div class="form-group" style="margin-left: 1vw; ">
+                                <label for="email">Selecione o email:</label>
+                                <input type="email" id="email" name="email">
+                            </div>
+                            <div class="form-group" style="margin-left: 1vw; ">
+                                <label for="nome">Nome do alocador:</label>
+                                <input type="text" id="nome" name="nome" autocomplete="OFF">
+                            </div>
+                        </div>
                     </div>
                     <div class="card-body">
-
-                        <table class="table table-bordered table-striped">
+                        <table class="table table-bordered table-striped" id="usuarios">
                             <thead>
                                 <tr>
                                     <th>ID</th>
@@ -44,35 +95,7 @@ require 'dbcon.php';
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php
-                                $query = "SELECT * FROM cadastro";
-                                $query_run = mysqli_query($con, $query);
-
-                                if (mysqli_num_rows($query_run) > 0) {
-                                    foreach ($query_run as $cadastro) {
-                                ?>
-                                        <tr>
-                                            <td><?= $cadastro['id']; ?></td>
-                                            <td><?= $cadastro['usuario']; ?></td>
-                                            <td><?= $cadastro['email']; ?></td>
-                                            <td><?= $cadastro['senha']; ?></td>
-                                            <td><?= $cadastro['usertype']; ?></td>
-
-                                            <td>
-                                                <a href="student-view.php?id=<?= $cadastro['id']; ?>" class="btn btn-info btn-sm">Visualizar</a>
-                                                <a href="student-edit.php?id=<?= $cadastro['id']; ?>" class="btn btn-success btn-sm">Editar</a>
-                                                <form action="code.php" method="POST" class="d-inline">
-                                                    <button type="submit" name="delete_cadastro" value="<?= $cadastro['id']; ?>" class="btn btn-danger btn-sm">Deletar</button>
-                                                </form>
-                                            </td>
-                                        </tr>
-                                <?php
-                                    }
-                                } else {
-                                    echo "<h5> Nenhum aluno cadastrado </h5>";
-                                }
-                                ?>
-
+                                <!--Usuarios são carregadas aqui-->
                             </tbody>
                         </table>
 

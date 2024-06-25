@@ -114,6 +114,7 @@ top: -5px;
 
 .forget label:hover{
     text-decoration: underline;
+    cursor: pointer;
 }
 
 

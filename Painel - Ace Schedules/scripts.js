@@ -1,134 +1,242 @@
-const card1 = document.getElementById(`card1`);
+const modal = document.getElementById(`modal`); // ID vai ter q ser gerado para cada sala
+const fazer_reserva = document.getElementById('poupup-reserva');
 const fechar = document.getElementById(`close`);
-const modal1 = document.getElementById(`modal1`);
 const reservar = document.getElementById(`reserva`);
-const fazer_reserva1 = document.getElementById(`poupup-reserva-auditorio`);
-const btnAgendar = document.getElementById(`btn-agendar-auditorio`);
-const btn_voltar = document.getElementById(`btn-voltar`);
 
-
-card1.onclick = function () {
-    modal1.show()
+function abrirModal(id_sala, nome_sala, capacidade_sala, status_sala) {
+    if (status_sala == 1) {
+        alert('Esta sala está bloqueada e não pode ser aberta para reserva.');
+        return;
+    }
+    modal.querySelector('h1').innerHTML = nome_sala;
+    modal.querySelector('p').innerHTML = capacidade_sala;
+    modal.querySelector('#idSala').value = id_sala;
+    modal.show();
 }
- 
+    
+
 fechar.onclick = function () {
-    modal1.close()
+    modal.close()
 }
 
-reservar.onclick = function () {
-    modal1.close()
-    fazer_reserva1.show()
+reservar.onclick = function() {
+    modal.close()
+    fazer_reserva.show()
+    
+    document.getElementById('func-text').innerHTML = "Selecione a data da reserva.";
+    document.getElementById('nome_sala').value = document.getElementById('idSala').value;
+    DiaEscolha = null;
+
+function formatMonth(month) {
+        return (month + 1).toString().padStart(2, '0');
+}
+    //NomeSala = this.innerHTML  
+    
+///               Gerando o calendário
+
+let calendar = document.querySelector('.calendar')
+var DiaEscolha = null;
+const month_names = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro']
+
+///                 Ano bissexto
+isLeapYear = (year) => {
+    return (year % 4 === 0 && year % 100 !== 0 && year % 400 !== 0) || (year % 100 === 0 && year % 400 === 0)
 }
 
-btn_voltar.onclick = function () {
-    fazer_reserva1.close()
-    modal1.show()
+getFebDays = (year) => {
+    return isLeapYear(year) ? 29 : 28
+}
+///========================================================
+var DiaEscolhaF = null;
+generateCalendar = (month, year) => {
+
+    let calendar_days = calendar.querySelector('.calendar-days')
+    let calendar_header_year = calendar.querySelector('#year')
+
+    let days_of_month = [31, getFebDays(year), 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+
+    calendar_days.innerHTML = ''
+
+///          Data atual que aparece quando o calendário é aberto
+
+    let currDate = new Date()
+    if (month == null) month = currDate.getMonth()
+    if (!year) year = currDate.getFullYear()
+
+    let curr_month_name = `${month_names[month]}`
+    month_picker.innerHTML = curr_month_name
+    calendar_header_year.innerHTML = year
+
+    // primeiro dia do mês
+
+    let first_day = new Date(year, month, 1)
+
+    for (let i = 0; i <= days_of_month[month] + first_day.getDay() - 1; i++) {
+        let day = document.createElement('button')
+        if (i >= first_day.getDay()) {
+            day.classList.add('calendar-day-hover')
+            day.setAttribute('id', i)
+            day.innerHTML = i - first_day.getDay() + 1
+            var buttons = document.querySelectorAll('button');
+            var quantbtn = 0;
+            buttons.forEach(function (button) {
+                if (!button.hasAttribute('class') || button.getAttribute('class').trim() === '') {
+                    quantbtn++;
+                }
+            });
+
+            if (quantbtn > 0) {
+                day.setAttribute('id', i - quantbtn + 2)
+            }
+            //                                              Pegar o dia atual
+            if (i - first_day.getDay() + 1 === currDate.getDate() && year === currDate.getFullYear() && month === currDate.getMonth()) {
+                day.classList.add('curr-date')
+            }
+            day.addEventListener('click', function () {
+                console.clear(); // Clear the console
+                let Diaescolha = this.innerHTML
+                console.log('Button ID:', Diaescolha);
+
+
+                
+                var MesEscolha = (curr_month.value + 1).toString().padStart(2, '0'); // Obtendo o número do mês
+                
+                var AnoEscolha = curr_year.value; // Obtendo o ano atual
+                
+                if (Diaescolha < 10) {
+                    DiaEscolhaF = "0" + Diaescolha
+                }
+                else {
+                    DiaEscolhaF = Diaescolha
+                }
+                var DataAgendamento = document.getElementById('dataAgendamento');
+                DataAgendamento.value = AnoEscolha + "-" + MesEscolha + "-" + DiaEscolhaF;
+                var DataAgendamento = 
+                document.getElementById('dataAgendamento').innerHTML
+                var DataEscolha = DiaEscolhaF + "/" + MesEscolha + "/" + AnoEscolha;
+                document.getElementById('func-text').innerHTML = "Data selecionada para a reserva:";
+                document.getElementById('DataEscolhida').innerHTML = DataEscolha;
+                console.log(DiaEscolhaF)
+
+
+            });
+
+        }
+        calendar_days.appendChild(day)
+    }
+
+}
+
+// ========================================================
+//                 Escolher Mês
+
+let month_list = calendar.querySelector('.month-list')
+
+month_names.forEach((e, index) => {
+    let month = document.createElement('div')
+    month.innerHTML = `<div data-month="${index}">${e}</div>`
+    month.querySelector('div').onclick = () => {
+        month_list.classList.remove('show')
+        curr_month.value = index
+        generateCalendar(index, curr_year.value)
+        DiaEscolha = null
+        document.getElementById('func-text').innerHTML = "Selecione a data da reserva.";
+        document.getElementById('DataEscolhida').innerHTML = "";
+    }
+    month_list.appendChild(month)
+})
+
+let month_picker = calendar.querySelector('#month-picker')
+
+month_picker.onclick = () => {
+    month_list.classList.add('show')
+}
+
+//                  Escolher ano
+
+let currDate = new Date()
+
+let curr_month = { value: currDate.getMonth() }
+let curr_year = { value: currDate.getFullYear() }
+
+generateCalendar(curr_month.value, curr_year.value)
+
+document.querySelector('#prev-year').onclick = () => {
+    --curr_year.value
+    DiaEscolha = null
+    document.getElementById('DataEscolhida').innerHTML = "";
+    document.getElementById('func-text').innerHTML = "Selecione a data da reserva.";
+    generateCalendar(curr_month.value, curr_year.value)
+}
+
+document.querySelector('#next-year').onclick = () => {
+    ++curr_year.value
+    DiaEscolha = null
+    document.getElementById('DataEscolhida').innerHTML = "";
+    document.getElementById('func-text').innerHTML = "Selecione a data da reserva.";
+    generateCalendar(curr_month.value, curr_year.value)
+    console.log(DiaEscolha)
 }
 
 
+//     Não mexer
 
+let btns = document.querySelectorAll('.btn')
 
+btns.forEach(btn => {
+    btn.onclick = (W) => {
+        let x = W.clientX - W.target.offsetLeft
+        let y = W.clientY - W.target.offsetTop
 
+        let circle = document.createElement('span')
+        circle.style.left = x + 'px'
+        circle.style.top = y + 'px'
 
+        btn.appendChild(circle)
 
-const card2 = document.getElementById(`card2`);
-const modal2 = document.getElementById(`modal2`);
-const fechar2 = document.getElementById(`close2`);
-const reservar2 = document.getElementById(`reserva2`);
-const fazer_reserva2 = document.getElementById('poupup-reserva-106');
-const btnAgendar_2 = document.getElementById(`btn-agendar-sala106`);
-const btn_voltar2 = document.getElementById(`btn-voltar2`);
+        setTimeout(() => {
 
-card2.onclick = function () {
-    modal2.show()
-}
- 
-fechar2.onclick = function () {
-    modal2.close()
-}
+            circle.remove()
 
-reservar2.onclick = function () {
-    modal2.close()
-    fazer_reserva2.show()
-}
-btn_voltar2.onclick = function () {
-    fazer_reserva2.close()
-    modal2.show()
-}
+        }, 1000);
+    }
 
-const card3 = document.getElementById(`card3`);
-const modal3 = document.getElementById(`modal3`);
-const fechar3 = document.getElementById(`close3`);
-const reservar3 = document.getElementById(`reserva3`);
-const fazer_reserva3 = document.getElementById('poupup-reserva-128');
-const btnAgendar_3 = document.getElementById(`btn-agendar-sala128`);
-const btn_voltar3 = document.getElementById(`btn-voltar3`);
+})
 
-card3.onclick = function () {
-    modal3.show()
-}
- 
-fechar3.onclick = function () {
-    modal3.close()
+var limpar = document.getElementById("reset");
+
+limpar.onclick = function() {
+    document.getElementById('DataEscolhida').innerHTML = "";
+    document.getElementById('func-text').innerHTML = "Selecione a data da reserva.";
+    DiaEscolha == null
 }
 
-reservar3.onclick = function () {
-    modal3.close()
-    fazer_reserva3.show()
-}
-btn_voltar3.onclick = function () {
-    fazer_reserva3.close()
-    modal3.show()
+var btt = document.getElementById("mostrarPopup");
+
+btt.onclick = function popupp() {
+    // Verifica se DiaEscolhaF está definido
+    if (DiaEscolhaF === null) {
+        event.preventDefault();
+        alert("Por favor, selecione uma data para a reserva.");
+    } else {
+        // Popup de confirmação
+        if (confirm("Deseja confirmar o agendamento para a data selecionada?")) {
+            // Se confirmado, o formulário é enviado
+            document.getElementById('popup').classList.add('show');
+            return true;
+        } else {
+            // Se cancelado, o envio do formulário é cancelado
+            event.preventDefault();
+            return false;
+        }
+    }
 }
 
-const card4 = document.getElementById(`card4`);
-const modal4 = document.getElementById(`modal4`);
-const fechar4 = document.getElementById(`close4`);
-const reservar4 = document.getElementById(`reserva4`);
-const fazer_reserva4 = document.getElementById('poupup-reserva-129');
-const btnAgendar_4 = document.getElementById(`btn-agendar-sala129`);
-const btn_voltar4 = document.getElementById(`btn-voltar4`);
-
-card4.onclick = function () {
-    modal4.show()
-}
- 
-fechar4.onclick = function () {
-    modal4.close()
+FecharReserva.onclick = function () {
+    event.preventDefault();
+    fazer_reserva.close()
+    modal.show()
 }
 
-reservar4.onclick = function () {
-    modal4.close()
-    fazer_reserva4.show()
 }
-btn_voltar4.onclick = function () {
-    fazer_reserva4.close()
-    modal4.show()
-}
-
-const card5 = document.getElementById(`card5`);
-const modal5 = document.getElementById(`modal5`);
-const fechar5 = document.getElementById(`close5`);
-const reservar5 = document.getElementById(`reserva5`);
-const fazer_reserva5 = document.getElementById('poupup-reserva-sala130');
-const btnAgendar_5 = document.getElementById(`btn-agendar-sala130`);
-const btn_voltar5 = document.getElementById(`btn-voltar5`);
-
-card5.onclick = function () {
-    modal5.show()
-}
- 
-fechar5.onclick = function () {
-    modal5.close()
-}
-
-reservar5.onclick = function () {
-    modal5.close()
-    fazer_reserva5.show()
-}
-btn_voltar5.onclick = function () {
-    fazer_reserva5.close()
-    modal5.show()
-}
-
 
