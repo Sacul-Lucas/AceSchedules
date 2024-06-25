@@ -909,6 +909,7 @@ button {
   font-size: 1.875rem;
   font-weight: 600;
   background-color: white;
+  cursor: pointer;
 }
 .btn-gray {
   color: white;
@@ -1405,6 +1406,11 @@ button {
   left: 0;
   height: 100vh;
   width: 100vw;
+}
+
+#modal {
+  color:transparent;
+  background-color: transparent;
 }
 
 .modal {
