@@ -200,7 +200,7 @@ $result = $conn->query($sql);
     </dialog>
 
     <div class="painelir">
-        <h2>Agendar Salas</h2>
+        <h2>Administrar reservas</h2>
         <button onclick="window.location='/AceSchedules/Painel Admin Salas - Ace Schedules/index.php'" class="Btn-painelir" style="vertical-align:middle"><span>Painel de administração</span></button>
     </div>
 
@@ -272,7 +272,7 @@ $result = $conn->query($sql);
 
                 </div>
 
-                <div class="logo-ace" onclick="window.location='/Projeto nêmesis/1 Player/Projeto nêmesis.html'">
+                <div class="logo-ace" onclick="window.location='/AceSchedules/Projeto nêmesis/1 Player/Projeto nêmesis.html'">
                     <img src="img/logotipo_ace.png">
 
                 </div>
