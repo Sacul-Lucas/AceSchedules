@@ -36,7 +36,7 @@ if (mysqli_num_rows($result) > 0) {
                           title: 'Pronto!',
                           text: 'Login realizado com sucesso',
                       }).then(function() {
-                          window.location = '/AceSchedules/Painel Admin Usuário - Ace Schedules/index.php';
+                          window.location = '/AceSchedules/Ace Schedules - frontend/Painel Admin Usuário - Ace Schedules/index.php';
                       });
                   </script> 
               </body>
@@ -63,7 +63,7 @@ if (mysqli_num_rows($result) > 0) {
                           title: 'Pronto!',
                           text: 'Login realizado com sucesso',
                       }).then(function() {
-                          window.location = '/AceSchedules/Painel - Ace Schedules/painel.php';
+                          window.location = '/AceSchedules/Ace Schedules - frontend/Painel - Ace Schedules/painel.php';
                       });
                   </script> 
               </body>

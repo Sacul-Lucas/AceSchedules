@@ -59,8 +59,8 @@ require 'dbcon.php';
                     <div class="card-header">
                         <h4>Detalhes das salas
                             <a href="schedule-create.php" class="btn btn-primary float-end">Adicionar Sala</a>
-                            <a href="/AceSchedules/Painel Admin Usuário - Ace Schedules/index.php" class="btn btn-primary float-end" style="margin-right:2%">Administração de usuários</a>
-                            <a href="/AceSchedules/Painel Admin Reservas - Ace Schedules/index.php" class="btn btn-primary float-end" style="margin-right:2%">Administração de reservas</a>
+                            <a href="/AceSchedules/Ace Schedules - frontend/Painel Admin Usuário - Ace Schedules/index.php" class="btn btn-primary float-end" style="margin-right:2%">Administração de usuários</a>
+                            <a href="/AceSchedules/Ace Schedules - frontend/Painel Admin Reservas - Ace Schedules/index.php" class="btn btn-primary float-end" style="margin-right:2%">Administração de reservas</a>
                             <div class="form-group" style="display: -webkit-box; margin-top: 2vh;">
                                 <label style="font-size: 1rem;" for="nome">Nome da sala:</label>
                                 <input style="font-size: 1rem; margin-left: 4px;" type="text" id="nome_sala" name="nome_sala" autocomplete="OFF">
@@ -86,7 +86,7 @@ require 'dbcon.php';
 
                     </div>
                 </div>
-                <a class="funcenviar" href="/AceSchedules/Painel - Ace Schedules/painel.php" style="margin-right:2%;left: auto;top: 20px;text-decoration: none;width: 100%;position: relative;display: inline-block;overflow: hidden;font-size: 1.875rem;font-weight: 600;background-color: white;">Painel de salas</a>
+                <a class="funcenviar" href="/AceSchedules/Ace Schedules - frontend/Painel - Ace Schedules/painel.php" style="margin-right:2%;left: auto;top: 20px;text-decoration: none;width: 100%;position: relative;display: inline-block;overflow: hidden;font-size: 1.875rem;font-weight: 600;background-color: white;">Painel de salas</a>
             </div>
         </div>
     </div>

@@ -201,7 +201,7 @@ $result = $conn->query($sql);
 
     <div class="painelir">
         <h2>Administrar reservas</h2>
-        <button onclick="window.location='/AceSchedules/Painel Admin Salas - Ace Schedules/index.php'" class="Btn-painelir" style="vertical-align:middle"><span>Painel de administração</span></button>
+        <button onclick="window.location='/AceSchedules/Ace Schedules - frontend/Painel Admin Salas - Ace Schedules/index.php'" class="Btn-painelir" style="vertical-align:middle"><span>Painel de administração</span></button>
     </div>
 
     <footer id="footer">
@@ -272,7 +272,7 @@ $result = $conn->query($sql);
 
                 </div>
 
-                <div class="logo-ace" onclick="window.location='/AceSchedules/Projeto nêmesis/1 Player/Projeto nêmesis.html'">
+                <div class="logo-ace" onclick="window.location='/AceSchedules/Ace Schedules - frontend/Projeto nêmesis/1 Player/Projeto nêmesis.html'">
                     <img src="img/logotipo_ace.png">
 
                 </div>
