@@ -62,7 +62,7 @@ if (isset($_POST['email']) || isset($_POST['senha'])) {
                     </label>
                 </div>
 
-                <button type="submit" id="cadastrar" name="cadastrar"> login</button>
+                <button type="submit" id="cadastrar" name="cadastrar"> Entrar</button>
             </div>
         </form>
 

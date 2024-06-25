@@ -55,7 +55,7 @@ if ($row['total'] > 0) {
 					    title: 'Pronto!',
 					    text: 'Usuário cadastrado com sucesso',
 				    }).then(function() {
-					    window.location = '/AceSchedules/Login - Ace Schedules/LoginAgenda.php';
+                        window.location = '/AceSchedules/Login - Ace Schedules/LoginAgenda.php';
                     });
 				</script> 
 		  </body>
