@@ -810,7 +810,7 @@ margin-left: 46%;
 .tag-content p1 {
   width: 35%;
   color: white;
-  font-size: 0.85vw;
+  font-size: 0.90rem;
 }
 
 .etpc-direitos {
@@ -822,7 +822,7 @@ margin-left: 46%;
 
 .etpc-direitos p {
   color: white;
-  font-size: 0.85vw;
+  font-size: 0.75rem;
   font-weight: 500;
 }
 
@@ -1378,6 +1378,7 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
+  color: #000;
 }
 .popupAgenda {
   background-color: #F2F1EA;
@@ -1491,4 +1492,9 @@ button {
   margin-top: 1vh;
   position: relative;
   width: 100%;
+}
+
+.poupup-reserva {
+  color: transparent;
+  background-color: transparent;
 }
