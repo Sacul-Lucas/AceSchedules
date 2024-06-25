@@ -63,8 +63,8 @@ require 'dbcon.php';
                     <div class="card-header">
                         <h4>Detalhes do usuário
                             <a href="student-create.php" class="btn btn-primary float-end">Adicionar usuário</a>
-                            <a href="/AceSchedules/Painel Admin Usuário - Ace Schedules/index.php" class="btn btn-primary float-end" style="margin-right:2%">Administração de salas</a>
-                            <a href="/AceSchedules/Painel Admin Reservas - Ace Schedules/index.php" class="btn btn-primary float-end" style="margin-right:2%">Administração de reservas</a>
+                            <a href="/AceSchedules/Ace Schedules - frontend/Painel Admin Salas - Ace Schedules/index.php" class="btn btn-primary float-end" style="margin-right:2%">Administração de salas</a>
+                            <a href="/AceSchedules/Ace Schedules - frontend/Painel Admin Reservas - Ace Schedules/index.php" class="btn btn-primary float-end" style="margin-right:2%">Administração de reservas</a>
                         </h4>
                         <div style="display: -webkit-box; margin-top: 2vh;">
                             Selecione o tipo de usuário:

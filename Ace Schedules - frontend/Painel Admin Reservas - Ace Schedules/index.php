@@ -94,8 +94,8 @@ require 'dbcon.php';
                 <div class="card">
                     <div class="card-header">
                         <h4 style="margin-bottom: 2vh;">Agendamentos pendentes
-                            <a href="/AceSchedules/Painel Admin Usuário - Ace Schedules/index.php" class="btn btn-primary float-end" style="margin-right:2%">Administração de usuários</a>
-                            <a href="/AceSchedules/Painel Admin Salas - Ace Schedules/index.php" class="btn btn-primary float-end" style="margin-right:2%">Administração de salas</a>
+                            <a href="/AceSchedules/Ace Schedules - frontend/Painel Admin Usuário - Ace Schedules/index.php" class="btn btn-primary float-end" style="margin-right:2%">Administração de usuários</a>
+                            <a href="/AceSchedules/Ace Schedules - frontend/Painel Admin Salas - Ace Schedules/index.php" class="btn btn-primary float-end" style="margin-right:2%">Administração de salas</a>
                         </h4>
                         <div style="display: -webkit-box">
                             Selecione a sala:
@@ -200,7 +200,7 @@ require 'dbcon.php';
                         </table>
                     </div>
                 </div>
-                <a class="funcenviar" href="/AceSchedules/Painel - Ace Schedules/painel.php" style="margin-right:2%;left: auto;top: 20px;text-decoration: none;width: 100%;position: relative;display: inline-block;overflow: hidden;font-size: 1.875rem;font-weight: 600;background-color: white;">Painel de salas</a>
+                <a class="funcenviar" href="/AceSchedules/Ace Schedules - frontend/Painel - Ace Schedules/painel.php" style="margin-right:2%;left: auto;top: 20px;text-decoration: none;width: 100%;position: relative;display: inline-block;overflow: hidden;font-size: 1.875rem;font-weight: 600;background-color: white;">Painel de salas</a>
             </div>
         </div>
     </div>
