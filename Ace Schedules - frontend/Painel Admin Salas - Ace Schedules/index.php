@@ -1,8 +1,3 @@
-<?php
-session_start();
-require 'dbcon.php';
-
-?>
 <!doctype html>
 <html lang="pt-BR">
 
@@ -21,12 +16,14 @@ require 'dbcon.php';
         $(document).ready(function() {
             function loadSalas() {
                 var nome_sala = $('#nome_sala').val();
+                var capacidade = $('#capacidade').val();
 
                 $.ajax({
-                    url: 'get_salas.php', // Atualize a URL para o arquivo correto
+                    url: 'get_salas.php',
                     type: 'GET',
                     data: {
-                        nome_sala: nome_sala
+                        nome_sala: nome_sala,
+                        capacidade: capacidade
                     },
                     success: function(data) {
                         $('#salas tbody').html(data);
@@ -37,7 +34,7 @@ require 'dbcon.php';
                 });
             }
 
-            $('#nome_sala').on('change keyup', function() {
+            $('#nome_sala, #capacidade').on('change keyup', function() {
                 loadSalas();
             });
 
@@ -64,26 +61,25 @@ require 'dbcon.php';
                             <div class="form-group" style="display: -webkit-box; margin-top: 2vh;">
                                 <label style="font-size: 1rem;" for="nome">Nome da sala:</label>
                                 <input style="font-size: 1rem; margin-left: 4px;" type="text" id="nome_sala" name="nome_sala" autocomplete="OFF">
+                                <label style="font-size: 1rem; margin-left: 1vw;" for="capacidade">Capacidade da sala:</label>
+                                <input style="font-size: 1rem; margin-left: 4px;" type="number" id="capacidade" name="capacidade" autocomplete="OFF">
                             </div>
                         </h4>
-
-
                     </div>
                     <div class="card-body">
-
                         <table class="table table-bordered table-striped" id="salas">
                             <thead>
                                 <tr>
                                     <th>ID</th>
                                     <th>Nome da Sala</th>
                                     <th>Capacidade</th>
+                                    <th>Ações</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <!--- As salas serão carregadas aqui ---->
+                                <!-- As salas serão carregadas aqui -->
                             </tbody>
                         </table>
-
                     </div>
                 </div>
                 <a class="funcenviar" href="/AceSchedules/Ace Schedules - frontend/Painel - Ace Schedules/painel.php" style="margin-right:2%;left: auto;top: 20px;text-decoration: none;width: 100%;position: relative;display: inline-block;overflow: hidden;font-size: 1.875rem;font-weight: 600;background-color: white;">Painel de salas</a>

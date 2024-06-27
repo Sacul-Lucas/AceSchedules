@@ -2,8 +2,9 @@
 require 'dbcon.php';
 
 $nome_sala = isset($_GET['nome_sala']) ? $_GET['nome_sala'] : '';
+$capacidade = isset($_GET['capacidade']) ? $_GET['capacidade'] : '';
 
-$sql = "SELECT id, nome, capacidade FROM salas WHERE 1=1";
+$sql = "SELECT id, nome, capacidade, status FROM salas WHERE 1=1";
 
 $types = "";
 $params = [];
@@ -12,6 +13,12 @@ if (!empty($nome_sala)) {
     $sql .= " AND nome LIKE ?";
     $params[] = "%$nome_sala%";
     $types .= "s";
+}
+
+if (!empty($capacidade)) {
+    $sql .= " AND capacidade = ?";
+    $params[] = $capacidade;
+    $types .= "i"; // "i" for integer type
 }
 
 $stmt = $con->prepare($sql);
@@ -30,9 +37,10 @@ $result = $stmt->get_result();
 
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
+        $nome_estilo = ($row['status'] == 1) ? 'style="color:red;"' : '';
         echo "<tr>
                 <td>".$row['id']."</td>
-                <td>".$row['nome']."</td>
+                <td $nome_estilo>".$row['nome']."</td>
                 <td>".$row['capacidade']."</td>
                 <td>
                     <a href='schedule-view.php?id=".$row['id']."' class='btn btn-info btn-sm'>Visualizar</a>
