@@ -52,16 +52,6 @@ if (isset($_POST['email']) || isset($_POST['senha'])) {
                     <label for="remember"><input id="remember" type="text" hidden="" onclick="window.location='/AceSchedules/Ace Schedules - frontend/Cadastro - Ace Schedules/index.php'">Ainda não é cadastrado? Cadastre-se</label>
                 </div>
 
-                <div class="typebox">
-                    <label for="types" id="userType">
-                        Tipo de usuário:
-                        <select name="types" id="types">
-                            <option value="empresa">Empresa</option>
-                            <option value="admin">Administrador</option>
-                        </select>
-                    </label>
-                </div>
-
                 <button type="submit" id="cadastrar" name="cadastrar"> Entrar</button>
             </div>
         </form>

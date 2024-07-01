@@ -14,6 +14,9 @@ require 'dbcon.php';
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
+    <!-- IMask JS -->
+    <script src="https://unpkg.com/imask"></script>
+
     <title>Edição de usuário</title>
 </head>
 
@@ -41,36 +44,41 @@ require 'dbcon.php';
 
                             if (mysqli_num_rows($query_run) > 0) {
                                 $cadastro = mysqli_fetch_array($query_run);
+                                $currentType = $cadastro['usertype'];
+                                $otherType = ($currentType === 'Empresa') ? 'Administrador' : 'Empresa';
                         ?>
-                                <form action="code.php" method="POST">
+                                <form action="code.php" method="POST" id="inputCadastro">
                                     <input type="hidden" name="cadastro_id" value="<?= $cadastro['id']; ?>">
 
                                     <div class="mb-3">
-                                        <label>Nome</label>
-                                        <input type="text" name="usuario" value="<?= $cadastro['usuario']; ?>" class="form-control">
+                                        <label for="usuario">Empresa/Usuário</label>
+                                        <input type="text" id="usuario" name="usuario" value="<?= $cadastro['usuario']; ?>" class="form-control" placeholder="Insira o nome da Empresa" required>
                                     </div>
                                     <div class="mb-3">
-                                        <label>Email</label>
-                                        <input type="email" name="email" value="<?= $cadastro['email']; ?>" class="form-control">
+                                        <label for="email">Email</label>
+                                        <input type="email" id="email" name="email" value="<?= $cadastro['email']; ?>" class="form-control" placeholder="Insira o seu email" required>
                                     </div>
                                     <div class="mb-3">
-                                        <label>Senha</label>
-                                        <input type="text" name="senha" value="<?= $cadastro['senha']; ?>" class="form-control">
+                                        <label for="senha">Senha</label>
+                                        <input type="password" id="senha" name="senha" value="<?= $cadastro['senha']; ?>" class="form-control" placeholder="Insira a sua senha" required>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="types" id="userType">
-                                            Tipo de usuário:
-                                            <select name="types" id="types">
-                                                <option value="<?= $cadastro['usertype'] ?>">--Selecione o tipo de usuário--</option>
-                                                <option value="Empresa">Empresa</option>
-                                                <option value="Administrador">Administrador</option>
-                                            </select>
-                                        </label>
+                                        <label for="tel">Número de telefone</label>
+                                        <input type="text" id="tel" name="tel" value="<?= $cadastro['telefone']; ?>" class="form-control" placeholder="Insira o seu telefone" required>
                                     </div>
                                     <div class="mb-3">
-                                        <button type="submit" name="update_cadastro" class="btn btn-primary">
-                                            Atualizar usuário
-                                        </button>
+                                        <label for="cnpj">CNPJ</label>
+                                        <input type="text" id="cnpj" name="cnpj" value="<?= $cadastro['cnpj']; ?>" class="form-control" placeholder="Insira o CNPJ da empresa" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="types" id="userType">Tipo de usuário:</label>
+                                        <select name="types" id="types" class="form-control">
+                                            <option value="<?= $currentType ?>"><?= $currentType ?></option>
+                                            <option value="<?= $otherType ?>"><?= $otherType ?></option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <button type="submit" name="update_cadastro" class="btn btn-primary">Atualizar usuário</button>
                                     </div>
 
                                 </form>
@@ -85,6 +93,19 @@ require 'dbcon.php';
             </div>
         </div>
     </div>
+
+    <!-- Script para aplicar a máscara de entrada -->
+    <script>
+        // Aplica a máscara de telefone
+        var telMask = IMask(document.getElementById('tel'), {
+            mask: '(00) 0000-0000'
+        });
+
+        // Aplica a máscara de CNPJ
+        var cnpjMask = IMask(document.getElementById('cnpj'), {
+            mask: '00.000.000/0000-00'
+        });
+    </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>

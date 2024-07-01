@@ -1,10 +1,6 @@
 <?php
 session_start();
 require 'dbcon.php';
-
-$sql = "SELECT nome FROM salas";
-$result = $con->query($sql);
-
 ?>
 
 <!doctype html>
@@ -31,7 +27,7 @@ $result = $con->query($sql);
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4>Editar agendamento **Mude apenas o necessário**
+                        <h4>Editar agendamento
                             <a href="index.php" class="btn btn-danger float-end">VOLTAR</a>
                         </h4>
                     </div>
@@ -45,39 +41,42 @@ $result = $con->query($sql);
 
                             if (mysqli_num_rows($query_run) > 0) {
                                 $agendamento = mysqli_fetch_array($query_run);
+
+                                // Obter o nome da sala atual
+                                $sala_id = $agendamento['sala'];
+                                $sala_query = "SELECT nome FROM salas WHERE id='$sala_id'";
+                                $sala_query_run = mysqli_query($con, $sala_query);
+                                $sala = mysqli_fetch_array($sala_query_run);
                         ?>
                                 <form action="code.php" method="POST">
-                                <input type="hidden" name="id" value="<?= $agendamento['id']; ?>">
+                                    <input type="hidden" name="id" value="<?= $agendamento['id']; ?>">
 
                                     <div class="mb-3">
-                                    <label>Mudar sala alocada</label>
-	                                    <select name="sala" class="form-control" >
-                                        <?php $sql = "SELECT id,nome FROM salas"; 
-                                        $result = $con->query($sql); if ($result->num_rows > 0) { 
-                                            echo "<option value=".$agendamento['sala'].">--Selecione a sala que deseja alocar para a reserva--"; 
-                                                    // Output dos dados de cada linha
-                                                        while($row = $result->fetch_assoc()) {   
-                                                            echo '<option value="' . $row["id"] . '">' . $row["nome"] . '</option>';
-                                                            //Caso o dado da capacidade virar string colocar o contrabarra e em seguida a aspas simples, igual no nome    
-                                                        }
-                                                    } else {
-                                                        echo "<option value=''>Nenhuma sala encontrada</option>";
-                                                    }?>
-                                            </option>
+                                        <label>Sala alocada</label>
+                                        <select name="sala" class="form-control">
+                                            <?php
+                                            echo '<option value="' . $sala_id . '" selected>' . $sala['nome'] . '</option>';
+                                            $sql = "SELECT id, nome FROM salas";
+                                            $result = $con->query($sql);
+                                            if ($result->num_rows > 0) {
+                                                while ($row = $result->fetch_assoc()) {
+                                                    if ($row['id'] != $sala_id) {
+                                                        echo '<option value="' . $row['id'] . '">' . $row['nome'] . '</option>';
+                                                    }
+                                                }
+                                            } else {
+                                                echo "<option value=''>Nenhuma sala encontrada</option>";
+                                            }
+                                            ?>
                                         </select>
                                     </div>
                                     <div class="mb-3">
                                         <label>Data do agendamento</label>
                                         <input type="date" name="dataAgendamento" value="<?= $agendamento['dataAgendamento']; ?>" class="form-control">
                                     </div>
-                                    <div class= "mb-3">
-	                                    <label for=""> Período</label>
-	                                    <select name="periodo" ><?php 
-                                      echo "<option value=".$agendamento['periodo'].">--Selecione o período--</option>"?>
-                                            <option value="Manha">Manhã</option>
-                                            <option value="Tarde">Tarde</option>
-                                            <option value="Noite">Noite</option>
-                                        </select>
+                                    <div class="mb-3">
+                                        <label>Horário do agendamento</label>
+                                        <input id="horaAgendamento" type="time" name="horaAgendamento" value="<?= $agendamento['horaAgendamento']; ?>" class="form-control">
                                     </div>
 
                                     <div class="mb-3">

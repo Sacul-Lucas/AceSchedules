@@ -1,0 +1,200 @@
+SERVER -> CLIENT: 220 smtp.gmail.com ESMTP d2e1a72fcca58-70804a96a7asm4869418b3a.218 - gsmtp
+CLIENT -> SERVER: EHLO localhost
+SERVER -> CLIENT: 250-smtp.gmail.com at your service, [2804:1b1:c643:86a1:912f:129d:5c78:708c]
+250-SIZE 35882577
+250-8BITMIME
+250-AUTH LOGIN PLAIN XOAUTH2 PLAIN-CLIENTTOKEN OAUTHBEARER XOAUTH
+250-ENHANCEDSTATUSCODES
+250-PIPELINING
+250-CHUNKING
+250 SMTPUTF8
+CLIENT -> SERVER: AUTH LOGIN
+SERVER -> CLIENT: 334 VXNlcm5hbWU6
+CLIENT -> SERVER: [credentials hidden]SERVER -> CLIENT: 334 UGFzc3dvcmQ6
+CLIENT -> SERVER: [credentials hidden]SERVER -> CLIENT: 535-5.7.8 Username and Password not accepted. For more information, go to
+535 5.7.8  https://support.google.com/mail/?p=BadCredentials d2e1a72fcca58-70804a96a7asm4869418b3a.218 - gsmtp
+SMTP ERROR: Password command failed: 535-5.7.8 Username and Password not accepted. For more information, go to
+535 5.7.8  https://support.google.com/mail/?p=BadCredentials d2e1a72fcca58-70804a96a7asm4869418b3a.218 - gsmtp
+SMTP Error: Could not authenticate.CLIENT -> SERVER: QUIT
+SERVER -> CLIENT: 221 2.0.0 closing connection d2e1a72fcca58-70804a96a7asm4869418b3a.218 - gsmtp
+SMTP Error: Could not authenticate.Erro ao enviar email: SMTP Error: Could not authenticate.. Remetente: vxreisvictor@gmail.com.br, Destinatário: victor.bastos@etpc.com.br
+SERVER -> CLIENT: 220 smtp.gmail.com ESMTP 98e67ed59e1d1-2c91d3e2cd3sm5241871a91.49 - gsmtp
+CLIENT -> SERVER: EHLO localhost
+SERVER -> CLIENT: 250-smtp.gmail.com at your service, [2804:1b1:c643:86a1:912f:129d:5c78:708c]
+250-SIZE 35882577
+250-8BITMIME
+250-AUTH LOGIN PLAIN XOAUTH2 PLAIN-CLIENTTOKEN OAUTHBEARER XOAUTH
+250-ENHANCEDSTATUSCODES
+250-PIPELINING
+250-CHUNKING
+250 SMTPUTF8
+CLIENT -> SERVER: AUTH LOGIN
+SERVER -> CLIENT: 334 VXNlcm5hbWU6
+CLIENT -> SERVER: [credentials hidden]SERVER -> CLIENT: 334 UGFzc3dvcmQ6
+CLIENT -> SERVER: [credentials hidden]SERVER -> CLIENT: 535-5.7.8 Username and Password not accepted. For more information, go to
+535 5.7.8  https://support.google.com/mail/?p=BadCredentials 98e67ed59e1d1-2c91d3e2cd3sm5241871a91.49 - gsmtp
+SMTP ERROR: Password command failed: 535-5.7.8 Username and Password not accepted. For more information, go to
+535 5.7.8  https://support.google.com/mail/?p=BadCredentials 98e67ed59e1d1-2c91d3e2cd3sm5241871a91.49 - gsmtp
+SMTP Error: Could not authenticate.CLIENT -> SERVER: QUIT
+SERVER -> CLIENT: 221 2.0.0 closing connection 98e67ed59e1d1-2c91d3e2cd3sm5241871a91.49 - gsmtp
+SMTP Error: Could not authenticate.Erro ao enviar email: SMTP Error: Could not authenticate.. Remetente: vxreisvictor@gmail.com.br, Destinatário: victor.bastos@etpc.com.br
+SERVER -> CLIENT: 220 smtp.gmail.com ESMTP 41be03b00d2f7-72c6d102b65sm4017778a12.77 - gsmtp
+CLIENT -> SERVER: EHLO localhost
+SERVER -> CLIENT: 250-smtp.gmail.com at your service, [2804:1b1:c643:86a1:912f:129d:5c78:708c]
+250-SIZE 35882577
+250-8BITMIME
+250-AUTH LOGIN PLAIN XOAUTH2 PLAIN-CLIENTTOKEN OAUTHBEARER XOAUTH
+250-ENHANCEDSTATUSCODES
+250-PIPELINING
+250-CHUNKING
+250 SMTPUTF8
+CLIENT -> SERVER: AUTH LOGIN
+SERVER -> CLIENT: 334 VXNlcm5hbWU6
+CLIENT -> SERVER: [credentials hidden]SERVER -> CLIENT: 334 UGFzc3dvcmQ6
+CLIENT -> SERVER: [credentials hidden]SERVER -> CLIENT: 535-5.7.8 Username and Password not accepted. For more information, go to
+535 5.7.8  https://support.google.com/mail/?p=BadCredentials 41be03b00d2f7-72c6d102b65sm4017778a12.77 - gsmtp
+SMTP ERROR: Password command failed: 535-5.7.8 Username and Password not accepted. For more information, go to
+535 5.7.8  https://support.google.com/mail/?p=BadCredentials 41be03b00d2f7-72c6d102b65sm4017778a12.77 - gsmtp
+SMTP Error: Could not authenticate.CLIENT -> SERVER: QUIT
+SERVER -> CLIENT: 221 2.0.0 closing connection 41be03b00d2f7-72c6d102b65sm4017778a12.77 - gsmtp
+SMTP Error: Could not authenticate.Erro ao enviar email: SMTP Error: Could not authenticate.. Remetente: vxreisvictor@gmail.com.br, Destinatário: victor.bastos@etpc.com.br
+SERVER -> CLIENT: 220 smtp.gmail.com ESMTP 98e67ed59e1d1-2c91ce17c1bsm5314685a91.5 - gsmtp
+CLIENT -> SERVER: EHLO localhost
+SERVER -> CLIENT: 250-smtp.gmail.com at your service, [2804:1b1:c643:86a1:912f:129d:5c78:708c]
+250-SIZE 35882577
+250-8BITMIME
+250-AUTH LOGIN PLAIN XOAUTH2 PLAIN-CLIENTTOKEN OAUTHBEARER XOAUTH
+250-ENHANCEDSTATUSCODES
+250-PIPELINING
+250-CHUNKING
+250 SMTPUTF8
+CLIENT -> SERVER: AUTH LOGIN
+SERVER -> CLIENT: 334 VXNlcm5hbWU6
+CLIENT -> SERVER: [credentials hidden]SERVER -> CLIENT: 334 UGFzc3dvcmQ6
+CLIENT -> SERVER: [credentials hidden]SERVER -> CLIENT: 535-5.7.8 Username and Password not accepted. For more information, go to
+535 5.7.8  https://support.google.com/mail/?p=BadCredentials 98e67ed59e1d1-2c91ce17c1bsm5314685a91.5 - gsmtp
+SMTP ERROR: Password command failed: 535-5.7.8 Username and Password not accepted. For more information, go to
+535 5.7.8  https://support.google.com/mail/?p=BadCredentials 98e67ed59e1d1-2c91ce17c1bsm5314685a91.5 - gsmtp
+SMTP Error: Could not authenticate.CLIENT -> SERVER: QUIT
+SERVER -> CLIENT: 221 2.0.0 closing connection 98e67ed59e1d1-2c91ce17c1bsm5314685a91.5 - gsmtp
+SMTP Error: Could not authenticate.Erro ao enviar email: SMTP Error: Could not authenticate.. Remetente: vxreisvictor@gmail.com.br, Destinatário: victor.bastos@etpc.com.br
+SERVER -> CLIENT: 220 smtp.gmail.com ESMTP d2e1a72fcca58-708043b710fsm5077788b3a.156 - gsmtp
+CLIENT -> SERVER: EHLO localhost
+SERVER -> CLIENT: 250-smtp.gmail.com at your service, [2804:1b1:c643:86a1:912f:129d:5c78:708c]
+250-SIZE 35882577
+250-8BITMIME
+250-AUTH LOGIN PLAIN XOAUTH2 PLAIN-CLIENTTOKEN OAUTHBEARER XOAUTH
+250-ENHANCEDSTATUSCODES
+250-PIPELINING
+250-CHUNKING
+250 SMTPUTF8
+CLIENT -> SERVER: AUTH LOGIN
+SERVER -> CLIENT: 334 VXNlcm5hbWU6
+CLIENT -> SERVER: [credentials hidden]SERVER -> CLIENT: 334 UGFzc3dvcmQ6
+CLIENT -> SERVER: [credentials hidden]SERVER -> CLIENT: 535-5.7.8 Username and Password not accepted. For more information, go to
+535 5.7.8  https://support.google.com/mail/?p=BadCredentials d2e1a72fcca58-708043b710fsm5077788b3a.156 - gsmtp
+SMTP ERROR: Password command failed: 535-5.7.8 Username and Password not accepted. For more information, go to
+535 5.7.8  https://support.google.com/mail/?p=BadCredentials d2e1a72fcca58-708043b710fsm5077788b3a.156 - gsmtp
+SMTP Error: Could not authenticate.CLIENT -> SERVER: QUIT
+SERVER -> CLIENT: 221 2.0.0 closing connection d2e1a72fcca58-708043b710fsm5077788b3a.156 - gsmtp
+SMTP Error: Could not authenticate.Erro ao enviar email: SMTP Error: Could not authenticate.. Remetente: vxreisvictor@gmail.com.br, Destinatário: victor.bastos@etpc.com.br
+SERVER -> CLIENT: 220 smtp.gmail.com ESMTP d9443c01a7336-1fac1535d2csm50566015ad.132 - gsmtp
+CLIENT -> SERVER: EHLO localhost
+SERVER -> CLIENT: 250-smtp.gmail.com at your service, [2804:1b1:c643:86a1:912f:129d:5c78:708c]
+250-SIZE 35882577
+250-8BITMIME
+250-AUTH LOGIN PLAIN XOAUTH2 PLAIN-CLIENTTOKEN OAUTHBEARER XOAUTH
+250-ENHANCEDSTATUSCODES
+250-PIPELINING
+250-CHUNKING
+250 SMTPUTF8
+CLIENT -> SERVER: AUTH LOGIN
+SERVER -> CLIENT: 334 VXNlcm5hbWU6
+CLIENT -> SERVER: [credentials hidden]SERVER -> CLIENT: 334 UGFzc3dvcmQ6
+CLIENT -> SERVER: [credentials hidden]SERVER -> CLIENT: 535-5.7.8 Username and Password not accepted. For more information, go to
+535 5.7.8  https://support.google.com/mail/?p=BadCredentials d9443c01a7336-1fac1535d2csm50566015ad.132 - gsmtp
+SMTP ERROR: Password command failed: 535-5.7.8 Username and Password not accepted. For more information, go to
+535 5.7.8  https://support.google.com/mail/?p=BadCredentials d9443c01a7336-1fac1535d2csm50566015ad.132 - gsmtp
+SMTP Error: Could not authenticate.CLIENT -> SERVER: QUIT
+SERVER -> CLIENT: 221 2.0.0 closing connection d9443c01a7336-1fac1535d2csm50566015ad.132 - gsmtp
+SMTP Error: Could not authenticate.Erro ao enviar email: SMTP Error: Could not authenticate.. Remetente: vxreisvictor@gmail.com.br, Destinatário: victor.bastos@etpc.com.br
+SERVER -> CLIENT: 220 smtp.gmail.com ESMTP 98e67ed59e1d1-2c91ce17b9fsm5305248a91.9 - gsmtp
+CLIENT -> SERVER: EHLO localhost
+SERVER -> CLIENT: 250-smtp.gmail.com at your service, [2804:1b1:c643:86a1:912f:129d:5c78:708c]
+250-SIZE 35882577
+250-8BITMIME
+250-AUTH LOGIN PLAIN XOAUTH2 PLAIN-CLIENTTOKEN OAUTHBEARER XOAUTH
+250-ENHANCEDSTATUSCODES
+250-PIPELINING
+250-CHUNKING
+250 SMTPUTF8
+CLIENT -> SERVER: AUTH LOGIN
+SERVER -> CLIENT: 334 VXNlcm5hbWU6
+CLIENT -> SERVER: [credentials hidden]SERVER -> CLIENT: 334 UGFzc3dvcmQ6
+CLIENT -> SERVER: [credentials hidden]SERVER -> CLIENT: 535-5.7.8 Username and Password not accepted. For more information, go to
+535 5.7.8  https://support.google.com/mail/?p=BadCredentials 98e67ed59e1d1-2c91ce17b9fsm5305248a91.9 - gsmtp
+SMTP ERROR: Password command failed: 535-5.7.8 Username and Password not accepted. For more information, go to
+535 5.7.8  https://support.google.com/mail/?p=BadCredentials 98e67ed59e1d1-2c91ce17b9fsm5305248a91.9 - gsmtp
+SMTP Error: Could not authenticate.CLIENT -> SERVER: QUIT
+SERVER -> CLIENT: 221 2.0.0 closing connection 98e67ed59e1d1-2c91ce17b9fsm5305248a91.9 - gsmtp
+SMTP Error: Could not authenticate.Erro ao enviar email: SMTP Error: Could not authenticate.. Remetente: vxreisvictor@gmail.com.br, Destinatário: victor.bastos@etpc.com.br
+SERVER -> CLIENT: 220 smtp.gmail.com ESMTP d2e1a72fcca58-70803ecf8cdsm5076952b3a.126 - gsmtp
+CLIENT -> SERVER: EHLO localhost
+SERVER -> CLIENT: 250-smtp.gmail.com at your service, [2804:1b1:c643:86a1:912f:129d:5c78:708c]
+250-SIZE 35882577
+250-8BITMIME
+250-AUTH LOGIN PLAIN XOAUTH2 PLAIN-CLIENTTOKEN OAUTHBEARER XOAUTH
+250-ENHANCEDSTATUSCODES
+250-PIPELINING
+250-CHUNKING
+250 SMTPUTF8
+CLIENT -> SERVER: AUTH LOGIN
+SERVER -> CLIENT: 334 VXNlcm5hbWU6
+CLIENT -> SERVER: [credentials hidden]SERVER -> CLIENT: 334 UGFzc3dvcmQ6
+CLIENT -> SERVER: [credentials hidden]SERVER -> CLIENT: 535-5.7.8 Username and Password not accepted. For more information, go to
+535 5.7.8  https://support.google.com/mail/?p=BadCredentials d2e1a72fcca58-70803ecf8cdsm5076952b3a.126 - gsmtp
+SMTP ERROR: Password command failed: 535-5.7.8 Username and Password not accepted. For more information, go to
+535 5.7.8  https://support.google.com/mail/?p=BadCredentials d2e1a72fcca58-70803ecf8cdsm5076952b3a.126 - gsmtp
+SMTP Error: Could not authenticate.CLIENT -> SERVER: QUIT
+SERVER -> CLIENT: 221 2.0.0 closing connection d2e1a72fcca58-70803ecf8cdsm5076952b3a.126 - gsmtp
+SMTP Error: Could not authenticate.Erro ao enviar email: SMTP Error: Could not authenticate.. Remetente: vxreisvictor@gmail.com.br, Destinatário: victor.bastos@etpc.com.br
+SERVER -> CLIENT: 220 smtp.gmail.com ESMTP d2e1a72fcca58-7084d7061a0sm4837803b3a.219 - gsmtp
+CLIENT -> SERVER: EHLO localhost
+SERVER -> CLIENT: 250-smtp.gmail.com at your service, [2804:1b1:c643:86a1:912f:129d:5c78:708c]
+250-SIZE 35882577
+250-8BITMIME
+250-AUTH LOGIN PLAIN XOAUTH2 PLAIN-CLIENTTOKEN OAUTHBEARER XOAUTH
+250-ENHANCEDSTATUSCODES
+250-PIPELINING
+250-CHUNKING
+250 SMTPUTF8
+CLIENT -> SERVER: AUTH LOGIN
+SERVER -> CLIENT: 334 VXNlcm5hbWU6
+CLIENT -> SERVER: [credentials hidden]SERVER -> CLIENT: 334 UGFzc3dvcmQ6
+CLIENT -> SERVER: [credentials hidden]SERVER -> CLIENT: 535-5.7.8 Username and Password not accepted. For more information, go to
+535 5.7.8  https://support.google.com/mail/?p=BadCredentials d2e1a72fcca58-7084d7061a0sm4837803b3a.219 - gsmtp
+SMTP ERROR: Password command failed: 535-5.7.8 Username and Password not accepted. For more information, go to
+535 5.7.8  https://support.google.com/mail/?p=BadCredentials d2e1a72fcca58-7084d7061a0sm4837803b3a.219 - gsmtp
+SMTP Error: Could not authenticate.CLIENT -> SERVER: QUIT
+SERVER -> CLIENT: 221 2.0.0 closing connection d2e1a72fcca58-7084d7061a0sm4837803b3a.219 - gsmtp
+SMTP Error: Could not authenticate.Erro ao enviar email: SMTP Error: Could not authenticate.. Remetente: vxreisvictor@gmail.com.br, Destinatário: victor.bastos@etpc.com.br
+SERVER -> CLIENT: 220 smtp.gmail.com ESMTP d2e1a72fcca58-70803ecfb09sm5100158b3a.136 - gsmtp
+CLIENT -> SERVER: EHLO localhost
+SERVER -> CLIENT: 250-smtp.gmail.com at your service, [2804:1b1:c643:86a1:912f:129d:5c78:708c]
+250-SIZE 35882577
+250-8BITMIME
+250-AUTH LOGIN PLAIN XOAUTH2 PLAIN-CLIENTTOKEN OAUTHBEARER XOAUTH
+250-ENHANCEDSTATUSCODES
+250-PIPELINING
+250-CHUNKING
+250 SMTPUTF8
+CLIENT -> SERVER: AUTH LOGIN
+SERVER -> CLIENT: 334 VXNlcm5hbWU6
+CLIENT -> SERVER: [credentials hidden]SERVER -> CLIENT: 334 UGFzc3dvcmQ6
+CLIENT -> SERVER: [credentials hidden]SERVER -> CLIENT: 535-5.7.8 Username and Password not accepted. For more information, go to
+535 5.7.8  https://support.google.com/mail/?p=BadCredentials d2e1a72fcca58-70803ecfb09sm5100158b3a.136 - gsmtp
+SMTP ERROR: Password command failed: 535-5.7.8 Username and Password not accepted. For more information, go to
+535 5.7.8  https://support.google.com/mail/?p=BadCredentials d2e1a72fcca58-70803ecfb09sm5100158b3a.136 - gsmtp
+SMTP Error: Could not authenticate.CLIENT -> SERVER: QUIT
+SERVER -> CLIENT: 221 2.0.0 closing connection d2e1a72fcca58-70803ecfb09sm5100158b3a.136 - gsmtp
+SMTP Error: Could not authenticate.Erro ao enviar email: SMTP Error: Could not authenticate.. Remetente: vxreisvictor@gmail.com.br, Destinatário: victor.bastos@etpc.com.br

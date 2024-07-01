@@ -52,13 +52,8 @@ include ('dbcon.php');
                                 <input type="date" name="dataAgendamento" class="form-control" Required>
                             </div>
                             <div class= "mb-3">
-	                                    <label> Período</label>
-	                                    <select name="periodo" class="form-control" required>
-                                            <option value="">--Selecione o período--</option>
-                                            <option value="Manha">Manhã</option>
-                                            <option value="Tarde">Tarde</option>
-                                            <option value="Noite">Noite</option>
-                                        </select>
+                            <label>Horário</label>
+	                        <input id="horaAgendamento" type="time" value="" name="horaAgendamento">
                             </div>
                                                     
                             <div class="mb-3">

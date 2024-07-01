@@ -1,6 +1,14 @@
 <?php
 session_start();
 require 'dbcon.php';
+
+$sqlCountPessoas = "SELECT COUNT(*) AS count FROM cadastro";
+$resultCountPessoas = $con->query($sqlCountPessoas);
+$countPessoas = $resultCountPessoas->fetch_assoc()['count'];
+
+$sqlCountAprovada = "SELECT COUNT(*) AS count FROM reservas WHERE status = 1";
+$resultCountAprovada = $con->query($sqlCountAprovada);
+$countAprovada = $resultCountAprovada->fetch_assoc()['count'];
 ?>
 <!doctype html>
 <html lang="pt-BR">
@@ -52,35 +60,32 @@ require 'dbcon.php';
 </head>
 
 <body>
-
     <div class="container mt-4">
-
         <?php include('message.php'); ?>
-
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4>Detalhes do usuário
+                        <h4>Detalhes do usuário (<?= $countPessoas ?>)
                             <a href="student-create.php" class="btn btn-primary float-end">Adicionar usuário</a>
                             <a href="/AceSchedules/Ace Schedules - frontend/Painel Admin Salas - Ace Schedules/index.php" class="btn btn-primary float-end" style="margin-right:2%">Administração de salas</a>
                             <a href="/AceSchedules/Ace Schedules - frontend/Painel Admin Reservas - Ace Schedules/index.php" class="btn btn-primary float-end" style="margin-right:2%">Administração de reservas</a>
                         </h4>
                         <div style="display: -webkit-box; margin-top: 2vh;">
+                            <div class="form-group">
+                                <label for="email">Selecione o email:</label>
+                                <input type="email" id="email" name="email">
+                            </div>
+                            <div class="form-group" style="margin-left: 1vw; margin-right: 1vw;">
+                                <label for="nome">Nome do alocador:</label>
+                                <input type="text" id="nome" name="nome" autocomplete="OFF">
+                            </div>
                             Selecione o tipo de usuário:
                             <select id="user" name="user" required>
                                 <option user="">--Tipo de usuário--</option>
                                 <option value="Empresa">Empresa</option>
                                 <option value="Administrador">Administrador</option>
                             </select>
-                            <div class="form-group" style="margin-left: 1vw; ">
-                                <label for="email">Selecione o email:</label>
-                                <input type="email" id="email" name="email">
-                            </div>
-                            <div class="form-group" style="margin-left: 1vw; ">
-                                <label for="nome">Nome do alocador:</label>
-                                <input type="text" id="nome" name="nome" autocomplete="OFF">
-                            </div>
                         </div>
                     </div>
                     <div class="card-body">
@@ -95,10 +100,9 @@ require 'dbcon.php';
                                 </tr>
                             </thead>
                             <tbody>
-                                <!--Usuarios são carregadas aqui-->
+                                <!--Usuarios são carregados aqui-->
                             </tbody>
                         </table>
-
                     </div>
                 </div>
             </div>
@@ -106,7 +110,6 @@ require 'dbcon.php';
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-
 </body>
 
 </html>

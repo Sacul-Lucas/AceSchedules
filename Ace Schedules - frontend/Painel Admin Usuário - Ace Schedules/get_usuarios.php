@@ -48,18 +48,17 @@ if ($result->num_rows > 0) {
                 <td>" . $row['email'] . "</td>
                 <td>" . $row['senha'] . "</td>
                 <td>" . $row['usertype'] . "</td>
-
                 <td>
-                    <a href= 'student-view.php?id= ".$row['id']."'  class='btn btn-info btn-sm'>Visualizar</a>
-                    <a href='student-edit.php?id= ".$row['id']." ' class='btn btn-success btn-sm'>Editar</a>
+                    <a href='student-view.php?id=" . $row['id'] . "' class='btn btn-info btn-sm'>Visualizar</a>
+                    <a href='student-edit.php?id=" . $row['id'] . "' class='btn btn-success btn-sm'>Editar</a>
                     <form action='code.php' method='POST' class='d-inline'>
-                        <button type='submit' name='delete_cadastro' value='".$row['id']."' class='btn btn-danger btn-sm'>Deletar</button>
+                        <button type='submit' name='delete_cadastro' value='" . $row['id'] . "' class='btn btn-danger btn-sm'>Deletar</button>
                     </form>
                 </td>
             </tr>";
     }
 } else {
-    echo "<tr><td colspan='5'>Nenhum usuario encontrado.</td></tr>";
+    echo "<tr><td colspan='6'>Nenhum usuário encontrado.</td></tr>";
 }
 
 $stmt->close();

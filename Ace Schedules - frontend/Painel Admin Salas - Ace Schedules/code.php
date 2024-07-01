@@ -39,13 +39,13 @@ if(isset($_POST['delete_sala'])) {
     exit();
 }
 
-if(isset($_POST['update_sala'])) {   
+if (isset($_POST['update_sala'])) {   
     $sala_id = $_POST['id'];
     $name = isset($_POST['nome']) ? $_POST['nome'] : null;
     $capacidade = isset($_POST['capacidade']) ? $_POST['capacidade'] : null;
     $file_name = isset($_FILES['img']['name']) ? $_FILES['img']['name'] : null;
     $tempname = isset($_FILES['img']['tmp_name']) ? $_FILES['img']['tmp_name'] : null;
-    $folder = '../ajax/img_salas/'.$file_name;
+    $folder = '../Painel - Ace Schedules/img_salas/'.$file_name;
     $status = isset($_POST['status']) && $_POST['status'] == '1' ? TRUE : FALSE;  // Captura correta do valor do checkbox
     
     $pdo = new PDO('mysql:host=localhost;dbname=aceschedule', 'root', '');
@@ -56,8 +56,6 @@ if(isset($_POST['update_sala'])) {
         $stmt_old_img->bindValue(':id', $sala_id);
         $stmt_old_img->execute();
         $old_img = $stmt_old_img->fetchColumn();
-
-        $checkbox_value = !empty($_POST['ele3'])?$_POST['ele3']:0;
 
         if ($old_img && file_exists('../Painel - Ace Schedules/img_salas/' . $old_img)) {
             unlink('../Painel - Ace Schedules/img_salas/' . $old_img);
@@ -93,19 +91,18 @@ if(isset($_POST['update_sala'])) {
         }
         
         if (!empty($file_name)) {
-            $stmt->bindValue(':im', $file_name);
+            // Move o arquivo carregado para o diretório de destino
+            if (move_uploaded_file($tempname, $folder)) {
+                $stmt->bindValue(':im', $file_name);
+            } else {
+                echo "<h2>Erro ao carregar o arquivo</h2>";
+            }
         }
 
         $stmt->bindValue(':status', $status);
         $stmt->bindValue(':id', $sala_id);
         $stmt->execute();
 
-        if (!empty($file_name) && move_uploaded_file($tempname, $folder)) {
-            echo "<h2>File uploaded successfully</h2>";
-        } elseif (!empty($file_name)) {
-            echo "<h2>File not uploaded</h2>";
-        }
-        
         $_SESSION['message'] = "Sala atualizada com sucesso";
     } else {
         $_SESSION['message'] = "Sala não foi atualizada.";

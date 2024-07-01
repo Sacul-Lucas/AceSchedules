@@ -5,21 +5,22 @@ session_start(); // Inicia a sessão para usar $_SESSION
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Recuperar dados do formulário
     $dataAgendamento = $_POST['dataAgendamento'];
-    $periodo = $_POST['periodo'];
+    $horaAgendamento = $_POST['horaAgendamento'];
+    $horaAgendamento .= ":00";
     $nome_sala = $_POST['nome_sala'];
     $nome_usuario = $_POST['usuario'];
 
     // Verificar se todos os campos estão preenchidos
-    if (!empty($dataAgendamento) && !empty($nome_usuario) && !empty($periodo) && !empty($nome_sala)) {
+    if (!empty($dataAgendamento) && !empty($nome_usuario) && !empty($horaAgendamento) && !empty($nome_sala)) {
         try {
             // Conectar ao banco de dados usando PDO
             $pdo = new PDO('mysql:host=localhost;dbname=aceschedule', 'root', '');
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
             // Preparar e executar a inserção
-            $stmt = $pdo->prepare('INSERT INTO reservas (dataAgendamento, periodo, sala, usuario) VALUES (:da, :pe, :sa, :us)');
+            $stmt = $pdo->prepare('INSERT INTO reservas (dataAgendamento, horaAgendamento, sala, usuario) VALUES (:da, :ho, :sa, :us)');
             $stmt->bindValue(':da', $dataAgendamento);
-            $stmt->bindValue(':pe', $periodo);
+            $stmt->bindValue(':ho', $horaAgendamento);
             $stmt->bindValue(':sa', $nome_sala);
             $stmt->bindValue(':us', $nome_usuario);
             

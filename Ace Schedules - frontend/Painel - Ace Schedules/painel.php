@@ -177,20 +177,10 @@ $result = $conn->query($sql);
                                 <input id="dataAgendamento" type="hidden" value="" name="dataAgendamento">
                                 <input id="nome_sala" type="hidden" value="" name="nome_sala">
                                 <input id="nome_usuario" type="hidden" value="<?= $_SESSION["id"] ?>" name="usuario">
-                                <select name="periodo" class="form-control" required>
-                                    <option value="">--Selecione o período--</option>
-                                    <option value="Manha">Manhã</option>
-                                    <option value="Tarde">Tarde</option>
-                                    <option value="Noite">Noite</option>
-                                </select>
+                                <input id="horaAgendamento" type="time" name="horaAgendamento" required>
                                 <button type="submit" id="mostrarPopup" class="funcenviar">Enviar</button>
                             </form>
                             <div id="popup" class="popupConcluir">
-                                <div></div>
-                                <div>
-                                    <div></div>
-
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -199,10 +189,15 @@ $result = $conn->query($sql);
             </div>
     </dialog>
 
-    <div class="painelir">
-        <h2>Administrar reservas</h2>
-        <button onclick="window.location='/AceSchedules/Ace Schedules - frontend/Painel Admin Salas - Ace Schedules/index.php'" class="Btn-painelir" style="vertical-align:middle"><span>Painel de administração</span></button>
-    </div>
+    <?php
+    // Verifica se o tipo de usuário é Administrador para exibir o painel de administração de reservas
+    if ($_SESSION["usertype"] == "Administrador") {
+        echo '<div class="painelir">
+                <h2>Administrar reservas</h2>
+                <button onclick="window.location=\'/AceSchedules/Ace Schedules - frontend/Painel Admin Salas - Ace Schedules/index.php\'" class="Btn-painelir" style="vertical-align:middle"><span>Painel de administração</span></button>
+              </div>';
+    }
+    ?>
 
     <footer id="footer">
         <div class="rodape-content">

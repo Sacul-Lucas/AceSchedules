@@ -1,27 +1,21 @@
 <?php
-session_start();
 require 'dbcon.php';
 ?>
 <!doctype html>
 <html lang="pt-BR">
 
 <head>
-    <!-- Required meta tags -->
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <!-- Bootstrap CSS -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
 
     <script>
         $(document).ready(function() {
             function loadReservas(status) {
                 var salaId = status === 0 ? $('#sala').val() : $('#sala_aprov').val();
                 var data = status === 0 ? $('#data').val() : $('#data_aprov').val();
+                var hora = status === 0 ? $('#hora').val() : $('#hora_aprov').val();
                 var nome = status === 0 ? $('#nome').val() : $('#nome_aprov').val();
 
                 if (data) {
@@ -35,24 +29,28 @@ require 'dbcon.php';
                     data: {
                         sala_id: salaId,
                         data: data,
+                        hora: hora,
                         nome: nome,
                         status: status
                     },
                     success: function(data) {
+                        var result = JSON.parse(data);
                         if (status === 0) {
-                            $('#reservas tbody').html(data);
+                            $('#reservas tbody').html(result.html);
+                            $('#countPendente').text(result.count);
                         } else {
-                            $('#reservas_aprov tbody').html(data);
+                            $('#reservas_aprov tbody').html(result.html);
+                            $('#countAprovada').text(result.count);
                         }
                     }
                 });
             }
 
-            $('#sala, #data, #nome').on('change keyup', function() {
+            $('#sala, #data, #hora, #nome').on('change keyup', function() {
                 loadReservas(0);
             });
 
-            $('#sala_aprov, #data_aprov, #nome_aprov').on('change keyup', function() {
+            $('#sala_aprov, #data_aprov, #hora_aprov, #nome_aprov').on('change keyup', function() {
                 loadReservas(1);
             });
 
@@ -87,16 +85,13 @@ require 'dbcon.php';
 </head>
 
 <body>
-
     <div class="container mt-4">
-
         <?php include('message.php'); ?>
-
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4 style="margin-bottom: 2vh;">Agendamentos pendentes
+                        <h4>Agendamentos pendentes (<span id="countPendente"><?= $countPendente ?></span>)
                             <a href="/AceSchedules/Ace Schedules - frontend/Painel Admin Usuário - Ace Schedules/index.php" class="btn btn-primary float-end" style="margin-right:2%">Administração de usuários</a>
                             <a href="/AceSchedules/Ace Schedules - frontend/Painel Admin Salas - Ace Schedules/index.php" class="btn btn-primary float-end" style="margin-right:2%">Administração de salas</a>
                         </h4>
@@ -116,11 +111,15 @@ require 'dbcon.php';
                                 }
                                 ?>
                             </select>
-                            <div class="form-group" style="margin-left: 1vw; ">
+                            <div class="form-group" style="margin-left: 1vw;">
                                 <label for="data">Selecione a data:</label>
                                 <input type="date" id="data" name="data">
                             </div>
-                            <div class="form-group" style="margin-left: 1vw; ">
+                            <div class="form-group" style="margin-left: 1vw;">
+                                <label for="hora">Selecione a hora:</label>
+                                <input type="time" id="hora" name="hora">
+                            </div>
+                            <div class="form-group" style="margin-left: 1vw;">
                                 <label for="nome">Nome do alocador:</label>
                                 <input type="text" id="nome" name="nome" autocomplete="OFF">
                             </div>
@@ -131,14 +130,14 @@ require 'dbcon.php';
                             <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th>DataAgendamento</th>
-                                    <th>Período</th>
-                                    <th>Sala</th>
+                                    <th>Data do agendamento</th>
+                                    <th>Hora do agendamento</th>
+                                    <th>Sala alocada</th>
                                     <th>Nome do Alocador</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <!--Reservas são carregadas aqui-->
+                                <!-- Reservas são carregadas aqui -->
                             </tbody>
                         </table>
                     </div>
@@ -147,17 +146,13 @@ require 'dbcon.php';
         </div>
     </div>
 
-
-
     <div class="container mt-4">
-
         <?php include('message.php'); ?>
-
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4>Agendamentos aprovados
+                        <h4>Agendamentos aprovados (<span id="countAprovada"><?= $countAprovada ?></span>)
                             <a href="schedule-create.php" class="btn btn-primary float-end">Adicionar Agendamento</a>
                         </h4>
                         <div style="display: -webkit-box">
@@ -176,11 +171,15 @@ require 'dbcon.php';
                                 }
                                 ?>
                             </select>
-                            <div class="form-group" style="margin-left: 1vw">
+                            <div class="form-group" style="margin-left: 1vw;">
                                 <label for="data_aprov">Selecione a data:</label>
                                 <input type="date" id="data_aprov" name="data">
                             </div>
-                            <div class="form-group" style="margin-left: 1vw">
+                            <div class="form-group" style="margin-left: 1vw;">
+                                <label for="hora_aprov">Selecione a hora:</label>
+                                <input type="time" id="hora_aprov" name="hora">
+                            </div>
+                            <div class="form-group" style="margin-left: 1vw;">
                                 <label for="nome_aprov">Nome do alocador:</label>
                                 <input type="text" id="nome_aprov" name="nome" autocomplete="OFF">
                             </div>
@@ -191,14 +190,14 @@ require 'dbcon.php';
                             <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th>DataAgendamento</th>
-                                    <th>Período</th>
-                                    <th>Sala</th>
+                                    <th>Data do agendamento</th>
+                                    <th>Hora do agendamento</th>
+                                    <th>Sala alocada</th>
                                     <th>Nome do Alocador</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <!--Reservas são carregadas aqui-->
+                                <!-- Reservas são carregadas aqui -->
                             </tbody>
                         </table>
                     </div>
