@@ -1,0 +1,883 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
+*{
+    margin: 0;
+    padding: 0;
+    font-family: 'poppins',sans-serif;
+}
+@keyframes showUp {
+    0% {
+      opacity: 0;
+      
+    }
+    20% {
+      opacity: 0;
+    }
+    50% {
+      opacity: 1;
+      
+    }
+    100% {
+      opacity: 1;
+      
+    }
+  }
+section{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    width: 100%;
+    
+    background: url('img/etpc2.jpg')no-repeat;
+    background-position: center;
+    background-size: cover;
+    background-size: 100% 100%;
+    background-attachment: fixed;
+
+}
+.form-box{
+    position: relative;
+    width: 30vw;
+    height: 60vh;
+    background: transparent;
+    border: 2px solid rgba(255,255,255,0.5);
+    border-radius: 20px;
+    backdrop-filter: blur(15px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1vw;
+    animation: 2s showUp ease-in;
+
+}
+h2{
+    font-size: 2.5vw;
+    color: #edb70f;
+    text-align: center;
+}
+.inputbox{
+    position: relative;
+    margin: 30px 0;
+    width: 25vw;
+    height: 7vh;
+}
+.inputbox label{
+    position: absolute;
+    top: 50%;
+    left: 5px;
+    transform: translateY(-50%);
+    color: rgb(255, 255, 255);
+    font-size: 1em;
+    pointer-events: none;
+    transition: .5s;
+}
+input:focus ~ label,
+input:valid ~ label{
+top: -5px;
+}
+.inputbox input {
+    width: 80%;
+    height: 50px;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-size: 1em;
+    padding:0 35px 0 5px;
+    color: #ffffff;
+    border-bottom: 2px solid #ffffff;
+}
+.inputbox ion-icon{
+    position: absolute;
+    right: 8px;
+    color: #ffffff;
+    font-size: 1.2em;
+    top: 20px;
+}
+.forget{
+    margin: -15px 0 15px ;
+    font-size: .9em;
+    color: #ffffff;
+    display: flex;
+    justify-content: space-between;  
+}
+
+.forget label input{
+    margin-right: 3px;
+    
+}
+.forget label a{
+    color: #ffffff;
+    text-decoration: none;
+}
+.forget label a:hover{
+    text-decoration: underline;
+}
+button{
+    width: 100%;
+    height: 40px;
+    border-radius: 40px;
+    background:#edb70f;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: 600;
+}
+.register{
+    font-size: .9em;
+    color: #fff;
+    text-align: center;
+    margin: 25px 0 10px;
+}
+.register p a{
+    text-decoration: none;
+    color: #ffffff;
+    font-weight: 600;
+}
+.register p a:hover{
+    text-decoration: underline;
+}
+#logoETPC{
+    padding: 0;
+    margin: auto;
+    display: block;
+    position: fixed;
+    bottom: 90%;
+    left: 75%;
+    right: 0%;
+    animation: 2s showUp ease-in;
+
+    max-width: 21%;
+    height: auto;
+}
+
+@media (min-width:280px) {
+
+    h2{
+        font-size: 6vw;
+        color: #edb70f;
+        text-align: center;
+        padding-bottom: 0%;
+    }
+
+
+    .form-box{
+        position: relative;
+        width: 70vw;
+        height: 55vh;
+        background: transparent;
+        border: 2px solid rgba(255,255,255,0.5);
+        border-radius: 20px;
+        backdrop-filter: blur(15px);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 1vw;
+    
+    }
+
+    .inputbox{
+        position: relative;
+        margin: 30px 0;
+        width: 60vw;
+        height: 6vh;
+        font-size: 3.5vw;
+    }
+
+    .form-value {
+        padding-bottom: 8%;
+    }
+
+    .inputbox input {
+        width: 80%;
+        height: 40%;
+        background: transparent;
+        border: none;
+        outline: none;
+        font-size: 1em;
+        padding:10px 30px 0 5px;
+        color: #ffffff;
+        border-bottom: 2px solid #ffffff;
+    }
+
+    .typebox {
+        position: relative;
+        margin: -10px 0 50px ;
+        
+        width: 25vw;
+        height: 3vh;
+        font-size: 3vw;
+        color: #ffffff;
+    }
+
+    #types {
+        width: 28vw;
+        height: 2.5vh;
+        position: absolute;
+        bottom: 25%;
+        left: 100%;
+        right: 0%;
+        top: 0%;
+        padding-left: 6%;
+        font-size: 2.5vw;
+    }
+
+    button{
+        width: 35%;
+        height: 6%;
+        border-radius: 40px;
+        background:#edb70f;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        text-align: center;
+        display: block;
+        position: fixed;
+        bottom: 0px;
+        left: 32%;
+        right: 0%;
+        top: 86%;
+        font-size: 3vw;
+        font-weight: 600;
+    }
+
+    #logoETPC{
+        padding: 0;
+        margin: auto;
+        display: block;
+        position: fixed;
+        bottom: 90%;
+        left: 45%;
+        right: 0%;
+    
+        max-width: 50%;
+        height: auto;
+    }
+
+
+}
+
+@media (min-width:320px) {
+    h2{
+        font-size: 5vw;
+        color: #edb70f;
+        text-align: center;
+        padding-bottom: 0%;
+    }
+
+
+    .form-box{
+        position: relative;
+        width: 70vw;
+        height: 55vh;
+        background: transparent;
+        border: 2px solid rgba(255,255,255,0.5);
+        border-radius: 20px;
+        backdrop-filter: blur(15px);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 1vw;
+    
+    }
+
+    .inputbox{
+        position: relative;
+        margin: 30px 0;
+        width: 60vw;
+        height: 6vh;
+        font-size: 3.5vw;
+    }
+
+    .form-value {
+        padding-bottom: 10%;
+    }
+
+    .inputbox input {
+        width: 80%;
+        height: 40%;
+        background: transparent;
+        border: none;
+        outline: none;
+        font-size: 1em;
+        padding:10px 30px 0 5px;
+        color: #ffffff;
+        border-bottom: 2px solid #ffffff;
+    }
+
+    .typebox {
+        position: relative;
+        margin: -10px 0 50px ;
+        
+        width: 25vw;
+        height: 3vh;
+        font-size: 3vw;
+        color: #ffffff;
+    }
+
+    #types {
+        width: 24vw;
+        height: 3vh;
+        position: absolute;
+        bottom: 15%;
+        left: 100%;
+        right: 0%;
+        top: 0%;
+        padding-left: 6%;
+        font-size: 2vw;
+    }
+
+
+    button{
+        width: 35%;
+        height: 6%;
+        border-radius: 40px;
+        background:#edb70f;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        text-align: center;
+        display: block;
+        position: fixed;
+        bottom: 0px;
+        left: 32%;
+        right: 0%;
+        top: 86%;
+        font-size: 2.5vw;
+        font-weight: 600;
+    }
+
+    #logoETPC{
+        padding: 0;
+        margin: auto;
+        display: block;
+        position: fixed;
+        bottom: 90%;
+        left: 45%;
+        right: 0%;
+    
+        max-width: 50%;
+        height: auto;
+    }
+
+}
+
+@media (min-width:481px)  {
+    h2{
+        font-size: 4.5vw;
+        color: #edb70f;
+        text-align: center;
+        padding-bottom: 4%;
+        padding-top: 4%;
+    }
+
+
+    .form-box{
+        position: relative;
+        width: 70vw;
+        height: 65vh;
+        background: transparent;
+        border: 2px solid rgba(255,255,255,0.5);
+        border-radius: 20px;
+        backdrop-filter: blur(15px);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 1vw;
+    
+    }
+
+    .inputbox{
+        position: relative;
+        margin: 30px 0;
+        width: 60vw;
+        height: 8vh;
+        font-size: 3vw;
+    }
+
+    .form-value {
+        padding-bottom: 10%;
+    }
+
+    .inputbox input {
+        width: 85%;
+        height: 40%;
+        background: transparent;
+        border: none;
+        outline: none;
+        font-size: 1em;
+        padding:10px 30px 0 5px;
+        color: #ffffff;
+        border-bottom: 2px solid #ffffff;
+    }
+
+    .typebox {
+        position: relative;
+        margin: -25px 0 50px ;
+        
+        width: 25vw;
+        height: 3vh;
+        font-size: 3vw;
+        color: #ffffff;
+    }
+
+    #types {
+        width: 25vw;
+        height: 3.4vh;
+        position: absolute;
+        bottom: 0px;
+        left: 100%;
+        right: 0%;
+        top: 20%;
+        padding-left: 6%;
+        font-size: 2.5vw;
+    }
+
+    button{
+        width: 35%;
+        height: 8%;
+        border-radius: 40px;
+        background:#edb70f;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        text-align: center;
+        display: block;
+        position: fixed;
+        bottom: 0px;
+        left: 35%;
+        right: 0%;
+        top: 86%;
+        font-size: 2.5vw;
+        font-weight: 600;
+    }
+
+    #logoETPC{
+        padding: 0;
+        margin: auto;
+        display: block;
+        position: fixed;
+        bottom: 90%;
+        left: 55%;
+        right: 0%;
+    
+        max-width: 35%;
+        height: auto;
+    }
+}
+
+@media (min-width:641px)  {
+    h2{
+        font-size: 4vw;
+        color: #edb70f;
+        text-align: center;
+        padding-bottom: 0%;
+    }
+
+
+    .form-box{
+        position: relative;
+        width: 50vw;
+        height: 65vh;
+        background: transparent;
+        border: 2px solid rgba(255,255,255,0.5);
+        border-radius: 20px;
+        backdrop-filter: blur(15px);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 1vw;
+    
+    }
+
+    .inputbox{
+        position: relative;
+        margin: 30px 0;
+        width: 45vw;
+        height: 8.5vh;
+        font-size: 2vw;
+    }
+
+    .form-value {
+        padding-bottom: 10%;
+    }
+
+    .inputbox input {
+        width: 85%;
+        height: 45%;
+        background: transparent;
+        border: none;
+        outline: none;
+        font-size: 1em;
+        padding:10px 30px 0 5px;
+        color: #ffffff;
+        border-bottom: 2.5px solid #ffffff;
+    }
+
+    .typebox {
+        position: relative;
+        margin: -23px 0 50px ;
+        
+        width: 20vw;
+        height: 3vh;
+        font-size: 2vw;
+        color: #ffffff;
+    }
+
+    #types {
+        width: 16vw;
+        height: 3.4vh;
+        position: absolute;
+        bottom: 0px;
+        left: 85%;
+        right: 0%;
+        top: 10%;
+        padding-left: 4%;
+        font-size: 1.5vw;
+    }
+
+    button{
+        width: 35%;
+        height: 8%;
+        border-radius: 40px;
+        background:#edb70f;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        text-align: center;
+        display: block;
+        position: fixed;
+        bottom: 0px;
+        left: 32%;
+        right: 0%;
+        top: 86%;
+        font-size: 2vw;
+        font-weight: 600;
+    }
+
+    #logoETPC{
+        padding: 0;
+        margin: auto;
+        display: block;
+        position: fixed;
+        bottom: 90%;
+        left: 60%;
+        right: 0%;
+    
+        max-width: 35%;
+        height: auto;
+    }
+
+}
+
+@media (min-width:961px)  {
+    h2{
+        font-size: 3.5vw;
+        color: #edb70f;
+        text-align: center;
+        padding-bottom: 0%;
+    }
+
+
+    .form-box{
+        position: relative;
+        width: 40vw;
+        height: 65vh;
+        background: transparent;
+        border: 2px solid rgba(255,255,255,0.5);
+        border-radius: 20px;
+        backdrop-filter: blur(15px);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 1vw;
+    
+    }
+
+    .inputbox{
+        position: relative;
+        margin: 30px 0;
+        width: 35vw;
+        height: 8.5vh;
+        font-size: 1.5vw;
+    }
+
+    .form-value {
+        padding-bottom: 10%;
+    }
+
+    .inputbox input {
+        width: 85%;
+        height: 45%;
+        background: transparent;
+        border: none;
+        outline: none;
+        font-size: 1em;
+        padding:10px 30px 0 5px;
+        color: #ffffff;
+        border-bottom: 2.5px solid #ffffff;
+    }
+
+    .typebox {
+        position: relative;
+        margin: -15px 0 50px ;
+        
+        width: 15vw;
+        height: 3vh;
+        font-size: 1.3vw;
+        color: #ffffff;
+    }
+
+    #types {
+        width: 12vw;
+        height: 3.4vh;
+        position: absolute;
+        bottom: 0px;
+        left: 75%;
+        right: 0%;
+        top: 0%;
+        padding-left: 4%;
+        font-size: 1vw;
+    }
+
+    button{
+        width: 35%;
+        height: 8%;
+        border-radius: 40px;
+        background:#edb70f;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        text-align: center;
+        display: block;
+        position: fixed;
+        bottom: 0px;
+        left: 32%;
+        right: 0%;
+        top: 86%;
+        font-size: 1.5vw;
+        font-weight: 600;
+    }
+
+    #logoETPC{
+        padding: 0;
+        margin: auto;
+        display: block;
+        position: fixed;
+        bottom: 90%;
+        left: 75%;
+        right: 0%;
+    
+        max-width: 20%;
+        height: auto;
+    }
+}
+
+@media (min-width:1024px) {
+    h2{
+        font-size: 3vw;
+        color: #edb70f;
+        text-align: center;
+        padding-bottom: 0%;
+    }
+
+
+    .form-box{
+        position: relative;
+        width: 40vw;
+        height: 65vh;
+        background: transparent;
+        border: 2px solid rgba(255,255,255,0.5);
+        border-radius: 20px;
+        backdrop-filter: blur(15px);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 1vw;
+    
+    }
+
+    .inputbox{
+        position: relative;
+        margin: 30px 0;
+        width: 35vw;
+        height: 8.5vh;
+        font-size: 1.5vw;
+    }
+
+    .form-value {
+        padding-bottom: 10%;
+    }
+
+    .inputbox input {
+        width: 88%;
+        height: 40%;
+        background: transparent;
+        border: none;
+        outline: none;
+        font-size: 1em;
+        padding: 12px 30px 0 5px;
+        color: #ffffff;
+        border-bottom: 2.5px solid #ffffff;
+    }
+
+    .typebox {
+        position: relative;
+        margin: -15px 0 50px ;
+        
+        width: 15vw;
+        height: 3vh;
+        font-size: 1.3vw;
+        color: #ffffff;
+    }
+
+    #types {
+        width: 10vw;
+        height: 3.4vh;
+        position: absolute;
+        bottom: 0px;
+        left: 75%;
+        right: 0%;
+        top: 0%;
+        padding-left: 2%;
+        font-size: 1vw;
+    }
+
+    button{
+        width: 30%;
+        height: 8%;
+        border-radius: 40px;
+        background:#edb70f;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        text-align: center;
+        display: block;
+        position: fixed;
+        bottom: 0px;
+        left: 35%;
+        right: 0%;
+        top: 86%;
+        font-size: 1.5vw;
+        font-weight: 600;
+    }
+
+    #logoETPC{
+        padding: 0;
+        margin: auto;
+        display: block;
+        position: fixed;
+        bottom: 90%;
+        left: 75%;
+        right: 0%;
+    
+        max-width: 20%;
+        height: auto;
+    }
+
+}
+
+@media (min-width:1281px) {
+    h2{
+        font-size: 3vw;
+        color: #edb70f;
+        text-align: center;
+        padding-bottom: 4%;
+    }
+
+
+    .form-box{
+        position: relative;
+        width: 35vw;
+        height: 75vh;
+        background: transparent;
+        border: 2px solid rgba(255,255,255,0.5);
+        border-radius: 20px;
+        backdrop-filter: blur(15px);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 1vw;
+    
+    }
+
+    .inputbox{
+        position: relative;
+        margin: 30px 0;
+        width: 28vw;
+        height: 9vh;
+        font-size: 1.3vw;
+    }
+
+    .form-value {
+        padding-bottom: 10%;
+    }
+
+    .inputbox input {
+        width: 88%;
+        height: 40%;
+        background: transparent;
+        border: none;
+        outline: none;
+        font-size: 1em;
+        padding: 14px 30px 0 5px;
+        color: #ffffff;
+        border-bottom: 2.5px solid #ffffff;
+    }
+
+    .typebox {
+        position: relative;
+        margin: -15px 0 50px ;
+        
+        width: 15vw;
+        height: 3vh;
+        font-size: 1.3vw;
+        color: #ffffff;
+    }
+
+    #types {
+        width: 10vw;
+        height: 4vh;
+        position: absolute;
+        bottom: 0px;
+        left: 75%;
+        right: 0%;
+        top: 0%;
+        padding-left: 4%;
+    }
+
+    button{
+        width: 40%;
+        height: 8%;
+        border-radius: 40px;
+        background:#edb70f;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        text-align: center;
+        display: block;
+        position: fixed;
+        bottom: 0px;
+        left: 30%;
+        right: 0%;
+        top: 86%;
+        font-size: 1.5vw;
+        font-weight: 600;
+    }
+
+    #logoETPC{
+        padding: 0;
+        margin: auto;
+        display: block;
+        position: fixed;
+        bottom: 90%;
+        left: 75%;
+        right: 0%;
+    
+        max-width: 20%;
+        height: auto;
+    }
+
+}
+
+

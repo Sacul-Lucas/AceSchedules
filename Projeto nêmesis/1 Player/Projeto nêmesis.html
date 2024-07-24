@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+
+<html lang="pt-br">
+    <head>
+        <meta charset="utf-8">
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <title>Snake game</title>
+
+        <link rel="icon" type="image/x-icon" href="Img/cabecinha-da-cobra ( ͡° ͜ʖ ͡°).png">
+
+        <link rel="stylesheet" type="text/css" href="Estilo.css">
+
+        <script src = "jojo.js" defer></script>
+    </head>
+
+    <body>
+        
+        <h1 id = "Título">Snake game</h1>
+
+        <button id = "pause" onmousedown="Pausar()">||</button>
+
+        <button id = "restart" onclick = "Reiniciar()"><p id = "WAWA">⟳</p></button>
+
+        <img id = "apple" src = "Img/Maçã.png" hidden="" style="width: 100%; height: auto;">
+
+        <img id = "cabecinha-cobra-direita" src = "Img/cabecinha-da-cobra ( ͡° ͜ʖ ͡°).png" hidden="" style="width: 100%; height: auto;">
+
+        <img id = "cabecinha-cobra-esquerda" src = "Img/cabecinha-da-cobra-esquerda( ͡° ͜ʖ ͡°).png" hidden="" style="width: 100%; height: auto;">
+
+        <img id = "cabecinha-cobra-baixo" src = "Img/cabecinha-da-cobra-baixo ( ͡° ͜ʖ ͡°).png" hidden="" style="width: 100%; height: auto;">
+
+        <img id = "cabecinha-cobra-cima" src = "Img/cabecinha-da-cobra-cima( ͡° ͜ʖ ͡°).png" hidden="" style="width: 100%; height: auto;">
+
+        <img id = "Barriguinha-cobra" src = "Img/Barriguinha-croba.png" hidden="" style="width: 100%; height: auto;">
+
+        <img id = "Bundinha-cobra-direita" src = "Img/Bundinha-croba-direita.png" hidden="" style="width: 100%; height: auto;">
+
+        <img id = "Bundinha-cobra-esquerda" src = "Img/Bundinha-croba-esquerda.png" hidden="" style="width: 100%; height: auto;">
+
+        <img id = "Bundinha-cobra-baixo" src = "Img/Bundinha-croba-baixo.png" hidden="" style="width: 100%; height: auto;">
+
+        <img id = "Bundinha-cobra-cima" src = "Img/Bundinha-croba-cima.png" hidden="" style="width: 100%; height: auto;">
+
+        <img id = "Barriguinha-cobra-simba" src = "Img/Barriguinha-croba-simba.png" hidden="" style="width: 100%; height: auto;">
+
+        <img id = "barriguinha cima-esquerda" src = "Img/barriguinha cima-esquerda.png" hidden="" style="width: 100%; height: auto;">
+
+        <img id = "barriguinha esquerda-baixo" src = "Img/barriguinha esquerda-baixo.png" hidden="" style="width: 100%; height: auto;">
+
+        <img id = "barriguinha direita-cima" src = "Img/barriguinha direita-cima.png" hidden="" style="width: 100%; height: auto;">
+
+        <img id = "barriguinha baixo-direita" src = "Img/barriguinha baixo-direita.png" hidden="" style="width: 100%; height: auto;">
+
+        <img id = "maçã" src = "Img/Score.png">
+
+        <img id = "medalha" src = "Img/Highscore.png" >
+
+        <audio id="myAudio">
+            <source src="Img/Google Snake Sound Effect - Trim.mp4" type="audio/mpeg">
+        </audio>
+
+        <audio id="myAudio1">
+            <source src="Img/tap.wav" type="audio/mpeg">
+        </audio>
+
+        <audio id="myAudio2">
+            <source src="Img/Game over.wav" type="audio/mpeg">
+        </audio>
+        
+        
+        <canvas id = "Game-board"></canvas>
+
+        <div id = "Controles">
+            <h1 id = "título">Use para se mover</h1>
+            <img id = "WASD" src="Img/WASD.png">
+            <p id = "decisão">ou</p>
+            <img id = "Setinhas" src="Img/Setinha.png">
+
+            <img id = "Espaço" src="Img/Espaço.png">
+            <h2 id = "reinício">Reiniciar</h2>
+            <img id = "Enter" src="Img/Enter.png">
+            <h3 id = "pausa">Pausar</h3>
+
+        </div>
+
+        <p id = "Pontuação">Pontuação: 
+            <span id = "point"></span>
+        </p>
+
+        <p2 id= "highScore">Melhor pontuação: 
+            <span id = "melhorPontuação"></span>
+        </p2>
+
+        <button onclick="window.location='/AceSchedules/Ace Schedules - frontend/Painel - Ace Schedules/painel.php'" class="Btn-painelir" style="vertical-align:middle"><span>Ace Schedules</span></button>
+
+       
+
+    </body>
+
+</html>
