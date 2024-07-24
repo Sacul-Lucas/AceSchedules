@@ -104,7 +104,6 @@ require 'dbcon.php';
                                 $('#errorMessage').addClass('d-none');
                                 $('#AddModal').modal('hide');
                                 $('#add')[0].reset();
-                                resetDragArea(); // Limpar a área de arrastar e soltar
 
                                 // Carregar a tabela novamente
                                 loadReservas(0);
