@@ -9,7 +9,7 @@ function abrirModal(id_sala, nome_sala, capacidade_sala, status_sala) {
         return;
     }
     modal.querySelector('h1').innerHTML = `Informações ${nome_sala}`;
-    modal.querySelector('p').innerHTML = `Capacidade: ${capacidade_sala}`;
+    modal.querySelector('p').innerHTML = `Capacidade: ${capacidade_sala} pessoas`;
     modal.querySelector('#idSala').value = id_sala;
     modal.show();
 }

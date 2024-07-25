@@ -29,7 +29,7 @@ $result = $conn->query($sql);
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
     <script src="script-menu.js" defer></script>
-    <link rel="icon" type="image/x-icon" href="https://cdn-icons-png.flaticon.com/512/2693/2693710.png">
+    <link rel="icon" type="image/x-icon" href="img/Favicon - Ace Schedules.png">
     <title>Agendamento de Salas</title>
 </head>
 
