@@ -17,7 +17,7 @@ if (isset($_POST['email']) || isset($_POST['senha'])) {
 
 <head>
     <link rel="stylesheet" href="index.css">
-    <title>Ace Schedule</title>
+    <title>Ace Schedules</title>
     <meta charset="utf-8">
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">

@@ -4,7 +4,7 @@
 <head>
     <link rel="stylesheet" href="index.css">
 
-    <title>Ace Schedule</title>
+    <title>Ace Schedules</title>
 
     <link rel="icon" type="image/x-icon" href="https://cdn-icons-png.flaticon.com/512/9131/9131529.png">
 
