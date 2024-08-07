@@ -1,0 +1,22 @@
+https://realfavicongenerator.net/
+https://www.youtube.com/watch?v=NchaUq42tu4
+
+
+IMPORTANTE!!!
+https://www.youtube.com/watch?v=AkHYD7VRP2M&list=PLauWqA1jS29jBnHcfu8Q5U2mn2ETyge68
+https://www.youtube.com/watch?v=N4yUiQiTvwU
+
+
+IMPORTAAAAAAAAAANTE!!
+        // console.log(usertype);
+    
+        // fetch('/api/userAuth/login', {
+        //     method: 'POST',
+        //     headers: {
+        //         'Content-Type': 'application/json',
+        //     },
+        //     body: JSON.stringify({ email, senha, usertype }),
+        // })
+        // .then(response => response.json())
+        // .then(data => console.log(data))
+        // .catch(error => console.error('Erro:', error));
