@@ -34,7 +34,6 @@ section{
     background: transparent;
     border: 2px solid rgba(255,255,255,0.5);
     border-radius: 20px;
-    backdrop-filter: blur(15px);
 
     width: 70dvw;
     height: auto;
@@ -45,13 +44,14 @@ section{
 
 }
 
-h2{
+.Auth-title{
     font-size: 1.5rem;
     line-height: 2rem;
     color: #edb70f;
     text-align: center;
     font-weight: 600;
-    padding-top: 2rem;
+    margin-top: 1.75rem;
+    margin-bottom: 1.75rem;
 }
 
 label {
@@ -133,12 +133,12 @@ input:-webkit-autofill:active{
     
 }
 
-.forget label a{
+.forget span a{
     color: #ffffff;
     text-decoration: none;
 }
 
-.forget label a:hover{
+.forget span a:hover{
     text-decoration: underline;
 }
 

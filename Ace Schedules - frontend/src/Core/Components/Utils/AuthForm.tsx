@@ -1,23 +1,49 @@
 import { Link } from "react-router-dom"
+import { IMaskInput } from "react-imask";
+import { ChangeEventHandler, FormEventHandler, SetStateAction } from "react";
 
-export const AuthForm = ({ formId, formAction, title, formBttTitle, formType, formMethod, emailAction, senhaAction, typeAction }: string | undefined | any) => {
+interface AuthFormProps {
+    formId: string;
+    formAction: ((e: { preventDefault: () => void; }) => Promise<void>) | undefined;
+    formBttTitle: string;
+    formMethod: string;
+    userAction?: ChangeEventHandler<HTMLInputElement> | undefined;
+    telAction?: FormEventHandler<HTMLInputElement> | undefined | any;
+    cnpjAction?: ChangeEventHandler<HTMLInputElement> | undefined;
+    emailAction: (e: { target: { value: SetStateAction<string>; }; }) => void;
+    senhaAction: (e: { target: { value: SetStateAction<string>; }; }) => void;
+    typeAction: FormEventHandler<HTMLLabelElement> | undefined | any;
+}
+
+export const AuthForm: React.FC<AuthFormProps> = ({ 
+        formId,
+        formAction,
+        formBttTitle, 
+        formMethod, 
+        userAction = undefined, 
+        telAction = undefined, 
+        cnpjAction = undefined, 
+        emailAction, 
+        senhaAction, 
+        typeAction 
+    }) => {
     return (
         <section>
-            <form className="form-box lg:!w-[32.8dvw] sm:!text-base" 
+            <form className="form-box lg:!w-[32.8dvw] sm:!text-base backdrop-blur-[6px]" 
                 id={formId} 
                 method={formMethod} 
                 onSubmit={formAction}
                 >
                 <div className="sticky top-0 z-auto w-full h-full">
-                    <h2 className="lg:!text-5xl sm:text-5xl">{title}</h2>
-                    <div className="pt-6 mx-8 lg:mx-11">
-                        {formType === 'cadastro' ? 
+                    <h2 className="Auth-title lg:!text-5xl sm:text-5xl">{formId}</h2>
+                    <div className="mx-8 lg:mx-11">
+                        {formId === 'Cadastro' ? 
                             <div>
                                 <label htmlFor="usuario">Empresa/Usuário</label>
                                 <div className="flex flex-row w-full space-x-3">
                                     <div className="flex-1">
                                         <div className="inputbox">
-                                            <input type="text" id="usuario" name="usuario" placeholder="Insira o nome da empresa/usuário"/>
+                                            <input type="text" id="usuario" name="usuario" placeholder="Insira o nome da empresa/usuário" onChange={userAction} required/>
                                         </div>
                                     </div>
                                 </div>
@@ -26,16 +52,16 @@ export const AuthForm = ({ formId, formAction, title, formBttTitle, formType, fo
                                 <div className="flex flex-row w-full space-x-3">
                                     <div className="flex-1">
                                         <div className="inputbox">
-                                            <input type="text" id="telefone" name="telefone" placeholder="Insira o seu telefone"/>
+                                            <IMaskInput mask="(00) 0000-0000" type="text" id="telefone" name="telefone" placeholder="Insira o seu telefone" onChange={telAction} required/>
                                         </div>
                                     </div>
                                 </div>
 
-                                <label htmlFor="cnpj">CPF/CNPJ</label>
+                                <label htmlFor="cnpj">CNPJ</label>
                                 <div className="flex flex-row w-full space-x-3">
                                     <div className="flex-1">
                                         <div className="inputbox">
-                                            <input type="text" id="cnpj" name="cnpj" placeholder="Insira o seu cpf/cnpj"/>
+                                            <IMaskInput mask="00.000.000/0000-00" type="text" id="cnpj" name="cnpj" placeholder="Insira o seu cnpj" onChange={cnpjAction} required/>
                                         </div>
                                     </div>
                                 </div>
@@ -43,11 +69,11 @@ export const AuthForm = ({ formId, formAction, title, formBttTitle, formType, fo
             
                         : <div/>}
     
-                        <label htmlFor="email">{formType === 'cadastro' ? 'Email' : 'Email/Usuário'}</label>
+                        <label htmlFor="email">{formId === 'Cadastro' ? 'Email' : 'Email/Usuário'}</label>
                         <div className="flex flex-row w-full space-x-3">
                             <div className="flex-1">
                                 <div className="inputbox">
-                                    <input type="text" id="email" name="email" onChange={emailAction} placeholder={formType === 'cadastro' ? 'Insira o seu email' : 'Insira o seu email/nome de usuário'} />
+                                    <input autoComplete="on" type="text" id="email" name="email" onChange={emailAction} placeholder={formId === 'Cadastro' ? 'Insira o seu email' : 'Insira o seu email/nome de usuário'} required/>
                                 </div>
                             </div>
                         </div>
@@ -56,18 +82,18 @@ export const AuthForm = ({ formId, formAction, title, formBttTitle, formType, fo
                         <div className="flex flex-row w-full space-x-3">
                             <div className="flex-1">
                                 <div className="inputbox">
-                                    <input type="password" id="senha" name="senha" onChange={senhaAction} placeholder="Insira a sua senha" />
+                                    <input autoComplete="off" type="password" id="senha" name="senha" onChange={senhaAction} placeholder="Insira a sua senha" required/>
                                 </div>
                             </div>
                         </div>
                         
                         
-                        {formType === 'Login' ?
+                        {formId === 'Login' ?
                                 <div className="pt-6 forget">
-                                    <label htmlFor="remember">Ainda não é cadastrado? <Link id="remember" type="text" to="/"><a>Cadastre-se</a></Link></label>
+                                    <span >Ainda não é cadastrado? <Link to="/">Cadastre-se</Link></span>
                                 </div>
                         :       <div className="pt-4 forget">
-                                    <label htmlFor="remember">Já é cadastrado? <Link id="remember" type="text" to="/Login"><a>Entrar agora</a></Link></label>
+                                    <span >Já é cadastrado? <Link to="/Login">Entrar agora</Link></span>
                                 </div>}
                         
                         

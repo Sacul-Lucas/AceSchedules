@@ -15,8 +15,6 @@ const pool = mysql.createPool({
 });
 
 export const Login = (req: Request, res: Response) => {
-    console.log('Request body:', req.body);
-
     app.use(cors({
         origin: 'http://localhost:5000',
         credentials: true,
