@@ -54,7 +54,7 @@ export const Login = () => {
     defineApp({
         cssPath: 'src/Core/Css/Owned/Auth.css',
         appTitle: 'Ace Schedules - Login',
-        appIcon: 'https://cdn-icons-png.flaticon.com/512/9131/9131529.png'
+        appIcon: 'src/assets/icons/user-circle-solid.svg'
     })
 
     return (
@@ -74,7 +74,7 @@ export const Login = () => {
 
             <ResponsePopup 
                 type={error ? 'error' : 'success'} 
-                redirectLink='/Login' 
+                redirectLink={error ? '/Login' : '/Painel'}
                 title={error ? 'Erro' : 'Pronto!'} 
                 description={error || success} 
             />

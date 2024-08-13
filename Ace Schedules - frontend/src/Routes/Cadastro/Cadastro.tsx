@@ -56,16 +56,12 @@ export const Cadastro = () => {
         setTimeout(() => {
             handleAlert();
         }, 50)
-
-        setTimeout(() => {
-            handleAlert();
-        }, 50)
     };
 
     defineApp({
         cssPath: 'src/Core/Css/Owned/Auth.css',
         appTitle: 'Ace Schedules - Cadastro',
-        appIcon: 'https://cdn-icons-png.flaticon.com/512/9131/9131529.png'
+        appIcon: 'src/assets/icons/user-circle-solid.svg'
     })
     
     return (
