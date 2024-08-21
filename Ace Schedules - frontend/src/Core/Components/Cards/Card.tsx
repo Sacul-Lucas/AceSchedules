@@ -1,66 +1,29 @@
-import Carousel from 'react-bootstrap/Carousel';
-
 interface PanelCardProps {
-    Capacidade?: number | null;
     Características?: [] | undefined;
-    imgSrc?: string | undefined;
-    hascarousel?: boolean;
+    imgSrc: string;
+    title?: string | undefined;
+    description?: string;
 }
 
 
 export const Card: React.FC<PanelCardProps> = ({ 
-    Capacidade = undefined,
     Características = undefined,
-    imgSrc = undefined,
-    hascarousel = false
+    imgSrc,
+    title,
+    description = ''
 }) => {
-
-    let isMobile: boolean = false;
-
-    if (window.innerWidth <= 1024) {
-        isMobile = true;
-    }
-
-    if (isMobile) {
-        return (
-            <div>
-                <div className="card card1 lg:!w-[13vw] lg:!h-[40dvh]" id="card1">
-                    <h5 className="lg:!text-xl">Auditório</h5>
-                </div>
-                
-                <div className="card card2 lg:!w-[13vw] lg:!h-[40dvh]" id="card2">
-                    <h5 className="lg:!text-xl">Sala 106</h5>
-                </div>
-    
-                <div className="card card3 lg:!w-[13vw] lg:!h-[40dvh]" id="card3">
-                    <h5 className="lg:!text-xl">Sala 128</h5>
-                </div>
-    
-                <div className="card card4 lg:!w-[13vw] lg:!h-[40dvh]" id="card4">
-                    <h5 className="lg:!text-xl">Sala 129</h5>
+    return (
+        <div className="items-center justify-center ">
+            <div className={`card lg:!w-[13vw] lg:!h-[40dvh]`}>
+                <img src={`${imgSrc}`} className="w-full h-full rounded-xl"/>
+                <h5 className="lg:!text-xl">{title}</h5>
+                <div className='card-description'>
+                    <p>
+                      {description}
+                    </p>
+                    <button>Reservar</button>
                 </div>
             </div>
-        )
-
-    } else {
-        return (
-            <div>
-                <div className="card card1 lg:!w-[13vw] lg:!h-[40dvh]" id="card1">
-                    <h5 className="lg:!text-xl">Auditório</h5>
-                </div>
-                
-                <div className="card card2 lg:!w-[13vw] lg:!h-[40dvh]" id="card2">
-                    <h5 className="lg:!text-xl">Sala 106</h5>
-                </div>
-    
-                <div className="card card3 lg:!w-[13vw] lg:!h-[40dvh]" id="card3">
-                    <h5 className="lg:!text-xl">Sala 128</h5>
-                </div>
-    
-                <div className="card card4 lg:!w-[13vw] lg:!h-[40dvh]" id="card4">
-                    <h5 className="lg:!text-xl">Sala 129</h5>
-                </div>
-            </div>
-        )
-    }
+        </div>
+    )
 }

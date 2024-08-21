@@ -16,35 +16,54 @@ export const Painel = () => {
         <div>
             <Navbar/>
 
-            <div className="background-effects">
-
-            </div>
-
             <div className="card-container">
                 <div className="enfeite1">
                         <img src="src/assets/img/enfeite1.png" alt=""/>
                 </div>
                 <div className="row">
-                    <div className="flex flex-col col">
+                    <div className="col">
                         <h1 className="lg:!text-[6vw] lg:!mt-9">Salas Disponíveis</h1>
                         <p className="lg:!text-[1.4vw]">
                             Nosso site de agendamento de salas simplifica a reserva de espaços para reuniões, <br></br>eventos e atividades,
                             proporcionando conveniência e eficiência para todos os usuários.
                         </p>
                         <h6 className="lg:!text-[1.3vw] lg:!pt-[40px]">Clique em uma sala para realizar um pedido de agendamento</h6>
-                        <Card/>
+
+                        <div className="flex flex-row col">
+                            <Card 
+                                imgSrc={'/src/assets/img_salas/pic2.jpeg'}
+                                title="Sala 128"
+                                description="Sala usada para aulas, apresentações e reuniões. Pode incluir equipamentos como projetor, microfone, 
+                                caixas de som e etc... (verifique se a sala possui os equipamentos desejados no momento anterior à reserva)"
+                            />
+    
+                            <Card 
+                                imgSrc={'/src/assets/img_salas/pic4.jpeg'}
+                                title="Sala 129"
+                                description="Sala usada para aulas, apresentações e reuniões. Pode incluir equipamentos como projetor, microfone, 
+                                caixas de som e etc... (verifique se a sala possui os equipamentos desejados no momento anterior à reserva)"
+                            />
+
+                            <Card 
+                                imgSrc={'/src/assets/img_salas/pic2.jpeg'}
+                                title="Sala 130"
+                                description="Sala usada para aulas, apresentações e reuniões. Pode incluir equipamentos como projetor, microfone, 
+                                caixas de som e etc... (verifique se a sala possui os equipamentos desejados no momento anterior à reserva)"
+                            />
+
+                            <Card 
+                                imgSrc={'/src/assets/img_salas/pic5.jpeg'}
+                                title="Auditório"
+                                description="Espaço utilizado para palestras, apresentações e eventos. Pode incluir equipamentos como projetor, microfone, 
+                                caixas de som e etc... (verifique se a sala possui os equipamentos desejados no momento anterior à reserva)"
+                            />
+                        </div>
+        
                     </div>
                 </div>
                 <div className="enfeite2">
                     <img src="src/assets/img/enfeite2.png" alt=""/>
                 </div>
-            </div>
-            
-            <div className="background-effects">
-                {/* <div className="enfeite1">
-                        <img src="src/assets/img/enfeite1.png" alt=""/>
-                </div> */}
-
             </div>
 
             <Footer/>

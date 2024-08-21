@@ -1,11 +1,3 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-.slick-slider {
-    width: 100vw;
-}
-
-.slick-slide > div {
-    margin: 0 2rem 0 2rem
-}
