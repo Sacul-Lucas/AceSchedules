@@ -415,18 +415,22 @@ dialog {
   width: 85%;
   max-width: 100%;
   height: auto;
-  max-height: 9vh;
 
-  
-  opacity: 0;
-  position: absolute;
-  bottom: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  vertical-align: middle;
+
   left: 0;
-
+  bottom: 9rem;
   margin-left: 1rem;
+  opacity: 0;
 
   color: white;
-
   transition-property: opacity;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 500ms;
@@ -435,7 +439,6 @@ dialog {
 .card-description p {
   font-size: 0.65rem;
   color: white;
-  margin-bottom: 0.65rem;
 }
 
 .card-description a {
@@ -445,23 +448,17 @@ dialog {
 
 .card button {
   width: 50%;
-
-  position: absolute;
-  bottom: -2rem;
-  left: 0;
-
-  font-size: 0.65rem;
-  font-weight: 700;
-
+  height: auto;
   cursor: pointer;
   outline: none;
-  
+  position: relative;
+  left: 0;
+  font-size: 0.65rem;
+  font-weight: 700;
   border: 0;
   border-radius: 20px;
-
-  margin-left: 25%;
   padding: 8px 0;
-
+  margin: 0 !important;
   color: #292944;
   background: #edb700;
   transition: all .5s ease;
@@ -1004,10 +1001,10 @@ dialog {
 }
 
 .contatos-etpc {
-  width: 100%;
+  width: 95%;
   display: flex;
-  align-items: center;
-  margin-left: 1rem;
+  align-items: flex-start;
+  justify-content: center;
 }
 
 .primeira-coluna {
@@ -1033,6 +1030,7 @@ dialog {
   display: flex;
   gap: 0.3rem;
   margin-bottom: 2rem;
+  align-items: center;
 }
 
 .input-contato h3 {
@@ -1040,6 +1038,7 @@ dialog {
   cursor: pointer;
   transition: 0.3s;
   font-size: 3vw;
+  vertical-align: middle;
 }
 
 .input-contato h3:hover {
@@ -1071,7 +1070,7 @@ dialog {
 
 .segunda-coluna-links {
   width: 30%;
-  height: 36dvh;
+  height: auto;
   display: flex;
   flex-direction: column;
   gap: 0.1rem;
@@ -1091,12 +1090,11 @@ dialog {
 }
 
 .terceira-coluna-social {
-  height: 36dvh;
+  height: auto;
   align-items: end;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  margin-right: 1rem;
 }
 
 .terceira-coluna-social i {
@@ -1125,6 +1123,7 @@ dialog {
   display: flex;
   height: 10vh;
   align-items: center;
+  gap: 0.65rem;
 }
 
 .tag-content span {
@@ -1133,7 +1132,7 @@ dialog {
 }
 
 .etpc-direitos {
-  width: 100%;
+  width: 80%;
   display: flex;
   align-items: center;
   text-align: start;
@@ -1143,15 +1142,16 @@ dialog {
   color: white;
   font-size: 0.35rem;
   font-weight: 500;
+  margin: 0;
 }
 
 .logo-ace {
+  width: 20%;
   display: flex;
   justify-content: end;
 }
 
 .logo-ace img {
-  width: 10vw;
   height: auto;
   min-height: 5vh;
   opacity: 0.6;

@@ -62,8 +62,6 @@ export const Navbar = () => {
                             </li>
                         </ul>
                     </div>
-        
-        
                 </div>
             </header>
         </div>

@@ -21,7 +21,7 @@ export const Footer = () => {
 
             <footer id="footer">
                 <div className="rodape-content lg:!p-[40px_0_60px_0]">
-                    <div className="contatos-etpc lg:!ml-[8rem]">
+                    <div className="contatos-etpc lg:!w-[100%]">
                         <div className="primeira-coluna lg:!w-[30%]">
                             <div className="logo">
                                 <img src="src/assets/img/logo-footer-white.png" className="contatos-logo lg:!w-[8vw]"/>
@@ -69,7 +69,7 @@ export const Footer = () => {
                             <a href="https://etpc.com.br/noticias/matriculas/" className="lg:!text-[0.85rem]">MATRÍCULAS</a>
                         </div>
             
-                        <div className="terceira-coluna-social lg:!mr-0">
+                        <div className="terceira-coluna-social">
                             <a href="https://www.instagram.com/ETPCVR/">                                    
                                 <i className="fa-brands fa-instagram">
                                     <FaInstagram/>
@@ -90,13 +90,13 @@ export const Footer = () => {
                 </div>
             
                 <div className="footer-tag">
-                    <div className="tag-content lg:!w-[85%]">
+                    <div className="tag-content lg:!w-[90%]">
                         <div className="etpc-direitos">
                             <p className="lg:!text-[0.65rem]">Política de privacidade // &copy; {moment().year()} ETPC - Todos os direitos reservados</p>
                         </div>
             
                         <div className="logo-ace">
-                            <img src="src/assets/img/Logo - Ace Schedules.jpg" className="mr-4 rounded-full lg:!w-[4vw]" onClick={goToSecret}/>
+                            <img src="src/assets/img/Logo - Ace Schedules.jpg" className="rounded-full lg:!w-[4vw]" onClick={goToSecret}/>
                         </div>
             
                         <span className="lg:!text-[0.65rem]">Projeto Ace Schedules - Desenvolvido por Alunos da ETPC</span>

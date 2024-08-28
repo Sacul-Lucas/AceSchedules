@@ -10,7 +10,7 @@ export const Cadastro = () => {
 
     const [usuario, setUser] = useState('');
     const [telefone, setTel] = useState('');
-    const [cnpj, setCnpj] = useState('Empresa');
+    const [cnpj, setCnpj] = useState('');
     const [email, setEmail] = useState('');
     const [senha, setSenha] = useState('');
     const [usertype, setUserType] = useState('Empresa');
@@ -28,6 +28,8 @@ export const Cadastro = () => {
             senha,
             usertype
         })
+
+        console.log(telefone);
 
         const message = regRes.data
 
@@ -75,7 +77,7 @@ export const Cadastro = () => {
                     formBttTitle={'Criar conta'} 
                     formMethod={'POST'}
                     userAction={(e: { target: { value: SetStateAction<string>; }; }) => setUser(e.target.value)} 
-                    telAction={(e: { target: { value: SetStateAction<string>; }; }) => setTel(e.target.value)} 
+                    telAction={(e: { target: { value: SetStateAction<string>; }; }) => setTel(e.target.value!)} 
                     cnpjAction={(e: { target: { value: SetStateAction<string>; }; }) => setCnpj(e.target.value)}
                     emailAction={(e: { target: { value: SetStateAction<string>; }; }) => setEmail(e.target.value)} 
                     senhaAction={(e: { target: { value: SetStateAction<string>; }; }) => setSenha(e.target.value)} 

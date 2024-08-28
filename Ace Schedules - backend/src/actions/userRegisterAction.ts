@@ -79,6 +79,28 @@ export const Cadastro = (req: Request, res: Response) => {
             `;
             const insertValues = [usuario, email, senha, usertype, telefone, cnpj];
 
+            const isPhoneValid = (value: string) => {
+                const regex = /^\+\d{2} \(\d{2}\) \d{5}-\d{4}$/;
+                return regex.test(value);
+            };
+
+            const isCnpjValid = (value: string) => {
+                const regex = /^\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}$/;
+                return regex.test(value);
+            };
+
+            if (isPhoneValid(telefone) === false) {
+                return res.json({ success: false, message: 'O telefone inserido está incompleto' }); 
+            }
+
+            if (isCnpjValid(cnpj) === false) {
+                return res.json({ success: false, message: 'O cnpj inserido está incompleto' }); 
+            }
+
+            if (isPhoneValid(telefone) === false && isCnpjValid(cnpj) === false) {
+                return res.json({ success: false, message: 'Campos incompletos' }); 
+            }
+
             pool.query(insertQuery, insertValues, (error) => {
                 if (error) {
                     console.error(error);

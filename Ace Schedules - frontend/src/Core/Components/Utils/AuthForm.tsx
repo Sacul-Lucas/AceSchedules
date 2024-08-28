@@ -52,7 +52,19 @@ export const AuthForm: React.FC<AuthFormProps> = ({
                                 <div className="flex flex-row w-full space-x-3">
                                     <div className="flex-1">
                                         <div className="inputbox">
-                                            <IMaskInput mask="(00) 0000-0000" type="text" id="telefone" name="telefone" placeholder="Insira o seu telefone" onChange={telAction} required/>
+                                            <IMaskInput           
+                                                mask="+{55} (00) 00000-0000"
+                                                definitions={{
+                                                  '0': /[0-9]/
+                                                }}
+                                                unmask="typed" 
+                                                type="text" 
+                                                id="telefone" 
+                                                name="telefone" 
+                                                placeholder="Insira o seu telefone" 
+                                                onChange={telAction} 
+                                                required
+                                            />
                                         </div>
                                     </div>
                                 </div>
@@ -61,7 +73,19 @@ export const AuthForm: React.FC<AuthFormProps> = ({
                                 <div className="flex flex-row w-full space-x-3">
                                     <div className="flex-1">
                                         <div className="inputbox">
-                                            <IMaskInput mask="00.000.000/0000-00" type="text" id="cnpj" name="cnpj" placeholder="Insira o seu cnpj" onChange={cnpjAction} required/>
+                                            <IMaskInput 
+                                                mask="00.000.000/0000-00"                                                 
+                                                definitions={{
+                                                  '0': /[0-9]/
+                                                }}
+                                                unmask="typed"  
+                                                type="text" 
+                                                id="cnpj" 
+                                                name="cnpj" 
+                                                placeholder="Insira o seu cnpj" 
+                                                onChange={cnpjAction} 
+                                                required
+                                            />
                                         </div>
                                     </div>
                                 </div>
