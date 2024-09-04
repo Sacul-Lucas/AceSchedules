@@ -24,7 +24,7 @@ export const Footer = () => {
                     <div className="contatos-etpc lg:!w-[100%]">
                         <div className="primeira-coluna lg:!w-[30%]">
                             <div className="logo">
-                                <img src="src/assets/img/logo-footer-white.png" className="contatos-logo lg:!w-[8vw]"/>
+                                <img src="src/assets/img/logo-footer-white.png" className="contatos-logo lg:!w-[8vw]" title="etpcWhiteLogo"/>
                             </div>
             
                             <div className="contatos-sub">
@@ -96,7 +96,7 @@ export const Footer = () => {
                         </div>
             
                         <div className="logo-ace">
-                            <img src="src/assets/img/Logo - Ace Schedules.jpg" className="rounded-full lg:!w-[4vw]" onClick={goToSecret}/>
+                            <img src="src/assets/img/Logo - Ace Schedules.jpg" className="rounded-full lg:!w-[4vw]" title="aceschedulesLogo" onClick={goToSecret}/>
                         </div>
             
                         <span className="lg:!text-[0.65rem]">Projeto Ace Schedules - Desenvolvido por Alunos da ETPC</span>

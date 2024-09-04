@@ -21,14 +21,6 @@ body {
   padding: 0;
   font-family: "Montserrat",Helvetica,Arial;
 }
-.card-container {
-  background-position: center;
-  background-size: cover;
-  background-color: #f8f9fa;
-  padding-left: 8%;
-  padding-right: 8%;
-  box-sizing: border-box;
-}
 
 /*Navbar e sub-bar*/
 
@@ -335,7 +327,7 @@ h5 {
   bottom: 0;
   left: 0;
 
-  padding-left: 1rem;
+  padding-left: 6.5%;
   padding-bottom: 1rem;
 
 
@@ -373,7 +365,7 @@ dialog {
 .enfeite1 img {
   position: absolute;
   right: 0;
-  margin-top: -1.25rem;
+  margin-top: 0.5rem;
   width: 8.5%;
   margin-right: 0.5rem;
   height: auto;
@@ -381,17 +373,26 @@ dialog {
 }
 
 .enfeite2 img {
-  position: absolute;
+  position: relative;
   left: 0;
   width: 8.5%;
   bottom: 0.5rem;
   margin-left: 0.5rem;
   height: auto;
-  animation: 5s anim-lineUp ease-out  ;
+  animation: 5s anim-lineUp ease-out;
 
 }
 
 /*Cards*/
+
+.card-container {
+  background-position: center;
+  background-size: cover;
+  background-color: #f8f9fa;
+  padding-left: 8%;
+  padding-right: 8%;
+  box-sizing: border-box;
+}
 
 .card {
   display: inline-block;
@@ -418,7 +419,7 @@ dialog {
 
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
+  gap: 0.7rem;
 
   position: relative;
   justify-content: center;
@@ -426,8 +427,6 @@ dialog {
   vertical-align: middle;
 
   left: 0;
-  bottom: 9rem;
-  margin-left: 1rem;
   opacity: 0;
 
   color: white;
@@ -436,8 +435,17 @@ dialog {
   transition-duration: 500ms;
 }
 
+.cards-grid {  
+  height: auto;
+  align-items: center;
+  justify-content: center;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+
 .card-description p {
-  font-size: 0.65rem;
+  font-size: 0.35rem;
+  padding-top: 0.25rem !important;
   color: white;
 }
 
@@ -453,15 +461,32 @@ dialog {
   outline: none;
   position: relative;
   left: 0;
-  font-size: 0.65rem;
+  font-size: 0.45rem;
   font-weight: 700;
   border: 0;
   border-radius: 20px;
-  padding: 8px 0;
+  padding: 4px 0;
   margin: 0 !important;
   color: #292944;
   background: #edb700;
   transition: all .5s ease;
+}
+
+.card-custom-scrollbar::-webkit-scrollbar {
+  width: 0.4rem;
+}
+
+.card-custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.card-custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #edb70f;
+  border-radius: 0.65rem;
+}
+
+.card-custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #ca9b01;
 }
 
 .card:hover img {
@@ -482,9 +507,9 @@ dialog {
   opacity: 1;
 }
 
-.card:hover h5 {
+/* .card:hover h5 {
   max-height: 36.5%;
-}
+} */
 
 /*Pop-ups da reserva*/
 
@@ -941,7 +966,6 @@ dialog {
   justify-content: center;
   align-items: center;
   gap: 2rem;
-  margin-top: 6rem;
 }
 
 .painelir h2 {

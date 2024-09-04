@@ -15,7 +15,7 @@ export const Navbar = () => {
         <div>
             <header>
                 <div className="navbar">
-                    <a href="https://fundacaocsn.org.br/"><img src="src/assets/img/logo-fundacao-csn.png.png" className="logo lg:!w-[12vw]"/></a>
+                    <a href="https://fundacaocsn.org.br/"><img src="src/assets/img/logo-fundacao-csn.png.png" className="logo lg:!w-[12vw]" title="csnLogo"/></a>
                 </div>
         
                 <div className="flex align-middle sub-bar">
@@ -33,7 +33,7 @@ export const Navbar = () => {
                         <div className="bar3 lg:!w-[2.5vw] lg:!min-h-[0.6dvh]"></div>
                     </div>
         
-                    <a href="https://etpc.com.br/" className="absolute"><img src="src/assets/img/logo.png" className="logo2 lg:!w-[7vw]"/></a>
+                    <a href="https://etpc.com.br/" className="absolute"><img src="src/assets/img/logo.png" className="logo2 lg:!w-[7vw]" title="etpcBlueLogo"/></a>
         
                     <div className="flex flex-row h-auto gap-[5vw] lg:!gap-[2.5dvw] ml-auto items-center subbarLinks">
                         <p className="lg:!text-[1vw] lg:!h-auto lg:!pr-[8%]">QUEM SOMOS</p>

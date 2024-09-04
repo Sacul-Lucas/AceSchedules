@@ -16,20 +16,22 @@ export const Painel = () => {
         <div>
             <Navbar/>
 
+            <div className="enfeite1">
+                <img src="src/assets/img/enfeite1.png" alt=""/>
+            </div>
+
             <div className="card-container">
-                <div className="enfeite1">
-                        <img src="src/assets/img/enfeite1.png" alt=""/>
-                </div>
+
                 <div className="row">
                     <div className="col">
                         <h1 className="lg:!text-[6vw] lg:!mt-9">Salas Disponíveis</h1>
                         <p className="lg:!text-[1.4vw]">
-                            Nosso site de agendamento de salas simplifica a reserva de espaços para reuniões, <br></br>eventos e atividades,
+                            Nossa plataforma de agendamento de salas simplifica a reserva de espaços para reuniões, <br></br>eventos e atividades,
                             proporcionando conveniência e eficiência para todos os usuários.
                         </p>
                         <h6 className="lg:!text-[1.3vw] lg:!pt-[40px]">Clique em uma sala para realizar um pedido de agendamento</h6>
 
-                        <div className="flex flex-row col">
+                        <div className="lg:!flex lg:!flex-row lg:!gap-0 lg:!grid-cols-none cards-grid">
                             <Card 
                                 imgSrc={'/src/assets/img_salas/pic2.jpeg'}
                                 title="Sala 128"
@@ -61,9 +63,11 @@ export const Painel = () => {
         
                     </div>
                 </div>
-                <div className="enfeite2">
-                    <img src="src/assets/img/enfeite2.png" alt=""/>
-                </div>
+
+            </div>
+
+            <div className="enfeite2">
+                <img src="src/assets/img/enfeite2.png" alt=""/>
             </div>
 
             <Footer/>
