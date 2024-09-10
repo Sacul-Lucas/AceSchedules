@@ -147,11 +147,12 @@ input:-webkit-autofill:active{
     outline: none;
     cursor: pointer;
 
-    height: 3.6dvh;
+    height: auto;
     border-radius: 40px;
-
-    background:#edb70f;
+    background: #edb70f;
+    
     font-weight: 600;
+    padding: 0.25rem;
 }
 
 .register{

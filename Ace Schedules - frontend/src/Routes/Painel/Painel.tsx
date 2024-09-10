@@ -29,14 +29,15 @@ export const Painel = () => {
                             Nossa plataforma de agendamento de salas simplifica a reserva de espaços para reuniões, <br></br>eventos e atividades,
                             proporcionando conveniência e eficiência para todos os usuários.
                         </p>
-                        <h6 className="lg:!text-[1.3vw] lg:!pt-[40px]">Clique em uma sala para realizar um pedido de agendamento</h6>
+                        <h6 className="lg:!text-[1.3vw] lg:!pt-[40px]">Clique em reservar para realizar um pedido de agendamento</h6>
 
-                        <div className="lg:!flex lg:!flex-row lg:!gap-0 lg:!grid-cols-none cards-grid">
+                        <div className="lg:!gap-0 lg:!grid-cols-[repeat(4,_0fr)] cards-grid">
                             <Card 
                                 imgSrc={'/src/assets/img_salas/pic2.jpeg'}
                                 title="Sala 128"
                                 description="Sala usada para aulas, apresentações e reuniões. Pode incluir equipamentos como projetor, microfone, 
                                 caixas de som e etc... (verifique se a sala possui os equipamentos desejados no momento anterior à reserva)"
+                                características={['Projetor', 'Computador', 'Microfone', 'Quadro']}
                             />
     
                             <Card 
@@ -44,6 +45,7 @@ export const Painel = () => {
                                 title="Sala 129"
                                 description="Sala usada para aulas, apresentações e reuniões. Pode incluir equipamentos como projetor, microfone, 
                                 caixas de som e etc... (verifique se a sala possui os equipamentos desejados no momento anterior à reserva)"
+                                características={['Pinto de borracha', 'Vibrador', 'Microfone', 'Luann']}
                             />
 
                             <Card 

@@ -97,7 +97,11 @@ export const AuthForm: React.FC<AuthFormProps> = ({
                         <div className="flex flex-row w-full space-x-3">
                             <div className="flex-1">
                                 <div className="inputbox">
-                                    <input autoComplete="on" type="text" id="email" name="email" onChange={emailAction} placeholder={formId === 'Cadastro' ? 'Insira o seu email' : 'Insira o seu email/nome de usuário'} required/>
+                                    <input autoComplete="on" type="text" id="email" name="email"
+                                     onChange={emailAction} 
+                                     placeholder={formId === 'Cadastro' ? 'Insira o seu email' : 'Insira o seu email/nome de usuário'} 
+                                     required
+                                    />
                                 </div>
                             </div>
                         </div>
@@ -106,7 +110,11 @@ export const AuthForm: React.FC<AuthFormProps> = ({
                         <div className="flex flex-row w-full space-x-3">
                             <div className="flex-1">
                                 <div className="inputbox">
-                                    <input autoComplete="off" type="password" id="senha" name="senha" onChange={senhaAction} placeholder="Insira a sua senha" required/>
+                                    <input autoComplete="off" type="password" id="senha" name="senha" 
+                                     onChange={senhaAction} 
+                                     placeholder="Insira a sua senha" 
+                                     required
+                                    />
                                 </div>
                             </div>
                         </div>
@@ -130,15 +138,17 @@ export const AuthForm: React.FC<AuthFormProps> = ({
                                 </select>
                             </label>
                         </div>
-                        
-                        <button 
-                            className="Auth mt-8 mb-4 lg:w-[30%] lg:text-base ml-[35%] text-base sm:text-lg sm:w-[30%] sm:ml-[35%] xsm:text-[0.625rem] xsm:w-[40%] xsm:ml-[31%]" 
-                            type="submit" 
-                            id={formBttTitle} 
-                            name={formBttTitle}
-                            >
-                                {formBttTitle}
-                        </button>
+
+                        <div className="flex items-center justify-center w-full h-auto mt-8 mb-4 align-middle">
+                            <button 
+                                className="Auth lg:w-[30%] lg:text-base text-base sm:text-lg sm:w-[30%] xsm:text-[0.625rem] xsm:w-[40%]" 
+                                type="submit" 
+                                id={formBttTitle} 
+                                name={formBttTitle}
+                                >
+                                    {formBttTitle}
+                            </button>
+                        </div>
                         
                     </div>
                 </div>

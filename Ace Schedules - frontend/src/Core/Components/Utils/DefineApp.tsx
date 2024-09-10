@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import React from 'react';
 
 interface defineAppProps {
     cssPath: string,

@@ -23,18 +23,15 @@ module.exports = {
         showUp: {
           '0%': {
             opacity: 0
-            
           },
           '20%': {
             opacity: 0
           },
           '50%': {
             opacity: 1
-            
           },
           '100%': {
             opacity: 1
-            
           }
         }
       }
