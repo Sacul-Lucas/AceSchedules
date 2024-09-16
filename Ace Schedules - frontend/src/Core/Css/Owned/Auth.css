@@ -1,0 +1,185 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
+*{
+    margin: 0;
+    padding: 0;
+    font-family: 'poppins',sans-serif;
+}
+
+body{
+    max-height: 100vh;
+    overflow: hidden;
+}
+
+section{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    width: 100%;
+    
+    background: url('/src/assets/img/etpc2.jpg')no-repeat;
+    background-position: center;
+    background-size: cover;
+    background-size: 100% 100%;
+    background-attachment: fixed;
+
+}
+
+.form-box{
+    position: static;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background: transparent;
+    border: 2px solid rgba(255,255,255,0.5);
+    border-radius: 20px;
+
+    width: 70dvw;
+    height: auto;
+    max-height: 100%;
+
+    font-size: 0.5rem;
+    animation: 2s showUp ease-in;
+
+}
+
+.Auth-title{
+    font-size: 1.5rem;
+    line-height: 2rem;
+    color: #edb70f;
+    text-align: center;
+    font-weight: 600;
+    margin-top: 1.75rem;
+    margin-bottom: 1.75rem;
+}
+
+label {
+    color: rgb(255, 255, 255);
+}
+
+.inputbox{
+    position: relative;
+    display: flex;
+
+    margin: 0.2rem 0;
+
+    width: auto;
+    height: 7dvh;
+}
+
+.inputbox label{
+    position: relative;
+    display: flex;
+    pointer-events: none;
+
+    transform: translateY(-50%);
+    transition: .5s;
+
+    color: rgb(255, 255, 255);
+    font-size: 1em;
+}
+
+input:focus ~ label,
+input:valid ~ label{
+top: -5px;
+}
+
+.inputbox input {
+    background: transparent;
+    border: none;
+    outline: none;
+
+    width: 100%;
+    height: 50%;
+
+    font-size: 1em;
+    padding:0 35px 0 5px;
+
+    color: #ffffff;
+    border-bottom: 2px solid #ffffff;
+}
+
+.inputbox ion-icon{
+    position: absolute;
+    right: 8px;
+    top: 20px;
+
+    color: #ffffff;
+    font-size: 1.2em;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active{
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: #ffffff;
+    transition: background-color 5000s ease-in-out 0s;
+    box-shadow: inset 0 0 20px 20px transparent;
+    border-radius: 0.25rem;
+}
+
+.forget{
+    margin: -15px 0 15px ;
+    font-size: .9em;
+    color: #ffffff;
+    display: flex;
+    justify-content: space-between;  
+}
+
+.forget label input{
+    margin-right: 3px;
+    
+}
+
+.forget span a{
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.forget span a:hover{
+    text-decoration: underline;
+}
+
+.Auth{
+    border: none;
+    outline: none;
+    cursor: pointer;
+
+    height: auto;
+    border-radius: 40px;
+    background: #edb70f;
+    
+    font-weight: 600;
+    padding: 0.25rem;
+}
+
+.register{
+    font-size: .9em;
+    color: #fff;
+    text-align: center;
+    margin: 25px 0 10px;
+}
+
+.register p a{
+    text-decoration: none;
+    color: #ffffff;
+    font-weight: 600;
+}
+
+.register p a:hover{
+    text-decoration: underline;
+}
+
+.logoETPC{
+    display: block;
+    position: fixed;
+    padding-top: 1rem;
+    margin-left: 11rem;
+
+    max-width: 55%;
+
+}
+
+
