@@ -1,46 +1,85 @@
-import React, { useEffect, useState } from "react";
+import React, { ReactNode, useEffect, useState } from "react";
+import { loadStyle, removeStyle } from "./loadStyles";
+// import { PageSpinner } from "./PageSpinner";
 
 interface DefineAppProps {
     cssPath: string;
     appTitle: string;
     appIcon: string;
-    onReady: () => void;
+    isCssDiff?: boolean;
+    children: ReactNode;
 }
 
-export const defineApp: React.FC<DefineAppProps> = ({ 
+export const DefineApp: React.FC<DefineAppProps> = ({
     cssPath,
     appTitle,
     appIcon,
-    onReady
+    isCssDiff,
+    children,
 }) => {
-    const [isCssLoaded, setIsCssLoaded] = useState(false);
+    const [loaded, setLoaded] = useState(false);
+    const [currentCssPath, setCurrentCssPath] = useState<string | null>(null);
+    const [loadingError, setLoadingError] = useState(false);
 
     useEffect(() => {
-        const link = document.createElement('link');
-        link.rel = 'stylesheet';
-        link.href = cssPath;
-        link.onload = () => setIsCssLoaded(true); // Notificar que o CSS foi carregado
-        link.onerror = () => console.error(`Failed to load CSS: ${cssPath}`); // Adicionar tratamento de erro
+        let isMounted = true;
+        // const delay = parseInt(localStorage.getItem('delay')!) || 0;
 
-        document.head.appendChild(link);
+        const load = async () => {
+            if (currentCssPath && currentCssPath !== cssPath) {
+                removeStyle(currentCssPath);
+            } else if (!loaded && !loadingError && !isCssDiff) {
+                removeStyle(cssPath)
+            }
 
+            try {
+                setLoadingError(false);
+                setLoaded(false);
+
+                if (cssPath !== currentCssPath) {
+                    setCurrentCssPath(cssPath);
+                    await loadStyle(cssPath);
+                }
+
+                if (isMounted) {
+                    setLoaded(true);
+                }
+            } catch (error) {
+                console.error(error);
+                setLoadingError(true);
+                setLoaded(false);
+            }
+        };
+
+        load();
+
+        return () => {
+            isMounted = false;
+
+            if (currentCssPath && !loaded && !loadingError) {
+                removeStyle(currentCssPath);
+            } else if (!loaded && !loadingError && !isCssDiff) {
+                removeStyle(cssPath)
+            }
+        };
+    }, [cssPath]);
+
+    useEffect(() => {
         document.title = appTitle;
 
         const mainFavicon = document.getElementById('mainFavicon') as HTMLLinkElement;
         if (mainFavicon) {
             mainFavicon.href = appIcon;
         }
+    }, [appTitle, appIcon]);
 
-        return () => {
-            document.head.removeChild(link);
-        };
-    }, [cssPath, appTitle, appIcon]);
-
-    useEffect(() => {
-        if (isCssLoaded) {
-            onReady();
-        }
-    }, [isCssLoaded, onReady]);
-
-    return null;
+    return (
+        loaded ? 
+            <div style={{ opacity: loaded ? 1 : 0, transition: 'opacity 0.5s' }}>
+                {children}
+            </div> 
+        :
+        null
+        // <PageSpinner isLoading={!loaded && !loadingError} />
+    );
 };

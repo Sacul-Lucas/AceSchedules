@@ -44,7 +44,7 @@ export const CardReservationModal: React.FC<CardReservationModalProps> = ({
             <div className="modal-container">
                 <div className="flex flex-col items-center justify-center align-middle lg:!w-[46dvw] lg:!p-[2rem_3rem] modal">
                     <div className="mb-4">
-                        <h2 className="text-lg font-semibold lg:!text-[2rem]">Selecione uma data e horário</h2>
+                        <h1 className="lg:!text-[2rem]">Selecione uma data e horário</h1>
                     </div>
                     <div className="flex flex-col items-center w-full gap-4">
                         <div className="flex flex-row gap-4">

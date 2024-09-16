@@ -2,6 +2,12 @@
 
 /*Estilização do corpo do site*/
 
+* {
+  margin: 0;
+  padding: 0;
+  font-family: "Montserrat",Helvetica,Arial;
+}
+
 html {
   scroll-behavior: smooth;
   scrollbar-width: thin;
@@ -13,12 +19,6 @@ body {
   scroll-behavior: smooth;
   overflow: auto;
   overflow-x: hidden;
-}
-
-* {
-  margin: 0;
-  padding: 0;
-  font-family: "Montserrat",Helvetica,Arial;
 }
 
 /*Navbar e sub-bar*/
@@ -882,7 +882,7 @@ dialog {
 .input-contato {
   display: flex;
   gap: 0.3rem;
-  margin-bottom: 2rem;
+  margin-bottom: 5%;
   align-items: center;
 }
 

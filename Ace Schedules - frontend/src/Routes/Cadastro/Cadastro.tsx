@@ -1,17 +1,11 @@
 import { SetStateAction, useState } from 'react';
-import etpcLogo from '../../assets/img/Logo_etpc.png';
 import { AuthForm } from '../../Core/Components/Forms/AuthForm.tsx';
 import { handleAlert, ResponsePopup } from '../../Core/Components/Pop-ups/ResponsePopup.tsx';
-import { defineApp } from '../../Core/Components/Utils/DefineApp.tsx';
+import { DefineApp } from '../../Core/Components/Utils/DefineApp.tsx';
 import { RegisterUserAction } from '../../Core/Actions/RegisterUserAction.ts';
+import etpcLogo from '../../assets/img/Logo_etpc.png';
 
 export const Cadastro = () => {
-    const [isAppReady, setIsAppReady] = useState(false);
-
-    const handleAppReady = () => {
-        setIsAppReady(true);
-    };
-
     const [usuario, setUser] = useState('');
     const [telefone, setTel] = useState('');
     const [cnpj, setCnpj] = useState('');
@@ -32,8 +26,6 @@ export const Cadastro = () => {
             senha,
             usertype
         })
-
-        console.log(telefone);
 
         const message = regRes.data
 
@@ -64,42 +56,32 @@ export const Cadastro = () => {
         }, 50)
     };
 
-    defineApp({
-        cssPath: 'src/Core/Css/Owned/Auth.css',
-        appTitle: 'Ace Schedules - Cadastro',
-        appIcon: 'src/assets/icons/user-circle-solid.svg',
-        onReady: handleAppReady
-    })
 
-    if (isAppReady) {
-        return (
-            <div>
-                <div id="logoETPC" className="logoETPC lg:!max-w-[21%] lg:!ml-[78%] sm:!max-w-[45%] sm:!ml-[55%]">
-                    <img src={etpcLogo} className="animate-[2s_showUp_ease-in] transition-all" />
-                </div>
-                    <AuthForm 
-                        formId={'Cadastro'}
-                        formAction={handleSubmit} 
-                        formBttTitle={'Criar conta'} 
-                        formMethod={'POST'}
-                        userAction={(e: { target: { value: SetStateAction<string>; }; }) => setUser(e.target.value)} 
-                        telAction={(e: { target: { value: SetStateAction<string>; }; }) => setTel(e.target.value!)} 
-                        cnpjAction={(e: { target: { value: SetStateAction<string>; }; }) => setCnpj(e.target.value)}
-                        emailAction={(e: { target: { value: SetStateAction<string>; }; }) => setEmail(e.target.value)} 
-                        senhaAction={(e: { target: { value: SetStateAction<string>; }; }) => setSenha(e.target.value)} 
-                        typeAction={(e: { target: { value: SetStateAction<string>; }; }) => setUserType(e.target.value)}
-                    />
-                    <ResponsePopup 
-                        type={error ? 'error' : 'success'} 
-                        redirectLink={error ? '/' : '/Login'}
-                        title={error ? 'Erro' : 'Pronto!'} 
-                        description={error || success} 
-                    />
+    return (
+        <DefineApp cssPath='src/Core/Css/Owned/Auth.css' appIcon='src/assets/icons/user-circle-solid.svg' appTitle='Ace Schedules - Cadastro' isCssDiff={true}>
+            <div id="logoETPC" className="logoETPC lg:!max-w-[21%] lg:!ml-[78%] sm:!max-w-[45%] sm:!ml-[55%]">
+                <img src={etpcLogo} className="animate-[2s_showUp_ease-in] transition-all" />
             </div>
-        )
-    } else {
-        return (
-            <div>Loading...</div>
-        )
-    }
+            <AuthForm 
+                formId={'Cadastro'}
+                formAction={handleSubmit} 
+                formBttTitle={'Criar conta'} 
+                formMethod={'POST'}
+                userAction={(e: { target: { value: SetStateAction<string>; }; }) => setUser(e.target.value)} 
+                telAction={(e: { target: { value: SetStateAction<string>; }; }) => setTel(e.target.value!)} 
+                cnpjAction={(e: { target: { value: SetStateAction<string>; }; }) => setCnpj(e.target.value)}
+                emailAction={(e: { target: { value: SetStateAction<string>; }; }) => setEmail(e.target.value)} 
+                senhaAction={(e: { target: { value: SetStateAction<string>; }; }) => setSenha(e.target.value)} 
+                typeAction={(e: { target: { value: SetStateAction<string>; }; }) => setUserType(e.target.value)}
+            />
+            
+            <ResponsePopup 
+                type={error ? 'error' : 'success'} 
+                redirectLink={error ? '/' : '/Login'}
+                title={error ? 'Erro' : 'Pronto!'} 
+                description={error || success} 
+            />
+        </DefineApp>
+    )
+
 }

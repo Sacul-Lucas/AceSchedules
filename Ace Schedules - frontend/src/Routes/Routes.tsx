@@ -9,18 +9,22 @@ import { Painel } from "./Painel/Painel";
 import { Reservas } from "./Painel Admin - Reservas/Reservas";
 import { Usuarios } from "./Painel Admin - Usuários/Usuarios";
 import { Salas } from "./Painel Admin - Salas/Salas";  
+import { PageSpinner } from "../Core/Components/Utils/PageSpinner";
 
 export const AppRoutes = () => {
     return (
         <Router>
-            <Routes>
-                <Route path="/" element={<Cadastro/>} />
-                <Route path="/Login" element={<Login/>} />
-                <Route path="/Painel" element={<Painel/>} />
-                <Route path="/Reservas" element={<Reservas/>} />
-                <Route path="/Usuarios" element={<Usuarios/>} />
-                <Route path="/Salas" element={<Salas/>} />
-            </Routes>
+
+                <Routes>
+                    <Route path="/" element={<Cadastro/>} />
+                    <Route path="/Login" element={<Login/>} />
+                    <Route path="/Painel" element={<Painel/>} />
+                    <Route path="/Reservas" element={<Reservas/>} />
+                    <Route path="/Usuarios" element={<Usuarios/>} />
+                    <Route path="/Salas" element={<Salas/>} />
+                    <Route path="/Spinner" element={<PageSpinner isLoading={true}/>} />
+                </Routes>
+
         </Router>
     )
 }

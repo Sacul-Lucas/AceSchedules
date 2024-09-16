@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { AdminPopups } from '../../Core/Components/Pop-ups/AdminPopups';
-import { defineApp } from "../../Core/Components/Utils/DefineApp";
+import { DefineApp } from "../../Core/Components/Utils/DefineApp";
 
 export const Salas: React.FC = () => {
     const [show, setShow] = useState(false);
@@ -11,12 +11,6 @@ export const Salas: React.FC = () => {
     const [filterNome, setFilterNome] = useState('');
     const [filterCapacidade, setFilterCapacidade] = useState('');
     const [apenasBloqueadas, setApenasBloqueadas] = useState(false);
-
-    const [isAppReady, setIsAppReady] = useState(false);
-
-    const handleAppReady = () => {
-        setIsAppReady(true);
-    };
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -64,104 +58,92 @@ export const Salas: React.FC = () => {
         loadSalas();
     }, [filterNome, filterCapacidade, apenasBloqueadas]);
 
-    defineApp({
-        cssPath: 'https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css',
-        appTitle: 'Ace Schedules - Painel administrador de salas',
-        appIcon: 'src/assets/icons/calendar-alt-solid.svg',
-        onReady: handleAppReady
-    })
 
-    if (isAppReady) {
-        return (
-            <div>
-                <AdminPopups
-                    idModal={'AddModal'}
-                    formLabel={'Adicionar Salas'}
-                    show={show}
-                    handleClose={handleClose} selectedUsuario={0}            
-                />
-    
-                <div className="container mt-4">
-                    <div className="row">
-                        <div className="col-md-12">
-                            <div className="card">
-                                <div className="card-header">
-                                    <h4>
-                                        <span id="quantidade_salas_text">Salas: (<span id="total_salas">{totalSalas}</span>); </span>
-                                        Salas bloqueadas: (<span id="bloqueadas_salas">{bloqueadasSalas}</span>)
-                                        <button type="button" onClick={handleShow} className="btn btn-primary float-end">Adicionar sala</button>
-                                        <div className="flex justify-start pt-2">
-                                            <label className="pr-2 text-black" htmlFor="filter_nome">Nome da sala:</label>
-                                            <input 
-                                                className="pl-2 text-black border border-black" 
-                                                type="text" 
-                                                id="filter_nome" 
-                                                name="filter_nome" 
-                                                autoComplete="OFF" 
-                                                value={filterNome}
-                                                onChange={(e) => setFilterNome(e.target.value)}
-                                            />
-                                            <label className="pl-2 pr-2 text-black" htmlFor="filter_capacidade">Capacidade da sala:</label>
-                                            <input 
-                                                className="pl-2 text-black border border-black" 
-                                                type="number" 
-                                                id="filter_capacidade" 
-                                                name="filter_capacidade" 
-                                                autoComplete="OFF" 
-                                                value={filterCapacidade}
-                                                onChange={(e) => setFilterCapacidade(e.target.value)}
-                                            />
-                                            <label className="pl-2 pr-2 text-black">Mostrar apenas bloqueadas</label>
-                                            <input 
-                                                className="text-black border border-black" 
-                                                type="checkbox" 
-                                                id="apenas_bloqueadas" 
-                                                name="apenas_bloqueadas" 
-                                                checked={apenasBloqueadas}
-                                                onChange={(e) => setApenasBloqueadas(e.target.checked)}
-                                            />
-                                        </div>
-                                    </h4>
-                                </div>
-                                <div className="card-body">
-                                    <table className="table table-bordered table-striped" id="salas">
-                                        <thead>
-                                            <tr>
-                                                <th>ID</th>
-                                                <th>Nome da Sala</th>
-                                                <th>Capacidade</th>
-                                                <th>Ações</th>
+    return (
+        <DefineApp cssPath="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" appIcon="src/assets/icons/calendar-alt-solid.svg" appTitle="Ace Schedules - Painel administrador de salas" isCssDiff={true}>
+            <AdminPopups
+                idModal={'AddModal'}
+                formLabel={'Adicionar Salas'}
+                show={show}
+                handleClose={handleClose} selectedUsuario={0}            
+            />
+
+            <div className="container mt-4">
+                <div className="row">
+                    <div className="col-md-12">
+                        <div className="card">
+                            <div className="card-header">
+                                <h4>
+                                    <span id="quantidade_salas_text">Salas: (<span id="total_salas">{totalSalas}</span>); </span>
+                                    Salas bloqueadas: (<span id="bloqueadas_salas">{bloqueadasSalas}</span>)
+                                    <button type="button" onClick={handleShow} className="btn btn-primary float-end">Adicionar sala</button>
+                                    <div className="flex justify-start pt-2">
+                                        <label className="pr-2 text-black" htmlFor="filter_nome">Nome da sala:</label>
+                                        <input 
+                                            className="pl-2 text-black border border-black" 
+                                            type="text" 
+                                            id="filter_nome" 
+                                            name="filter_nome" 
+                                            autoComplete="OFF" 
+                                            value={filterNome}
+                                            onChange={(e) => setFilterNome(e.target.value)}
+                                        />
+                                        <label className="pl-2 pr-2 text-black" htmlFor="filter_capacidade">Capacidade da sala:</label>
+                                        <input 
+                                            className="pl-2 text-black border border-black" 
+                                            type="number" 
+                                            id="filter_capacidade" 
+                                            name="filter_capacidade" 
+                                            autoComplete="OFF" 
+                                            value={filterCapacidade}
+                                            onChange={(e) => setFilterCapacidade(e.target.value)}
+                                        />
+                                        <label className="pl-2 pr-2 text-black">Mostrar apenas bloqueadas</label>
+                                        <input 
+                                            className="text-black border border-black" 
+                                            type="checkbox" 
+                                            id="apenas_bloqueadas" 
+                                            name="apenas_bloqueadas" 
+                                            checked={apenasBloqueadas}
+                                            onChange={(e) => setApenasBloqueadas(e.target.checked)}
+                                        />
+                                    </div>
+                                </h4>
+                            </div>
+                            <div className="card-body">
+                                <table className="table table-bordered table-striped" id="salas">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Nome da Sala</th>
+                                            <th>Capacidade</th>
+                                            <th>Ações</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {salas.length > 0 ? salas.map(sala => (
+                                            <tr key={sala.id}>
+                                                <td>{sala.id}</td>
+                                                <td style={{ color: sala.status === 1 ? 'red' : '' }}>{sala.nome}</td>
+                                                <td>{sala.capacidade}</td>
+                                                <td>
+                                                    <button type='button' data-id={sala.id} className='mx-1 viewBtn btn btn-info btn-sm'>View</button>
+                                                    <button type='button' data-id={sala.id} className='mx-1 editBtn btn btn-success btn-sm'>Edit</button>
+                                                    <button type='button' data-id={sala.id} onClick={() => handleDelete(sala.id)} className='mx-1 deleteBtn btn btn-danger btn-sm'>Delete</button>
+                                                </td>
                                             </tr>
-                                        </thead>
-                                        <tbody>
-                                            {salas.length > 0 ? salas.map(sala => (
-                                                <tr key={sala.id}>
-                                                    <td>{sala.id}</td>
-                                                    <td style={{ color: sala.status === 1 ? 'red' : '' }}>{sala.nome}</td>
-                                                    <td>{sala.capacidade}</td>
-                                                    <td>
-                                                        <button type='button' data-id={sala.id} className='mx-1 viewBtn btn btn-info btn-sm'>View</button>
-                                                        <button type='button' data-id={sala.id} className='mx-1 editBtn btn btn-success btn-sm'>Edit</button>
-                                                        <button type='button' data-id={sala.id} onClick={() => handleDelete(sala.id)} className='mx-1 deleteBtn btn btn-danger btn-sm'>Delete</button>
-                                                    </td>
-                                                </tr>
-                                            )) : (
-                                                <tr><td colSpan={4}>Nenhuma sala encontrada.</td></tr>
-                                            )}
-                                        </tbody>
-                                    </table>
-                                </div>
+                                        )) : (
+                                            <tr><td colSpan={4}>Nenhuma sala encontrada.</td></tr>
+                                        )}
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
                 </div>
-                <a href="/Usuarios" className="mx-1 btn btn-primary float-end">Administração de usuários</a>
-                <a href="/Reservas" className="mx-1 btn btn-primary float-end">Administração de reservas</a>
             </div>
-        );
-    } else {
-        <div>
-            Loading...
-        </div>
-    }
+            <a href="/Usuarios" className="mx-1 btn btn-primary float-end">Administração de usuários</a>
+            <a href="/Reservas" className="mx-1 btn btn-primary float-end">Administração de reservas</a>
+        </DefineApp>
+    );
 };

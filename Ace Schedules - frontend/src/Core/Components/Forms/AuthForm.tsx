@@ -35,7 +35,7 @@ export const AuthForm: React.FC<AuthFormProps> = ({
                 onSubmit={formAction}
                 >
                 <div className="sticky top-0 z-auto w-full h-full">
-                    <h2 className="Auth-title lg:!text-5xl sm:text-5xl">{formId}</h2>
+                    <h2 className="Auth-title lg:!text-5xl sm:!text-5xl">{formId}</h2>
                     <div className="mx-8 lg:mx-11">
                         {formId === 'Cadastro' ? 
                             <div>

@@ -17,7 +17,8 @@ section{
     min-height: 100vh;
     width: 100%;
     
-    background: url('/src/assets/img/etpc2.jpg')no-repeat;
+    background-image: url(/src/assets/img/etpc2.jpg);
+    background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
     background-size: 100% 100%;
