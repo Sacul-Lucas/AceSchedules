@@ -2,6 +2,7 @@ import mysql from 'mysql';
 import { Request, Response } from 'express';
 import { app } from '../server';
 import cors from 'cors';
+import bcrypt from 'bcrypt';
 
 const pool = mysql.createPool({
     connectionLimit: 10,
@@ -72,13 +73,7 @@ export const Cadastro = (req: Request, res: Response) => {
                 }
             });
         } else {
-            // Inserir novo usuário
-            const insertQuery = `
-                INSERT INTO cadastro (usuario, email, senha, usertype, telefone, cnpj) 
-                VALUES (?, ?, ?, ?, ?, ?)
-            `;
-            const insertValues = [usuario, email, senha, usertype, telefone, cnpj];
-
+            // Verificação de telefone e CNPJ
             const isPhoneValid = (value: string) => {
                 const regex = /^\+\d{2} \(\d{2}\) \d{5}-\d{4}$/;
                 return regex.test(value);
@@ -89,25 +84,40 @@ export const Cadastro = (req: Request, res: Response) => {
                 return regex.test(value);
             };
 
-            if (isPhoneValid(telefone) === false) {
+            if (!isPhoneValid(telefone)) {
                 return res.json({ success: false, message: 'O telefone inserido está incompleto' }); 
             }
 
-            if (isCnpjValid(cnpj) === false) {
-                return res.json({ success: false, message: 'O cnpj inserido está incompleto' }); 
+            if (!isCnpjValid(cnpj)) {
+                return res.json({ success: false, message: 'O CNPJ inserido está incompleto' }); 
             }
 
-            if (isPhoneValid(telefone) === false && isCnpjValid(cnpj) === false) {
+            if (!isPhoneValid(telefone) && !isCnpjValid(cnpj)) {
                 return res.json({ success: false, message: 'Campos incompletos' }); 
             }
 
-            pool.query(insertQuery, insertValues, (error) => {
-                if (error) {
-                    console.error(error);
-                    return res.status(500).json({ success: false, message: 'Erro no servidor' });
+            // Criptografar a senha
+            bcrypt.hash(senha, 10, (err, hashedPassword) => {
+                if (err) {
+                    console.error(err);
+                    return res.status(500).json({ success: false, message: 'Erro na criptografia da senha' });
                 }
 
-                return res.json({ success: true, message: 'Cadastro realizado com sucesso' });
+                // Inserir novo usuário
+                const insertQuery = `
+                    INSERT INTO cadastro (usuario, email, senha, usertype, telefone, cnpj) 
+                    VALUES (?, ?, ?, ?, ?, ?)
+                `;
+                const insertValues = [usuario, email, hashedPassword, usertype, telefone, cnpj];
+
+                pool.query(insertQuery, insertValues, (error) => {
+                    if (error) {
+                        console.error(error);
+                        return res.status(500).json({ success: false, message: 'Erro no servidor' });
+                    }
+
+                    return res.json({ success: true, message: 'Cadastro realizado com sucesso' });
+                });
             });
         }
     });

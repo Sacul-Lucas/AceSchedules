@@ -9,6 +9,7 @@
     "tailwind": "tailwindcss -i ./src/index.css -o ./src/Core/Css/Template/tailwind.css --watch"
   },
   "dependencies": {
+    "@types/bootstrap": "^5.2.10",
     "@types/react-helmet": "^6.1.11",
     "@vitejs/plugin-basic-ssl": "^1.1.0",
     "bootstrap": "^5.3.3",

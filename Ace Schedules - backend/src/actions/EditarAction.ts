@@ -28,7 +28,7 @@ export const EditarAction = (req: Request, res: Response) => {
     const currPath = req.route;
     let reqRoute = '';
     let msgId = '';
-    let varsAction = '';
+    const varsAction = '';
 
     if (currPath === '/Salas/EditarAction') {
         reqRoute = 'salas'

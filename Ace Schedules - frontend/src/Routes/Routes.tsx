@@ -14,17 +14,15 @@ import { PageSpinner } from "../Core/Components/Utils/PageSpinner";
 export const AppRoutes = () => {
     return (
         <Router>
-
-                <Routes>
-                    <Route path="/" element={<Cadastro/>} />
-                    <Route path="/Login" element={<Login/>} />
-                    <Route path="/Painel" element={<Painel/>} />
-                    <Route path="/Reservas" element={<Reservas/>} />
-                    <Route path="/Usuarios" element={<Usuarios/>} />
-                    <Route path="/Salas" element={<Salas/>} />
-                    <Route path="/Spinner" element={<PageSpinner isLoading={true}/>} />
-                </Routes>
-
+            <Routes>
+                <Route path="/" element={<Cadastro/>} />
+                <Route path="/Login" element={<Login/>} />
+                <Route path="/Painel" element={<Painel/>} />
+                <Route path="/Reservas" element={<Reservas/>} />
+                <Route path="/Usuarios" element={<Usuarios/>} />
+                <Route path="/Salas" element={<Salas/>} />
+                <Route path="/Spinner" element={<PageSpinner isLoading={true}/>} />
+            </Routes>
         </Router>
     )
 }

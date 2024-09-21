@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { AdminPopups } from '../../Core/Components/Pop-ups/AdminPopups';
-import { DefineApp } from "../../Core/Components/Utils/DefineApp";
+import { AdminSidebar } from "../../Core/Components/Sidebars/AdminSidebar";
 
 export const Salas: React.FC = () => {
     const [show, setShow] = useState(false);
@@ -60,7 +60,7 @@ export const Salas: React.FC = () => {
 
 
     return (
-        <DefineApp cssPath="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" appIcon="src/assets/icons/calendar-alt-solid.svg" appTitle="Ace Schedules - Painel administrador de salas" isCssDiff={true}>
+        <AdminSidebar>
             <AdminPopups
                 idModal={'AddModal'}
                 formLabel={'Adicionar Salas'}
@@ -77,8 +77,8 @@ export const Salas: React.FC = () => {
                                     <span id="quantidade_salas_text">Salas: (<span id="total_salas">{totalSalas}</span>); </span>
                                     Salas bloqueadas: (<span id="bloqueadas_salas">{bloqueadasSalas}</span>)
                                     <button type="button" onClick={handleShow} className="btn btn-primary float-end">Adicionar sala</button>
-                                    <div className="flex justify-start pt-2">
-                                        <label className="pr-2 text-black" htmlFor="filter_nome">Nome da sala:</label>
+                                    <div className="flex justify-start pt-4 text-base">
+                                        <label className="pr-2 !m-0 text-black" htmlFor="filter_nome">Nome da sala:</label>
                                         <input 
                                             className="pl-2 text-black border border-black" 
                                             type="text" 
@@ -88,7 +88,7 @@ export const Salas: React.FC = () => {
                                             value={filterNome}
                                             onChange={(e) => setFilterNome(e.target.value)}
                                         />
-                                        <label className="pl-2 pr-2 text-black" htmlFor="filter_capacidade">Capacidade da sala:</label>
+                                        <label className="pl-2 pr-2 !m-0 text-black" htmlFor="filter_capacidade">Capacidade da sala:</label>
                                         <input 
                                             className="pl-2 text-black border border-black" 
                                             type="number" 
@@ -98,7 +98,7 @@ export const Salas: React.FC = () => {
                                             value={filterCapacidade}
                                             onChange={(e) => setFilterCapacidade(e.target.value)}
                                         />
-                                        <label className="pl-2 pr-2 text-black">Mostrar apenas bloqueadas</label>
+                                        <label className="pl-2 pr-2 !m-0 text-black">Mostrar apenas bloqueadas</label>
                                         <input 
                                             className="text-black border border-black" 
                                             type="checkbox" 
@@ -127,9 +127,9 @@ export const Salas: React.FC = () => {
                                                 <td style={{ color: sala.status === 1 ? 'red' : '' }}>{sala.nome}</td>
                                                 <td>{sala.capacidade}</td>
                                                 <td>
-                                                    <button type='button' data-id={sala.id} className='mx-1 viewBtn btn btn-info btn-sm'>View</button>
-                                                    <button type='button' data-id={sala.id} className='mx-1 editBtn btn btn-success btn-sm'>Edit</button>
-                                                    <button type='button' data-id={sala.id} onClick={() => handleDelete(sala.id)} className='mx-1 deleteBtn btn btn-danger btn-sm'>Delete</button>
+                                                    <button type='button' data-id={sala.id} className='mx-1 viewBtn btn btn-info btn-sm'>Visualizar</button>
+                                                    <button type='button' data-id={sala.id} className='mx-1 editBtn btn btn-success btn-sm'>Editar</button>
+                                                    <button type='button' data-id={sala.id} onClick={() => handleDelete(sala.id)} className='mx-1 deleteBtn btn btn-danger btn-sm'>Deletar</button>
                                                 </td>
                                             </tr>
                                         )) : (
@@ -142,8 +142,6 @@ export const Salas: React.FC = () => {
                     </div>
                 </div>
             </div>
-            <a href="/Usuarios" className="mx-1 btn btn-primary float-end">Administração de usuários</a>
-            <a href="/Reservas" className="mx-1 btn btn-primary float-end">Administração de reservas</a>
-        </DefineApp>
+        </AdminSidebar>
     );
 };

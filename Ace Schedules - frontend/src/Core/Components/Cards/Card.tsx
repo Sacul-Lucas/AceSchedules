@@ -35,12 +35,7 @@ export const Card: React.FC<PanelCardProps> = ({
     };
 
     const descriptionHeight = descriptionRef.current ? descriptionRef.current.clientHeight : 0
-    let titleHeightPercentage: number;
-    if (window.innerWidth >= 1024) {
-        titleHeightPercentage = 1.28;
-    } else {
-        titleHeightPercentage = 1.2;
-    }
+    let titleHeightPercentage: number = 1.28;
     const titleStyle = {
         maxHeight: isHovered ? `${descriptionHeight * titleHeightPercentage}px` : '12%',
         transition: 'max-height 0.3s ease-in-out',
@@ -48,7 +43,7 @@ export const Card: React.FC<PanelCardProps> = ({
 
     return (
         <div>
-            <div className='card lg:!w-[13vw] lg:!h-[40dvh] lg:!m-[4rem_1.5rem_0_1.5rem]' id='card' onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+            <div className='card lg:!w-[17vw] 2xl:!w-[13vw] lg:!h-[40dvh] lg:!m-[4rem_1.5rem_0_1.5rem]' id='card' onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
                 <img src={`${imgSrc}`} className="w-full h-full rounded-xl"/>
                 <h5 className="lg:!text-xl" id='card-title' style={titleStyle}>{title}</h5>
                 <div className="relative flex items-center justify-center lg:!bottom-28 xsm:!bottom-[4.65rem]">

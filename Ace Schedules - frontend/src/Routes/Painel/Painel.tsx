@@ -32,7 +32,7 @@ export const Painel = () => {
                                 title="Sala 129"
                                 description="Sala usada para aulas, apresentações e reuniões. Pode incluir equipamentos como projetor, microfone, 
                                 caixas de som e etc... (verifique se a sala possui os equipamentos desejados no momento anterior à reserva)"
-                                características={['Pinto de borracha', 'Vibrador', 'Microfone', 'Luann']}
+                                características={['Projetor', 'Computador', 'Microfone', 'Caixas de som']}
                             />
                             <Card 
                                 imgSrc={'/src/assets/img_salas/pic2.jpeg'}

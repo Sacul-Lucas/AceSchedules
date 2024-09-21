@@ -1,8 +1,5 @@
 import mysql from 'mysql';
 import { Request, Response } from 'express';
-import { app } from '../server';
-import cors from 'cors';
-
 
 const pool = mysql.createPool({
     connectionLimit: 10,

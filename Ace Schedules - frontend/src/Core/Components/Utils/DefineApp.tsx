@@ -1,6 +1,6 @@
 import React, { ReactNode, useEffect, useState } from "react";
 import { loadStyle, removeStyle } from "./loadStyles";
-// import { PageSpinner } from "./PageSpinner";
+import { PageSpinner } from "./PageSpinner";
 
 interface DefineAppProps {
     cssPath: string;
@@ -20,16 +20,17 @@ export const DefineApp: React.FC<DefineAppProps> = ({
     const [loaded, setLoaded] = useState(false);
     const [currentCssPath, setCurrentCssPath] = useState<string | null>(null);
     const [loadingError, setLoadingError] = useState(false);
+    const [showSpinner, setShowSpinner] = useState(false);
 
     useEffect(() => {
         let isMounted = true;
-        // const delay = parseInt(localStorage.getItem('delay')!) || 0;
+        const loadingDelay = parseInt(localStorage.getItem('loadingDelay')!) || 0;
 
         const load = async () => {
             if (currentCssPath && currentCssPath !== cssPath) {
                 removeStyle(currentCssPath);
             } else if (!loaded && !loadingError && !isCssDiff) {
-                removeStyle(cssPath)
+                removeStyle(cssPath);
             }
 
             try {
@@ -42,7 +43,13 @@ export const DefineApp: React.FC<DefineAppProps> = ({
                 }
 
                 if (isMounted) {
-                    setLoaded(true);
+                    if (isCssDiff && showSpinner) {
+                        setTimeout(() => {
+                            setLoaded(true);
+                        }, loadingDelay);
+                    } else {
+                        setLoaded(true);
+                    }
                 }
             } catch (error) {
                 console.error(error);
@@ -50,6 +57,17 @@ export const DefineApp: React.FC<DefineAppProps> = ({
                 setLoaded(false);
             }
         };
+
+        const referrer = document.referrer;
+        const isExternalReferrer = referrer && !referrer.includes(window.location.hostname);
+        const isNavigationType = (window.performance.getEntriesByType('navigation')
+        [0] as PerformanceNavigationTiming).type === 'navigate';
+
+        if (isExternalReferrer && isNavigationType) {
+            setShowSpinner(true);
+        } else {
+            setShowSpinner(false);
+        }
 
         load();
 
@@ -59,7 +77,7 @@ export const DefineApp: React.FC<DefineAppProps> = ({
             if (currentCssPath && !loaded && !loadingError) {
                 removeStyle(currentCssPath);
             } else if (!loaded && !loadingError && !isCssDiff) {
-                removeStyle(cssPath)
+                removeStyle(cssPath);
             }
         };
     }, [cssPath]);
@@ -79,7 +97,6 @@ export const DefineApp: React.FC<DefineAppProps> = ({
                 {children}
             </div> 
         :
-        null
-        // <PageSpinner isLoading={!loaded && !loadingError} />
+        showSpinner && isCssDiff ? <PageSpinner isLoading={!loaded && !loadingError} /> : null
     );
 };

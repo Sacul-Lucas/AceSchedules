@@ -444,8 +444,8 @@ dialog {
 }
 
 .card-description p {
-  font-size: 0.35rem;
-  padding: 0.5rem 0 0 0;
+  font-size: 0.45rem;
+  padding: 2vh 0 0 0;
   margin: 0 !important;
   color: white;
 }
@@ -527,9 +527,7 @@ dialog {
   border-radius: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
   padding: 1.25rem 1.5rem;
-  width: 65dvw;
-  /* padding: 30px 50px; */
-  /* width: 27%; */
+  width: auto;
   max-width: 100%;
   gap: 0.25rem;
   text-align: center;
@@ -540,7 +538,6 @@ dialog {
 .modal h1 {
   margin: 0;
   padding: 0;
-  /* font-size: 2vw; */
   font-size: 1.25rem;
   color: black;
   font-weight: 600;
@@ -548,7 +545,6 @@ dialog {
 
 .modal p {
   font-size: 0.5rem;
-  /* font-size: 1vw; */
   color: #1c1c31;
   margin: 0 !important;
   padding: 0;
@@ -561,7 +557,6 @@ dialog {
 .modal li {
   margin-top: 5px;
   font-weight: 500;
-  /* font-size: 0.65vw; */
 }
 
 .modal ul {
@@ -1019,6 +1014,79 @@ dialog {
   cursor: pointer;
 }
 
+/* Agenda com range de datas e horários  */
+
+.date-range-toggle {
+  display: flex;
+  gap: 4px;
+}
+
+.date-range-toggle button {
+  background-color: #e5e5e5;
+  border: none; 
+  border-radius: 4px; 
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  width: 100%;
+}
+
+.date-range-toggle button:hover {
+  background-color: #e0e0e0;
+}
+
+.date-range-toggle button.active {
+  background-color: #d0d0d0;
+}
+
+.date-range-toggle .label {
+  font-size: 14px;
+  color: #333;
+}
+
+.date-range-toggle .selected-date {
+  font-size: 12px;
+  color: #666;
+}
+
+.clear-date-btt {
+  margin: 0 !important;
+  width: auto;
+  height: auto;
+  border-radius: 1rem !important;
+  justify-content: center;
+  align-items: center;
+  vertical-align: middle;
+  display: flex;
+  float: inline-end;
+  background-color: #e5e5e5;
+  border: none;
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  width: 100%;
+  color: #292944;
+  font-size: 0.5rem;
+  font-weight: 600;
+  outline: none;
+  appearance: inherit;
+  -webkit-appearance: button;
+  text-transform: none;
+  font-family: inherit;
+  font-feature-settings: inherit;
+  font-variation-settings: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+}
+
+.react-datepicker__header--time {
+  height: 3.65rem;
+  align-items: center;
+  vertical-align: middle;
+  display: flex;
+  justify-content: center;
+}
+
 /*Ajustes de tela para todos os dispositivos*/
 
 @media (min-width:280px) {}
@@ -1027,7 +1095,18 @@ dialog {
 
 @media (min-width:481px)  {}
 
-@media (min-width:641px)  {}
+@media (max-width:641px)  {
+  .react-datepicker__time-container {
+    width: 19dvw;
+  }
+  
+  .react-datepicker__time {
+    justify-content: center;
+    align-items: center;
+    vertical-align: middle;
+    display: flex;
+  }
+}
 
 @media (min-width:961px)  {}
 

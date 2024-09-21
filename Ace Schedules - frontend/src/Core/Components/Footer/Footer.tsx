@@ -10,12 +10,16 @@ export const Footer = () => {
     const goToSecret = () => {
         navigate('/src/Routes/Secret/Projeto nêmesis/1 Player/Projeto nêmesis.html');
     }
+
+    const goToAdmin = () => {
+        navigate('/Usuarios')
+    }
     
     return (
         <div>
             <div className="painelir">
                 <h2 className="lg:!text-5xl">Administrar reservas</h2>
-                <button className="align-middle Btn-painelir lg:!text-xl">
+                <button className="align-middle Btn-painelir lg:!text-xl" onClick={goToAdmin}>
                     <span>Painel de administração</span>
                 </button>
             </div>

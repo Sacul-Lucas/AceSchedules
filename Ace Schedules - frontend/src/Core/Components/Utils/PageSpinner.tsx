@@ -11,7 +11,7 @@ export const PageSpinner: React.FC<PageSpinnerProps> = ({
 }) => {
     const [animationDuration, setAnimationDuration] = useState('');
     const startTimeRef = useRef<number>(0);
-    let delay: number = 0;
+    let loadingDelay: number = 0;
     const cssPath = 'src/Core/Css/Owned/Spinner.css'
     const [loaded, setLoaded] = useState(false);
 
@@ -51,16 +51,16 @@ export const PageSpinner: React.FC<PageSpinnerProps> = ({
     }, []);
 
     useEffect(() => {
-        if (!isLoading) {
+        if (isLoading) {
             const endTime = Date.now();
             const duration = (endTime - startTimeRef.current) / 1000;
             if (duration <= 1) {
-                delay = 495;
-                localStorage.setItem('delay', delay.toString());
+                loadingDelay = 495;
+                localStorage.setItem('loadingDelay', loadingDelay.toString());
                 setAnimationDuration('.5s');
             } else {
-                delay = endTime - startTimeRef.current;
-                localStorage.setItem('delay', delay.toString());
+                loadingDelay = endTime - startTimeRef.current;
+                localStorage.setItem('loadingDelay', loadingDelay.toString());
                 setAnimationDuration(`${duration}s`);
             }
         }
