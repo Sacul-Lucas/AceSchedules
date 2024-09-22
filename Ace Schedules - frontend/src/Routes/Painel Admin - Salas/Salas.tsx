@@ -245,7 +245,7 @@ export const Salas: React.FC = () => {
         );
     } else {
         <div>
-            Loading...
+            MEU PAUL...
         </div>
     }
 };
