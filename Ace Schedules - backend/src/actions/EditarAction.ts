@@ -1,7 +1,5 @@
 import mysql from 'mysql';
 import { Request, Response } from 'express';
-import { app } from '../server';
-import cors from 'cors';
 
 const pool = mysql.createPool({
     connectionLimit: 10,
@@ -12,8 +10,11 @@ const pool = mysql.createPool({
     port: 5500
 });
 
-// Transformar `pool.query` em uma função que retorna uma promise
-function queryDatabase(query: string, params: any[]) {
+interface QueryResult {
+    affectedRows: number;
+}
+
+function queryDatabase(query: string, params: any[]): Promise<QueryResult> {
     return new Promise((resolve, reject) => {
         pool.query(query, params, (error, results) => {
             if (error) {
@@ -26,108 +27,83 @@ function queryDatabase(query: string, params: any[]) {
 }
 
 export const EditarAction = async (req: Request, res: Response) => {
-    app.use(cors({
-        origin: 'http://localhost:5000',
-        credentials: true,
-        optionsSuccessStatus: 200
-    }));
-
     if (!req.body || !req.body.id) {
         return res.status(400).json({ success: false, message: 'Corpo da solicitação ou ID está vazio' });
     }
 
-    const currPath = req.route.path;
+    const { id, statusOnly, newStatus } = req.body; // Adicionando campo statusOnly
+    const currPath = req.originalUrl; 
     let reqRoute = '';
     let msgId = '';
     let updateFields = '';
     let dados: any[] = [];
-    const { id } = req.body; // ID necessário para atualizar o registro
 
     try {
-        if (currPath === '/Salas/EditarAction') {
-            reqRoute = 'salas';
-            msgId = 'Sala';
-            updateFields = 'caracteristicas = ?';
+        if (statusOnly && newStatus !== undefined) {
+            // Se statusOnly for true, apenas atualiza o status
+            reqRoute = currPath.includes('/Salas') ? 'salas' : 'reservas';
+            msgId = reqRoute === 'salas' ? 'Sala' : 'Reserva';
+            updateFields = 'status = ?';
+            dados = [newStatus, id];
+        } else {
+            // Lógica de edição normal
+            if (currPath.includes('/Salas')) {
+                reqRoute = 'salas';
+                msgId = 'Sala';
+                updateFields = 'caracteristicas = ?';
+                const { caracteristicas } = req.body;
+                if (!caracteristicas) {
+                    return res.json({ success: false, message: 'Campos obrigatórios faltando salas' });
+                }
+                dados = [caracteristicas, id];
 
-            const { caracteristicas } = req.body;
+            } else if (currPath.includes('/Reservas')) {
+                reqRoute = 'reservas';
+                msgId = 'Reserva';
+                updateFields = 'dataAgendamento = ?, horaAgendamento = ?, sala = ?';
+                const { salaAlocada: sala, dataAgendamento, horaAgendamento } = req.body;
+                if (!dataAgendamento || !horaAgendamento || !sala) {
+                    return res.json({ success: false, message: 'Campos obrigatórios faltando' });
+                }
+                dados = [dataAgendamento, horaAgendamento, sala, id];
 
-            if (!caracteristicas) {
-                return res.json({ success: false, message: 'Campos obrigatórios faltando' });
-            }
-
-            dados = [caracteristicas, id]; // Os valores a serem atualizados e o ID
-
-        } else if (currPath === '/Reservas/EditarAction') {
-            reqRoute = 'reservas';
-            msgId = 'Reserva';
-            updateFields = 'dataAgendamento = ?, horaAgendamento = ?, sala = ?, status = ?';
-
-            const { dataAgendamento, horaAgendamento, sala, status } = req.body;
-
-            if (!dataAgendamento || !horaAgendamento || !sala || !status) {
-                return res.json({ success: false, message: 'Campos obrigatórios faltando' });
-            }
-
-            dados = [dataAgendamento, horaAgendamento, sala, status, id];
-
-            // Verificar duplicação de reserva (exceto a atual)
-            const checkQuery = `
-                SELECT id FROM reservas 
-                WHERE dataAgendamento = ? AND horaAgendamento = ? AND sala = ? AND id != ?
-            `;
-            const rows: any = await queryDatabase(checkQuery, [dataAgendamento, horaAgendamento, sala, id]);
-
-            if (rows.length > 0) {
-                return res.json({ success: false, message: 'Horário já ocupado' });
-            }
-
-        } else { 
-            reqRoute = 'cadastro';
-            msgId = 'Usuário';
-            updateFields = 'usuario = ?, email = ?, senha = ?, usertype = ?, telefone = ?, cnpj = ?';
-
-            const { usuario, email, senha, usertype, telefone, cnpj } = req.body;
-
-            if (!usuario || !email || !senha || !usertype || !telefone || !cnpj) {
-                return res.json({ success: false, message: 'Campos obrigatórios faltando' });
-            }
-
-            dados = [usuario, email, senha, usertype, telefone, cnpj, id];
-
-            // Verificar duplicação de email, telefone ou CNPJ (exceto o atual)
-            const checkQuery = `
-                SELECT id, email, cnpj, telefone FROM cadastro 
-                WHERE (email = ? OR cnpj = ? OR telefone = ?) AND id != ?
-            `;
-            const rows: any = await queryDatabase(checkQuery, [email, cnpj, telefone, id]);
-
-            if (rows.length > 0) {
-                const existingUser = rows[0];
-
-                if (email === existingUser.email) {
-                    return res.json({ success: false, message: 'Email já cadastrado' });
+                const checkQuery = `
+                    SELECT id FROM reservas 
+                    WHERE dataAgendamento = ? AND horaAgendamento = ? AND sala = ? AND id != ?
+                `;
+                const rows: any = await queryDatabase(checkQuery, [dataAgendamento, horaAgendamento, sala, id]);
+                if (rows.length > 0) {
+                    return res.json({ success: false, message: 'Horário já ocupado' });
                 }
 
-                if (cnpj === existingUser.cnpj) {
-                    return res.json({ success: false, message: 'CNPJ já cadastrado' });
+            } else if (currPath.includes('/Usuarios')) { 
+                reqRoute = 'cadastro';
+                msgId = 'Usuário';
+                updateFields = 'usuario = ?, email = ?, senha = ?, usertype = ?, telefone = ?, cnpj = ?';
+                const { usuario, email, senha, usertype, telefone, cnpj } = req.body;
+                if (!usuario || !email || !senha || !usertype || !telefone || !cnpj) {
+                    return res.json({ success: false, message: 'Campos obrigatórios faltando users' });
                 }
-
-                if (telefone === existingUser.telefone) {
-                    return res.json({ success: false, message: 'Telefone já cadastrado' });
-                }
+                dados = [usuario, email, senha, usertype, telefone, cnpj, id];
+            } else {
+                return res.status(400).json({ success: false, message: 'Caminho inválido.' });
             }
         }
 
-        // Atualizar os dados na tabela correspondente
         const updateQuery = `
             UPDATE ${reqRoute} SET ${updateFields} WHERE id = ?
         `;
-        await queryDatabase(updateQuery, dados);
 
-        return res.json({ success: true, message: `${msgId} atualizado com sucesso` });
+        const result: QueryResult = await queryDatabase(updateQuery, dados);
+
+        if (result.affectedRows === 0) {
+            return res.json({ success: false, message: 'Nenhuma atualização feita. Verifique se o ID está correto.' });
+        }
+
+        return res.json({ success: true, message: `${msgId} atualizado/a com sucesso` });
 
     } catch (error) {
-        console.error(error);
+        console.error('Erro no servidor:', error);
         return res.status(500).json({ success: false, message: 'Erro no servidor' });
     }
 };

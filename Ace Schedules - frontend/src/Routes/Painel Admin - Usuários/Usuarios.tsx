@@ -151,13 +151,18 @@ export const Usuarios: React.FC = () => {
             <div>
                 <div>
                     <AdminPopups
-                         idModal={editMode ? 'Editmodal' : viewMode ? 'Viewmodal' : 'Addmodal'}
-                         formLabel={editMode ? 'Editar usuário' : viewMode ? 'Visualizar usuário' : 'Criar usuário'}
-                         show={show}
-                         handleClose={handleClose}
-                         selectedUser={selectedUser}
-                         onSave={actionSave}
-                    />
+                        idModal={editMode ? 'Editmodal' : viewMode ? 'Viewmodal' : 'Addmodal'}
+                        formLabel={editMode ? 'Editar usuário' : viewMode ? 'Visualizar usuário' : 'Criar usuário'}
+                        show={show}
+                        handleClose={handleClose}
+                        selectedUser={selectedUser}
+                        selectedReserva={null}
+                        onSave={actionSave} 
+                        salaAlocada={''} 
+                        setSalaAlocada={function (value: React.SetStateAction<string>): void {
+                            throw new Error("Function not implemented.");
+                        } }                    
+                        />
                 </div>
     
                 <div className="container mt-4">
@@ -215,7 +220,6 @@ export const Usuarios: React.FC = () => {
                                                 <th>ID</th>
                                                 <th>Usuário</th>
                                                 <th>Email</th>
-                                                <th>Senha</th>
                                                 <th>Tipo de Usuário</th>
                                                 <th>Ações</th>
                                             </tr>
@@ -226,12 +230,11 @@ export const Usuarios: React.FC = () => {
                                                     <td>{usuario.id}</td>
                                                     <td>{usuario.usuario}</td>
                                                     <td>{usuario.email}</td>
-                                                    <td>{usuario.senha}</td>
                                                     <td>{usuario.usertype}</td>
                                                     <td>
-                                                        <button type='button' data-id={usuario.id} className='mx-1 viewBtn btn btn-info btn-sm' onClick={() => handleView(usuario.id)}>View</button>
-                                                        <button type='button' data-id={usuario.id} className='mx-1 editBtn btn btn-success btn-sm' onClick={() => handleEdit(usuario.id)}>Edit</button>
-                                                        <button type='button' data-id={usuario.id} className='mx-1 deleteBtn btn btn-danger btn-sm' onClick={() => actionDelete(usuario.id)} >Delete</button>
+                                                        <button type='button' data-id={usuario.id} className='mx-1 viewBtn btn btn-info btn-sm' onClick={() => handleView(usuario.id)}>Visualizar</button>
+                                                        <button type='button' data-id={usuario.id} className='mx-1 editBtn btn btn-success btn-sm' onClick={() => handleEdit(usuario.id)}>Editar</button>
+                                                        <button type='button' data-id={usuario.id} className='mx-1 deleteBtn btn btn-danger btn-sm' onClick={() => actionDelete(usuario.id)} >Deletar</button>
                                                     </td>
                                                 </tr>
                                             )):<tr><td colSpan={6}>Nenhum usuario encontrado.</td></tr>}

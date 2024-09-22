@@ -37,7 +37,7 @@ export const CriarAction = async (req: Request, res: Response) => {
         return res.status(400).json({ success: false, message: 'Corpo da solicitação está vazio' });
     }
 
-    const currPath = req.route.path;
+    const currPath = req.originalUrl;
     let reqRoute = '';
     let msgId = '';
     let varsAction = '';
@@ -45,7 +45,7 @@ export const CriarAction = async (req: Request, res: Response) => {
     let dados: any[] = [];
 
     try {
-        if (currPath === '/Salas/CriarAction') {
+        if (currPath.includes('/Salas')) {
             reqRoute = 'salas';
             msgId = 'Sala';
             varsAction = '(caracteristicas)';
@@ -59,19 +59,19 @@ export const CriarAction = async (req: Request, res: Response) => {
 
             dados = [caracteristicas];
 
-        } else if (currPath === '/Reservas/CriarAction') {
+        } else if (currPath.includes('/Reservas')) {
             reqRoute = 'reservas';
             msgId = 'Reserva';
-            varsAction = '(dataAgendamento, horaAgendamento, sala, usuario, status)';
-            valuesAction = '(?, ?, ?, 1 , true)';
+            varsAction = '(dataAgendamento, horaAgendamento, sala, status)';
+            valuesAction = '(?, ?, ?, true)';
 
-            const { dataAgendamento, horaAgendamento, sala, status } = req.body;
+            const { salaAlocada: sala, dataAgendamento, horaAgendamento } = req.body;
 
-            if (!dataAgendamento || !horaAgendamento || !sala || !status) {
-                return res.json({ success: false, message: 'Campos obrigatórios faltando' });
+            if (!dataAgendamento || !horaAgendamento  || !sala) {
+                return res.json({ success: false, message: 'Campos obrigatórios reservas faltando' });
             }
 
-            dados = [dataAgendamento, horaAgendamento, sala, status];
+            dados = [dataAgendamento, horaAgendamento, sala];
 
             // Verificar duplicação de reserva
             const checkQuery = `
@@ -84,7 +84,7 @@ export const CriarAction = async (req: Request, res: Response) => {
                 return res.json({ success: false, message: 'Horário já ocupado' });
             }
 
-        } else { 
+        } else if (currPath.includes('/Usuarios')) { 
             reqRoute = 'cadastro';
             msgId = 'Usuário';
             varsAction = '(usuario, email, senha, usertype, telefone, cnpj)';
@@ -120,7 +120,9 @@ export const CriarAction = async (req: Request, res: Response) => {
                     return res.json({ success: false, message: 'Telefone já cadastrado' });
                 }
             }
-        }
+        } else {
+        res.status(400).json({ success: false, message: 'Caminho inválido.' });
+      }
 
         // Inserir os dados na tabela correspondente
         const insertQuery = `
@@ -128,7 +130,7 @@ export const CriarAction = async (req: Request, res: Response) => {
         `;
         await queryDatabase(insertQuery, dados);
 
-        return res.json({ success: true, message: `${msgId} cadastrado com sucesso` });
+        return res.json({ success: true, message: `${msgId} cadastrado/a com sucesso` });
 
     } catch (error) {
         console.error(error);

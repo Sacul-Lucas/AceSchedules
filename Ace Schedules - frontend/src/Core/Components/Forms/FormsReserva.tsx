@@ -1,86 +1,152 @@
-interface FormsReservaProps {
-    formVER: boolean;
-    formID: string;
-    idSala: string;
-    idData: string;
-    idHora: string;
-    edit: boolean;
+import React, { FormEventHandler, useEffect, useState } from 'react';
 
+// Interface para o tipo de sala
+interface Sala {
+  id: string;
+  nome: string;
 }
 
-export const FormsReserva: React.FC<FormsReservaProps> = ({ 
-        formVER,
-        formID,
-        idSala,
-        idData,
-        idHora,
-        edit,
+export interface Reserva {
+  id: number; 
+  data: string;
+  hora: string;
+  idSalaAlocada: number
+  salaAlocada: string;
+  locador: string;
+  emailLocador: string;
+  contatoLocador: string;
+  cnpjLocador: string;
+  status: boolean;
+}
 
-  
+interface FormsReservaProps {
+  selectvalue: string;
+  selectedReserva: Reserva | null;
+  formVER: boolean;
+  formID: string;
+  idSalaAlocada: string;
+  idData: string;
+  idHora: string;
+  edit: boolean;
+  salaAction?: FormEventHandler<HTMLLabelElement> | undefined | any;
+}
+
+export const FormsReserva: React.FC<FormsReservaProps> = ({
+  selectvalue,
+  selectedReserva,
+  formVER,
+  formID,
+  idSalaAlocada,
+  idData,
+  idHora,
+  salaAction,
 }) => {
-return (
-<div>
-{formVER === true ? 
-        <form id={formID} method="POST">
-            <div className="modal-body">
+    console.log(selectvalue)
 
-                <div id="errorMessageUpdate" className="alert alert-warning d-none"></div>
+    const formatDate = (dateString: string) => {
+        const [year, month, day] = dateString.split('-');
+        return `${day}/${month}/${year}`;
+    };
 
-                {edit === true ? 
-                    <input type="hidden" name="id" id="id"/>
-                :<div/>}
+  // Estado para armazenar as salas
+  const [salas, setSalas] = useState<Sala[]>([]);
 
-                <div className="mb-3">
-                    <label>Sala alocada</label>
-                    <select name="sala" id={idSala} className="form-control">
-                        {/* <!-- Opções serão preenchidas pelo JavaScript --> */}
-                    </select>
-                </div>
-                <div className="mb-3">
-                    <label>Data do agendamento</label>
-                    <input id={idData} type="date" name="data" className="form-control"/>
-                </div>
-                <div className="mb-3">
-                    <label>Horário do agendamento</label>
-                    <input id={idHora} type="time" name="hora" className="form-control"/>
-                </div>
-            </div>
-        </form>
-        : 
-        // Visualizar
+  useEffect(() => {
+    // Função para buscar as salas da API
+    const fetchSalas = async () => {
+      try {
+        const response = await fetch('/api/adminPaths/Salas'); // Ajuste a rota da API conforme necessário
+        const data = await response.json();
+
+        // Verifica se data.salas é um array antes de definir o estado
+        if (data && Array.isArray(data.salas)) {
+          setSalas(data.salas);
+        } else {
+          console.error('Erro: Salas não são um array', data);
+        }
+      } catch (error) {
+        console.error('Erro ao buscar as salas:', error);
+      }
+    };
+
+    fetchSalas();
+  }, []); // O array vazio faz com que o efeito seja executado apenas uma vez ao carregar o componente
+
+  return (
+    <div>
+      {formVER === false ? (
         <div>
-            <div className="modal-body">
+          <div className="modal-body">
             <div className="mb-3">
-                <label>Nome da sala alocada</label>
-                <p id="view_nome" className="form-control"></p>
-            </div>
-            <div className="mb-3">
-                <label>Data</label>
-                <p id="view_data" className="form-control"></p>
+              <label>Nome da sala alocada</label>
+              <p id="view_nome" className="form-control">{selectedReserva?.salaAlocada}</p>
             </div>
             <div className="mb-3">
-                <label>Horario</label>
-                <p id="view_hora" className="form-control"></p>
+            <label>Data da reserva</label>
+            <p id="view_data" className="form-control">
+                {selectedReserva ? formatDate(selectedReserva.data) : ''}
+            </p>
             </div>
             <div className="mb-3">
-                <label>Locador da sala</label>
-                <p id="view_locador" className="form-control"></p>
+              <label>Horário da reserva</label>
+              <p id="view_hora" className="form-control">{selectedReserva?.hora}</p>
             </div>
             <div className="mb-3">
-                <label>Email do locador</label>
-                <p id="view_email" className="form-control"></p>
+              <label>Locador da sala</label>
+              <p id="view_locador" className="form-control">{selectedReserva?.locador}</p>
             </div>
             <div className="mb-3">
-                <label>Contato do locador</label>
-                <p id="view_contato" className="form-control"></p>
+              <label>Email do locador</label>
+              <p id="view_email" className="form-control">{selectedReserva?.emailLocador}</p>
             </div>
             <div className="mb-3">
-                <label>CNPJ do locador</label>
-                <p id="view_cnpj" className="form-control"></p>
+              <label>Contato do locador</label>
+              <p id="view_contato" className="form-control">{selectedReserva?.contatoLocador}</p>
             </div>
+            <div className="mb-3">
+              <label>CNPJ do locador</label>
+              <p id="view_cnpj" className="form-control">{selectedReserva?.cnpjLocador}</p>
             </div>
-            <div className="modal-footer">
+          </div>
+        </div>
+      ) : (
+        <form id={formID} method="POST">
+          <div className="modal-body">
+            <div className="mb-3">
+            <label htmlFor={idSalaAlocada}>Sala Alocada</label>
+            <select className="form-control" id={idSalaAlocada} onChange={salaAction} defaultValue={selectvalue}>
+            {selectvalue ?  <option>{selectvalue}</option>: <option value="" disabled>Selecione uma sala</option>}
+            {salas.map((sala) => (
+                <option key={`${sala.id}-${sala.nome}`} value={sala.id}>
+                {sala.nome}
+                </option>
+            ))}
+            </select>
+            
             </div>
-        </div>}            
-</div>
-)};
+            <div className="mb-3">
+              <label>Data do agendamento</label>
+              <input
+                id={idData}
+                type="date"
+                name="data"
+                className="form-control"
+                defaultValue={selectedReserva?.data}
+              />
+            </div>
+            <div className="mb-3">
+              <label>Horário do agendamento</label>
+              <input
+                id={idHora}
+                type="time"
+                name="hora"
+                className="form-control"
+                defaultValue={selectedReserva?.hora}
+              />
+            </div>
+          </div>
+        </form>
+      )}
+    </div>
+  );
+};
