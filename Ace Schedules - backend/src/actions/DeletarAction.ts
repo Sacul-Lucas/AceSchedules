@@ -1,6 +1,8 @@
 import mysql from 'mysql';
 import { Request, Response } from 'express';
 
+
+
 const pool = mysql.createPool({
     connectionLimit: 10,
     host: 'localhost',
@@ -9,60 +11,6 @@ const pool = mysql.createPool({
     database: 'aceschedules',
     port: 5500
 });
-
-// export const DeletarAction = (req: Request, res: Response) => {
-//     app.use(cors({
-//         origin: 'http://localhost:5000',
-//         credentials: true,
-//         optionsSuccessStatus: 200
-//     }));
-
-//     if (!req.body) {
-//         return res.status(400).json({ success: false, message: 'Corpo da solicitação está vazio' });
-//     }
-
-//     //INSTAVEL - Talvez precise mudar o req.route
-//     const currPath = req.route;
-//     let reqRoute = '';
-//     let msgId = '';
-
-//     if (currPath === '/Salas/DeletarAction') {
-//         reqRoute = 'salas'
-//         msgId = 'Sala'
-//     }else if (currPath === '/Reservas/DeletarAction'){
-//         reqRoute = 'reservas'
-//         msgId = 'Reserva'
-//     }else{
-//         reqRoute = 'cadastro'
-//         msgId = 'Usuário'
-//     }
-
-//     const { id } = req.body;
-
-//     const query = `DELETE FROM ${reqRoute} WHERE id=?`;
-//     const values = [id];
-
-//     pool.query(query, values, (error, results) => {
-//         if (error) {
-//             console.log(error);
-//             return res.status(500).json({ success: false, message: 'Erro no servidor' });
-//         }
-
-//         if (!id) {
-//             return res.json({ success: false, message: `${msgId} não foi encontrado/a` });
-//         }
-
-//         if (results.length > 0) {
-//             const reserva = results[0];
-
-//             if (id === reserva.id) {
-//                 return res.json({ success: true, message: `${msgId} deletado/a com successo!` });
-//             }
-//         } else {
-//             return res.json({ success: false, message: `Falha ao deletar ${msgId}` });
-//         }
-//     });
-// };
 
 export const DeletarAction = (req: Request, res: Response) => {
     const { id } = req.body;  // Verifica se o id está vindo do corpo da requisição
@@ -75,14 +23,14 @@ export const DeletarAction = (req: Request, res: Response) => {
     let reqRoute = '';
     let msgId = '';
 
-    if (currPath.includes('/Salas/Deletar')) {
+    if (currPath.includes('/Salas')) {
         reqRoute = 'salas';
         msgId = 'Sala';
-    } else if (currPath.includes('/Reservas/Deletar')) {
+    } else if (currPath.includes('/Reservas')) {
         reqRoute = 'reservas';
         msgId = 'Reserva';
-    } else if (currPath.includes('/Usuarios/Deletar')) {
-        reqRoute = 'cadastro';  // Assumindo que a tabela de usuários se chama "cadastro"
+    } else if (currPath.includes('/Usuarios')) {
+        reqRoute = 'cadastro'; 
         msgId = 'Usuário';
     } else {
         return res.status(400).json({ success: false, message: 'Caminho de deleção inválido.' });

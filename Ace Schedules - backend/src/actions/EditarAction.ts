@@ -1,8 +1,5 @@
 import mysql from 'mysql';
 import { Request, Response } from 'express';
-import { app } from '../server';
-import cors from 'cors';
-
 
 const pool = mysql.createPool({
     connectionLimit: 10,
@@ -13,61 +10,103 @@ const pool = mysql.createPool({
     port: 5500
 });
 
-export const EditarAction = (req: Request, res: Response) => {
-    app.use(cors({
-        origin: 'http://localhost:5000',
-        credentials: true,
-        optionsSuccessStatus: 200
-    }));
+interface QueryResult {
+    affectedRows: number;
+}
 
-    if (!req.body) {
-        return res.status(400).json({ success: false, message: 'Corpo da solicitação está vazio' });
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function queryDatabase(query: string, params: any[]): Promise<QueryResult> {
+    return new Promise((resolve, reject) => {
+        pool.query(query, params, (error, results) => {
+            if (error) {
+                reject(error);
+            } else {
+                resolve(results);
+            }
+        });
+    });
+}
+
+export const EditarAction = async (req: Request, res: Response) => {
+    if (!req.body || !req.body.id) {
+        return res.status(400).json({ success: false, message: 'Corpo da solicitação ou ID está vazio' });
     }
 
-    //INSTAVEL - Talvez precise mudar o req.route
-    const currPath = req.route;
+    const { id, statusOnly, newStatus } = req.body; // Adicionando campo statusOnly
+    const currPath = req.originalUrl; 
     let reqRoute = '';
     let msgId = '';
-    const varsAction = '';
+    let updateFields = '';
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    let dados: any[] = [];
 
-    if (currPath === '/Salas/EditarAction') {
-        reqRoute = 'salas'
-        msgId = 'Sala'
-        // varsAction = 'caracteristicas='$caracteristicas''
-       
-    }else if (currPath === '/Reservas/EditarAction'){
-        reqRoute = 'reservas'
-        msgId = 'Reserva'
-        // varsAction = 'dataAgendamento='$dataAgendamento', horaAgendamento='$horaAgendamento', sala='$sala_nome''
-    }else{
-        reqRoute = 'cadastro'
-        msgId = 'Usuário'
-        // varsAction = 'usuario='$usuario', email='$email', senha='$senha', usertype='$usertype', telefone='$telefone', cnpj='$cnpj''
-    }
-
-    const { id } = req.body;
-    
-    const query = `UPDATE ${reqRoute} SET ${varsAction},'WHERE id=?`;
-    const values = [id];
-
-    pool.query(query, values, (error, results) => {
-        if (error) {
-            console.log(error);
-            return res.status(500).json({ success: false, message: 'Erro no servidor' });
-        }
-
-        if (!id) {
-            return res.json({ success: false, message: `${msgId} não foi encontrado/a` });
-        }
-
-        if (results.length > 0) {
-            const reserva = results[0];
-
-            if (id === reserva.id) {
-                return res.json({ success: true, message: `${msgId} deletado/a com successo!` });
-            }
+    try {
+        if (statusOnly && newStatus !== undefined) {
+            // Se statusOnly for true, apenas atualiza o status
+            reqRoute = currPath.includes('/Salas') ? 'salas' : 'reservas';
+            msgId = reqRoute === 'salas' ? 'Sala' : 'Reserva';
+            updateFields = 'status = ?';
+            dados = [newStatus, id];
         } else {
-            return res.json({ success: false, message: `Falha ao deletar ${msgId}` });
+            // Lógica de edição normal
+            if (currPath.includes('/Salas')) {
+                reqRoute = 'salas';
+                msgId = 'Sala';
+                updateFields = 'caracteristicas = ?';
+                const { caracteristicas } = req.body;
+                if (!caracteristicas) {
+                    return res.json({ success: false, message: 'Campos obrigatórios faltando salas' });
+                }
+                dados = [caracteristicas, id];
+
+            } else if (currPath.includes('/Reservas')) {
+                reqRoute = 'reservas';
+                msgId = 'Reserva';
+                updateFields = 'dataAgendamentoInicial = ?, dataAgendamentoFinal = ?, sala = ?';
+                const { salaAlocada: sala, dataAgendamentoInicial, dataAgendamentoFinal } = req.body;
+                if (!dataAgendamentoInicial || !dataAgendamentoFinal || !sala) {
+                    return res.json({ success: false, message: 'Campos obrigatórios faltando' });
+                }
+                dados = [dataAgendamentoInicial, dataAgendamentoFinal, sala, id];
+
+                const checkQuery = `
+                    SELECT id FROM reservas 
+                    WHERE dataAgendamentoInicial = ? AND dataAgendamentoFinal = ? AND sala = ? AND id != ?
+                `;
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                const rows: any = await queryDatabase(checkQuery, [dataAgendamentoInicial, dataAgendamentoFinal, sala, id]);
+                if (rows.length > 0) {
+                    return res.json({ success: false, message: 'Horário já ocupado' });
+                }
+
+            } else if (currPath.includes('/Usuarios')) { 
+                reqRoute = 'cadastro';
+                msgId = 'Usuário';
+                updateFields = 'usuario = ?, email = ?, senha = ?, usertype = ?, telefone = ?, cnpj = ?';
+                const { usuario, email, senha, usertype, telefone, cnpj } = req.body;
+                if (!usuario || !email || !senha || !usertype || !telefone || !cnpj) {
+                    return res.json({ success: false, message: 'Campos obrigatórios faltando users' });
+                }
+                dados = [usuario, email, senha, usertype, telefone, cnpj, id];
+            } else {
+                return res.status(400).json({ success: false, message: 'Caminho inválido.' });
+            }
         }
-    });
+
+        const updateQuery = `
+            UPDATE ${reqRoute} SET ${updateFields} WHERE id = ?
+        `;
+
+        const result: QueryResult = await queryDatabase(updateQuery, dados);
+
+        if (result.affectedRows === 0) {
+            return res.json({ success: false, message: 'Nenhuma atualização feita. Verifique se o ID está correto.' });
+        }
+
+        return res.json({ success: true, message: `${msgId} atualizado/a com sucesso` });
+
+    } catch (error) {
+        console.error('Erro no servidor:', error);
+        return res.status(500).json({ success: false, message: 'Erro no servidor' });
+    }
 };

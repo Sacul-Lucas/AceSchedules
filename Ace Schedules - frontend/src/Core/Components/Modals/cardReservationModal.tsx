@@ -3,6 +3,8 @@ import DatePicker from "react-datepicker";
 import { ptBR } from 'date-fns/locale';
 import { startOfMonth, endOfMonth, isWithinInterval, addHours } from 'date-fns';
 import "react-datepicker/dist/react-datepicker.css";
+import { CreateReservationAction } from "../../Actions/CreateReservationAction";
+import { handleAlert, ResponsePopup } from "../Pop-ups/ResponsePopup";
 
 interface CardReservationModalProps {
     onClose: () => void;
@@ -17,6 +19,8 @@ export const CardReservationModal: React.FC<CardReservationModalProps> = ({
     const [endDate, setEndDate] = useState<Date | null>(null);
     const [currentMonth, setCurrentMonth] = useState<Date>(new Date());
     const [showStartPicker, setShowStartPicker] = useState<boolean>(true);
+    const [error, setError] = useState('');
+    const [success, setSuccess] = useState('');
 
     const isDateWithinMonth = (date: Date) => {
         const monthStart = startOfMonth(currentMonth);
@@ -41,7 +45,43 @@ export const CardReservationModal: React.FC<CardReservationModalProps> = ({
         };
     }, [onClose]);
 
-    const handleConfirm = () => {
+    const handleConfirm = async (e: { preventDefault: () => void; }) => {
+ 
+        e.preventDefault();
+
+        const reservationRes = await CreateReservationAction.execute({
+            startDate,
+            endDate
+        })
+
+        const message = reservationRes.data
+
+        switch (reservationRes.status) {
+            case 'SUCCESS':
+                setSuccess(message);
+                setError('');
+              break;
+      
+            case 'RESERVATION_ALREADY_EXISTS':
+                setError(message);
+                setSuccess('');
+              break;
+      
+            case 'UNKNOWN':
+                setError(message);
+                setSuccess('');
+              break;
+      
+            default:
+              setError('Não foi possível realizar uma reserva no momento. Tente novamente mais tarde.');
+              setSuccess('');
+              break;
+        }
+
+        setTimeout(() => {
+            handleAlert();
+        }, 50)
+        
         if (startDate && endDate) {
             alert(`Reserva feita de ${startDate.toLocaleString()} até ${endDate.toLocaleString()}`);
         } else {
@@ -97,8 +137,8 @@ export const CardReservationModal: React.FC<CardReservationModalProps> = ({
 
     return (
         <dialog ref={reservationRef} id="modal">
-            <div className="modal-container">
-                <div className="flex flex-col items-center justify-center align-middle lg:!w-[30dvw] lg:!p-[2rem_3rem] modal">
+            <div className="card-modal-container">
+                <div className="flex flex-col items-center justify-center align-middle lg:!w-[30dvw] lg:!p-[2rem_3rem] card-modal">
                     <div className="mb-4">
                         <h1 className="lg:!text-[2rem]">Selecione uma data e horário</h1>
                     </div>
@@ -164,12 +204,19 @@ export const CardReservationModal: React.FC<CardReservationModalProps> = ({
                             )}
                         </div>
                     </div>
-                    <div className='flex flex-row items-center justify-center w-full gap-8 mt-4 align-middle'>
+                    <div className='flex flex-row items-center justify-center w-full gap-5 mt-4 align-middle'>
                         <button id="close" className='lg:!text-[0.7rem]' onClick={onClose}>Cancelar</button>
                         <button id="reserva" className='lg:!text-[0.7rem]' onClick={handleConfirm}>Confirmar</button>
                     </div>
                 </div>
             </div>
+
+            <ResponsePopup 
+                type={error ? 'error' : 'success'} 
+                redirectLink={error ? '/Painel' : '/Painel'}
+                title={error ? 'Erro' : 'Pronto!'} 
+                description={error || success} 
+            />
         </dialog>
     );
 };

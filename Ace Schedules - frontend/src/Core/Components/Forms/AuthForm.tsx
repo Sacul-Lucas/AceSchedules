@@ -36,7 +36,7 @@ export const AuthForm: React.FC<AuthFormProps> = ({
                 >
                 <div className="sticky top-0 z-auto w-full h-full">
                     <h2 className="Auth-title lg:!text-5xl sm:!text-5xl">{formId}</h2>
-                    <div className="mx-8 lg:mx-11">
+                    <div className="mx-8 lg:!mx-11">
                         {formId === 'Cadastro' ? 
                             <div>
                                 <label htmlFor="usuario">Empresa/Usuário</label>
@@ -121,10 +121,10 @@ export const AuthForm: React.FC<AuthFormProps> = ({
                         
                         
                         {formId === 'Login' ?
-                                <div className="pt-6 forget">
+                                <div className="pt-2 forget">
                                     <span >Ainda não é cadastrado? <Link to="/">Cadastre-se</Link></span>
                                 </div>
-                        :       <div className="pt-4 forget">
+                        :       <div className="pt-2 forget">
                                     <span >Já é cadastrado? <Link to="/Login">Entrar agora</Link></span>
                                 </div>}
                         

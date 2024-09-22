@@ -1,4 +1,15 @@
+export interface Sala {
+    id: number;
+    usuario: string;
+    email: string;
+    senha: string;
+    telefone: string;
+    cnpj: string;
+    usertype: string;
+}
+
 interface FormsSalasProps {
+    selectedSala?: Sala | null;
     formVER: boolean;
     formID: string;
     idName: string;
@@ -9,15 +20,14 @@ interface FormsSalasProps {
 }
 
 export const FormsSalas: React.FC<FormsSalasProps> = ({ 
-        formVER,
-        formID,
-        idName,
-        idIMG,
-        idCaract,
-        edit,
-        block,
+    formVER,
+    formID,
+    idName,
+    idIMG,
+    idCaract,
+    edit,
+    block,
 
-  
 }) => {
 return (
 <div>
@@ -62,7 +72,6 @@ return (
             </div>
         </form>
         : 
-        // Visualizar
         <div className="modal-body">
             <div className="mb-3">
                 <label htmlFor="">Nome</label>
@@ -79,5 +88,3 @@ return (
         </div>}            
 </div>
 )};
-
-                    

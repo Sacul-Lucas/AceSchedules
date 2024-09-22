@@ -1,4 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;1,100&family=Wix+Madefor+Text&display=swap');
+@import 'primereact/resources/primereact.css';
+@import 'primereact/resources/themes/lara-light-indigo/theme.css';
+@import 'primeicons/primeicons.css';
+@import 'primeflex/primeflex.css';
 
 /*Estilização do corpo do site*/
 
@@ -9,8 +13,8 @@
 }
 
 html {
-  scroll-behavior: smooth;
-  scrollbar-width: thin;
+  scroll-behavior: smooth !important;
+  scrollbar-width: thin !important;
 }
 
 body {
@@ -52,6 +56,18 @@ body {
   animation: 1s anim-lineDown2 ease-in;
   vertical-align: middle;
   margin: 0 !important;
+}
+
+.subbarLinks {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  vertical-align: middle;
+  height: auto;
+  margin-right: 0.85rem;
+  margin-left: auto;
+  gap: 1.5rem;
 }
 
 /*Logos da ETPC*/
@@ -509,7 +525,7 @@ dialog {
 
 /*Pop-ups da reserva*/
 
-.modal-container {
+.card-modal-container {
   background-color: rgba(0, 0, 0, 0.25);
   position: fixed;
   display: flex;
@@ -522,7 +538,7 @@ dialog {
   animation: .4s showUp ease-in-out;
 }
 
-.modal {
+.card-modal {
   background-color: whitesmoke;
   border-radius: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
@@ -535,7 +551,7 @@ dialog {
   animation: .8s showUp ease-in-out;
 }
 
-.modal h1 {
+.card-modal h1 {
   margin: 0;
   padding: 0;
   font-size: 1.25rem;
@@ -543,7 +559,7 @@ dialog {
   font-weight: 600;
 }
 
-.modal p {
+.card-modal p {
   font-size: 0.5rem;
   color: #1c1c31;
   margin: 0 !important;
@@ -554,16 +570,16 @@ dialog {
   font-size: 0.5rem;
 }
 
-.modal li {
+.card-modal li {
   margin-top: 5px;
   font-weight: 500;
 }
 
-.modal ul {
+.card-modal ul {
   list-style-type: disc;
 }
 
-.modal-container button {
+.card-modal-container button {
   width: 35%;
   color: #292944;
   /* font-size: 1vw; */
@@ -1086,6 +1102,7 @@ dialog {
   display: flex;
   justify-content: center;
 }
+
 
 /*Ajustes de tela para todos os dispositivos*/
 

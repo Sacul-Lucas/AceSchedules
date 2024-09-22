@@ -27,17 +27,15 @@ export const Cadastro = (req: Request, res: Response) => {
 
     const { usuario, email, senha, usertype, telefone, cnpj } = req.body;
 
-    // Verificar se todos os campos obrigatórios foram preenchidos
     if (!usuario || !email || !senha || !usertype || !telefone || !cnpj) {
         return res.json({ success: false, message: 'Campos obrigatórios faltando' });
     }
 
-    // Consulta para verificar se algum dos dados já existe
     const checkQuery = `
         SELECT COUNT(*) AS total FROM cadastro 
-        WHERE email = ? OR cnpj = ? OR telefone = ?
+        WHERE usuario = ? OR email = ? OR cnpj = ? OR telefone = ?
     `;
-    const checkValues = [email, cnpj, telefone];
+    const checkValues = [usuario, email, cnpj, telefone];
 
     pool.query(checkQuery, checkValues, (error, results) => {
         if (error) {
@@ -49,16 +47,20 @@ export const Cadastro = (req: Request, res: Response) => {
 
         if (total > 0) {
             const checkDetailsQuery = `
-                SELECT email, cnpj, telefone FROM cadastro 
-                WHERE email = ? OR cnpj = ? OR telefone = ?
+                SELECT usuario, email, cnpj, telefone FROM cadastro 
+                WHERE usuario = ? OR email = ? OR cnpj = ? OR telefone = ?
             `;
-            pool.query(checkDetailsQuery, [email, cnpj, telefone], (error, rows) => {
+            pool.query(checkDetailsQuery, [usuario, email, cnpj, telefone], (error, rows) => {
                 if (error) {
                     console.error(error);
                     return res.status(500).json({ success: false, message: 'Erro no servidor' });
                 }
 
                 const existingUser = rows[0];
+
+                if (usuario === existingUser.usuario) {
+                    return res.json({ success: false, message: 'Nome de usuário já cadastrado' });
+                }
 
                 if (email === existingUser.email) {
                     return res.json({ success: false, message: 'Email já cadastrado' });
@@ -73,7 +75,6 @@ export const Cadastro = (req: Request, res: Response) => {
                 }
             });
         } else {
-            // Verificação de telefone e CNPJ
             const isPhoneValid = (value: string) => {
                 const regex = /^\+\d{2} \(\d{2}\) \d{5}-\d{4}$/;
                 return regex.test(value);
@@ -96,14 +97,12 @@ export const Cadastro = (req: Request, res: Response) => {
                 return res.json({ success: false, message: 'Campos incompletos' }); 
             }
 
-            // Criptografar a senha
             bcrypt.hash(senha, 10, (err, hashedPassword) => {
                 if (err) {
                     console.error(err);
                     return res.status(500).json({ success: false, message: 'Erro na criptografia da senha' });
                 }
 
-                // Inserir novo usuário
                 const insertQuery = `
                     INSERT INTO cadastro (usuario, email, senha, usertype, telefone, cnpj) 
                     VALUES (?, ?, ?, ?, ?, ?)

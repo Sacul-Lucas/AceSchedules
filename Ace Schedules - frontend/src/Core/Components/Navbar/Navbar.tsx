@@ -3,8 +3,13 @@ import { FaInstagram } from "react-icons/fa6";
 import { FaLinkedin } from "react-icons/fa6";
 import { FaGithub } from "react-icons/fa6";
 
-export const Navbar = () => {
+interface NavSidebarProps {
+    showSidebar: () => void,
+}
 
+export const Navbar: React.FC<NavSidebarProps> = ({ 
+    showSidebar
+}) => {
     const navigate = useNavigate();
 
     const goToETPC = () => {
@@ -27,7 +32,7 @@ export const Navbar = () => {
                         <form id="logoutform" action="logout.php" method="GET"></form>
                     </div>
 
-                    <div className="container1 lg:!ml-8">
+                    <div className="container1 lg:!ml-8" onClick={showSidebar}>
                         <div className="bar1 lg:!w-[2.5vw] lg:!min-h-[0.6dvh]"></div>
                         <div className="bar2 lg:!w-[2.5vw] lg:!min-h-[0.6dvh]"></div>
                         <div className="bar3 lg:!w-[2.5vw] lg:!min-h-[0.6dvh]"></div>
@@ -35,7 +40,7 @@ export const Navbar = () => {
         
                     <a href="https://etpc.com.br/" className="absolute"><img src="src/assets/img/logo.png" className="logo2 lg:!w-[7vw]" title="etpcBlueLogo"/></a>
         
-                    <div className="flex flex-row h-auto gap-6 mr-[0.85rem] lg:!gap-16 lg:!mr-4 ml-auto items-center justify-center subbarLinks">
+                    <div className="lg:!gap-16 lg:!mr-4 subbarLinks">
                         <p className="lg:!text-[1vw] lg:!h-auto">QUEM SOMOS</p>
         
                         <ul className="barSocial lg:!gap-2 lg:!text-[2.3vw]">

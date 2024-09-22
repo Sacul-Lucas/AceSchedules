@@ -61,7 +61,7 @@ export const Card: React.FC<PanelCardProps> = ({
                 <CardModal 
                     cardCaracterísticas={características} 
                     cardTitle={title}
-                    onClose={closeModal} // Passa a função de fechar como prop
+                    onClose={closeModal}
                 />
             )}
         </div>

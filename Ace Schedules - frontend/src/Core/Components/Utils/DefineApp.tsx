@@ -6,7 +6,7 @@ interface DefineAppProps {
     cssPath: string;
     appTitle: string;
     appIcon: string;
-    isCssDiff?: boolean;
+    isCssEquiv?: boolean;
     children: ReactNode;
 }
 
@@ -14,7 +14,7 @@ export const DefineApp: React.FC<DefineAppProps> = ({
     cssPath,
     appTitle,
     appIcon,
-    isCssDiff,
+    isCssEquiv = false,
     children,
 }) => {
     const [loaded, setLoaded] = useState(false);
@@ -29,7 +29,7 @@ export const DefineApp: React.FC<DefineAppProps> = ({
         const load = async () => {
             if (currentCssPath && currentCssPath !== cssPath) {
                 removeStyle(currentCssPath);
-            } else if (!loaded && !loadingError && !isCssDiff) {
+            } else if (!loaded && !loadingError && !isCssEquiv) {
                 removeStyle(cssPath);
             }
 
@@ -43,7 +43,7 @@ export const DefineApp: React.FC<DefineAppProps> = ({
                 }
 
                 if (isMounted) {
-                    if (isCssDiff && showSpinner) {
+                    if (!isCssEquiv && showSpinner) {
                         setTimeout(() => {
                             setLoaded(true);
                         }, loadingDelay);
@@ -76,7 +76,7 @@ export const DefineApp: React.FC<DefineAppProps> = ({
 
             if (currentCssPath && !loaded && !loadingError) {
                 removeStyle(currentCssPath);
-            } else if (!loaded && !loadingError && !isCssDiff) {
+            } else if (!loaded && !loadingError && !isCssEquiv) {
                 removeStyle(cssPath);
             }
         };
@@ -97,6 +97,6 @@ export const DefineApp: React.FC<DefineAppProps> = ({
                 {children}
             </div> 
         :
-        showSpinner && isCssDiff ? <PageSpinner isLoading={!loaded && !loadingError} /> : null
+        showSpinner ? <PageSpinner isLoading={!loaded && !loadingError} /> : null
     );
 };

@@ -56,8 +56,8 @@ export const CardModal: React.FC<CardModalProps> = ({
         !isReservationModalOpen ?
             <div>
                 <dialog ref={modalRef} id="modal">
-                    <div className="modal-container">
-                        <div className="flex flex-col items-center justify-center align-middle lg:!w-[32dvw] 2xl:!w-[25dvw] lg:!p-[2rem_3rem] modal">
+                    <div className="card-modal-container">
+                        <div className="flex flex-col items-center justify-center align-middle lg:!w-[32dvw] 2xl:!w-[25dvw] lg:!p-[2rem_3rem] card-modal">
                             <h1 className='lg:!text-[2rem]'>Informações {cardTitle}</h1>
                             <p className='lg:!text-[0.7rem]'>
                                 {cardCaracterísticas?.length !== undefined || 0 ? 
@@ -67,7 +67,7 @@ export const CardModal: React.FC<CardModalProps> = ({
                                 }
                             </p>
                             <ul ref={equipamentsRef} className='lg:!text-[0.7rem] equipList'></ul>
-                            <div className='flex flex-row items-center justify-center w-full gap-8 align-middle'>
+                            <div className='flex flex-row items-center justify-center w-full gap-5 align-middle'>
                                 <button id="close" className='lg:!text-[0.7rem]' onClick={onClose}>Fechar</button>
                                 <button id="reserva" className='lg:!text-[0.7rem]' onClick={openReservationModal}>Prosseguir</button>
                             </div>

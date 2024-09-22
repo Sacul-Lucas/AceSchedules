@@ -52,7 +52,7 @@ export const Login = () => {
 
 
     return (
-        <DefineApp cssPath='src/Core/Css/Owned/Auth.css' appTitle='Ace Schedules - Login' appIcon='src/assets/icons/user-circle-solid.svg' isCssDiff={true}>
+        <DefineApp cssPath='src/Core/Css/Owned/Auth.css' appTitle='Ace Schedules - Login' appIcon='src/assets/icons/user-circle-solid.svg' isCssEquiv={true}>
             <div id="logoETPC" className="logoETPC lg:!max-w-[21%] lg:!ml-[78%] sm:!max-w-[45%] sm:!ml-[55%]">
                 <img src={etpcLogo} className="animate-[2s_showUp_ease-in] transition-all" />
             </div>

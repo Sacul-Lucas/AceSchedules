@@ -10,7 +10,7 @@ const SalasActions = Router();
 // Rotas para ações de salas
 SalasActions.post('/Criar', CriarAction);
 SalasActions.post('/Editar', EditarAction);
-SalasActions.get('/Visualizar/:id', VisualizarAction);
+SalasActions.get('/Visualizar', VisualizarAction);
 SalasActions.post('/Deletar', DeletarAction);
 
 // Rota para carregar salas
