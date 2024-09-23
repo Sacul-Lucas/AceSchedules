@@ -2,9 +2,9 @@ import { useState, useEffect, useRef } from "react";
 import DatePicker from "react-datepicker";
 import { ptBR } from 'date-fns/locale';
 import { startOfMonth, endOfMonth, isWithinInterval, addHours } from 'date-fns';
-import "react-datepicker/dist/react-datepicker.css";
 import { CreateReservationAction } from "../../Actions/CreateReservationAction";
 import { handleAlert, ResponsePopup } from "../Pop-ups/ResponsePopup";
+import "react-datepicker/dist/react-datepicker.css";
 
 interface CardReservationModalProps {
     onClose: () => void;

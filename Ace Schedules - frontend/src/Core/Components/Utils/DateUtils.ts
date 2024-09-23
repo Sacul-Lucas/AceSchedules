@@ -1,11 +1,11 @@
 export const formatDateForMySQL = (date: Date | null): string => {
     if (!date) return '';
     const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-based
+    const month = String(date.getMonth() + 1).padStart(2, '0');
     const day = String(date.getDate()).padStart(2, '0');
     const hours = String(date.getHours()).padStart(2, '0');
     const minutes = String(date.getMinutes()).padStart(2, '0');
-    return `${year}-${month}-${day} ${hours}:${minutes}:00`; // Format: YYYY-MM-DD HH:MM:SS
+    return `${year}-${month}-${day} ${hours}:${minutes}:00`;
 };
 
 export const parseDate = (dateStr: string | undefined): Date | null => {
@@ -30,7 +30,7 @@ export const parseDateString = (dateStr: string): Date | null => {
     if (!match) return null;
   
     const day = parseInt(match[1], 10);
-    const month = parseInt(match[2], 10) - 1; // meses são baseados em zero
+    const month = parseInt(match[2], 10) - 1;
     const year = parseInt(match[3], 10);
     const hour = parseInt(match[4], 10);
     const minute = parseInt(match[5], 10);

@@ -54,11 +54,10 @@ INSERT INTO `cadastro` (`id`, `usuario`, `email`, `senha`, `usertype`, `telefone
 --
 -- Table structure for table `reservas`
 --
-
 CREATE TABLE `reservas` (
   `id` int(11) NOT NULL,
-  `dataAgendamento` date NOT NULL,
-  `horaAgendamento` time NOT NULL,
+  `dataAgendamentoInicial` datetime(6) NOT NULL,
+  `dataAgendamentoFinal` datetime(6) NOT NULL,
   `sala` int(11) NOT NULL,
   `usuario` int(11) NOT NULL DEFAULT 1,
   `status` bit(1) NOT NULL DEFAULT b'0'
@@ -68,11 +67,11 @@ CREATE TABLE `reservas` (
 -- Dumping data for table `reservas`
 --
 
-INSERT INTO `reservas` (`id`, `dataAgendamento`, `horaAgendamento`, `sala`, `usuario`, `status`) VALUES
-(13601, '4444-04-05', '04:44:00', 212, 1, b'1'),
-(13602, '5555-05-05', '16:56:00', 212, 1, b'1'),
-(13603, '2024-07-31', '21:35:00', 212, 88, b'1'),
-(13605, '0000-00-00', '18:34:00', 212, 1, b'1');
+INSERT INTO `reservas` (`id`, `dataAgendamentoInicial`, `dataAgendamentoFinal`, `sala`, `usuario`, `status`) VALUES
+(13601, '2024-04-05 04:44:00', '2024-04-05 04:44:00', 212, 1, b'1'),
+(13602, '2024-05-05 16:56:00', '2024-04-05 04:44:00', 212, 1, b'1'),
+(13603, '2024-07-31 21:35:00', '2024-04-05 04:44:00', 212, 88, b'1'),
+(13605, '2024-01-01 18:34:00', '2024-04-05 04:44:00', 212, 1, b'1');
 
 -- --------------------------------------------------------
 
@@ -155,6 +154,7 @@ ALTER TABLE `salas`
 -- Constraints for dumped tables
 --
 use aceschedules;
+ALTER TABLE cadastro MODIFY COLUMN senha VARCHAR(250);
 ALTER TABLE cadastro MODIFY COLUMN telefone VARCHAR(21);
 
 --

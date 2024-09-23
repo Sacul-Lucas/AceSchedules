@@ -37,9 +37,6 @@ export const AdminPopups: React.FC<AdminPopupsProps> = ({
         const dataAgendamentoInicial = (document.getElementById(idModal === 'Editmodal' ? 'EditData' : 'AddData') as HTMLInputElement)?.value
         const dataAgendamentoFinal = (document.getElementById(idModal === 'Editmodal' ? 'EditHora' : 'AddHora') as HTMLInputElement)?.value
 
-        console.log(parseDateString(dataAgendamentoInicial))
-        console.log((document.getElementById(idModal === 'Editmodal' ? 'EditSalaAlocada' : 'AddSalaAlocada') as HTMLSelectElement)?.value)
-
         if (location.pathname === '/Reservas') {
             const formData = {
                 id: selectedReserva?.id || null,
