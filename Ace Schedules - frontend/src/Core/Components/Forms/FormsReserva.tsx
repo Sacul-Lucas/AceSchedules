@@ -1,4 +1,9 @@
 import React, { FormEventHandler, useEffect, useState } from 'react';
+import DatePicker from "react-datepicker";
+import { ptBR } from 'date-fns/locale';
+import { startOfMonth, endOfMonth, isWithinInterval, addHours } from 'date-fns';
+import "react-datepicker/dist/react-datepicker.css";
+import { parseDate } from '../Utils/DateUtils';
 
 interface Sala {
   id: string;
@@ -19,6 +24,7 @@ export interface Reserva {
 }
 
 interface FormsReservaProps {
+  selectid?: number | undefined;
   selectvalue: string;
   selectedReserva: Reserva | null;
   formVER: boolean;
@@ -39,7 +45,35 @@ export const FormsReserva: React.FC<FormsReservaProps> = ({
   idData,
   idHora,
   salaAction,
+  selectid
 }) => {
+  const [startDate, setStartDate] = useState<Date | null>(parseDate(selectedReserva?.data));
+  const [endDate, setEndDate] = useState<Date | null>(parseDate(selectedReserva?.hora));
+  const [currentMonth, setCurrentMonth] = useState<Date>(new Date());
+
+  const isDateWithinMonth = (date: Date) => {
+    const monthStart = startOfMonth(currentMonth);
+    const monthEnd = endOfMonth(currentMonth);
+    return isWithinInterval(date, { start: monthStart, end: monthEnd });
+  };
+
+  const handleMonthChange = (date: Date) => {
+    setCurrentMonth(date);
+  };
+  
+  const handleStartDateChange = (date: Date | null) => {
+    if (date) {
+        setStartDate(date);
+        setEndDate(null);
+    }
+  };
+
+  const handleEndDateChange = (date: Date | null) => {
+    if (date) {
+        setEndDate(date);
+    }
+  };
+
   const [salas, setSalas] = useState<Sala[]>([]);
 
   useEffect(() => {
@@ -104,33 +138,56 @@ export const FormsReserva: React.FC<FormsReservaProps> = ({
             <div className="mb-3">
             <label htmlFor={idSalaAlocada}>Sala Alocada</label>
             <select className="form-control" id={idSalaAlocada} onChange={salaAction} defaultValue={selectvalue}>
-            {selectvalue ?  <option>{selectvalue}</option>: <option value="" disabled>Selecione uma sala</option>}
-            {salas.map((sala) => (
+              {selectvalue && typeof selectvalue === 'string' ? (
+                <option value={selectid}>{selectvalue}</option>
+              ) : (
+                <option value="" disabled>Selecione uma sala</option>
+              )}
+              {salas.map((sala) => (
                 <option key={`${sala.id}-${sala.nome}`} value={sala.id}>
-                {sala.nome}
+                  {sala.nome}
                 </option>
-            ))}
+              ))}
             </select>
             
             </div>
-            <div className="mb-3">
+            <div className="flex flex-col mb-3">
               <label>Data e hora de início da reserva</label>
-              <input
+              <DatePicker
                 id={idData}
-                type="date"
-                name="data"
-                className="form-control"
-                defaultValue={selectedReserva?.data}
+                selected={startDate}
+                onChange={handleStartDateChange}
+                showTimeSelect
+                timeFormat="p"
+                timeIntervals={15}
+                timeCaption="Horário"
+                dateFormat="Pp"
+                locale={ptBR}
+                placeholderText="Data de início"
+                className="p-2 border rounded form-control"
+                filterDate={isDateWithinMonth}
+                onMonthChange={handleMonthChange}
               />
             </div>
-            <div className="mb-3">
+            <div className="flex flex-col mb-3">
               <label>Data e hora do final da reserva</label>
-              <input
+              <DatePicker
                 id={idHora}
-                type="date"
-                name="hora"
-                className="form-control"
-                defaultValue={selectedReserva?.hora}
+                selected={endDate}
+                onChange={handleEndDateChange}
+                showTimeSelect
+                timeFormat="p"
+                timeIntervals={15}
+                timeCaption="Horário"
+                dateFormat="Pp"
+                locale={ptBR}
+                placeholderText="Data de fim"
+                className="p-2 border rounded form-control"
+                filterDate={isDateWithinMonth}
+                onMonthChange={handleMonthChange}
+                minDate={startDate || undefined}
+                minTime={startDate ? addHours(startDate, 1) : undefined}
+                maxTime={startDate ? endOfMonth(startDate) : undefined}
               />
             </div>
           </div>

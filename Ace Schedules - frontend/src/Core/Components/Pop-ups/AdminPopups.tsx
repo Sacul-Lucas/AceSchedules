@@ -4,16 +4,7 @@ import Modal from 'react-bootstrap/Modal';
 import { FormsSalas} from '../Forms/FormsSala';
 import { FormsReserva, Reserva } from '../Forms/FormsReserva';
 import { Dispatch, SetStateAction } from "react";
-
-interface AdminPopupsProps {
-    idModal: string;
-    formLabel: string;
-    show: boolean;
-    handleClose: () => void;
-    selectedUser?: Usuario | null;
-    selectedReserva?: Reserva | null;
-    onSave: (formData: any) => void;
-}
+import { formatDateForMySQL, parseDateString } from "../Utils/DateUtils";
 
 interface AdminPopupsProps {
     idModal: string;
@@ -25,6 +16,8 @@ interface AdminPopupsProps {
     selectedUser?: Usuario | null;
     selectedReserva?: Reserva | null;
     onSave: (formData: any) => void;
+    idSalaAlocada?: number;
+    setIdSalaAlocada?: Dispatch<SetStateAction<number>>;
 }
 
 export const AdminPopups: React.FC<AdminPopupsProps> = ({  
@@ -36,16 +29,23 @@ export const AdminPopups: React.FC<AdminPopupsProps> = ({
     handleClose,
     selectedUser,
     selectedReserva,
+    idSalaAlocada,
     onSave,
 }) => {
 
     const handleSave = () => {
+        const dataAgendamentoInicial = (document.getElementById(idModal === 'Editmodal' ? 'EditData' : 'AddData') as HTMLInputElement)?.value
+        const dataAgendamentoFinal = (document.getElementById(idModal === 'Editmodal' ? 'EditHora' : 'AddHora') as HTMLInputElement)?.value
+
+        console.log(parseDateString(dataAgendamentoInicial))
+        console.log((document.getElementById(idModal === 'Editmodal' ? 'EditSalaAlocada' : 'AddSalaAlocada') as HTMLSelectElement)?.value)
+
         if (location.pathname === '/Reservas') {
             const formData = {
                 id: selectedReserva?.id || null,
                 salaAlocada: (document.getElementById(idModal === 'Editmodal' ? 'EditSalaAlocada' : 'AddSalaAlocada') as HTMLSelectElement)?.value || '',
-                dataAgendamentoInicial: (document.getElementById(idModal === 'Editmodal' ? 'EditData' : 'AddData') as HTMLInputElement)?.value || '',
-                dataAgendamentoFinal: (document.getElementById(idModal === 'Editmodal' ? 'EditHora' : 'AddHora') as HTMLInputElement)?.value || ''
+                dataAgendamentoInicial: formatDateForMySQL(parseDateString(dataAgendamentoInicial)) || '',
+                dataAgendamentoFinal: formatDateForMySQL(parseDateString(dataAgendamentoFinal)) || ''
             };
     
             onSave(formData); 
@@ -119,7 +119,8 @@ export const AdminPopups: React.FC<AdminPopupsProps> = ({
                             edit={false}
                             selectedReserva={selectedReserva!}
                             selectvalue={salaAlocada!}      
-                            salaAction={setSalaAlocada}                  
+                            salaAction={setSalaAlocada} 
+                            selectid={idSalaAlocada}            
                         />
                     );
                 } else if (idModal === "Viewmodal") {

@@ -64,7 +64,7 @@ export const CarregarDB = async (req: Request, res: Response) => {
 
     } else if (currPath.includes('/Reservas')) {
         const { status, sala = '', data = '', hora = '', nome = '' } = req.query;
-        let sql = `SELECT r.id, DATE_FORMAT(r.dataAgendamentoInicial, '%m/%d/%Y %H:%i:%s') as dataAgendamentoInicial, DATE_FORMAT(r.dataAgendamentoFinal, '%m/%d/%Y %H:%i:%s'), s.nome AS sala_nome, c.usuario AS usuario
+        let sql = `SELECT r.id, DATE_FORMAT(r.dataAgendamentoInicial, '%d/%m/%Y %H:%i:%s') as dataAgendamentoInicial, DATE_FORMAT(r.dataAgendamentoFinal, '%d/%m/%Y %H:%i:%s') as dataAgendamentoFinal, s.nome AS sala_nome, c.usuario AS usuario
                      FROM reservas r
                      JOIN salas s ON r.sala = s.id
                      JOIN cadastro c ON r.usuario = c.id

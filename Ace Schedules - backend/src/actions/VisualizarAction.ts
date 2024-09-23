@@ -35,8 +35,8 @@ export const VisualizarAction = (req: Request, res: Response) => {
         msgId = 'Reserva';
         query = `SELECT 
                 r.id AS id, 
-                DATE_FORMAT(r.dataAgendamentoInicial, '%m/%d/%Y %H:%i:%s') AS data, 
-                DATE_FORMAT(r.dataAgendamentoFinal, '%m/%d/%Y %H:%i:%s') AS hora, 
+                DATE_FORMAT(r.dataAgendamentoInicial, '%d/%m/%Y %H:%i:%s') AS data, 
+                DATE_FORMAT(r.dataAgendamentoFinal, '%d/%m/%Y %H:%i:%s') AS hora, 
                 s.id AS SalaId, 
                 s.nome AS salaAlocada, 
                 c.usuario AS locador, 

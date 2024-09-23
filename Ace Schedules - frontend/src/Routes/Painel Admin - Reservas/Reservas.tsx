@@ -21,6 +21,7 @@ export const Reservas: React.FC = () => {
   const [viewMode, setViewMode] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const [salaAlocada, setSalaAlocada] = useState('');
+  const [idSalaAlocada, setIdSalaAlocada] = useState(0);
 
   const handleClose = () => setShow(false);
 
@@ -170,6 +171,7 @@ const handleEdit = async (id: number) => {
                 id: data.data.id,
                 data: data.data.data,
                 hora: data.data.hora,
+                idSalaAlocada: data.data.SalaId,
                 salaAlocada: data.data.salaAlocada,
                 locador: data.data.locador,
                 emailLocador: data.data.emailLocador,
@@ -178,6 +180,7 @@ const handleEdit = async (id: number) => {
                 status: data.data.status
               };
               setSalaAlocada(adjustedData.salaAlocada)
+              setIdSalaAlocada(adjustedData.idSalaAlocada)
               setselectedReserva(adjustedData);
               setViewMode(false);
               setEditMode(true);
@@ -297,11 +300,13 @@ const handleEdit = async (id: number) => {
         selectedUser={null}
         onSave={actionSave}      
         setSalaAlocada={setSalaAlocada}     
-        salaAlocada={salaAlocada}        
+        salaAlocada={salaAlocada} 
+        setIdSalaAlocada={setIdSalaAlocada}
+        idSalaAlocada={idSalaAlocada}       
       />
 
       <div className="relative flex flex-col flex-auto">
-        <div className="container mt-4">
+        <div className="container mt-4 xl:!max-w-[90%]">
           <div className="row">
             <div className="col-md-12">
               <div className="card">
@@ -350,7 +355,7 @@ const handleEdit = async (id: number) => {
             </div>
           </div>
         </div>
-        <div className="container mt-4">
+        <div className="container mt-4 xl:!max-w-[90%]">
           <div className="row">
             <div className="col-md-12">
               <div className="card">

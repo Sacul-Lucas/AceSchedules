@@ -68,6 +68,7 @@ export const CriarAction = async (req: Request, res: Response) => {
             valuesAction = '(?, ?, ?, true)';
 
             const { salaAlocada: sala, dataAgendamentoInicial, dataAgendamentoFinal } = req.body;
+            console.log(req.body)
 
             if (!dataAgendamentoInicial || !dataAgendamentoFinal  || !sala) {
                 return res.json({ success: false, message: 'Por favor, selecione um intervalo de datas e horários válidos' });

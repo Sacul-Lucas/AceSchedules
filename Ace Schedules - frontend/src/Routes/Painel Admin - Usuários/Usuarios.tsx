@@ -158,7 +158,7 @@ export const Usuarios: React.FC = () => {
                 onSave={actionSave}               
             />
 
-            <div className="container mt-4">
+            <div className="container mt-4 xl:!max-w-[75%]">
                 <div className="row">
                     <div className="col-md-12">
                         <div className="card">
