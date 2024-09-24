@@ -166,17 +166,17 @@ export const PanelSidebar: React.FC<PanelSidebarProps> = ({
                                                     </Link>
                                                     {usertype === 'Administrador' && (
                                                         <>
-                                                            <Link className="flex w-full p-3 transition-colors cursor-pointer p-ripple align-items-center border-round text-700 hover:surface-100 transition-duration-150" to={'/Salas'} target="_blank" rel="noopener noreferrer">
+                                                            <Link className="flex w-full p-3 transition-colors cursor-pointer p-ripple align-items-center border-round text-700 hover:surface-100 transition-duration-150" to={'/Salas'}>
                                                                 <MdOutlineMeetingRoom className='mr-2 pi'/>
                                                                 <span className="font-medium">Administração de salas</span>
                                                                 <Ripple />
                                                             </Link>
-                                                            <Link className="flex w-full p-3 transition-colors cursor-pointer p-ripple align-items-center border-round text-700 hover:surface-100 transition-duration-150" to={'/Reservas'} target="_blank" rel="noopener noreferrer">
+                                                            <Link className="flex w-full p-3 transition-colors cursor-pointer p-ripple align-items-center border-round text-700 hover:surface-100 transition-duration-150" to={'/Reservas'}>
                                                                 <i className="mr-2 pi pi-clock"></i>
                                                                 <span className="font-medium">Administração de reservas</span>
                                                                 <Ripple />
                                                             </Link>
-                                                            <Link className="flex w-full p-3 transition-colors cursor-pointer p-ripple align-items-center border-round text-700 hover:surface-100 transition-duration-150" to={'/Usuarios'} target="_blank" rel="noopener noreferrer">
+                                                            <Link className="flex w-full p-3 transition-colors cursor-pointer p-ripple align-items-center border-round text-700 hover:surface-100 transition-duration-150" to={'/Usuarios'}>
                                                                 <i className="mr-2 pi pi-user"></i>
                                                                 <span className="font-medium">Administração de usuários</span>
                                                                 <Ripple />

@@ -142,49 +142,47 @@ const loadReservasAprovadas = async () => {
 };
 
   const handleAdd = async () => {
-      setViewMode(false);
-      setEditMode(false);
-      setselectedReserva(null);
-      setShow(true);
+    setViewMode(false);
+    setEditMode(false);
+    setselectedReserva(null);
+    setShow(true);
   }
 
   const handleApprove = async (id: number) => {
     const formData = {
-        id,
-        statusOnly: true,
-        newStatus: 1     
+      id,
+      statusOnly: true,
+      newStatus: 1     
     };
 
       try {
-          const endpoint = '/api/adminPaths/Reservas/Editar';
-          const response = await fetch(endpoint, {
-              method: 'POST',
-              headers: {
-                  'Content-Type': 'application/json'
-              },
-              body: JSON.stringify(formData)
-          });
-
-          const result = await response.json();
-
-          if (result.success) {
-              alert(result.message);
-              loadReservasPendentes();
-              loadReservasAprovadas();
-          } else {
-              alert(result.message);
-          }
+        const endpoint = '/api/adminPaths/Reservas/Editar';
+        const response = await fetch(endpoint, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(formData)
+        });
+        const result = await response.json();
+        if (result.success) {
+            alert(result.message);
+            loadReservasPendentes();
+            loadReservasAprovadas();
+        } else {
+            alert(result.message);
+        }
       } catch (error) {
-          console.error("Erro ao aprovar reserva:", error);
+        console.error("Erro ao aprovar reserva:", error);
       }
   };
   const handleView = async (id: number) => {
     try {
         const response = await fetch(`/api/adminPaths/Reservas/Visualizar/${id}`, {
-            method: 'GET',
-            headers: {
-                'Cache-Control': 'no-cache'
-            }
+          method: 'GET',
+          headers: {
+              'Cache-Control': 'no-cache'
+          }
         });
         if (response.ok) {
             const data = await response.json();

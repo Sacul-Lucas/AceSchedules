@@ -15,7 +15,6 @@ export const CardModal: React.FC<CardModalProps> = ({
     const modalRef = useRef<HTMLDialogElement>(null);
     const equipamentsRef = useRef<HTMLUListElement>(null);
     const [isReservationModalOpen, setIsReservationModalOpen] = useState(false);
-
     
     const openReservationModal = () => {
         setIsReservationModalOpen(true);

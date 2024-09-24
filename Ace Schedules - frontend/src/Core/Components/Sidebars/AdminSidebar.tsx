@@ -108,7 +108,7 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({ children }) => {
             cssPath="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" 
             appTitle={`Ace Schedules - Painel administrador de ${location.pathname.substring(1)}`} 
             appIcon="src/assets/icons/admin-alt-solid.svg"
-            isCssEquiv={true}
+            isCssEquiv={false}
         >
             <div className="container-fluid">
                 <div className="row flex-nowrap">
@@ -124,8 +124,6 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({ children }) => {
                                         <Link
                                             to={path}
                                             className={`nav-link align-middle px-0 !flex flex-row justify-center items-center ${location.pathname === path ? 'active' : ''}`}
-                                            target={index === 1 ? '_blank' : ''}
-                                            rel={index === 1 ? 'noopener noreferrer' : ''}
                                         >
                                             <i className="ml-2 fs-4">
                                                 {index === 0 && <FaHome />}

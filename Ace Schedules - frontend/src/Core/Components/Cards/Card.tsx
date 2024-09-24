@@ -1,15 +1,16 @@
 import { useState, useRef } from 'react';
 import { CardModal } from '../Modals/cardModal.tsx';
+import { formatCaracteristicas } from '../Utils/Formatter.ts';
 
 interface PanelCardProps {
-    características?: any[] | undefined;
+    características?: string;
     imgSrc: string;
     title?: string | undefined;
     description?: string;
 }
 
 export const Card: React.FC<PanelCardProps> = ({ 
-    características = undefined,
+    características = '',
     imgSrc,
     title,
     description = ''
@@ -34,7 +35,7 @@ export const Card: React.FC<PanelCardProps> = ({
         setIsModalOpen(false);
     };
 
-    const descriptionHeight = descriptionRef.current ? descriptionRef.current.clientHeight : 0
+    const descriptionHeight = descriptionRef.current ? descriptionRef.current.clientHeight : 0;
     let titleHeightPercentage: number = 1.28;
     const titleStyle = {
         maxHeight: isHovered ? `${descriptionHeight * titleHeightPercentage}px` : '12%',
@@ -59,7 +60,7 @@ export const Card: React.FC<PanelCardProps> = ({
             </div>
             {isModalOpen && (
                 <CardModal 
-                    cardCaracterísticas={características} 
+                    cardCaracterísticas={formatCaracteristicas(características)}
                     cardTitle={title}
                     onClose={closeModal}
                 />

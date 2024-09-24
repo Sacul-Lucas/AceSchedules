@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import '../../Css/Owned/AdminRoom.css';
+import { formatCaracteristicas } from '../Utils/Formatter';
 
 export interface Sala {
     id: number;
@@ -7,7 +8,7 @@ export interface Sala {
     descricao: string;
     status: string;
     backImg: string;
-    caracteristicas: any;
+    caracteristicas: string;
 }
 
 interface FormsSalasProps {
@@ -21,6 +22,7 @@ interface FormsSalasProps {
     idStatus: string;
     edit: boolean;
     block: boolean;
+
     onStatusChange?: (status: string) => void;
 }
 
@@ -113,22 +115,11 @@ export const FormsSalas: React.FC<FormsSalasProps> = ({
     const handleStatusChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const newStatus = event.target.checked ? '1' : '0';
         setStatusChecked(event.target.checked);
+        // Chamar a função para atualizar o status no pai
         onStatusChange!(newStatus);
     };
 
-    const getFormattedCaracteristicas = () => {
-        if (!selectedSala || !selectedSala.caracteristicas) {
-            return [];
-        }
-
-        try {
-            const caracteristicasArray = JSON.parse(selectedSala.caracteristicas);
-            return Array.isArray(caracteristicasArray) ? caracteristicasArray : [];
-        } catch (error) {
-            console.error("Erro ao processar características:", error);
-            return [];
-        }
-    };
+    console.log(formatCaracteristicas(JSON.stringify(selectedSala?.caracteristicas)))
 
     return (
         <div>
@@ -169,7 +160,7 @@ export const FormsSalas: React.FC<FormsSalasProps> = ({
                                 id={idCaract}
                                 placeholder="Características da sala"
                                 autoComplete="off"
-                                defaultValue={JSON.stringify(selectedSala?.caracteristicas)}
+                                defaultValue={formatCaracteristicas(JSON.stringify(selectedSala?.caracteristicas))}
                             />
                         </div>
 
@@ -223,15 +214,11 @@ export const FormsSalas: React.FC<FormsSalasProps> = ({
                     </div>
                     <div className="mb-3">
                         <label htmlFor="">Imagem:</label>
-                        <img id="view_imagem" className="form-control" src={`/imagens/${selectedSala?.backImg}`} alt={selectedSala?.nome} />
+                        <p id="view_imagem" className="form-control">{selectedSala?.backImg}</p>
                     </div>
                     <div className="mb-3">
                         <label htmlFor="">Características:</label>
-                        <ul className="form-control">
-                            {getFormattedCaracteristicas().map((caracteristica, index) => (
-                                <li key={index}>{caracteristica}</li>
-                            ))}
-                        </ul>
+                        <p id="view_caracteristicas" className="form-control !h-auto">{formatCaracteristicas(JSON.stringify(selectedSala?.caracteristicas))}</p>
                     </div>
                 </div>
             )}

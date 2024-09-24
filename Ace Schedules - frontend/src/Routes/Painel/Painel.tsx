@@ -2,15 +2,34 @@ import { Card } from "../../Core/Components/Cards/Card";
 import { DefineApp } from "../../Core/Components/Utils/DefineApp";
 import { Navbar } from "../../Core/Components/Navbar/Navbar";
 import { Footer } from "../../Core/Components/Footer/Footer";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { PanelSidebar } from "../../Core/Components/Sidebars/PanelSidebar";
 
 export const Painel = () => {
     const [sidebarVisible, setSidebarVisible] = useState(false);
+    const [salas, setSalas] = useState<any[]>([])
 
     const toggleSidebar = () => {
         setSidebarVisible(prev => !prev);
     };
+
+    const loadSalas = async () => {
+        try {
+            const response = await fetch('/api/adminPaths/Salas');
+            if (response.ok) {
+                const data = await response.json();
+                setSalas(data.salas);
+            } else {
+                console.error("Erro ao carregar dados das salas:", response.statusText);
+            }
+        } catch (error) {
+            console.error("Erro ao carregar dados das salas:", error);
+        }
+    };
+
+    useEffect(() => {
+        loadSalas();
+    }, []);
 
     return (
         <div>
@@ -31,32 +50,15 @@ export const Painel = () => {
                             </p>
                             <h6 className="lg:!text-[1.3vw] lg:!pt-[40px]">Clique em reservar para realizar um pedido de agendamento</h6>
                             <div className="lg:!gap-0 lg:!grid-cols-[repeat(4,_0fr)] cards-grid">
-                                <Card 
-                                    imgSrc={'/src/assets/img_salas/pic2.jpeg'}
-                                    title="Sala 128"
-                                    description="Sala usada para aulas, apresentações e reuniões. Pode incluir equipamentos como projetor, microfone, 
-                                    caixas de som e etc... (verifique se a sala possui os equipamentos desejados no momento anterior à reserva)"
-                                    características={['Projetor', 'Computador', 'Microfone', 'Quadro']}
-                                />
-                                <Card 
-                                    imgSrc={'/src/assets/img_salas/pic4.jpeg'}
-                                    title="Sala 129"
-                                    description="Sala usada para aulas, apresentações e reuniões. Pode incluir equipamentos como projetor, microfone, 
-                                    caixas de som e etc... (verifique se a sala possui os equipamentos desejados no momento anterior à reserva)"
-                                    características={['Projetor', 'Computador', 'Microfone', 'Caixas de som']}
-                                />
-                                <Card 
-                                    imgSrc={'/src/assets/img_salas/pic2.jpeg'}
-                                    title="Sala 130"
-                                    description="Sala usada para aulas, apresentações e reuniões. Pode incluir equipamentos como projetor, microfone, 
-                                    caixas de som e etc... (verifique se a sala possui os equipamentos desejados no momento anterior à reserva)"
-                                />
-                                <Card 
-                                    imgSrc={'/src/assets/img_salas/pic5.jpeg'}
-                                    title="Auditório"
-                                    description="Espaço utilizado para palestras, apresentações e eventos. Pode incluir equipamentos como projetor, microfone, 
-                                    caixas de som e etc... (verifique se a sala possui os equipamentos desejados no momento anterior à reserva)"
-                                />
+                            {salas.length > 0 && salas.map(sala => (
+                                    <Card
+                                        key={sala.id}
+                                        imgSrc={'/src/assets/img_salas/pic2.jpeg'} // fallback image
+                                        title={sala.nome}
+                                        description={sala.descricao}
+                                        características={sala.caracteristicas || []}
+                                    />
+                                ))}
                             </div>
                         </div>
                     </div>
