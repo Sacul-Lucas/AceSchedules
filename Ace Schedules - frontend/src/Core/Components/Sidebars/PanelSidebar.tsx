@@ -7,6 +7,8 @@ import { StyleClass } from 'primereact/styleclass';
 import { Link, useNavigate } from 'react-router-dom';
 import { UserLogoutAction } from '../../Actions/UserLogoutAction';
 import { GetUsernameAction } from '../../Actions/GetUsernameAction';
+import { MdOutlineMeetingRoom } from 'react-icons/md';
+import { GetUsertypeAction } from '../../Actions/GetUserTypeAction';
 
 interface PanelSidebarProps {
     visible: boolean, 
@@ -25,6 +27,7 @@ export const PanelSidebar: React.FC<PanelSidebarProps> = ({
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
     const [username, setUsername] = useState('');
+    const [usertype, setUsertype] = useState('');
 
     const navigate = useNavigate();
 
@@ -53,27 +56,58 @@ export const PanelSidebar: React.FC<PanelSidebarProps> = ({
         }
     };
 
+    const handleGetUsertype = async () => {
+        const getUsertypeRes = await GetUsertypeAction.execute();
+        
+        const usertypeMessage = getUsertypeRes.data;
+        
+        switch (getUsertypeRes.status) {
+            case 'SUCCESS':
+                setUsertype(usertypeMessage);
+                setError('');
+                break;
+    
+            case 'USER_NOT_FOUND':
+                setError(usertypeMessage);
+                setSuccess('');
+                navigate('/Login')
+                break;
+            case 'UNKNOWN':
+                setError(usertypeMessage);
+                setSuccess('');
+                navigate('/Login')
+                break;
+    
+            default:
+                setError('Não foi possível obter o tipo de usuário. Tente novamente mais tarde.');
+                setSuccess('');
+                break;
+        }
+    };
+
     const handleGetUsername = async () => {
         const getUsernameRes = await GetUsernameAction.execute();
         
-        const message = getUsernameRes.data;
+        const usernameMessage = getUsernameRes.data;
         
         switch (getUsernameRes.status) {
             case 'SUCCESS':
-                setUsername(message);
+                setUsername(usernameMessage);
                 setError('');
                 break;
 
             case 'USER_NOT_FOUND':
-                setError(message);
+                setError(usernameMessage);
                 setSuccess('');
+                navigate('/Login')
                 break;
-        
+
             case 'UNKNOWN':
-                setError(message);
+                setError(usernameMessage);
                 setSuccess('');
+                navigate('/Login')
                 break;
-        
+
             default:
                 setError('Não foi possível obter o nome do usuário. Tente novamente mais tarde.');
                 setSuccess('');
@@ -83,6 +117,7 @@ export const PanelSidebar: React.FC<PanelSidebarProps> = ({
 
     useEffect(() => {
         handleGetUsername();
+        handleGetUsertype();
     }, []);
 
     return (
@@ -113,7 +148,7 @@ export const PanelSidebar: React.FC<PanelSidebarProps> = ({
                                     </span>
                                 </div>
                                 <div className="overflow-y-auto">
-                                    <ul className="p-3 m-0 list-none">
+                                    <ul className="p-3 m-0 list-none !no-underline">
                                         <li>
                                             <StyleClass nodeRef={btnRef1} selector="@next" enterClassName="hidden" enterActiveClassName="slidedown" leaveToClassName="hidden" leaveActiveClassName="slideup">
                                                 <div ref={btnRef1} className="flex p-3 cursor-pointer p-ripple align-items-center justify-content-between text-600">
@@ -129,6 +164,25 @@ export const PanelSidebar: React.FC<PanelSidebarProps> = ({
                                                         <span className="font-medium">Página principal</span>
                                                         <Ripple />
                                                     </Link>
+                                                    {usertype === 'Administrador' && (
+                                                        <>
+                                                            <Link className="flex w-full p-3 transition-colors cursor-pointer p-ripple align-items-center border-round text-700 hover:surface-100 transition-duration-150" to={'/Salas'} target="_blank" rel="noopener noreferrer">
+                                                                <MdOutlineMeetingRoom className='mr-2 pi'/>
+                                                                <span className="font-medium">Administração de salas</span>
+                                                                <Ripple />
+                                                            </Link>
+                                                            <Link className="flex w-full p-3 transition-colors cursor-pointer p-ripple align-items-center border-round text-700 hover:surface-100 transition-duration-150" to={'/Reservas'} target="_blank" rel="noopener noreferrer">
+                                                                <i className="mr-2 pi pi-clock"></i>
+                                                                <span className="font-medium">Administração de reservas</span>
+                                                                <Ripple />
+                                                            </Link>
+                                                            <Link className="flex w-full p-3 transition-colors cursor-pointer p-ripple align-items-center border-round text-700 hover:surface-100 transition-duration-150" to={'/Usuarios'} target="_blank" rel="noopener noreferrer">
+                                                                <i className="mr-2 pi pi-user"></i>
+                                                                <span className="font-medium">Administração de usuários</span>
+                                                                <Ripple />
+                                                            </Link>
+                                                        </>
+                                                    )}
                                                 </li>
                                             </ul>
                                         </li>

@@ -6,6 +6,7 @@ import { useLocation, Link, useNavigate } from "react-router-dom";
 import { UserLogoutAction } from "../../Actions/UserLogoutAction";
 import { GetUsernameAction } from "../../Actions/GetUsernameAction";
 import "bootstrap/dist/js/bootstrap.bundle.min";
+import { GetUsertypeAction } from "../../Actions/GetUserTypeAction";
 
 interface AdminSidebarProps {
     children: ReactNode,
@@ -18,6 +19,7 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({ children }) => {
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
     const [username, setUsername] = useState('');
+    const [usertype, setUsertype] = useState('');
     
     const navigate = useNavigate();
     
@@ -38,6 +40,38 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({ children }) => {
                 break;
             default:
                 setError('Não foi possível fazer logout no momento. Tente novamente mais tarde.');
+                setSuccess('');
+                break;
+        }
+    };
+
+    const handleGetUsertype = async () => {
+        const getUsertypeRes = await GetUsertypeAction.execute();
+        
+        const usertypeMessage = getUsertypeRes.data;
+        
+        switch (getUsertypeRes.status) {
+            case 'SUCCESS':
+                setUsertype(usertypeMessage);
+                setError('');
+                if (usertypeMessage !== 'Administrador') {
+                    navigate('/Painel')
+                }
+                break;
+    
+            case 'USER_NOT_FOUND':
+                setError(usertypeMessage);
+                setSuccess('');
+                navigate('/Login')
+                break;
+            case 'UNKNOWN':
+                setError(usertypeMessage);
+                setSuccess('');
+                navigate('/Login')
+                break;
+    
+            default:
+                setError('Não foi possível obter o tipo de usuário. Tente novamente mais tarde.');
                 setSuccess('');
                 break;
         }
@@ -66,6 +100,7 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({ children }) => {
     
     useEffect(() => {
         handleGetUsername();
+        handleGetUsertype();
     }, []);
     
     return (
@@ -73,7 +108,7 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({ children }) => {
             cssPath="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" 
             appTitle={`Ace Schedules - Painel administrador de ${location.pathname.substring(1)}`} 
             appIcon="src/assets/icons/admin-alt-solid.svg"
-            isCssEquiv={false}
+            isCssEquiv={true}
         >
             <div className="container-fluid">
                 <div className="row flex-nowrap">
@@ -89,6 +124,8 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({ children }) => {
                                         <Link
                                             to={path}
                                             className={`nav-link align-middle px-0 !flex flex-row justify-center items-center ${location.pathname === path ? 'active' : ''}`}
+                                            target={index === 1 ? '_blank' : ''}
+                                            rel={index === 1 ? 'noopener noreferrer' : ''}
                                         >
                                             <i className="ml-2 fs-4">
                                                 {index === 0 && <FaHome />}

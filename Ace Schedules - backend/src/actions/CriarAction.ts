@@ -15,7 +15,6 @@ const pool = mysql.createPool({
     port: 5500
 });
 
-// Transformar `pool.query` em uma função que retorna uma promise
 function queryDatabase(query: string, params: any[]) {
     return new Promise((resolve, reject) => {
         pool.query(query, params, (error, results) => {
@@ -50,16 +49,34 @@ export const CriarAction = async (req: Request, res: Response) => {
         if (currPath.includes('/Salas')) {
             reqRoute = 'salas';
             msgId = 'Sala';
-            varsAction = '(caracteristicas)';
-            valuesAction = '(?)';
+            varsAction = '(nome, descricao, status, backImg, caracteristicas)';
+            valuesAction = '(?, ?, ?, ?, ?)';
 
-            const { caracteristicas } = req.body;
+            const { nome, descricao, status = '0', backImg, caracteristicas } = req.body;
 
-            if (!caracteristicas) {
-                return res.json({ success: false, message: 'Campos obrigatórios faltando' });
+            if (!nome || !descricao || !backImg) {
+                return res.status(400).json({ success: false, message: 'Nome, descrição e imagem de fundo são obrigatórios.' });
             }
 
-            dados = [caracteristicas];
+            let caracteristicasJson: string;
+            try {
+                caracteristicasJson = JSON.stringify(caracteristicas);
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            } catch (error) {
+                return res.status(400).json({ success: false, message: 'Formato das características inválido.' });
+            }
+        
+            const checkQuery = `
+                SELECT COUNT(*) AS total FROM salas 
+                WHERE nome = ?
+            `;
+            dados = [nome, descricao, status, backImg, caracteristicasJson];
+        
+            const rows: any = await queryDatabase(checkQuery, [nome]);
+
+            if (rows > 0) {
+                return res.status(400).json({ success: false, message: 'Sala já existe.' });
+            }
 
         } else if (currPath.includes('/Reservas')) {
             reqRoute = 'reservas';
@@ -68,7 +85,6 @@ export const CriarAction = async (req: Request, res: Response) => {
             valuesAction = '(?, ?, ?, true)';
 
             const { salaAlocada: sala, dataAgendamentoInicial, dataAgendamentoFinal } = req.body;
-            console.log(req.body)
 
             if (!dataAgendamentoInicial || !dataAgendamentoFinal  || !sala) {
                 return res.json({ success: false, message: 'Por favor, selecione um intervalo de datas e horários válidos' });
@@ -76,7 +92,6 @@ export const CriarAction = async (req: Request, res: Response) => {
 
             dados = [dataAgendamentoInicial, dataAgendamentoFinal, sala];
 
-            // Verificar duplicação de reserva
             const checkQuery = `
                 SELECT dataAgendamentoInicial, dataAgendamentoFinal, sala FROM reservas 
                 WHERE dataAgendamentoInicial = ? AND dataAgendamentoFinal = ? AND sala = ?
@@ -98,7 +113,6 @@ export const CriarAction = async (req: Request, res: Response) => {
                 return res.json({ success: false, message: 'Campos obrigatórios faltando' });
             }
 
-            // Verificar duplicação de email, telefone ou CNPJ
             const checkQuery = `
                 SELECT usuario, email, cnpj, telefone FROM cadastro 
                 WHERE usuario = ? OR email = ? OR cnpj = ? OR telefone = ?
@@ -147,7 +161,6 @@ export const CriarAction = async (req: Request, res: Response) => {
                 return res.json({ success: false, message: 'Campos incompletos' }); 
             }
 
-            // Criptografar a senha
             const hashedPassword = await bcrypt.hash(senha, 10);
             dados = [usuario, email, hashedPassword, usertype, telefone, cnpj];
 
@@ -155,8 +168,6 @@ export const CriarAction = async (req: Request, res: Response) => {
             return res.status(400).json({ success: false, message: 'Caminho inválido.' });
         }
 
-
-        // Inserir os dados na tabela correspondente
         const insertQuery = `
             INSERT INTO ${reqRoute} ${varsAction} VALUES ${valuesAction}
         `;

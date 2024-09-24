@@ -1,9 +1,9 @@
 import { FormsUsuarios, Usuario } from "../Forms/FormsUsuarios";
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import { FormsSalas} from '../Forms/FormsSala';
+import { FormsSalas, Sala} from '../Forms/FormsSala';
 import { FormsReserva, Reserva } from '../Forms/FormsReserva';
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { formatDateForMySQL, parseDateString } from "../Utils/DateUtils";
 
 interface AdminPopupsProps {
@@ -15,6 +15,7 @@ interface AdminPopupsProps {
     handleClose: () => void;
     selectedUser?: Usuario | null;
     selectedReserva?: Reserva | null;
+    selectedSala?: Sala | null;
     onSave: (formData: any) => void;
     idSalaAlocada?: number;
     setIdSalaAlocada?: Dispatch<SetStateAction<number>>;
@@ -29,15 +30,21 @@ export const AdminPopups: React.FC<AdminPopupsProps> = ({
     handleClose,
     selectedUser,
     selectedReserva,
+    selectedSala,
     idSalaAlocada,
     onSave,
 }) => {
+    const [statusChecked, setStatusChecked] = useState<string>('0'); // Inicializando o estado
+
+    const handleStatusChange = (newStatus: string) => {
+        setStatusChecked(newStatus);
+    };
 
     const handleSave = () => {
-        const dataAgendamentoInicial = (document.getElementById(idModal === 'Editmodal' ? 'EditData' : 'AddData') as HTMLInputElement)?.value
-        const dataAgendamentoFinal = (document.getElementById(idModal === 'Editmodal' ? 'EditHora' : 'AddHora') as HTMLInputElement)?.value
-
         if (location.pathname === '/Reservas') {
+            const dataAgendamentoInicial = (document.getElementById(idModal === 'Editmodal' ? 'EditData' : 'AddData') as HTMLInputElement)?.value
+            const dataAgendamentoFinal = (document.getElementById(idModal === 'Editmodal' ? 'EditHora' : 'AddHora') as HTMLInputElement)?.value
+
             const formData = {
                 id: selectedReserva?.id || null,
                 salaAlocada: (document.getElementById(idModal === 'Editmodal' ? 'EditSalaAlocada' : 'AddSalaAlocada') as HTMLSelectElement)?.value || '',
@@ -47,6 +54,7 @@ export const AdminPopups: React.FC<AdminPopupsProps> = ({
     
             onSave(formData); 
         } else if (location.pathname === '/Usuarios') {
+            console.log(selectedUser?.id )
             const formData = {
                 id: selectedUser?.id || null,
                 usuario: (document.getElementById(idModal === 'Editmodal' ? 'EditName' : 'AddName') as HTMLInputElement)?.value || '',
@@ -58,52 +66,70 @@ export const AdminPopups: React.FC<AdminPopupsProps> = ({
             };
     
             onSave(formData); 
+        } else if (location.pathname === '/Salas') {
+            const formData = {
+                id: selectedSala?.id || null,
+                nome: (document.getElementById(idModal === 'Editmodal' ? 'EditSala' : 'AddSala') as HTMLInputElement)?.value || '',
+                descricao: (document.getElementById(idModal === 'Editmodal' ? 'EditDescription' : 'AddDescription') as HTMLInputElement)?.value || '',
+                caracteristicas: (document.getElementById(idModal === 'Editmodal' ? 'EditCaract' : 'AddCaract') as HTMLInputElement)?.value || '',
+                status: statusChecked || null,
+                backImg: (document.getElementById(idModal === 'Editmodal' ? 'EditIMG' : 'AddIMG') as HTMLInputElement)?.value || '',
+            };
+
+            onSave(formData); 
         }
     };
 
     const renderForm = () => {
         switch (location.pathname) {
-             case '/Salas':
-                 if (idModal === "Editmodal") {
-                     return (
-                         <FormsSalas
-                             formVER={true}
-                             formID={'Edit'}
-                             idName={'AddSala'}
-                             idIMG={'AddIMG'}
-                             idCaract={'AddCaract'}
-                             edit={true}
-                             block={false} 
-                             selectedSala={null}
-                         />
-                     );
-                 } else if (idModal === "Viewmodal") {
-                     return (
+            case '/Salas':
+                if (idModal === "Editmodal") {
+                    return (
+                       <FormsSalas
+                          formVER={true}
+                          formID={'Edit'}
+                          idName={'EditSala'}
+                          idDescription={'EditDescription'}
+                          idIMG={'EditIMG'}
+                          idCaract={'EditCaract'}
+                          idStatus={'EditStatus'}
+                          edit={true}
+                          block={true} 
+                          onStatusChange={handleStatusChange}
+                          selectedSala={selectedSala!}
+                       />
+                    );
+                } else if (idModal === "Viewmodal") {
+                    return (
+                       <FormsSalas
+                           formVER={false}
+                           formID={'View'}
+                           idName={'ViewSala'}
+                           idDescription={'ViewDescription'}
+                           idIMG={'ViewIMG'}
+                           idCaract={'ViewCaract'}
+                           idStatus={'ViewStatus'}
+                           edit={false}
+                           block={false} 
+                           selectedSala={selectedSala!}
+                       />
+                    );
+                } else {
+                    return (
                         <FormsSalas
-                            formVER={false}
-                            formID={'View'}
-                            idName={'AddSala'}
-                            idIMG={'AddIMG'}
-                            idCaract={'AddCaract'}
-                            edit={false}
-                            block={false} 
-                            selectedSala={null}
+                           formVER={true}
+                           formID={'Add'}
+                           idName={'AddSala'}
+                           idDescription={'AddDescription'}
+                           idIMG={'AddIMG'}
+                           idCaract={'AddCaract'}
+                           idStatus={'AddStatus'}
+                           edit={false}
+                           block={false} 
+                           selectedSala={null}                     
                         />
-                     );
-                 } else {
-                 return (
-                        <FormsSalas
-                            formVER={true}
-                            formID={'Add'}
-                            idName={'AddSala'}
-                            idIMG={'AddIMG'}
-                            idCaract={'AddCaract'}
-                            edit={false}
-                            block={false} 
-                            selectedSala={null}                     
-                        />
-                 );
-             }
+                    );
+                }
             case '/Reservas':
                 if (idModal === "Editmodal") {
                     return (

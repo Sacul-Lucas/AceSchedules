@@ -10,17 +10,14 @@ const pool = mysql.createPool({
     port: 5500
 });
 
-// Função de visualização
 export const VisualizarAction = (req: Request, res: Response) => {
-    // Obtenha o ID dos parâmetros da URL
     const { id } = req.params;
 
     if (!id) {
         return res.status(400).json({ success: false, message: 'ID do usuário não fornecido' });
     }
 
-    // Determine a rota com base no caminho atual
-    const currPath = req.originalUrl; // Usa req.path para verificar o caminho
+    const currPath = req.originalUrl;
     let reqRoute = '';
     let msgId = '';
     let query = '';

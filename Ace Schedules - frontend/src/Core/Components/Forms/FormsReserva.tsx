@@ -3,7 +3,7 @@ import DatePicker from "react-datepicker";
 import { ptBR } from 'date-fns/locale';
 import { startOfMonth, endOfMonth, isWithinInterval, addHours } from 'date-fns';
 import "react-datepicker/dist/react-datepicker.css";
-import { parseDate } from '../Utils/DateUtils';
+import { parseStringToDate } from '../Utils/DateUtils';
 
 interface Sala {
   id: string;
@@ -47,8 +47,8 @@ export const FormsReserva: React.FC<FormsReservaProps> = ({
   salaAction,
   selectid
 }) => {
-  const [startDate, setStartDate] = useState<Date | null>(parseDate(selectedReserva?.data));
-  const [endDate, setEndDate] = useState<Date | null>(parseDate(selectedReserva?.hora));
+  const [startDate, setStartDate] = useState<Date | null>(parseStringToDate(selectedReserva?.data));
+  const [endDate, setEndDate] = useState<Date | null>(parseStringToDate(selectedReserva?.hora));
   const [currentMonth, setCurrentMonth] = useState<Date>(new Date());
 
   const isDateWithinMonth = (date: Date) => {
@@ -63,14 +63,14 @@ export const FormsReserva: React.FC<FormsReservaProps> = ({
   
   const handleStartDateChange = (date: Date | null) => {
     if (date) {
-        setStartDate(date);
-        setEndDate(null);
+      setStartDate(date);
+      setEndDate(null);
     }
   };
 
   const handleEndDateChange = (date: Date | null) => {
     if (date) {
-        setEndDate(date);
+      setEndDate(date);
     }
   };
 

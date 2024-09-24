@@ -7,11 +7,10 @@ export const Salas: React.FC = () => {
     const [salas, setSalas] = useState<any[]>([]);
     const [totalSalas, setTotalSalas] = useState(0);
     const [bloqueadasSalas, setBloqueadasSalas] = useState(0);
-    const [selectedSala, setselectedSala] = useState<any>(null);
+    const [selectedSala, setSelectedSala] = useState<any>(null);
     const [viewMode, setViewMode] = useState(false);
-    const [editMode, setEditMode] = useState(false); 
+    const [editMode, setEditMode] = useState(false);
     const [filterNome, setFilterNome] = useState('');
-    const [filterCapacidade, setFilterCapacidade] = useState('');
     const [apenasBloqueadas, setApenasBloqueadas] = useState(false);
 
     const handleClose = () => setShow(false);
@@ -19,7 +18,7 @@ export const Salas: React.FC = () => {
     const handleAdd = async () => {
         setViewMode(false);
         setEditMode(false);
-        setselectedSala(null);
+        setSelectedSala(null);
         setShow(true);
     }
 
@@ -29,7 +28,15 @@ export const Salas: React.FC = () => {
             if (response.ok) {
                 const data = await response.json();
                 if (data.success) {
-                    setselectedSala(data.data);
+                    const adjustedData = {
+                        id: data.data.id,
+                        nome: data.data.nome,
+                        descricao: data.data.descricao,
+                        status: data.data.status,
+                        backImg: data.data.backImg,
+                        caracteristicas: data.data.caracteristicas,
+                      };
+                    setSelectedSala(adjustedData);
                 } else {
                     alert(data.message);
                 }
@@ -43,14 +50,22 @@ export const Salas: React.FC = () => {
             console.error("Erro ao buscar a sala:", error);
         }
     };
-    
+
     const handleEdit = async (id: number) => {
         try {
             const response = await fetch(`/api/adminPaths/Salas/Visualizar/${id}`);
             if (response.ok) {
                 const data = await response.json();
                 if (data.success) {
-                    setselectedSala(data.data);
+                    const adjustedData = {
+                        id: data.data.id,
+                        nome: data.data.nome,
+                        descricao: data.data.descricao,
+                        status: data.data.status,
+                        backImg: data.data.backImg,
+                        caracteristicas: data.data.caracteristicas,
+                    };
+                    setSelectedSala(adjustedData);
                 } else {
                     alert(data.message);
                 }
@@ -64,36 +79,36 @@ export const Salas: React.FC = () => {
             console.error("Erro ao buscar a sala:", error);
         }
     };
-    
-      const actionSave = async (formData: any) => {
-          try {
-              const endpoint = editMode === true ? '/api/adminPaths/Salas/Editar' : '/api/adminPaths/Salas/Criar';
-              const response = await fetch(endpoint, {
-                  method: 'POST',
-                  headers: {
-                      'Content-Type': 'application/json'
-                  },
-                  body: JSON.stringify(formData) 
-              });
-      
-              const result = await response.json();
-      
-              if (result.success) {
-                  alert(result.message);
-                  loadSalas();
-                  handleClose();
-                  setselectedSala(null);
-              } else {
-                  alert(result.message);
-              }
-          } catch (error) {
-              console.error("Erro ao salvar reserva:", error);
-          }
-      };
+
+    const actionSave = async (formData: any) => {
+        try {
+            const endpoint = editMode ? '/api/adminPaths/Salas/Editar' : '/api/adminPaths/Salas/Criar';
+            const response = await fetch(endpoint, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            });
+
+            const result = await response.json();
+
+            if (result.success) {
+                alert(result.message);
+                loadSalas();
+                handleClose();
+                setSelectedSala(null);
+            } else {
+                alert(result.message);
+            }
+        } catch (error) {
+            console.error("Erro ao salvar reserva:", error);
+        }
+    };
 
     const loadSalas = async () => {
         try {
-            const response = await fetch(`/api/adminPaths/Salas?filter_nome=${encodeURIComponent(filterNome)}&filter_capacidade=${encodeURIComponent(filterCapacidade)}&apenas_bloqueadas=${apenasBloqueadas}`);
+            const response = await fetch(`/api/adminPaths/Salas?filter_nome=${encodeURIComponent(filterNome)}&apenas_bloqueadas=${apenasBloqueadas}`);
             if (response.ok) {
                 const data = await response.json();
                 setSalas(data.salas);
@@ -106,6 +121,7 @@ export const Salas: React.FC = () => {
             console.error("Erro ao carregar dados das salas:", error);
         }
     };
+
     const handleDelete = async (id: number) => {
         try {
             const response = await fetch(`/api/adminPaths/Salas/Deletar`, {
@@ -128,18 +144,17 @@ export const Salas: React.FC = () => {
             console.error("Erro ao deletar sala:", error);
         }
     };
-    
+
     useEffect(() => {
         loadSalas();
-    }, [filterNome, filterCapacidade, apenasBloqueadas]);
-
+    }, [filterNome, apenasBloqueadas]);
 
     return (
         <AdminSidebar>
             <AdminPopups
                 idModal={editMode ? 'Editmodal' : viewMode ? 'Viewmodal' : 'Addmodal'}
                 formLabel={editMode ? 'Editar sala' : viewMode ? 'Visualizar sala' : 'Criar sala'}
-                salaAlocada={selectedSala}
+                selectedSala={selectedSala}
                 show={show}
                 handleClose={handleClose}
                 onSave={actionSave}     
@@ -165,16 +180,6 @@ export const Salas: React.FC = () => {
                                             value={filterNome}
                                             onChange={(e) => setFilterNome(e.target.value)}
                                         />
-                                        <label className="pl-2 pr-2 !m-0 text-black" htmlFor="filter_capacidade">Capacidade da sala:</label>
-                                        <input 
-                                            className="pl-2 !text-black !border !border-black !h-7" 
-                                            type="number" 
-                                            id="filter_capacidade" 
-                                            name="filter_capacidade" 
-                                            autoComplete="OFF" 
-                                            value={filterCapacidade}
-                                            onChange={(e) => setFilterCapacidade(e.target.value)}
-                                        />
                                         <label className="pl-2 pr-2 !m-0 text-black">Mostrar apenas bloqueadas</label>
                                         <input 
                                             className="!text-black !border !border-black !h-7" 
@@ -193,7 +198,8 @@ export const Salas: React.FC = () => {
                                         <tr>
                                             <th>ID</th>
                                             <th>Nome da Sala</th>
-                                            <th>Capacidade</th>
+                                            <th>Descrição</th>
+                                            <th>Status</th>
                                             <th>Ações</th>
                                         </tr>
                                     </thead>
@@ -201,16 +207,17 @@ export const Salas: React.FC = () => {
                                         {salas.length > 0 ? salas.map(sala => (
                                             <tr key={sala.id}>
                                                 <td>{sala.id}</td>
-                                                <td style={{ color: sala.status === 1 ? 'red' : '' }}>{sala.nome}</td>
-                                                <td>{sala.capacidade}</td>
+                                                <td style={{ color: sala.status === '1' ? 'red' : '' }}>{sala.nome}</td>
+                                                <td>{sala.descricao}</td>
+                                                <td>{sala.status === '1' ? 'Bloqueada' : 'Disponível'}</td>
                                                 <td>
-                                                    <button type='button' data-id={sala.id} onClick={() => handleView(sala.id)} className='mx-1 viewBtn btn btn-info btn-sm'>View</button>
-                                                    <button type='button' data-id={sala.id} onClick={() => handleEdit(sala.id)} className='mx-1 editBtn btn btn-success btn-sm'>Edit</button>
-                                                    <button type='button' data-id={sala.id} onClick={() => handleDelete(sala.id)} className='mx-1 deleteBtn btn btn-danger btn-sm'>Delete</button>
+                                                    <button type='button' data-id={sala.id} onClick={() => handleView(sala.id)} className='mx-1 viewBtn btn btn-info btn-sm'>Visualizar</button>
+                                                    <button type='button' data-id={sala.id} onClick={() => handleEdit(sala.id)} className='mx-1 editBtn btn btn-success btn-sm'>Editar</button>
+                                                    <button type='button' data-id={sala.id} onClick={() => handleDelete(sala.id)} className='mx-1 deleteBtn btn btn-danger btn-sm'>Deletar</button>
                                                 </td>
                                             </tr>
                                         )) : (
-                                            <tr><td colSpan={4}>Nenhuma sala encontrada.</td></tr>
+                                            <tr><td colSpan={5}>Nenhuma sala encontrada.</td></tr>
                                         )}
                                     </tbody>
                                 </table>

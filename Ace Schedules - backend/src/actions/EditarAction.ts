@@ -28,11 +28,12 @@ function queryDatabase(query: string, params: any[]): Promise<QueryResult> {
 }
 
 export const EditarAction = async (req: Request, res: Response) => {
+    console.log(req.body)
     if (!req.body || !req.body.id) {
         return res.status(400).json({ success: false, message: 'Corpo da solicitação ou ID está vazio' });
     }
 
-    const { id, statusOnly, newStatus } = req.body; // Adicionando campo statusOnly
+    const { id, statusOnly, newStatus } = req.body;
     const currPath = req.originalUrl; 
     let reqRoute = '';
     let msgId = '';
@@ -42,22 +43,42 @@ export const EditarAction = async (req: Request, res: Response) => {
 
     try {
         if (statusOnly && newStatus !== undefined) {
-            // Se statusOnly for true, apenas atualiza o status
             reqRoute = currPath.includes('/Salas') ? 'salas' : 'reservas';
             msgId = reqRoute === 'salas' ? 'Sala' : 'Reserva';
             updateFields = 'status = ?';
             dados = [newStatus, id];
         } else {
-            // Lógica de edição normal
             if (currPath.includes('/Salas')) {
                 reqRoute = 'salas';
                 msgId = 'Sala';
-                updateFields = 'caracteristicas = ?';
-                const { caracteristicas } = req.body;
-                if (!caracteristicas) {
-                    return res.json({ success: false, message: 'Campos obrigatórios faltando salas' });
+                updateFields = 'nome = ?, descricao = ?, status = ?, backImg = ?, caracteristicas = ?';
+                const { nome, descricao, status = '0', backImg, caracteristicas } = req.body;
+
+                if (!nome || !descricao || !backImg) {
+                    return res.status(400).json({ success: false, message: 'Nome, descrição e imagem de fundo são obrigatórios.' });
                 }
-                dados = [caracteristicas, id];
+
+                let caracteristicasJson: string;
+                try {
+                    caracteristicasJson = JSON.stringify(caracteristicas);
+                // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                } catch (error) {
+                    return res.status(400).json({ success: false, message: 'Formato das características inválido.' });
+                }
+
+                dados = [nome, descricao, status, backImg, caracteristicasJson, id];
+
+                const checkQuery = `
+                    SELECT COUNT(*) AS total FROM salas 
+                    WHERE nome = ?
+                `;
+
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                const rows: any = await queryDatabase(checkQuery, [nome]);
+
+                if (rows > 0) {
+                    return res.status(400).json({ success: false, message: 'Sala já existe.' });
+                }
 
             } else if (currPath.includes('/Reservas')) {
                 reqRoute = 'reservas';
@@ -89,6 +110,7 @@ export const EditarAction = async (req: Request, res: Response) => {
                 }
                 dados = [usuario, email, senha, usertype, telefone, cnpj, id];
             } else {
+                console.log(currPath)
                 return res.status(400).json({ success: false, message: 'Caminho inválido.' });
             }
         }

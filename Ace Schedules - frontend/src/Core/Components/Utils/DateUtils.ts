@@ -8,7 +8,7 @@ export const formatDateForMySQL = (date: Date | null): string => {
     return `${year}-${month}-${day} ${hours}:${minutes}:00`;
 };
 
-export const parseDate = (dateStr: string | undefined): Date | null => {
+export const parseStringToDate = (dateStr: string | undefined): Date | null => {
     if (!dateStr) return null;
     const parts = dateStr.split(/[\s/:]+/);
     if (parts.length !== 6) return null;

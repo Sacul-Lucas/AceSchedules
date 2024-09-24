@@ -1,18 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { AdminPopups } from "../../Core/Components/Pop-ups/AdminPopups";
 import { AdminSidebar } from "../../Core/Components/Sidebars/AdminSidebar";
+import DatePicker from "react-datepicker";
+import { ptBR } from 'date-fns/locale';
+import { startOfMonth, endOfMonth, isWithinInterval, addHours } from 'date-fns';
 
 export const Reservas: React.FC = () => {
   const [reservasPendentes, setReservasPendentes] = useState<any[]>([]);
   const [reservasAprovadas, setReservasAprovadas] = useState<any[]>([]);
   const [salas, setSalas] = useState<any[]>([]);
   const [filterSalaAlocada, setFilterSalaAlocada] = useState<string>("");
-  const [filterDataReserva, setFilterDataReserva] = useState<string>("");
-  const [filterHoraReserva, setFilterHoraReserva] = useState<string>("");
+  const [FilterDataInicio, setFilterDataInicio] = useState<Date | null>();
+  const [FilterDataFim, setFilterDataFim] = useState<Date | null>();
   const [filterAlocador, setFilterAlocador] = useState<string>("");
   const [filterSalaAlocadaAprovada, setFilterSalaAlocadaAprovada] = useState<string>("");
-  const [filterDataReservaAprovada, setFilterDataReservaAprovada] = useState<string>("");
-  const [filterHoraReservaAprovada, setFilterHoraReservaAprovada] = useState<string>("");
+  const [FilterDataInicioAprovada, setFilterDataInicioAprovada] = useState<Date | null>();
+  const [FilterDataFimAprovada, setFilterDataFimAprovada] = useState<Date | null>();
   const [filterAlocadorAprovada, setFilterAlocadorAprovada] = useState<string>("");
   const [totalreservasPendentes, setTotalreservasPendentes] = useState(0);
   const [totalreservasAprovadas, setTotalreservasAprovadas] = useState(0);
@@ -22,6 +25,53 @@ export const Reservas: React.FC = () => {
   const [editMode, setEditMode] = useState(false);
   const [salaAlocada, setSalaAlocada] = useState('');
   const [idSalaAlocada, setIdSalaAlocada] = useState(0);
+
+  const [startDate, setStartDate] = useState<Date | null>();
+  const [endDate, setEndDate] = useState<Date | null>();
+  const [startDateAprov, setStartDateAprov] = useState<Date | null>();
+  const [endDateAprov, setEndDateAprov] = useState<Date | null>();
+  const [currentMonth, setCurrentMonth] = useState<Date>(new Date());
+
+  const isDateWithinMonth = (date: Date) => {
+    const monthStart = startOfMonth(currentMonth);
+    const monthEnd = endOfMonth(currentMonth);
+    return isWithinInterval(date, { start: monthStart, end: monthEnd });
+  };
+
+  const handleMonthChange = (date: Date) => {
+    setCurrentMonth(date);
+  };
+
+  const handleStartDateChange = (date: Date | null) => {
+    if (date) {
+        setStartDate(date);
+        setEndDate(null);
+        setFilterDataInicio(date)
+    }
+  };
+
+  const handleEndDateChange = (date: Date | null) => {
+    if (date) {
+        setEndDate(date);
+        setFilterDataFim(date)
+    }
+  };
+  
+  const handleStartDateChangeAprov = (date: Date | null) => {
+    if (date) {
+        setStartDateAprov(date);
+        setEndDateAprov(null);
+        setFilterDataInicioAprovada(date)
+    }
+  };
+
+  const handleEndDateChangeAprov = (date: Date | null) => {
+    if (date) {
+        setEndDateAprov(date);
+        setFilterDataFimAprovada(date)
+    }
+  };
+
 
   const handleClose = () => setShow(false);
 
@@ -39,47 +89,57 @@ export const Reservas: React.FC = () => {
     }
   };
 
-  const loadReservasPendentes = async () => {
-    try {
-      const response = await fetch(
-        `/api/adminPaths/Reservas/?status=0&sala=${encodeURIComponent(
-          filterSalaAlocada
-        )}&data=${encodeURIComponent(filterDataReserva)}&hora=${encodeURIComponent(
-          filterHoraReserva
-        )}&nome=${encodeURIComponent(filterAlocador)}`
-      );
-      if (response.ok) {
-        const data = await response.json();
-        setReservasPendentes(data.reservas || []);
-        setTotalreservasPendentes(data.total || 0);
-      } else {
-        console.error("Erro ao carregar reservas pendentes:", response.statusText);
-      }
-    } catch (error) {
-      console.error("Erro ao carregar reservas pendentes:", error);
-    }
-  };
+const loadReservasPendentes = async () => {
+  try {
+    const formatDate = (date: Date | null | undefined): string => {
+      return date ? date.toISOString().split('T')[0] : ''; // Format to YYYY-MM-DD
+    };
 
-  const loadReservasAprovadas = async () => {
-    try {
-      const response = await fetch(
-        `/api/adminPaths/Reservas/?status=1&sala=${encodeURIComponent(
-          filterSalaAlocadaAprovada
-        )}&data=${encodeURIComponent(filterDataReservaAprovada)}&hora=${encodeURIComponent(
-          filterHoraReservaAprovada
-        )}&nome=${encodeURIComponent(filterAlocadorAprovada)}`
-      );
-      if (response.ok) {
-        const data = await response.json();
-        setReservasAprovadas(data.reservas || []);
-        setTotalreservasAprovadas(data.total || 0);
-      } else {
-        console.error("Erro ao carregar reservas aprovadas:", response.statusText);
-      }
-    } catch (error) {
-      console.error("Erro ao carregar reservas aprovadas:", error);
+    const response = await fetch(
+      `/api/adminPaths/Reservas/?status=0&sala=${encodeURIComponent(
+        filterSalaAlocada
+      )}&data=${encodeURIComponent(formatDate(FilterDataInicio))}&hora=${encodeURIComponent(
+        formatDate(FilterDataFim)
+      )}&nome=${encodeURIComponent(filterAlocador)}`
+    );
+
+    if (response.ok) {
+      const data = await response.json();
+      setReservasPendentes(data.reservas || []);
+      setTotalreservasPendentes(data.total || 0);
+    } else {
+      console.error("Erro ao carregar reservas pendentes:", response.statusText);
     }
-  };
+  } catch (error) {
+    console.error("Erro ao carregar reservas pendentes:", error);
+  }
+};
+
+const loadReservasAprovadas = async () => {
+  try {
+    const formatDate = (date: Date | null | undefined): string => {
+      return date ? date.toISOString().split('T')[0] : ''; // Format to YYYY-MM-DD
+    };
+
+    const response = await fetch(
+      `/api/adminPaths/Reservas/?status=1&sala=${encodeURIComponent(
+        filterSalaAlocadaAprovada
+      )}&data=${encodeURIComponent(formatDate(FilterDataInicioAprovada))}&hora=${encodeURIComponent(
+        formatDate(FilterDataFimAprovada)
+      )}&nome=${encodeURIComponent(filterAlocadorAprovada)}`
+    );
+
+    if (response.ok) {
+      const data = await response.json();
+      setReservasAprovadas(data.reservas || []);
+      setTotalreservasAprovadas(data.total || 0);
+    } else {
+      console.error("Erro ao carregar reservas aprovadas:", response.statusText);
+    }
+  } catch (error) {
+    console.error("Erro ao carregar reservas aprovadas:", error);
+  }
+};
 
   const handleAdd = async () => {
       setViewMode(false);
@@ -285,7 +345,7 @@ const handleEdit = async (id: number) => {
     loadReservasPendentes();
     loadReservasAprovadas();
     loadSalas();  
-  }, [filterSalaAlocada, filterDataReserva, filterHoraReserva, filterAlocador, filterSalaAlocadaAprovada, filterDataReservaAprovada, filterHoraReservaAprovada, filterAlocadorAprovada]);
+  }, [filterSalaAlocada, FilterDataInicio, FilterDataFim, filterAlocador, filterSalaAlocadaAprovada, FilterDataInicioAprovada, FilterDataFimAprovada, filterAlocadorAprovada]);
 
 
 
@@ -318,16 +378,47 @@ const handleEdit = async (id: number) => {
                     <select className="!text-black !border !border-black !h-7" id="filter_sala" name="filter_sala" onChange={(e) => setFilterSalaAlocada(e.target.value)} value={filterSalaAlocada} required>
                       <option value="">--Todas as salas--</option>
                       {salas.map(sala => (
-                          <option key={sala.id} value={sala.id}>{sala.nome}</option>
+                        <option key={sala.id} value={sala.id}>{sala.nome}</option>
                       ))}
                     </select>
                     <div className="form-group">
-                      <label className="pl-2 pr-1 text-black" htmlFor="data">Data da reserva:</label>
-                      <input className="!text-black !border !border-black" type="date" id="filter_data" name="filter_data" onChange={(e) => setFilterDataReserva(e.target.value)} value={filterDataReserva}/>
+                      <label className="pl-2 pr-1 text-black" >Data e hora:</label>
+                        <DatePicker
+                          id={"filter_data_inicio"}
+                          selected={startDate}
+                          onChange={handleStartDateChange}
+                          showTimeSelect
+                          timeFormat="p"
+                          timeIntervals={15}
+                          timeCaption="Horário"
+                          dateFormat="Pp"
+                          locale={ptBR}
+                          placeholderText="Data de início"
+                          className="!text-black !border !border-black !h-7"
+                          filterDate={isDateWithinMonth}
+                          onMonthChange={handleMonthChange}
+                        />
                     </div>
                     <div className="form-group">
-                      <label className="pl-2 pr-1 text-black" htmlFor="hora">Hora da reserva:</label>
-                      <input className="!text-black !border !border-black" type="time" id="filter_hora" name="filter_hora" onChange={(e) => setFilterHoraReserva(e.target.value)} value={filterHoraReserva}/>
+                    <label className="pl-2 pr-1 text-black" >Data e hora:</label>
+                      <DatePicker
+                        id={"filter_data_fim"}
+                        selected={endDate}
+                        onChange={handleEndDateChange}
+                        showTimeSelect
+                        timeFormat="p"
+                        timeIntervals={15}
+                        timeCaption="Horário"
+                        dateFormat="Pp"
+                        locale={ptBR}
+                        placeholderText="Data de fim"
+                        className="!text-black !border !border-black !h-7"
+                        filterDate={isDateWithinMonth}
+                        onMonthChange={handleMonthChange}
+                        minDate={startDate || undefined}
+                        minTime={startDate ? addHours(startDate, 1) : undefined}
+                        maxTime={startDate ? endOfMonth(startDate) : undefined}
+                      />
                     </div>
                     <div className="form-group">
                       <label className="pl-2 pr-1 text-black" htmlFor="nome">Nome do alocador:</label>
@@ -373,16 +464,47 @@ const handleEdit = async (id: number) => {
                       ))}
                     </select>
                     <div className="form-group">
-                      <label className="pl-2 pr-1 text-black" htmlFor="data_aprov">Data da reserva:</label>
-                      <input className="!text-black !border !border-black" type="date" id="data_aprov" name="data_aprov" onChange={(e) => setFilterDataReservaAprovada(e.target.value)} value={filterDataReservaAprovada}/>
+                      <label className="pl-2 pr-1 text-black" >Data e hora:</label>
+                        <DatePicker
+                          id={"filter_data_inicio_aprov"}
+                          selected={startDateAprov}
+                          onChange={handleStartDateChangeAprov}
+                          showTimeSelect
+                          timeFormat="p"
+                          timeIntervals={15}
+                          timeCaption="Horário"
+                          dateFormat="Pp"
+                          locale={ptBR}
+                          placeholderText="Data de início"
+                          className="!text-black !border !border-black !h-7"
+                          filterDate={isDateWithinMonth}
+                          onMonthChange={handleMonthChange}
+                        />
                     </div>
                     <div className="form-group">
-                      <label className="pl-2 pr-1 text-black" htmlFor="hora_aprov">Hora da reserva:</label>
-                      <input className="!text-black !border !border-black" type="time" id="hora_aprov" name="hora_aprov" onChange={(e) => setFilterHoraReservaAprovada(e.target.value)} value={filterHoraReservaAprovada}/>
+                    <label className="pl-2 pr-1 text-black" >Data e hora:</label>
+                      <DatePicker
+                          id={"filter_data_fim_aprov"}
+                          selected={endDateAprov}
+                          onChange={handleEndDateChangeAprov}
+                          showTimeSelect
+                          timeFormat="p"
+                          timeIntervals={15}
+                          timeCaption="Horário"
+                          dateFormat="Pp"
+                          locale={ptBR}
+                          placeholderText="Data de fim"
+                          className="!text-black !border !border-black !h-7"
+                          filterDate={isDateWithinMonth}
+                          onMonthChange={handleMonthChange}
+                          minDate={startDate || undefined}
+                          minTime={startDate ? addHours(startDate, 1) : undefined}
+                          maxTime={startDate ? endOfMonth(startDate) : undefined}
+                      />
                     </div>
                     <div className="form-group">
                       <label className="pl-2 pr-1 text-black" htmlFor="nome_aprov">Nome do alocador:</label>
-                      <input className="!text-black !border !border-black" type="text" id="nome_aprov" name="nome_aprov" autoComplete="OFF" onChange={(e) => setFilterAlocadorAprovada(e.target.value)} value={filterAlocadorAprovada}/>
+                      <input className="!text-black !border !border-black" type="text" id="nome_aprov" name="nome_aprov" autoComplete="OFF" onChange={(e) => setFilterAlocadorAprovada(e.target.value)} value={filterAlocadorAprovada} />
                     </div>
                   </div>
                 </div>
@@ -398,7 +520,7 @@ const handleEdit = async (id: number) => {
                       </tr>
                     </thead>
                     <tbody>
-                       {renderTableRows(reservasAprovadas, 'aprovados')}
+                      {renderTableRows(reservasAprovadas, 'aprovados')}
                     </tbody>
                   </table>
                 </div>

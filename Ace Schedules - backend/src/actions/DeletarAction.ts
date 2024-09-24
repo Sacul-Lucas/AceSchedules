@@ -13,13 +13,13 @@ const pool = mysql.createPool({
 });
 
 export const DeletarAction = (req: Request, res: Response) => {
-    const { id } = req.body;  // Verifica se o id está vindo do corpo da requisição
+    const { id } = req.body;
 
     if (!id) {
         return res.status(400).json({ success: false, message: 'ID não fornecido.' });
     }
 
-    const currPath = req.originalUrl; // Use req.originalUrl para capturar o caminho completo da requisição
+    const currPath = req.originalUrl;
     let reqRoute = '';
     let msgId = '';
 

@@ -3,6 +3,7 @@ import { Cadastro } from "../actions/userRegisterAction";
 import { Login } from "../actions/userLoginAction";
 import { Logout } from "../actions/userLogoutAction";
 import { GetUsername } from "../actions/GetUsernameAction";
+import { GetUsertype } from "../actions/GetUserTypeAction";
 
 const userAuth = Router();
 
@@ -10,5 +11,6 @@ userAuth.post('/cadastro', Cadastro);
 userAuth.post('/login', Login);
 userAuth.post('/logout', Logout);
 userAuth.get('/username', GetUsername);
+userAuth.get('/usertype', GetUsertype)
 
 export { userAuth }
