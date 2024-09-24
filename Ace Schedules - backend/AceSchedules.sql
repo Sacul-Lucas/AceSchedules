@@ -78,20 +78,22 @@ INSERT INTO `reservas` (`id`, `dataAgendamentoInicial`, `dataAgendamentoFinal`, 
 --
 -- Table structure for table `salas`
 --
-
 CREATE TABLE `salas` (
   `id` int(11) NOT NULL,
   `nome` varchar(255) NOT NULL,
-  `status` varchar(55) NOT NULL DEFAULT '0'
+  `descricao` varchar(255) NOT NULL,
+  `status` varchar(55) NOT NULL DEFAULT '0',
+  `backImg` varchar(255) NOT NULL,
+  `caracteristicas` JSON
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `salas`
 --
 
-INSERT INTO `salas` (`id`, `nome`, `capacidade`, `caracteristicas`, `img`, `status`) VALUES
-(212, 'FEe', 33453, '', 'Captura_de_Tela_(3).png', ''),
-(214, 'eeF', 333, '', 'Captura_de_Tela_(7).png', '0');
+INSERT INTO `salas` (`id`, `nome`, `descricao`, `status`, `backImg`, `caracteristicas`) 
+VALUES ('1', 'Sala 1', 'Descrição da sala 1', '1', 'imagem.jpg', '["Wifi", "Ar condicionado", "Projetor"]');
+
 
 --
 -- Indexes for dumped tables
