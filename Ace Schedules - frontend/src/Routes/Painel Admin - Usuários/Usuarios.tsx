@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
-import 'bootstrap/dist/css/bootstrap.min.css';
-import { AdminPopups } from "../../Core/Components/Utils/AdminPopups";
+import { AdminPopups } from "../../Core/Components/Pop-ups/AdminPopups";
+import { handleAlert, ResponsePopup } from "../../Core/Components/Pop-ups/ResponsePopup";
+import { AdminSidebar } from "../../Core/Components/Sidebars/AdminSidebar";
+
+// import 'bootstrap/dist/css/bootstrap.min.css';
 
 export const Usuarios: React.FC = () => {
     const [usuarios, setUsuarios] = useState<any[]>([]);
@@ -9,46 +12,106 @@ export const Usuarios: React.FC = () => {
     const [filterUserType, setFilterUserType] = useState<string>('');
     const [show, setShow] = useState(false);
     const [totalUsuarios, setTotalUsuarios] = useState(0);
-    const [selectedUsuario, setSelectedUsuario] = useState<any>(null);
-    const [viewMode, setViewMode] = useState(false); // Modo Visualização
-    const [editMode, setEditMode] = useState(false); // Modo Edição
+    const [selectedUser, setselectedUser] = useState<any>(null);
+    const [viewMode, setViewMode] = useState(false); 
+    const [editMode, setEditMode] = useState(false); 
+    const [error, setError] = useState('');
+    const [success, setSuccess] = useState('');
 
     const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
 
 
-    // Função para buscar os usuários do backend
     const loadUsuarios = async () => {
         try {
             const response = await fetch(`/api/adminPaths/Usuarios/?nome=${encodeURIComponent(filterNome)}&email=${encodeURIComponent(filterEmail)}&user_type=${filterUserType}`);
             if (response.ok) {
                 const data = await response.json();
-                setUsuarios(data.Usuarios || []); // Garante que usuarios é sempre um array
-                setTotalUsuarios(data.total || 0); // Garante que totalUsuarios é sempre um número
+                setUsuarios(data.Usuarios || []); 
+                setTotalUsuarios(data.total || 0);
             } else {
                 console.error("Erro ao carregar dados dos Usuarios:", response.statusText);
-                setUsuarios([]); // Garante que usuarios é sempre um array, mesmo em caso de erro
+                setUsuarios([]);
             }
         } catch (error) {
             console.error("Erro ao carregar dados dos Usuarios:", error);
-            setUsuarios([]); // Garante que usuarios é sempre um array, mesmo em caso de erro
+            setUsuarios([]);
+        }
+    };
+    const handleAdd = async () => {
+        setViewMode(false);
+        setEditMode(false);
+        setselectedUser(null);
+        setShow(true);
+    }
+
+    const handleView = async (id: number) => {
+        try {
+            const response = await fetch(`/api/adminPaths/Usuarios/Visualizar/${id}`);
+            if (response.ok) {
+                const data = await response.json();
+                if (data.success) {
+                    setselectedUser(data.data);
+                } else {
+                    alert(data.message);
+                }
+            } else {
+                console.error('Erro ao carregar dados do usuário:', response.statusText);
+            }
+            setViewMode(true);
+            setEditMode(false);
+            setShow(true);
+        } catch (error) {
+            console.error("Erro ao buscar o usuário:", error);
         }
     };
 
-    const handleView = async (id: number) => {
-        // Buscar e definir o usuário selecionado
-        setViewMode(true);
-        setEditMode(false);
-        setShow(true);
+    const handleEdit = async (id: number) => {
+        try {
+            const response = await fetch(`/api/adminPaths/Usuarios/Visualizar/${id}`);
+            if (response.ok) {
+                const data = await response.json();
+                if (data.success) {
+                    setselectedUser(data.data);
+                } else {
+                    alert(data.message);
+                }
+            } else {
+                console.error('Erro ao carregar dados do usuário:', response.statusText);
+            }
+            setViewMode(false);
+            setEditMode(true);
+            setShow(true);
+        } catch (error) {
+            console.error("Erro ao buscar o usuário:", error);
+        }
     };
 
-    const handleEdit = async (id: number) => {
-        // Buscar e definir o usuário selecionado
-        setViewMode(false);
-        setEditMode(true);
-        setShow(true);
+    const actionSave = async (formData: any) => {
+        try {
+            const endpoint = editMode === true ? '/api/adminPaths/Usuarios/Editar' : '/api/adminPaths/Usuarios/Criar';
+            const response = await fetch(endpoint, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            });
+    
+            const result = await response.json();
+    
+            if (result.success) {
+                alert(result.message);
+                loadUsuarios();
+                handleClose();
+            } else {
+                alert(result.message);
+            }
+        } catch (error) {
+            console.error("Erro ao salvar usuário:", error);
+        }
     };
-    const handleDelete = async (id: number) => {
+
+    const actionDelete = async (id: number) => {
         try {
             const response = await fetch(`/api/adminPaths/Usuarios/Deletar`, {
                 method: 'POST',
@@ -61,55 +124,53 @@ export const Usuarios: React.FC = () => {
             const result = await response.json();
 
             if (result.success) {
-                alert(result.message);
-                loadUsuarios(); // Recarrega os usuários após deletar
+                setSuccess(result.message);
+                setError('');
+                loadUsuarios();
             } else {
-                alert(result.message);
+                setError(result.message);
+                setSuccess('');
             }
         } catch (error) {
             console.error("Erro ao deletar usuário:", error);
+            setError('Não foi possível fazer deletar o usuário no momento. Tente novamente mais tarde.');
+            setSuccess('');
         }
+        
+        setTimeout(() => {
+            handleAlert();
+        }, 50)
     };
 
-    // Chamada para buscar os dados dos usuários quando o componente é montado ou quando filtros mudam
     useEffect(() => {
         loadUsuarios();
     }, [filterNome, filterEmail, filterUserType]);
 
     return (
-        <div>
-            <div>
-                <AdminPopups
-                     idModal={'AddModal'}
-                     formLabel={editMode ? 'Editar usuário' : 'Visualizar usuário'}
-                     show={show}
-                     handleClose={handleClose}
-                     selectedUsuario={selectedUsuario}
-                     formVER={!editMode}
-                     formID="formUsuario"
-                     idName="usuario"
-                     idEmail="email"
-                     idSenha="senha"
-                     idTell="tel"
-                     idCNPJ="cnpj"
-                     idUserType="userType"
-                     edit={editMode}
-                />
-            </div>
 
-            <div className="container mt-4">
+        <AdminSidebar>
+            <AdminPopups
+                idModal={editMode ? 'Editmodal' : viewMode ? 'Viewmodal' : 'Addmodal'}
+                formLabel={editMode ? 'Editar usuário' : viewMode ? 'Visualizar usuário' : 'Criar usuário'}
+                show={show}
+                handleClose={handleClose}
+                selectedUser={selectedUser}
+                onSave={actionSave}               
+            />
+
+            <div className="container mt-4 xl:!max-w-[75%]">
                 <div className="row">
                     <div className="col-md-12">
                         <div className="card">
                             <div className="card-header">
                                 <h4>Usuários (<span id="detalhes-usuario">{totalUsuarios}</span>)
-                                    <button type="button" onClick={handleShow} className="btn btn-primary float-end">Adicionar usuário</button>
+                                    <button type="button" onClick={handleAdd} className="btn btn-primary float-end">Adicionar usuário</button>
                                 </h4>
-                                <div className="flex justify-start">
+                                <div className="flex justify-start pt-3 w-100">
                                     <div className="">
-                                        <label className="text-black pr-2" htmlFor="nome">Nome do usuário:</label>
+                                        <label className="pr-2 text-black" htmlFor="nome">Nome do usuário:</label>
                                         <input
-                                            className="text-black border border-black pl-2" 
+                                            className="!text-black !border !border-black p-[0.1rem]" 
                                             type="text"
                                             id="filter_nome"
                                             name="filter_nome"
@@ -118,10 +179,10 @@ export const Usuarios: React.FC = () => {
                                             onChange={(e) => setFilterNome(e.target.value)}
                                         />
                                     </div>
-                                    <div className="pl-2">
-                                        <label className="text-black pr-2" htmlFor="email">Selecione o email:</label>
+                                    <div>
+                                        <label className="pr-2 pl-2 text-black border-width: 2px;" htmlFor="email">Selecione o email:</label>
                                         <input
-                                            className="text-black border border-black pl-2" 
+                                            className="!text-black !border !border-black p-[0.1rem]" 
                                             type="email"
                                             id="filter_Email"
                                             name="filter_Email"
@@ -130,9 +191,9 @@ export const Usuarios: React.FC = () => {
                                         />
                                     </div>
                                     <div className="pl-2">
-                                        <label className="text-black pr-2" htmlFor="user">Selecione o tipo de usuário:</label>
+                                        <label className="pl-2 pr-2 text-black" htmlFor="user">Selecione o tipo de usuário:</label>
                                         <select
-                                            className="text-black border border-black pl-2"
+                                            className="!text-black !border !border-black p-[0.1rem]"
                                             id="filter_user"
                                             name="filter_user"
                                             value={filterUserType}
@@ -152,7 +213,6 @@ export const Usuarios: React.FC = () => {
                                             <th>ID</th>
                                             <th>Usuário</th>
                                             <th>Email</th>
-                                            <th>Senha</th>
                                             <th>Tipo de Usuário</th>
                                             <th>Ações</th>
                                         </tr>
@@ -163,12 +223,11 @@ export const Usuarios: React.FC = () => {
                                                 <td>{usuario.id}</td>
                                                 <td>{usuario.usuario}</td>
                                                 <td>{usuario.email}</td>
-                                                <td>{usuario.senha}</td>
                                                 <td>{usuario.usertype}</td>
-                                                <td>
-                                                    <button type='button' data-id={usuario.id} className='viewBtn btn btn-info btn-sm'onClick={() => handleView(usuario.id)}>View</button>
-                                                    <button type='button' data-id={usuario.id} className='editBtn btn btn-success btn-sm'>Edit</button>
-                                                    <button type='button' data-id={usuario.id} onClick={() => handleDelete(usuario.id)} className='deleteBtn btn btn-danger btn-sm'>Delete</button>
+                                                <td className="!flex !justify-end">
+                                                    <button type='button' data-id={usuario.id} className='mx-1 viewBtn btn btn-info btn-sm' onClick={() => handleView(usuario.id)}>Visualizar</button>
+                                                    <button type='button' data-id={usuario.id} className='mx-1 editBtn btn btn-success btn-sm' onClick={() => handleEdit(usuario.id)}>Editar</button>
+                                                    <button type='button' data-id={usuario.id} className='mx-1 deleteBtn btn btn-danger btn-sm' onClick={() => actionDelete(usuario.id)} >Deletar</button>
                                                 </td>
                                             </tr>
                                         )):<tr><td colSpan={6}>Nenhum usuario encontrado.</td></tr>}
@@ -179,8 +238,12 @@ export const Usuarios: React.FC = () => {
                     </div>
                 </div>
             </div>
-            <a href="/Salas" className="btn btn-primary float-end">Administração de salas</a>
-            <a href="/Reservas" className="btn btn-primary float-end">Administração de reservas</a>
-        </div>
+            <ResponsePopup 
+                type={error ? 'error' : 'success'} 
+                redirectLink={''}
+                title={error ? 'Erro' : 'Pronto!'} 
+                description={error || success} 
+            />
+        </AdminSidebar>
     );
 };

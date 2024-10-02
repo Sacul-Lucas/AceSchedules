@@ -1,23 +1,125 @@
 import React, { useEffect, useState } from "react";
-import 'bootstrap/dist/css/bootstrap.min.css';
-import { AdminPopups } from '../../Core/Components/Utils/AdminPopups';
+import { AdminPopups } from '../../Core/Components/Pop-ups/AdminPopups';
+import { AdminSidebar } from "../../Core/Components/Sidebars/AdminSidebar";
 
 export const Salas: React.FC = () => {
     const [show, setShow] = useState(false);
     const [salas, setSalas] = useState<any[]>([]);
     const [totalSalas, setTotalSalas] = useState(0);
     const [bloqueadasSalas, setBloqueadasSalas] = useState(0);
-
+    const [selectedSala, setSelectedSala] = useState<any>(null);
+    const [viewMode, setViewMode] = useState(false);
+    const [editMode, setEditMode] = useState(false);
     const [filterNome, setFilterNome] = useState('');
-    const [filterCapacidade, setFilterCapacidade] = useState('');
     const [apenasBloqueadas, setApenasBloqueadas] = useState(false);
 
     const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+
+    const handleAdd = async () => {
+        setViewMode(false);
+        setEditMode(false);
+        setSelectedSala(null);
+        setShow(true);
+    }
+
+    const handleView = async (id: number) => {
+        try {
+            const response = await fetch(`/api/adminPaths/Salas/Visualizar/${id}`);
+            if (response.ok) {
+                const data = await response.json();
+                if (data.success) {
+                    const adjustedData = {
+                        id: data.data.id,
+                        nome: data.data.nome,
+                        descricao: data.data.descricao,
+                        status: data.data.status,
+                        backImg: data.data.backImg,
+                        caracteristicas: data.data.caracteristicas,
+                      };
+                    setSelectedSala(adjustedData);
+                } else {
+                    alert(data.message);
+                }
+            } else {
+                console.error('Erro ao carregar dados da sala:', response.statusText);
+            }
+            setViewMode(true);
+            setEditMode(false);
+            setShow(true);
+        } catch (error) {
+            console.error("Erro ao buscar a sala:", error);
+        }
+    };
+
+    const handleEdit = async (id: number) => {
+        try {
+            const response = await fetch(`/api/adminPaths/Salas/Visualizar/${id}`);
+            if (response.ok) {
+                const data = await response.json();
+                if (data.success) {
+                    const adjustedData = {
+                        id: data.data.id,
+                        nome: data.data.nome,
+                        descricao: data.data.descricao,
+                        status: data.data.status,
+                        backImg: data.data.backImg,
+                        caracteristicas: data.data.caracteristicas,
+                    };
+                    setSelectedSala(adjustedData);
+                    console.log(adjustedData.backImg)
+                } else {
+                    alert(data.message);
+                }
+            } else {
+                console.error('Erro ao carregar dados da sala:', response.statusText);
+            }
+            setViewMode(false);
+            setEditMode(true);
+            setShow(true);
+        } catch (error) {
+            console.error("Erro ao buscar a sala:", error);
+        }
+    };
+
+    const actionSave = async (formData: any) => {
+        console.log(formData.get('backImg')); // Verifica se o arquivo da imagem está presente
+        try {
+            const endpoint = editMode === true ? '/api/adminPaths/Salas/Editar' : '/api/adminPaths/Salas/Criar';
+            const response = await fetch(endpoint, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'Accept': 'application/json',
+                },
+            });
+    
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || `Erro HTTP: ${response.status}`);
+            }
+    
+            const data = await response.json();
+            console.log('Sala salva com sucesso:', data);
+            loadSalas();
+            handleClose();
+            setSelectedSala(null);
+    
+        } catch (error) {
+            // Lidar com error de tipo unknown
+            let errorMessage = 'Ocorreu um erro desconhecido';
+    
+            if (error instanceof Error) {
+                errorMessage = error.message;  // Pega a mensagem de erro
+            }
+    
+            console.error('Erro ao salvar sala:', errorMessage);
+            alert(`Erro: ${errorMessage}`);
+        }
+    };
 
     const loadSalas = async () => {
         try {
-            const response = await fetch(`/api/adminPaths/Salas?filter_nome=${encodeURIComponent(filterNome)}&filter_capacidade=${encodeURIComponent(filterCapacidade)}&apenas_bloqueadas=${apenasBloqueadas}`);
+            const response = await fetch(`/api/adminPaths/Salas?filter_nome=${encodeURIComponent(filterNome)}&apenas_bloqueadas=${apenasBloqueadas}`);
             if (response.ok) {
                 const data = await response.json();
                 setSalas(data.salas);
@@ -30,7 +132,7 @@ export const Salas: React.FC = () => {
             console.error("Erro ao carregar dados das salas:", error);
         }
     };
-    // Função para deletar uma sala
+
     const handleDelete = async (id: number) => {
         try {
             const response = await fetch(`/api/adminPaths/Salas/Deletar`, {
@@ -45,7 +147,7 @@ export const Salas: React.FC = () => {
 
             if (result.success) {
                 alert(result.message);
-                loadSalas(); // Recarrega as salas após deletar
+                loadSalas();
             } else {
                 alert(result.message);
             }
@@ -53,33 +155,39 @@ export const Salas: React.FC = () => {
             console.error("Erro ao deletar sala:", error);
         }
     };
-    // Efeito para carregar as salas quando os filtros mudarem
+
     useEffect(() => {
         loadSalas();
-    }, [filterNome, filterCapacidade, apenasBloqueadas]);
+    }, [filterNome, apenasBloqueadas]);
 
     return (
-        <div>
+        <AdminSidebar>
             <AdminPopups
-                idModal={'AddModal'}
-                formLabel={'Adicionar Salas'}
+                idModal={editMode ? 'Editmodal' : viewMode ? 'Viewmodal' : 'Addmodal'}
+                formLabel={editMode ? 'Editar sala' : viewMode ? 'Visualizar sala' : 'Criar sala'}
+                selectedSala={selectedSala}
                 show={show}
                 handleClose={handleClose}
+                onSave={actionSave}     
             />
 
-            <div className="container mt-4">
+            <div className="container mt-4 xl:!max-w-[75%]">
                 <div className="row">
                     <div className="col-md-12">
                         <div className="card">
                             <div className="card-header">
                                 <h4>
-                                    <span id="quantidade_salas_text">Salas: (<span id="total_salas">{totalSalas}</span>); </span>
+                                    {!apenasBloqueadas && (
+                                        <span id="quantidade_salas_text">
+                                            Salas: (<span id="total_salas">{totalSalas}</span>);
+                                        </span>
+                                    )}
                                     Salas bloqueadas: (<span id="bloqueadas_salas">{bloqueadasSalas}</span>)
-                                    <button type="button" onClick={handleShow} className="btn btn-primary float-end">Adicionar sala</button>
-                                    <div className="flex justify-start pt-2">
-                                        <label className="text-black pr-2" htmlFor="filter_nome">Nome da sala:</label>
+                                    <button type="button" onClick={handleAdd} className="btn btn-primary float-end">Adicionar sala</button>
+                                    <div className="flex items-center justify-start pt-3 text-lg align-middle w-100">
+                                        <label className="pr-2 !m-0 text-black" htmlFor="filter_nome">Nome da sala:</label>
                                         <input 
-                                            className="text-black border border-black pl-2" 
+                                            className="pl-2 !text-black !border !border-black !h-7 p-[0.1rem]" 
                                             type="text" 
                                             id="filter_nome" 
                                             name="filter_nome" 
@@ -87,19 +195,9 @@ export const Salas: React.FC = () => {
                                             value={filterNome}
                                             onChange={(e) => setFilterNome(e.target.value)}
                                         />
-                                        <label className="text-black pl-2 pr-2" htmlFor="filter_capacidade">Capacidade da sala:</label>
+                                        <label htmlFor="apenas_bloqueadas" className="pl-2 pr-2 !m-0 text-black">Mostrar apenas bloqueadas</label>
                                         <input 
-                                            className="text-black border border-black pl-2" 
-                                            type="number" 
-                                            id="filter_capacidade" 
-                                            name="filter_capacidade" 
-                                            autoComplete="OFF" 
-                                            value={filterCapacidade}
-                                            onChange={(e) => setFilterCapacidade(e.target.value)}
-                                        />
-                                        <label className="text-black pl-2 pr-2">Mostrar apenas bloqueadas</label>
-                                        <input 
-                                            className="text-black border border-black" 
+                                            className="!text-black !border !border-black !h-7 p-[0.1rem]" 
                                             type="checkbox" 
                                             id="apenas_bloqueadas" 
                                             name="apenas_bloqueadas" 
@@ -115,7 +213,6 @@ export const Salas: React.FC = () => {
                                         <tr>
                                             <th>ID</th>
                                             <th>Nome da Sala</th>
-                                            <th>Capacidade</th>
                                             <th>Ações</th>
                                         </tr>
                                     </thead>
@@ -123,16 +220,15 @@ export const Salas: React.FC = () => {
                                         {salas.length > 0 ? salas.map(sala => (
                                             <tr key={sala.id}>
                                                 <td>{sala.id}</td>
-                                                <td style={{ color: sala.status === 1 ? 'red' : '' }}>{sala.nome}</td>
-                                                <td>{sala.capacidade}</td>
-                                                <td>
-                                                    <button type='button' data-id={sala.id} className='viewBtn btn btn-info btn-sm'>View</button>
-                                                    <button type='button' data-id={sala.id} className='editBtn btn btn-success btn-sm'>Edit</button>
-                                                    <button type='button' data-id={sala.id} onClick={() => handleDelete(sala.id)} className='deleteBtn btn btn-danger btn-sm'>Delete</button>
+                                                <td style={{ color: sala.status === '1' ? 'red' : '' }}>{sala.nome}</td>
+                                                <td className="!flex !justify-end">
+                                                    <button type='button' data-id={sala.id} onClick={() => handleView(sala.id)} className='mx-1 viewBtn btn btn-info btn-sm'>Visualizar</button>
+                                                    <button type='button' data-id={sala.id} onClick={() => handleEdit(sala.id)} className='mx-1 editBtn btn btn-success btn-sm'>Editar</button>
+                                                    <button type='button' data-id={sala.id} onClick={() => handleDelete(sala.id)} className='mx-1 deleteBtn btn btn-danger btn-sm'>Deletar</button>
                                                 </td>
                                             </tr>
                                         )) : (
-                                            <tr><td colSpan={4}>Nenhuma sala encontrada.</td></tr>
+                                            <tr><td colSpan={5}>Nenhuma sala encontrada.</td></tr>
                                         )}
                                     </tbody>
                                 </table>
@@ -141,8 +237,6 @@ export const Salas: React.FC = () => {
                     </div>
                 </div>
             </div>
-            <a href="/Usuarios" className="btn btn-primary float-end">Administração de usuários</a>
-            <a href="/Reservas" className="btn btn-primary float-end">Administração de reservas</a>
-        </div>
+        </AdminSidebar>
     );
 };

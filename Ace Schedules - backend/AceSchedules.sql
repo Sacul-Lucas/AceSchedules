@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 25, 2024 at 03:22 AM
+-- Generation Time: Jul 28, 2024 at 02:26 AM
 -- Server version: 10.4.32-MariaDB
--- PHP Version: 8.0.30
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,8 +18,12 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `aceschedule`
+-- Database: `aceschedules`
+create database aceschedules;
+use aceschedules;
 --
+
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '201024';
 
 -- --------------------------------------------------------
 
@@ -32,30 +36,28 @@ CREATE TABLE `cadastro` (
   `usuario` varchar(30) NOT NULL,
   `email` varchar(50) NOT NULL,
   `senha` varchar(50) NOT NULL,
-  `usertype` varchar(140) NOT NULL DEFAULT 'usuário'
+  `usertype` varchar(140) NOT NULL,
+  `telefone` varchar(21) NOT NULL,
+  `cnpj` varchar(18) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `cadastro`
 --
 
-INSERT INTO `cadastro` (`id`, `usuario`, `email`, `senha`, `usertype`) VALUES
-(1, 'ETPC', 'ETPC@ETPC', '123@34#_', 'Empresa'),
-(3, 'vxreis', 'vx@vx', '123', 'empresa'),
-(4, '334', '12@12', '14314', 'Administrador'),
-(6, '123', '442@4', '44', 'Empresa'),
-(7, '4', '4@4', '4', 'Empresa');
+INSERT INTO `cadastro` (`id`, `usuario`, `email`, `senha`, `usertype`, `telefone`, `cnpj`) VALUES
+(1, 'ETPCE', 'ETPC@ETPCEEE', '1233445', 'Empresa', '(12) 2222-2222', '22.222.222/2222-22'),
+(88, '554', '332@22', '232', 'Administrador', '(12) 2222-2223', '33.333.333/3333-33');
 
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `reservas`
 --
-
 CREATE TABLE `reservas` (
   `id` int(11) NOT NULL,
-  `dataAgendamento` date NOT NULL,
-  `periodo` varchar(9) NOT NULL,
+  `dataAgendamentoInicial` datetime(6) NOT NULL,
+  `dataAgendamentoFinal` datetime(6) NOT NULL,
   `sala` int(11) NOT NULL,
   `usuario` int(11) NOT NULL DEFAULT 1,
   `status` bit(1) NOT NULL DEFAULT b'0'
@@ -65,40 +67,54 @@ CREATE TABLE `reservas` (
 -- Dumping data for table `reservas`
 --
 
-INSERT INTO `reservas` (`id`, `dataAgendamento`, `periodo`, `sala`, `usuario`, `status`) VALUES
-(159, '2024-06-27', 'Tarde', 105, 3, b'1'),
-(175, '2024-06-23', 'Noite', 105, 3, b'0');
+INSERT INTO `reservas` (`id`, `dataAgendamentoInicial`, `dataAgendamentoFinal`, `sala`, `usuario`, `status`) VALUES
+(13601, '2024-04-05 04:44:00', '2024-04-05 04:44:00', 212, 1, b'1'),
+(13602, '2024-05-05 16:56:00', '2024-04-05 04:44:00', 212, 1, b'1'),
+(13603, '2024-07-31 21:35:00', '2024-04-05 04:44:00', 212, 88, b'1'),
+(13605, '2024-01-01 18:34:00', '2024-04-05 04:44:00', 212, 1, b'1');
 
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `salas`
 --
-
 CREATE TABLE `salas` (
   `id` int(11) NOT NULL,
   `nome` varchar(255) NOT NULL,
-  `capacidade` int(255) NOT NULL,
-  `img` varchar(255) NOT NULL,
-  `status` bit(1) NOT NULL
+  `descricao` varchar(255) NOT NULL,
+  `status` varchar(55) NOT NULL DEFAULT '0',
+  `backImg` varchar(255) NOT NULL,
+  `caracteristicas` JSON
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `salas`
 --
 
-INSERT INTO `salas` (`id`, `nome`, `capacidade`, `img`, `status`) VALUES
-(105, '1Aud', 223, 'RobloxScreenShot20240227_112436369.png', b'0');
+INSERT INTO `salas` (`id`, `nome`, `descricao`, `status`, `backImg`, `caracteristicas`) 
+VALUES ('1', 'Sala 1', 'Descrição da sala 1', '1', 'imagem.jpg', '["Wifi", "Ar condicionado", "Projetor"]');
+
 
 --
 -- Indexes for dumped tables
 --
 
+
+
+
+
+
+
+
+
 --
 -- Indexes for table `cadastro`
 --
 ALTER TABLE `cadastro`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `telefone` (`telefone`),
+  ADD UNIQUE KEY `cnpj` (`cnpj`),
+  ADD UNIQUE KEY `email` (`email`);
 
 --
 -- Indexes for table `reservas`
@@ -122,23 +138,26 @@ ALTER TABLE `salas`
 -- AUTO_INCREMENT for table `cadastro`
 --
 ALTER TABLE `cadastro`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=90;
 
 --
 -- AUTO_INCREMENT for table `reservas`
 --
 ALTER TABLE `reservas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=176;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13606;
 
 --
 -- AUTO_INCREMENT for table `salas`
 --
 ALTER TABLE `salas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=106;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=215;
 
 --
 -- Constraints for dumped tables
 --
+use aceschedules;
+ALTER TABLE cadastro MODIFY COLUMN senha VARCHAR(250);
+ALTER TABLE cadastro MODIFY COLUMN telefone VARCHAR(21);
 
 --
 -- Constraints for table `reservas`

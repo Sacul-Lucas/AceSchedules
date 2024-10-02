@@ -1,7 +1,7 @@
 import { Router } from "express";
-import { ReservasActions } from './ReservasActions'; 
-import { SalasActions } from './SalasActions'; 
-import { UsuariosActions } from './UsuariosActions'; 
+import { ReservasActions } from './ReservasActions.routes'; 
+import { SalasActions } from './SalasActions.routes'; 
+import { UsuariosActions } from './UsuariosActions.routes'; 
 
 const adminPaths = Router();
 

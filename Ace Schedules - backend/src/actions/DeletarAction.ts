@@ -1,8 +1,12 @@
 import mysql from 'mysql';
 import { Request, Response } from 'express';
-import { app } from '../server';
-import cors from 'cors';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import fs from 'fs';
 
+// Obtenha o diretório atual usando import.meta.url
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const pool = mysql.createPool({
     connectionLimit: 10,
@@ -13,88 +17,75 @@ const pool = mysql.createPool({
     port: 5500
 });
 
-// export const DeletarAction = (req: Request, res: Response) => {
-//     app.use(cors({
-//         origin: 'http://localhost:5000',
-//         credentials: true,
-//         optionsSuccessStatus: 200
-//     }));
-
-//     if (!req.body) {
-//         return res.status(400).json({ success: false, message: 'Corpo da solicitação está vazio' });
-//     }
-
-//     //INSTAVEL - Talvez precise mudar o req.route
-//     const currPath = req.route;
-//     let reqRoute = '';
-//     let msgId = '';
-
-//     if (currPath === '/Salas/DeletarAction') {
-//         reqRoute = 'salas'
-//         msgId = 'Sala'
-//     }else if (currPath === '/Reservas/DeletarAction'){
-//         reqRoute = 'reservas'
-//         msgId = 'Reserva'
-//     }else{
-//         reqRoute = 'cadastro'
-//         msgId = 'Usuário'
-//     }
-
-//     const { id } = req.body;
-
-//     const query = `DELETE FROM ${reqRoute} WHERE id=?`;
-//     const values = [id];
-
-//     pool.query(query, values, (error, results) => {
-//         if (error) {
-//             console.log(error);
-//             return res.status(500).json({ success: false, message: 'Erro no servidor' });
-//         }
-
-//         if (!id) {
-//             return res.json({ success: false, message: `${msgId} não foi encontrado/a` });
-//         }
-
-//         if (results.length > 0) {
-//             const reserva = results[0];
-
-//             if (id === reserva.id) {
-//                 return res.json({ success: true, message: `${msgId} deletado/a com successo!` });
-//             }
-//         } else {
-//             return res.json({ success: false, message: `Falha ao deletar ${msgId}` });
-//         }
-//     });
-// };
-
 export const DeletarAction = (req: Request, res: Response) => {
-    const { id } = req.body;  // Verifica se o id está vindo do corpo da requisição
+    const { id } = req.body;
 
     if (!id) {
         return res.status(400).json({ success: false, message: 'ID não fornecido.' });
     }
 
-    const currPath = req.originalUrl; // Use req.originalUrl para capturar o caminho completo da requisição
+    const currPath = req.originalUrl;
     let reqRoute = '';
     let msgId = '';
+    let imgColumn = ''; // Coluna de imagem, se aplicável
 
-    if (currPath.includes('/Salas/Deletar')) {
+    if (currPath.includes('/Salas')) {
         reqRoute = 'salas';
         msgId = 'Sala';
-    } else if (currPath.includes('/Reservas/Deletar')) {
+        imgColumn = 'backImg'; // Coluna da imagem no banco de dados
+
+        // Primeiro, buscar a imagem associada à sala antes de deletar
+        const selectQuery = `SELECT ${imgColumn} FROM ${reqRoute} WHERE id = ?`;
+        pool.query(selectQuery, [id], (error, results) => {
+            if (error) {
+                console.log(error);
+                return res.status(500).json({ success: false, message: 'Erro ao buscar a imagem.' });
+            }
+
+            if (results.length === 0) {
+                return res.status(404).json({ success: false, message: `${msgId} não encontrado(a).` });
+            }
+
+            const imagePath = results[0][imgColumn];
+            if (imagePath) {
+                // Caminho completo da imagem no sistema de arquivos
+                const fullImagePath = path.resolve(__dirname, '../../../Ace Schedules - frontend/src/assets/img_salas', imagePath);
+
+                // Remover a imagem do sistema de arquivos
+                fs.unlink(fullImagePath, (unlinkError) => {
+                    if (unlinkError) {
+                        console.log('Erro ao remover a imagem:', unlinkError);
+                    } else {
+                        console.log('Imagem removida com sucesso:', fullImagePath);
+                    }
+
+                    // Depois de tentar remover a imagem, deletar o registro do banco de dados
+                    deleteFromDatabase(reqRoute, id, msgId, res);
+                });
+            } else {
+                // Se não houver imagem, proceder diretamente para a deleção do registro
+                deleteFromDatabase(reqRoute, id, msgId, res);
+            }
+        });
+    } else if (currPath.includes('/Reservas')) {
         reqRoute = 'reservas';
         msgId = 'Reserva';
-    } else if (currPath.includes('/Usuarios/Deletar')) {
-        reqRoute = 'cadastro';  // Assumindo que a tabela de usuários se chama "cadastro"
+        deleteFromDatabase(reqRoute, id, msgId, res); // Sem unlink para imagens
+    } else if (currPath.includes('/Usuarios')) {
+        reqRoute = 'cadastro'; 
         msgId = 'Usuário';
+        deleteFromDatabase(reqRoute, id, msgId, res); // Sem unlink para imagens
     } else {
         return res.status(400).json({ success: false, message: 'Caminho de deleção inválido.' });
     }
+};
 
-    const query = `DELETE FROM ${reqRoute} WHERE id = ?`;
+// Função auxiliar para deletar o registro no banco de dados
+const deleteFromDatabase = (reqRoute: string, id: string, msgId: string, res: Response) => {
+    const deleteQuery = `DELETE FROM ${reqRoute} WHERE id = ?`;
     const values = [id];
 
-    pool.query(query, values, (error, results) => {
+    pool.query(deleteQuery, values, (error, results) => {
         if (error) {
             console.log(error);
             return res.status(500).json({ success: false, message: 'Erro no servidor' });
