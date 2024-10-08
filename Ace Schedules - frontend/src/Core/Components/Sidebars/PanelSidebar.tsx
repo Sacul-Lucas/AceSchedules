@@ -9,6 +9,7 @@ import { UserLogoutAction } from '../../Actions/UserLogoutAction';
 import { GetUsernameAction } from '../../Actions/GetUsernameAction';
 import { MdOutlineMeetingRoom } from 'react-icons/md';
 import { GetUsertypeAction } from '../../Actions/GetUserTypeAction';
+import { getInitials } from '../Utils/functions/Formatter';
 
 interface PanelSidebarProps {
     visible: boolean, 
@@ -41,7 +42,7 @@ export const PanelSidebar: React.FC<PanelSidebarProps> = ({
             case 'SUCCESS':
                 setSuccess(message);
                 setError('');
-                navigate('/login');
+                navigate('/Login');
                 break;
 
             case 'UNKNOWN':
@@ -306,7 +307,7 @@ export const PanelSidebar: React.FC<PanelSidebarProps> = ({
                                 <div className="mt-auto">
                                     <hr className="mx-3 mb-3 border-none border-top-1 surface-border" />
                                     <a className="flex gap-2 p-3 m-3 transition-colors cursor-pointer align-items-center border-round text-700 hover:surface-100 transition-duration-150 p-ripple">
-                                        <Avatar image="https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png" shape="circle" />
+                                        <Avatar className='items-center justify-center align-middle bg-blue-500 text-slate-100' label={getInitials(username)} shape="circle" />
                                         <span className="font-bold">{username}</span>
                                     </a>
                                 </div>

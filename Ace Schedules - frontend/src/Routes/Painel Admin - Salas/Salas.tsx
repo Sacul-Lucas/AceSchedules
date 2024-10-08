@@ -166,13 +166,13 @@ export const Salas: React.FC = () => {
                         <div className="card">
                             <div className="card-header">
                                 <h4>
-                                    <span id="quantidade_salas_text">Salas: (<span id="total_salas">{totalSalas}</span>); </span>
+                                    <span id="quantidade_salas_text">Salas: (<span id="total_salas">{totalSalas}</span>) </span>
                                     Salas bloqueadas: (<span id="bloqueadas_salas">{bloqueadasSalas}</span>)
                                     <button type="button" onClick={handleAdd} className="btn btn-primary float-end">Adicionar sala</button>
                                     <div className="flex items-center justify-start pt-3 text-lg align-middle w-100">
                                         <label className="pr-2 !m-0 text-black" htmlFor="filter_nome">Nome da sala:</label>
                                         <input 
-                                            className="pl-2 !text-black !border !border-black !h-7" 
+                                            className="pl-2 !text-black !border !border-black !h-7 p-[0.1rem]" 
                                             type="text" 
                                             id="filter_nome" 
                                             name="filter_nome" 
@@ -182,7 +182,7 @@ export const Salas: React.FC = () => {
                                         />
                                         <label className="pl-2 pr-2 !m-0 text-black">Mostrar apenas bloqueadas</label>
                                         <input 
-                                            className="!text-black !border !border-black !h-7" 
+                                            className="!text-black !border !border-black !h-7 p-[0.1rem]" 
                                             type="checkbox" 
                                             id="apenas_bloqueadas" 
                                             name="apenas_bloqueadas" 
@@ -198,8 +198,6 @@ export const Salas: React.FC = () => {
                                         <tr>
                                             <th>ID</th>
                                             <th>Nome da Sala</th>
-                                            <th>Descrição</th>
-                                            <th>Status</th>
                                             <th>Ações</th>
                                         </tr>
                                     </thead>
@@ -208,9 +206,7 @@ export const Salas: React.FC = () => {
                                             <tr key={sala.id}>
                                                 <td>{sala.id}</td>
                                                 <td style={{ color: sala.status === '1' ? 'red' : '' }}>{sala.nome}</td>
-                                                <td>{sala.descricao}</td>
-                                                <td>{sala.status === '1' ? 'Bloqueada' : 'Disponível'}</td>
-                                                <td>
+                                                <td className="!flex !justify-end">
                                                     <button type='button' data-id={sala.id} onClick={() => handleView(sala.id)} className='mx-1 viewBtn btn btn-info btn-sm'>Visualizar</button>
                                                     <button type='button' data-id={sala.id} onClick={() => handleEdit(sala.id)} className='mx-1 editBtn btn btn-success btn-sm'>Editar</button>
                                                     <button type='button' data-id={sala.id} onClick={() => handleDelete(sala.id)} className='mx-1 deleteBtn btn btn-danger btn-sm'>Deletar</button>

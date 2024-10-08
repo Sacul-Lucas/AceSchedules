@@ -481,7 +481,6 @@ function cumeça() {
     desenhacroba();
     desenhacumida();
     Showpause();
-    
 
     let cobraX = cobra[0].x;
     let cobraY = cobra[0].y;
@@ -493,50 +492,46 @@ function cumeça() {
         case "down": cobraY += speed; break;
     }
 
-    if (cobraX !== cumida.x || cobraY !== cumida.y) {
-        cobra.pop();
-    } else {
+    // Check for collision with the apple
+    if (cobraX === cumida.x && cobraY === cumida.y) {
         biteAudio();
-        cumida = {
-            x: Math.floor(Math.random() * gridX) * tamGrid,
-            y: Math.floor(Math.random() * gridY) * tamGrid
-        };
         points += 1;
         document.getElementById("point").innerHTML = points;
 
-        if (points > melhorPontuação) {
-            melhorPontuação = points;
-        }
-
-        localStorage.setItem("melhor-Pontuação", melhorPontuação);
-        document.getElementById("melhorPontuação").innerHTML = melhorPontuação;
-    }
-
-    for (let i = 1; i < cobra.length; i++) {
-        if (cumida.x === cobra[i].x && cumida.y === cobra[i].y) {
+        // Generate new position for the apple
+        do {
             cumida = {
                 x: Math.floor(Math.random() * gridX) * tamGrid,
                 y: Math.floor(Math.random() * gridY) * tamGrid
             };
+        } while (cobra.some(segment => segment.x === cumida.x && segment.y === cumida.y));
+
+        // Update best score if needed
+        if (points > melhorPontuação) {
+            melhorPontuação = points;
+            localStorage.setItem("melhor-Pontuação", melhorPontuação);
+            document.getElementById("melhorPontuação").innerHTML = melhorPontuação;
         }
+    } else {
+        cobra.pop();
     }
 
+    // Add the new head position to the snake
     let Cabecinha = { x: cobraX, y: cobraY };
     cobra.unshift(Cabecinha);
 
-    if (Cabecinha.x === cumida.x && Cabecinha.y === cumida.y) {
-        biteAudio();
-        cumida = {
-            x: Math.floor(Math.random() * gridX) * tamGrid,
-            y: Math.floor(Math.random() * gridY) * tamGrid
-        };
-        points += 1;
-        document.getElementById("point").innerHTML = points;
+    // Check for collision with walls or self
+    if (cobraX < 0 || cobraX >= canvas.width || cobraY < 0 || cobraY >= canvas.height ||
+        cobra.slice(1).some(segment => segment.x === cobraX && segment.y === cobraY)) {
+        gameoverAudio();
+        clearInterval(game);
+        direção = "";
     }
 
     pause = false;
     mudaDireção = false;
 }
+
 
 const intervalo = 1000 / 10;
 let game = setInterval(function() {

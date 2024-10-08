@@ -3,15 +3,17 @@ import DatePicker from "react-datepicker";
 import { ptBR } from 'date-fns/locale';
 import { startOfMonth, endOfMonth, isWithinInterval, addHours } from 'date-fns';
 import { CreateReservationAction } from "../../Actions/CreateReservationAction";
-import { handleAlert, ResponsePopup } from "../Pop-ups/ResponsePopup";
+import { formatDateForMySQL } from "../Utils/functions/DateUtils";
 import "react-datepicker/dist/react-datepicker.css";
 
 interface CardReservationModalProps {
     onClose: () => void;
+    salaAlocada: number;
 }
 
 export const CardReservationModal: React.FC<CardReservationModalProps> = ({
-    onClose
+    onClose,
+    salaAlocada,
 }) => {
     const reservationRef = useRef<HTMLDialogElement>(null);
     const controlsContainerRef = useRef<HTMLDivElement>(null);
@@ -48,10 +50,14 @@ export const CardReservationModal: React.FC<CardReservationModalProps> = ({
     const handleConfirm = async (e: { preventDefault: () => void; }) => {
  
         e.preventDefault();
+        const dataAgendamentoInicial = formatDateForMySQL(startDate)
+        const dataAgendamentoFinal = formatDateForMySQL(endDate)
+
 
         const reservationRes = await CreateReservationAction.execute({
-            startDate,
-            endDate
+            dataAgendamentoInicial,
+            dataAgendamentoFinal,
+            salaAlocada
         })
 
         const message = reservationRes.data
@@ -77,10 +83,6 @@ export const CardReservationModal: React.FC<CardReservationModalProps> = ({
               setSuccess('');
               break;
         }
-
-        setTimeout(() => {
-            handleAlert();
-        }, 50)
         
         if (startDate && endDate) {
             alert(`Reserva feita de ${startDate.toLocaleString()} até ${endDate.toLocaleString()}`);
@@ -210,13 +212,6 @@ export const CardReservationModal: React.FC<CardReservationModalProps> = ({
                     </div>
                 </div>
             </div>
-
-            <ResponsePopup 
-                type={error ? 'error' : 'success'} 
-                redirectLink={error ? '/Painel' : '/Painel'}
-                title={error ? 'Erro' : 'Pronto!'} 
-                description={error || success} 
-            />
         </dialog>
     );
 };

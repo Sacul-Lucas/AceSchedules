@@ -92,7 +92,7 @@ export const Reservas: React.FC = () => {
 const loadReservasPendentes = async () => {
   try {
     const formatDate = (date: Date | null | undefined): string => {
-      return date ? date.toISOString().split('T')[0] : ''; // Format to YYYY-MM-DD
+      return date ? date.toISOString().split('T')[0] : '';
     };
 
     const response = await fetch(
@@ -181,30 +181,30 @@ const loadReservasAprovadas = async () => {
         const response = await fetch(`/api/adminPaths/Reservas/Visualizar/${id}`, {
           method: 'GET',
           headers: {
-              'Cache-Control': 'no-cache'
+            'Cache-Control': 'no-cache'
           }
         });
         if (response.ok) {
             const data = await response.json();
             if (data.success) {
-                const adjustedData = {
-                  id: data.data.id, 
-                  data: data.data.data,
-                  hora: data.data.hora,
-                  idSalaAlocada: data.data.salaId,
-                  salaAlocada: data.data.salaAlocada,
-                  locador: data.data.locador,
-                  emailLocador: data.data.emailLocador,
-                  contatoLocador: data.data.contatoLocador,
-                  cnpjLocador: data.data.cnpjLocador,
-                  status: data.data.status
-                };
-                setselectedReserva(adjustedData);
-                setViewMode(true);
-                setEditMode(false);
-                setShow(true);
+              const adjustedData = {
+                id: data.data.id, 
+                data: data.data.data,
+                hora: data.data.hora,
+                idSalaAlocada: data.data.salaId,
+                salaAlocada: data.data.salaAlocada,
+                locador: data.data.locador,
+                emailLocador: data.data.emailLocador,
+                contatoLocador: data.data.contatoLocador,
+                cnpjLocador: data.data.cnpjLocador,
+                status: data.data.status
+              };
+              setselectedReserva(adjustedData);
+              setViewMode(true);
+              setEditMode(false);
+              setShow(true);
             } else {
-                alert(data.message);
+              alert(data.message);
             }
         } else {
             console.error('Erro ao carregar dados da reserva:', response.statusText);
@@ -320,7 +320,7 @@ const handleEdit = async (id: number) => {
             <td>{reserva.dataAgendamentoFinal}</td>
             <td>{reserva.sala_nome}</td>
             <td>{reserva.usuario}</td>
-            <td>
+            <td className="!flex !justify-end">
                 <button type='button' data-id={reserva.id} className='mx-1 viewBtn btn btn-info btn-sm' onClick={() => handleView(reserva.id)}>Visualizar</button>
                 {tableType === 'pendentes' && (
                     <>
@@ -372,13 +372,15 @@ const handleEdit = async (id: number) => {
                   <h4>Agendamentos pendentes (<span id="detalhes-usuario">{totalreservasPendentes}</span>)
                   </h4>
                   <div className="flex items-stretch pt-3 w-100">
-                    <label className="pr-1 text-black" htmlFor="sala_aprov">Sala alocada:</label>
-                    <select className="!text-black !border !border-black !h-7" id="filter_sala" name="filter_sala" onChange={(e) => setFilterSalaAlocada(e.target.value)} value={filterSalaAlocada} required>
-                      <option value="">--Todas as salas--</option>
-                      {salas.map(sala => (
-                        <option key={sala.id} value={sala.id}>{sala.nome}</option>
-                      ))}
-                    </select>
+                    <div className="form-group">
+                      <label className="pr-1 text-black" htmlFor="sala_aprov">Sala alocada:</label>
+                      <select className="!text-black !border !border-black !h-7 p-[0.1rem]" id="filter_sala" name="filter_sala" onChange={(e) => setFilterSalaAlocada(e.target.value)} value={filterSalaAlocada} required>
+                        <option value="">--Todas as salas--</option>
+                        {salas.map(sala => (
+                          <option key={sala.id} value={sala.id}>{sala.nome}</option>
+                        ))}
+                      </select>
+                    </div>
                     <div className="form-group">
                       <label className="pl-2 pr-1 text-black" >Data e hora:</label>
                         <DatePicker
@@ -392,7 +394,7 @@ const handleEdit = async (id: number) => {
                           dateFormat="Pp"
                           locale={ptBR}
                           placeholderText="Data de início"
-                          className="!text-black !border !border-black !h-7"
+                          className="!text-black !border !border-black !h-7 p-2"
                           filterDate={isDateWithinMonth}
                           onMonthChange={handleMonthChange}
                         />
@@ -410,7 +412,7 @@ const handleEdit = async (id: number) => {
                         dateFormat="Pp"
                         locale={ptBR}
                         placeholderText="Data de fim"
-                        className="!text-black !border !border-black !h-7"
+                        className="!text-black !border !border-black !h-7 p-2"
                         filterDate={isDateWithinMonth}
                         onMonthChange={handleMonthChange}
                         minDate={startDate || undefined}
@@ -420,7 +422,7 @@ const handleEdit = async (id: number) => {
                     </div>
                     <div className="form-group">
                       <label className="pl-2 pr-1 text-black" htmlFor="nome">Nome do alocador:</label>
-                      <input className="!text-black !border !border-black" type="text" id="filter_nome" name="filter_nome" autoComplete="OFF" onChange={(e) => setFilterAlocador(e.target.value)} value={filterAlocador}/>
+                      <input className="!text-black !border !border-black !p-[0.1rem]" type="text" id="filter_nome" name="filter_nome" autoComplete="OFF" onChange={(e) => setFilterAlocador(e.target.value)} value={filterAlocador}/>
                     </div>
                   </div>
                 </div>
@@ -433,6 +435,7 @@ const handleEdit = async (id: number) => {
                         <th>Data e hora do final da reserva</th>
                         <th>Sala alocada</th>
                         <th>Nome do Alocador</th>
+                        <th>Ações</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -454,13 +457,15 @@ const handleEdit = async (id: number) => {
                 <button type="button" onClick={handleAdd} className="btn btn-primary float-end">Adicionar agendamento</button>
                 </h4>
                   <div className="flex items-stretch pt-3 w-100">
+                    <div className="form-group">
                     <label className="pr-1 text-black" htmlFor="sala_aprov">Sala alocada:</label>
-                    <select className="!text-black !border !border-black !h-7" id="sala_aprov" name="sala_aprov" onChange={(e) => setFilterSalaAlocadaAprovada(e.target.value)} value={filterSalaAlocadaAprovada} required>
-                      <option value="">--Todas as salas--</option>
-                      {salas.map(sala => (
-                          <option key={sala.id} value={sala.id}>{sala.nome}</option>
-                      ))}
-                    </select>
+                      <select className="!text-black !border !border-black !h-7 p-[0.1rem]" id="sala_aprov" name="sala_aprov" onChange={(e) => setFilterSalaAlocadaAprovada(e.target.value)} value={filterSalaAlocadaAprovada} required>
+                        <option value="">--Todas as salas--</option>
+                        {salas.map(sala => (
+                            <option key={sala.id} value={sala.id}>{sala.nome}</option>
+                        ))}
+                      </select>
+                    </div>
                     <div className="form-group">
                       <label className="pl-2 pr-1 text-black" >Data e hora:</label>
                         <DatePicker
@@ -474,7 +479,7 @@ const handleEdit = async (id: number) => {
                           dateFormat="Pp"
                           locale={ptBR}
                           placeholderText="Data de início"
-                          className="!text-black !border !border-black !h-7"
+                          className="!text-black !border !border-black !h-7 p-2"
                           filterDate={isDateWithinMonth}
                           onMonthChange={handleMonthChange}
                         />
@@ -492,7 +497,7 @@ const handleEdit = async (id: number) => {
                           dateFormat="Pp"
                           locale={ptBR}
                           placeholderText="Data de fim"
-                          className="!text-black !border !border-black !h-7"
+                          className="!text-black !border !border-black !h-7 p-2"
                           filterDate={isDateWithinMonth}
                           onMonthChange={handleMonthChange}
                           minDate={startDate || undefined}
@@ -502,7 +507,7 @@ const handleEdit = async (id: number) => {
                     </div>
                     <div className="form-group">
                       <label className="pl-2 pr-1 text-black" htmlFor="nome_aprov">Nome do alocador:</label>
-                      <input className="!text-black !border !border-black" type="text" id="nome_aprov" name="nome_aprov" autoComplete="OFF" onChange={(e) => setFilterAlocadorAprovada(e.target.value)} value={filterAlocadorAprovada} />
+                      <input className="!text-black !border !border-black !p-[0.1rem]" type="text" id="nome_aprov" name="nome_aprov" autoComplete="OFF" onChange={(e) => setFilterAlocadorAprovada(e.target.value)} value={filterAlocadorAprovada} />
                     </div>
                   </div>
                 </div>
@@ -515,6 +520,7 @@ const handleEdit = async (id: number) => {
                         <th>Data e hora do final da reserva</th>
                         <th>Sala alocada</th>
                         <th>Nome do Alocador</th>
+                        <th>Ações</th>
                       </tr>
                     </thead>
                     <tbody>

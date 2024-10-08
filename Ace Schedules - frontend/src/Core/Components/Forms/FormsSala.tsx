@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
 import '../../Css/Owned/AdminRoom.css';
-import { formatCaracteristicas } from '../Utils/Formatter';
 
 export interface Sala {
     id: number;
@@ -8,7 +7,7 @@ export interface Sala {
     descricao: string;
     status: string;
     backImg: string;
-    caracteristicas: string;
+    caracteristicas: string; // Assumindo que isso é uma string JSON
 }
 
 interface FormsSalasProps {
@@ -40,10 +39,27 @@ export const FormsSalas: React.FC<FormsSalasProps> = ({
     onStatusChange,
 }) => {
     const [statusChecked, setStatusChecked] = useState(selectedSala?.status === '1');
+    const [caracteristicas, setCaracteristicas] = useState<string[]>([]);
 
     const dragAreaRef = useRef<HTMLDivElement | null>(null);
     const inputImgRef = useRef<HTMLInputElement | null>(null);
     const buttonRef = useRef<HTMLButtonElement | null>(null);
+
+    useEffect(() => {
+        if (selectedSala && selectedSala.caracteristicas) {
+            try {
+                const parsedCaracteristicas = JSON.parse(selectedSala.caracteristicas);
+                // Verifique se parsedCaracteristicas é uma string ou um array e transforme
+                if (Array.isArray(parsedCaracteristicas)) {
+                    setCaracteristicas(parsedCaracteristicas);
+                } else {
+                    setCaracteristicas(parsedCaracteristicas.split(',').map((item: string) => item.trim()));
+                }
+            } catch (error) {
+                console.error('Erro ao analisar características:', error);
+            }
+        }
+    }, [selectedSala]);
 
     useEffect(() => {
         const dragArea = dragAreaRef.current;
@@ -119,8 +135,6 @@ export const FormsSalas: React.FC<FormsSalasProps> = ({
         onStatusChange!(newStatus);
     };
 
-    console.log(formatCaracteristicas(JSON.stringify(selectedSala?.caracteristicas)))
-
     return (
         <div>
             {formVER ? (
@@ -144,9 +158,8 @@ export const FormsSalas: React.FC<FormsSalasProps> = ({
                         </div>
                         <div className="mb-3">
                             <label>Descrição</label>
-                            <input
-                                className="form-control"
-                                type="text"
+                            <textarea
+                                className="form-control !h-auto"
                                 id={idDescription}
                                 placeholder="Descrição da sala"
                                 autoComplete="off"
@@ -160,7 +173,7 @@ export const FormsSalas: React.FC<FormsSalasProps> = ({
                                 id={idCaract}
                                 placeholder="Características da sala"
                                 autoComplete="off"
-                                defaultValue={formatCaracteristicas(JSON.stringify(selectedSala?.caracteristicas))}
+                                defaultValue={caracteristicas.join(', ')}
                             />
                         </div>
 
@@ -184,8 +197,7 @@ export const FormsSalas: React.FC<FormsSalasProps> = ({
                                 </div>
                                 <span className="header">Arrastar & soltar</span>
                                 <span className="header">
-                                    {' '}
-                                    ou <span className="button" ref={buttonRef}> procurar </span>
+                                    {' '}ou <span className="button" ref={buttonRef}> procurar </span>
                                 </span>
                                 <span className="support">Tipos aceitos: JPEG, JPG, PNG </span>
                             </div>
@@ -210,7 +222,7 @@ export const FormsSalas: React.FC<FormsSalasProps> = ({
                     </div>
                     <div className="mb-3">
                         <label htmlFor="">Descrição:</label>
-                        <p id="view_descricao" className="form-control">{selectedSala?.descricao}</p>
+                        <p id="view_descricao" className="form-control !h-auto">{selectedSala?.descricao}</p>
                     </div>
                     <div className="mb-3">
                         <label htmlFor="">Imagem:</label>
@@ -218,7 +230,13 @@ export const FormsSalas: React.FC<FormsSalasProps> = ({
                     </div>
                     <div className="mb-3">
                         <label htmlFor="">Características:</label>
-                        <p id="view_caracteristicas" className="form-control !h-auto">{formatCaracteristicas(JSON.stringify(selectedSala?.caracteristicas))}</p>
+                        <textarea
+                            className="form-control !h-auto"
+                            placeholder="Características da sala"
+                            autoComplete="off"
+                            defaultValue={caracteristicas.join(', ')}
+                            disabled
+                        ></textarea>
                     </div>
                 </div>
             )}

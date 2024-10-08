@@ -4,12 +4,14 @@ import { CardReservationModal } from './cardReservationModal.tsx';
 interface CardModalProps {
     cardCaracterísticas?: any[];
     cardTitle?: string;
+    salaAlocada: number;
     onClose: () => void;
 }
 
 export const CardModal: React.FC<CardModalProps> = ({
     cardCaracterísticas,
     cardTitle,
+    salaAlocada,
     onClose
 }) => {
     const modalRef = useRef<HTMLDialogElement>(null);
@@ -77,6 +79,7 @@ export const CardModal: React.FC<CardModalProps> = ({
         :
             <CardReservationModal 
                 onClose={closeReservationModal}
+                salaAlocada={salaAlocada}
             />  
     )
 }

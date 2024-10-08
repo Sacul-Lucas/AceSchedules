@@ -28,7 +28,6 @@ function queryDatabase(query: string, params: any[]): Promise<QueryResult> {
 }
 
 export const EditarAction = async (req: Request, res: Response) => {
-    console.log(req.body)
     if (!req.body || !req.body.id) {
         return res.status(400).json({ success: false, message: 'Corpo da solicitação ou ID está vazio' });
     }
@@ -110,7 +109,6 @@ export const EditarAction = async (req: Request, res: Response) => {
                 }
                 dados = [usuario, email, senha, usertype, telefone, cnpj, id];
             } else {
-                console.log(currPath)
                 return res.status(400).json({ success: false, message: 'Caminho inválido.' });
             }
         }

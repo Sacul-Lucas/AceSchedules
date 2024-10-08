@@ -1,19 +1,21 @@
 import { useState, useRef } from 'react';
 import { CardModal } from '../Modals/cardModal.tsx';
-import { formatCaracteristicas } from '../Utils/Formatter.ts';
+import { formatCaracteristicas } from '../Utils/functions/Formatter.ts';
 
 interface PanelCardProps {
     características?: string;
     imgSrc: string;
     title?: string | undefined;
     description?: string;
+    salaAlocada: number;
 }
 
 export const Card: React.FC<PanelCardProps> = ({ 
     características = '',
     imgSrc,
     title,
-    description = ''
+    description = '',
+    salaAlocada,
 }) => {
     const [isHovered, setIsHovered] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -63,6 +65,7 @@ export const Card: React.FC<PanelCardProps> = ({
                     cardCaracterísticas={formatCaracteristicas(características)}
                     cardTitle={title}
                     onClose={closeModal}
+                    salaAlocada={salaAlocada}
                 />
             )}
         </div>

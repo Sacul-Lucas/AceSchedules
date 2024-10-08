@@ -170,7 +170,7 @@ export const Usuarios: React.FC = () => {
                                     <div className="">
                                         <label className="pr-2 text-black" htmlFor="nome">Nome do usuário:</label>
                                         <input
-                                            className="!text-black !border !border-black" 
+                                            className="!text-black !border !border-black p-[0.1rem]" 
                                             type="text"
                                             id="filter_nome"
                                             name="filter_nome"
@@ -182,7 +182,7 @@ export const Usuarios: React.FC = () => {
                                     <div>
                                         <label className="pr-2 pl-2 text-black border-width: 2px;" htmlFor="email">Selecione o email:</label>
                                         <input
-                                            className="!text-black !border !border-black" 
+                                            className="!text-black !border !border-black p-[0.1rem]" 
                                             type="email"
                                             id="filter_Email"
                                             name="filter_Email"
@@ -193,7 +193,7 @@ export const Usuarios: React.FC = () => {
                                     <div className="pl-2">
                                         <label className="pl-2 pr-2 text-black" htmlFor="user">Selecione o tipo de usuário:</label>
                                         <select
-                                            className="!text-black !border !border-black"
+                                            className="!text-black !border !border-black p-[0.1rem]"
                                             id="filter_user"
                                             name="filter_user"
                                             value={filterUserType}
@@ -224,7 +224,7 @@ export const Usuarios: React.FC = () => {
                                                 <td>{usuario.usuario}</td>
                                                 <td>{usuario.email}</td>
                                                 <td>{usuario.usertype}</td>
-                                                <td>
+                                                <td className="!flex !justify-end">
                                                     <button type='button' data-id={usuario.id} className='mx-1 viewBtn btn btn-info btn-sm' onClick={() => handleView(usuario.id)}>Visualizar</button>
                                                     <button type='button' data-id={usuario.id} className='mx-1 editBtn btn btn-success btn-sm' onClick={() => handleEdit(usuario.id)}>Editar</button>
                                                     <button type='button' data-id={usuario.id} className='mx-1 deleteBtn btn btn-danger btn-sm' onClick={() => actionDelete(usuario.id)} >Deletar</button>

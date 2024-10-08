@@ -38,6 +38,14 @@ export const CriarAction = async (req: Request, res: Response) => {
         return res.status(400).json({ success: false, message: 'Corpo da solicitação está vazio' });
     }
 
+    if (!req.session || !req.session.userId) {
+        return res.status(401).json({ success: false, message: 'Usuário não autenticado' });
+    }
+
+    // Obtenha o tipo de usuário
+    const usertype = await getUserType(req.session.userId);
+    const isAdmin = usertype === 'admin'; 
+
     const currPath = req.originalUrl;
     let reqRoute = '';
     let msgId = '';
@@ -80,28 +88,26 @@ export const CriarAction = async (req: Request, res: Response) => {
 
         } else if (currPath.includes('/Reservas')) {
             reqRoute = 'reservas';
-            msgId = 'Reserva';
-            varsAction = '(dataAgendamentoInicial, dataAgendamentoFinal, sala, status)';
-            valuesAction = '(?, ?, ?, true)';
+            varsAction = '(usuario, dataAgendamentoInicial, dataAgendamentoFinal, sala, status)';
+            valuesAction = '(?, ?, ?, ?, ?)';
 
             const { salaAlocada: sala, dataAgendamentoInicial, dataAgendamentoFinal } = req.body;
 
-            if (!dataAgendamentoInicial || !dataAgendamentoFinal  || !sala) {
+            if (!dataAgendamentoInicial || !dataAgendamentoFinal || !sala) {
                 return res.json({ success: false, message: 'Por favor, selecione um intervalo de datas e horários válidos' });
             }
 
-            dados = [dataAgendamentoInicial, dataAgendamentoFinal, sala];
+            dados = [req.session.userId, dataAgendamentoInicial, dataAgendamentoFinal, sala, isAdmin];
 
             const checkQuery = `
                 SELECT dataAgendamentoInicial, dataAgendamentoFinal, sala FROM reservas 
                 WHERE dataAgendamentoInicial = ? AND dataAgendamentoFinal = ? AND sala = ?
             `;
-            const rows: any = await queryDatabase(checkQuery, [dataAgendamentoInicial, dataAgendamentoFinal, sala]);
+            const rows: any = await queryDatabase(checkQuery, [req.session.userId, dataAgendamentoInicial, dataAgendamentoFinal, sala]);
 
             if (rows.length > 0) {
                 return res.json({ success: false, message: 'Período de agendamento já reservado' });
             }
-
         } else if (currPath.includes('/Usuarios')) {
             reqRoute = 'cadastro';
             msgId = 'Usuário';
@@ -179,6 +185,21 @@ export const CriarAction = async (req: Request, res: Response) => {
         console.error(error);
         return res.status(500).json({ success: false, message: 'Erro no servidor' });
     }
+};
+
+const getUserType = (userId: number): Promise<string> => {
+    return new Promise((resolve, reject) => {
+        const query = `SELECT usertype FROM cadastro WHERE id = ?`;
+        pool.query(query, [userId], (error, results) => {
+            if (error) {
+                reject('Erro ao buscar tipo de usuário');
+            } else if (results.length > 0) {
+                resolve(results[0].usertype);
+            } else {
+                reject('Usuário não encontrado');
+            }
+        });
+    });
 };
 
 // export const CriarAction = (req: Request, res: Response) => {

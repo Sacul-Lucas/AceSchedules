@@ -893,7 +893,6 @@ dialog {
 .input-contato {
   display: flex;
   gap: 0.3rem;
-  margin-bottom: 5%;
   align-items: center;
 }
 

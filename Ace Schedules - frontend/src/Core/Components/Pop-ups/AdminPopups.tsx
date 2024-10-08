@@ -4,7 +4,7 @@ import Modal from 'react-bootstrap/Modal';
 import { FormsSalas, Sala} from '../Forms/FormsSala';
 import { FormsReserva, Reserva } from '../Forms/FormsReserva';
 import { Dispatch, SetStateAction, useState } from "react";
-import { formatDateForMySQL, parseDateString } from "../Utils/DateUtils";
+import { formatDateForMySQL, parseDateString } from "../Utils/functions/DateUtils";
 
 interface AdminPopupsProps {
     idModal: string;

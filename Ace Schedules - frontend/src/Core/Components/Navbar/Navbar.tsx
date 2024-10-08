@@ -1,4 +1,3 @@
-import { useNavigate } from "react-router-dom";
 import { FaInstagram } from "react-icons/fa6";
 import { FaLinkedin } from "react-icons/fa6";
 import { FaGithub } from "react-icons/fa6";
@@ -9,13 +8,7 @@ interface NavSidebarProps {
 
 export const Navbar: React.FC<NavSidebarProps> = ({ 
     showSidebar
-}) => {
-    const navigate = useNavigate();
-
-    const goToETPC = () => {
-        navigate('https://etpc.com.br/')
-    }
-    
+}) => {    
     return (
         <div>
             <header>
@@ -24,13 +17,6 @@ export const Navbar: React.FC<NavSidebarProps> = ({
                 </div>
         
                 <div className="flex align-middle sub-bar">
-
-                    <div className="listmenu" id="listmenu">
-                        <button onClick={goToETPC} className="barrmenulink" id="barrmenulink1"> Home</button>
-                        <a href="#footer"><button className="barrmenulink" id="barrmenulink2"> Contato</button></a>
-                        <button form="logoutform" className="barrmenulink" id="barrmenulink3" name="logout"> Sair</button>
-                        <form id="logoutform" action="logout.php" method="GET"></form>
-                    </div>
 
                     <div className="container1 lg:!ml-8" onClick={showSidebar}>
                         <div className="bar1 lg:!w-[2.5vw] lg:!min-h-[0.6dvh]"></div>

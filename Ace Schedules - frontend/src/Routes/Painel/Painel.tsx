@@ -33,7 +33,7 @@ export const Painel = () => {
 
     return (
         <div>
-            <DefineApp cssPath="src/Core/Css/Owned/Painel.css" appIcon="src/assets/icons/calendar-alt-solid.svg" appTitle="Ace Schedules - Painel">
+            <DefineApp cssPath="../../Css/Owned/Painel.css" appIcon="src/assets/icons/calendar-alt-solid.svg" appTitle="Ace Schedules - Painel">
                 <Navbar showSidebar={toggleSidebar}/>
 
                 <div className="enfeite1">
@@ -53,10 +53,11 @@ export const Painel = () => {
                             {salas.length > 0 && salas.map(sala => (
                                     <Card
                                         key={sala.id}
-                                        imgSrc={'/src/assets/img_salas/pic2.jpeg'} // fallback image
+                                        imgSrc={sala.id === 215 ? '/src/assets/img_salas/pic2.jpeg' : sala.id === 1 ? '/src/assets/img_salas/pic4.jpeg' : sala.id === 217 ? '/src/assets/img_salas/pic5.jpeg' : '/src/assets/img/etpc2.jpg'}
                                         title={sala.nome}
                                         description={sala.descricao}
                                         características={sala.caracteristicas || []}
+                                        salaAlocada={sala.id}
                                     />
                                 ))}
                             </div>

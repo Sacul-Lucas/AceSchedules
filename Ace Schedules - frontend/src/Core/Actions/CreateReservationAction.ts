@@ -1,8 +1,9 @@
 import axios from "axios";
 
 export type CreateReservationActionInput = {
-    startDate: Date | null
-    endDate: Date | null
+    dataAgendamentoInicial: string
+    dataAgendamentoFinal: string
+    salaAlocada: number
 }
 
 export type CreateReservationActionOutput = {
@@ -16,8 +17,9 @@ export class CreateReservationAction {
     static async execute(input: CreateReservationActionInput): Promise<CreateReservationActionOutput> {
         try {
             const response = await axios.post('/api/adminPaths/Reservas/Criar', {
-                startDate: input.startDate,
-                endDate: input.endDate,
+                dataAgendamentoInicial: input.dataAgendamentoInicial,
+                dataAgendamentoFinal: input.dataAgendamentoFinal,
+                salaAlocada: input.salaAlocada
             }, {
                 headers: {
                     'Content-Type': 'application/json',
@@ -28,7 +30,7 @@ export class CreateReservationAction {
             if (success) {
                 return {
                     status: 'SUCCESS',
-                    data: message
+                    data: response.data.message
                 };
             } else {
                 return {

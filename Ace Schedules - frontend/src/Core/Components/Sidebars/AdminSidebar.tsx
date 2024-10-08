@@ -5,8 +5,10 @@ import { MdMeetingRoom } from "react-icons/md";
 import { useLocation, Link, useNavigate } from "react-router-dom";
 import { UserLogoutAction } from "../../Actions/UserLogoutAction";
 import { GetUsernameAction } from "../../Actions/GetUsernameAction";
-import "bootstrap/dist/js/bootstrap.bundle.min";
 import { GetUsertypeAction } from "../../Actions/GetUserTypeAction";
+import { Avatar } from "primereact/avatar";
+import { getInitials } from "../Utils/functions/Formatter";
+import "bootstrap/dist/js/bootstrap.bundle.min";
 
 interface AdminSidebarProps {
     children: ReactNode,
@@ -18,8 +20,9 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({ children }) => {
     const location = useLocation();
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
+    const [nameSuccess, setNameSuccess] = useState('');
+    const [nameError, setNameError] = useState('');
     const [username, setUsername] = useState('');
-    const [usertype, setUsertype] = useState('');
     
     const navigate = useNavigate();
     
@@ -32,7 +35,7 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({ children }) => {
             case 'SUCCESS':
                 setSuccess(message);
                 setError('');
-                navigate('/login');
+                navigate('/Login');
                 break;
             case 'UNKNOWN':
                 setError(message);
@@ -52,7 +55,6 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({ children }) => {
         
         switch (getUsertypeRes.status) {
             case 'SUCCESS':
-                setUsertype(usertypeMessage);
                 setError('');
                 if (usertypeMessage !== 'Administrador') {
                     navigate('/Painel')
@@ -60,19 +62,19 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({ children }) => {
                 break;
     
             case 'USER_NOT_FOUND':
-                setError(usertypeMessage);
-                setSuccess('');
+                setNameError(usertypeMessage);
+                setNameSuccess('');
                 navigate('/Login')
                 break;
             case 'UNKNOWN':
-                setError(usertypeMessage);
-                setSuccess('');
+                setNameError(usertypeMessage);
+                setNameSuccess('');
                 navigate('/Login')
                 break;
     
             default:
-                setError('Não foi possível obter o tipo de usuário. Tente novamente mais tarde.');
-                setSuccess('');
+                setNameError('Não foi possível obter o tipo de usuário. Tente novamente mais tarde.');
+                setNameSuccess('');
                 break;
         }
     };
@@ -108,7 +110,7 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({ children }) => {
             cssPath="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" 
             appTitle={`Ace Schedules - Painel administrador de ${location.pathname.substring(1)}`} 
             appIcon="src/assets/icons/admin-alt-solid.svg"
-            isCssEquiv={false}
+            isCssEquiv={true}
         >
             <div className="container-fluid">
                 <div className="row flex-nowrap">
@@ -133,7 +135,7 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({ children }) => {
                                                 {index === 4 && <FaUser />}
                                             </i>
                                             <span className="mx-2 d-none d-sm-inline">
-                                                {index === 0 && "Home"}
+                                                {index === 0 && "Página principal"}
                                                 {index === 1 && "Painel de reservas"}
                                                 {index === 2 && "Administração de salas"}
                                                 {index === 3 && "Administração de reservas"}
@@ -146,8 +148,8 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({ children }) => {
                             <hr />
                             <div className="fixed bottom-0 pb-4 dropdown">
                                 <a href="#" role="button" className="text-black d-flex align-items-center text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <img src="https://github.com/mdo.png" alt="User" width="30" height="30" className="rounded-circle"/>
-                                    <span className="mx-1 d-none d-sm-inline">{username}</span>
+                                    <Avatar className='items-center justify-center align-middle bg-blue-500 text-slate-100' label={getInitials(username)} shape="circle" />
+                                    <span className="mx-1 font-bold d-none d-sm-inline">{!nameError ? username : nameError}</span>
                                 </a>
                                 <ul className="shadow dropdown-menu dropdown-menu-dark text-small" aria-labelledby="dropdownUser1">
                                     <li><a className="dropdown-item" href="#">Configurações</a></li>

@@ -1,6 +1,6 @@
-import React, { ReactNode, useEffect, useState } from "react";
-import { loadStyle, removeStyle } from "./loadStyles";
+import React, { ReactNode, useEffect, useState, useRef } from "react";
 import { PageSpinner } from "./PageSpinner";
+import { removeStyle } from "./loadStyles";
 
 interface DefineAppProps {
     cssPath: string;
@@ -10,6 +10,23 @@ interface DefineAppProps {
     children: ReactNode;
 }
 
+const isEquivalentCss = (cssPath1: string, cssPath2: string): boolean => {
+    return cssPath1 === cssPath2;
+};
+
+const getCurrentCssPath = (cssPath: string): string | null => {
+    const styleElements = document.querySelectorAll("style[data-vite-dev-id]");
+
+    for (const styleElement of styleElements) {
+        const devId = styleElement.getAttribute("data-vite-dev-id") || '';
+        if (devId.includes(cssPath.substring(6))) {
+            return cssPath;
+        }
+    }
+    
+    return null;
+};
+
 export const DefineApp: React.FC<DefineAppProps> = ({
     cssPath,
     appTitle,
@@ -18,32 +35,30 @@ export const DefineApp: React.FC<DefineAppProps> = ({
     children,
 }) => {
     const [loaded, setLoaded] = useState(false);
-    const [currentCssPath, setCurrentCssPath] = useState<string | null>(null);
     const [loadingError, setLoadingError] = useState(false);
     const [showSpinner, setShowSpinner] = useState(false);
+    const currentCssPathRef = useRef<string | null>(null); // Ref to store current CSS path
 
     useEffect(() => {
         let isMounted = true;
         const loadingDelay = parseInt(localStorage.getItem('loadingDelay')!) || 0;
 
         const load = async () => {
-            if (currentCssPath && currentCssPath !== cssPath) {
-                removeStyle(currentCssPath);
-            } else if (!loaded && !loadingError && !isCssEquiv) {
-                removeStyle(cssPath);
-            }
-
             try {
                 setLoadingError(false);
                 setLoaded(false);
 
-                if (cssPath !== currentCssPath) {
-                    setCurrentCssPath(cssPath);
-                    await loadStyle(cssPath);
+                if (currentCssPathRef.current) {
+                    if (!isEquivalentCss(currentCssPathRef.current, cssPath)) {
+                        removeStyle(currentCssPathRef.current);
+                    }
                 }
 
+                await import(`${cssPath}`);
+
                 if (isMounted) {
-                    if (!isCssEquiv && showSpinner) {
+                    currentCssPathRef.current = cssPath;
+                    if (showSpinner) {
                         setTimeout(() => {
                             setLoaded(true);
                         }, loadingDelay);
@@ -60,8 +75,7 @@ export const DefineApp: React.FC<DefineAppProps> = ({
 
         const referrer = document.referrer;
         const isExternalReferrer = referrer && !referrer.includes(window.location.hostname);
-        const isNavigationType = (window.performance.getEntriesByType('navigation')
-        [0] as PerformanceNavigationTiming).type === 'navigate';
+        const isNavigationType = (window.performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming).type === 'navigate';
 
         if (isExternalReferrer && isNavigationType) {
             setShowSpinner(true);
@@ -74,11 +88,27 @@ export const DefineApp: React.FC<DefineAppProps> = ({
         return () => {
             isMounted = false;
 
-            if (currentCssPath && !loaded && !loadingError) {
-                removeStyle(currentCssPath);
-            } else if (!loaded && !loadingError && !isCssEquiv) {
-                removeStyle(cssPath);
+            const previousCssPath = currentCssPathRef.current;
+
+            if (previousCssPath && !isEquivalentCss(previousCssPath, cssPath)) {
+                console.log(previousCssPath)
+                removeStyle(previousCssPath);
             }
+        };
+    }, [cssPath]);
+
+    useEffect(() => {
+        const handlePopState = () => {
+            const previousCssPath = currentCssPathRef.current;
+            if (previousCssPath && !isEquivalentCss(previousCssPath, cssPath)) {
+                removeStyle(previousCssPath);
+            }
+        };
+
+        window.addEventListener('popstate', handlePopState);
+
+        return () => {
+            window.removeEventListener('popstate', handlePopState);
         };
     }, [cssPath]);
 
