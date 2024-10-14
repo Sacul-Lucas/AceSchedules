@@ -110,7 +110,6 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({ children }) => {
             cssPath="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" 
             appTitle={`Ace Schedules - Painel administrador de ${location.pathname.substring(1)}`} 
             appIcon="src/assets/icons/admin-alt-solid.svg"
-            isCssEquiv={true}
         >
             <div className="container-fluid">
                 <div className="row flex-nowrap">

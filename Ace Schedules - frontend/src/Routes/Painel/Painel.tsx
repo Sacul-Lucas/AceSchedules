@@ -33,7 +33,7 @@ export const Painel = () => {
 
     return (
         <div>
-            <DefineApp cssPath="../../Css/Owned/Painel.css" appIcon="src/assets/icons/calendar-alt-solid.svg" appTitle="Ace Schedules - Painel">
+            <DefineApp cssPath="src/Core/Css/Owned/Painel.css" appIcon="src/assets/icons/calendar-alt-solid.svg" appTitle="Ace Schedules - Painel">
                 <Navbar showSidebar={toggleSidebar}/>
 
                 <div className="enfeite1">

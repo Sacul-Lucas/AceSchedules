@@ -55,9 +55,9 @@ export const PageSpinner: React.FC<PageSpinnerProps> = ({
             const endTime = Date.now();
             const duration = (endTime - startTimeRef.current) / 1000;
             if (duration <= 1) {
-                loadingDelay = 495;
+                loadingDelay = 250;
                 localStorage.setItem('loadingDelay', loadingDelay.toString());
-                setAnimationDuration('.5s');
+                setAnimationDuration('.25s');
             } else {
                 loadingDelay = endTime - startTimeRef.current;
                 localStorage.setItem('loadingDelay', loadingDelay.toString());
@@ -67,8 +67,7 @@ export const PageSpinner: React.FC<PageSpinnerProps> = ({
     }, [isLoading]);
 
     return (
-
-        loaded ? (
+        isLoading && loaded ? (
             <div className='relative w-full h-full'>
                 <div className="fixed flex items-center justify-center w-full h-full align-middle load-container">
                     <img className='w-[6dvw] h-auto loader' src={loading} alt="loading"/>
@@ -88,7 +87,6 @@ export const PageSpinner: React.FC<PageSpinnerProps> = ({
         ) : (
             null
         )
-
     );
 };
 
