@@ -23,6 +23,7 @@ export const DefineApp: React.FC<DefineAppProps> = ({
     useEffect(() => {
         let isMounted = true;
         const loadingDelay = parseInt(localStorage.getItem('loadingDelay')!) || 0;
+        const oldCssPath = localStorage.getItem('previousCssPath')
 
         const referrer = document.referrer;
         const isExternalReferrer = referrer && !referrer.includes(window.location.hostname);
@@ -39,8 +40,6 @@ export const DefineApp: React.FC<DefineAppProps> = ({
                 setLoadingError(false);
                 setLoaded(false);
 
-                const oldCssPath = localStorage.getItem('previousCssPath')
-
                 if (!loaded && oldCssPath && oldCssPath !== cssPath) {
                     removeStyle(oldCssPath);
                 }
@@ -49,7 +48,8 @@ export const DefineApp: React.FC<DefineAppProps> = ({
 
                 if (isMounted) {
                     currentCssPathRef.current = cssPath;
-                    if (showSpinner || oldCssPath && oldCssPath !== cssPath) {
+
+                    if (!loaded && oldCssPath && oldCssPath !== cssPath || showSpinner) {
                         setTimeout(() => {
                             setLoaded(true);
                         }, loadingDelay);
@@ -75,29 +75,11 @@ export const DefineApp: React.FC<DefineAppProps> = ({
                 localStorage.setItem('previousCssPath', previousCssPath)
             }
 
-            const oldCssPath = localStorage.getItem('previousCssPath')
-
             if (!loaded && oldCssPath && oldCssPath !== cssPath) {
                 removeStyle(oldCssPath);
             }
         };
-    }, [cssPath, currentCssPathRef]);
-
-    useEffect(() => {
-        const handlePopState = () => {
-            const oldCssPath = localStorage.getItem('previousCssPath')
-
-            if (!loaded && oldCssPath && oldCssPath !== cssPath) {
-                removeStyle(oldCssPath);
-            }
-        };
-
-        window.addEventListener('popstate', handlePopState);
-
-        return () => {
-            window.removeEventListener('popstate', handlePopState);
-        };
-    }, [cssPath, currentCssPathRef]);
+    }, [cssPath]);
 
     useEffect(() => {
         document.title = appTitle;
@@ -109,11 +91,14 @@ export const DefineApp: React.FC<DefineAppProps> = ({
     }, [appTitle, appIcon]);
 
     return (
-        loaded ? 
-            <div style={{ opacity: loaded ? 1 : 0, transition: 'opacity 0.65s' }}>
-                {children}
-            </div> 
-        :
-        showSpinner || localStorage.getItem('previousCssPath') !== cssPath ? <PageSpinner isLoading={!loaded && !loadingError} /> : null
+        <div style={{ opacity: loaded ? 1 : 0, transition: 'opacity 0.65s' }}>
+            {loadingError ? (
+                <div>Error loading the application.</div>
+            ) : loaded && currentCssPathRef ? (
+                children
+            ) : (
+                <PageSpinner isLoading={!loaded} />
+            )}
+        </div>
     );
 };

@@ -3,7 +3,8 @@ import { AdminPopups } from "../../Core/Components/Pop-ups/AdminPopups";
 import { AdminSidebar } from "../../Core/Components/Sidebars/AdminSidebar";
 import DatePicker from "react-datepicker";
 import { ptBR } from 'date-fns/locale';
-import { startOfMonth, endOfMonth, isWithinInterval, addHours } from 'date-fns';
+import { formatDateForMySQL } from "../../Core/Components/Utils/functions/DateUtils";
+import { startOfMonth, endOfMonth, isWithinInterval } from "date-fns";
 
 export const Reservas: React.FC = () => {
   const [reservasPendentes, setReservasPendentes] = useState<any[]>([]);
@@ -32,43 +33,43 @@ export const Reservas: React.FC = () => {
   const [endDateAprov, setEndDateAprov] = useState<Date | null>();
   const [currentMonth, setCurrentMonth] = useState<Date>(new Date());
 
+  const handleMonthChange = (date: Date) => {
+    setCurrentMonth(date);
+  };
+
   const isDateWithinMonth = (date: Date) => {
     const monthStart = startOfMonth(currentMonth);
     const monthEnd = endOfMonth(currentMonth);
     return isWithinInterval(date, { start: monthStart, end: monthEnd });
   };
 
-  const handleMonthChange = (date: Date) => {
-    setCurrentMonth(date);
-  };
-
   const handleStartDateChange = (date: Date | null) => {
     if (date) {
-        setStartDate(date);
-        setEndDate(null);
-        setFilterDataInicio(date)
+      setStartDate(date);
+      setEndDate(null);
+      setFilterDataInicio(date)
     }
   };
 
   const handleEndDateChange = (date: Date | null) => {
     if (date) {
-        setEndDate(date);
-        setFilterDataFim(date)
+      setEndDate(date);
+      setFilterDataFim(date)
     }
   };
   
   const handleStartDateChangeAprov = (date: Date | null) => {
     if (date) {
-        setStartDateAprov(date);
-        setEndDateAprov(null);
-        setFilterDataInicioAprovada(date)
+      setStartDateAprov(date);
+      setEndDateAprov(null);
+      setFilterDataInicioAprovada(date)
     }
   };
 
   const handleEndDateChangeAprov = (date: Date | null) => {
     if (date) {
-        setEndDateAprov(date);
-        setFilterDataFimAprovada(date)
+      setEndDateAprov(date);
+      setFilterDataFimAprovada(date)
     }
   };
 
@@ -89,57 +90,49 @@ export const Reservas: React.FC = () => {
     }
   };
 
-const loadReservasPendentes = async () => {
-  try {
-    const formatDate = (date: Date | null | undefined): string => {
-      return date ? date.toISOString().split('T')[0] : '';
-    };
-
-    const response = await fetch(
-      `/api/adminPaths/Reservas/?status=0&sala=${encodeURIComponent(
-        filterSalaAlocada
-      )}&data=${encodeURIComponent(formatDate(FilterDataInicio))}&hora=${encodeURIComponent(
-        formatDate(FilterDataFim)
-      )}&nome=${encodeURIComponent(filterAlocador)}`
-    );
-
-    if (response.ok) {
-      const data = await response.json();
-      setReservasPendentes(data.reservas || []);
-      setTotalreservasPendentes(data.total || 0);
-    } else {
-      console.error("Erro ao carregar reservas pendentes:", response.statusText);
+  const loadReservasPendentes = async () => {
+    try {
+      const response = await fetch(
+        `/api/adminPaths/Reservas/?status=0&sala=${encodeURIComponent(
+            filterSalaAlocada
+        )}&data=${encodeURIComponent(formatDateForMySQL(startDate!))}&hora=${encodeURIComponent(
+          formatDateForMySQL(endDate!)
+        )}&nome=${encodeURIComponent(filterAlocador)}`
+      );
+    
+      if (response.ok) {
+        const data = await response.json();
+        setReservasPendentes(data.reservas || []);
+        setTotalreservasPendentes(data.total || 0);
+      } else {
+        console.error("Erro ao carregar reservas pendentes:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Erro ao carregar reservas pendentes:", error);
     }
-  } catch (error) {
-    console.error("Erro ao carregar reservas pendentes:", error);
-  }
-};
-
-const loadReservasAprovadas = async () => {
-  try {
-    const formatDate = (date: Date | null | undefined): string => {
-      return date ? date.toISOString().split('T')[0] : ''; // Format to YYYY-MM-DD
-    };
-
-    const response = await fetch(
-      `/api/adminPaths/Reservas/?status=1&sala=${encodeURIComponent(
-        filterSalaAlocadaAprovada
-      )}&data=${encodeURIComponent(formatDate(FilterDataInicioAprovada))}&hora=${encodeURIComponent(
-        formatDate(FilterDataFimAprovada)
-      )}&nome=${encodeURIComponent(filterAlocadorAprovada)}`
-    );
-
-    if (response.ok) {
-      const data = await response.json();
-      setReservasAprovadas(data.reservas || []);
-      setTotalreservasAprovadas(data.total || 0);
-    } else {
-      console.error("Erro ao carregar reservas aprovadas:", response.statusText);
+  };
+  
+  const loadReservasAprovadas = async () => {
+    try {
+      const response = await fetch(
+        `/api/adminPaths/Reservas/?status=1&sala=${encodeURIComponent(
+            filterSalaAlocadaAprovada
+        )}&data=${encodeURIComponent(formatDateForMySQL(startDateAprov!))}&hora=${encodeURIComponent(
+          formatDateForMySQL(endDateAprov!)
+        )}&nome=${encodeURIComponent(filterAlocadorAprovada)}`
+      );
+    
+      if (response.ok) {
+        const data = await response.json();
+        setReservasAprovadas(data.reservas || []);
+        setTotalreservasAprovadas(data.total || 0);
+      } else {
+        console.error("Erro ao carregar reservas aprovadas:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Erro ao carregar reservas aprovadas:", error);
     }
-  } catch (error) {
-    console.error("Erro ao carregar reservas aprovadas:", error);
-  }
-};
+  };
 
   const handleAdd = async () => {
     setViewMode(false);
@@ -342,7 +335,7 @@ const handleEdit = async (id: number) => {
   useEffect(() => {
     loadReservasPendentes();
     loadReservasAprovadas();
-    loadSalas();  
+    loadSalas();
   }, [filterSalaAlocada, FilterDataInicio, FilterDataFim, filterAlocador, filterSalaAlocadaAprovada, FilterDataInicioAprovada, FilterDataFimAprovada, filterAlocadorAprovada]);
 
 
@@ -382,25 +375,26 @@ const handleEdit = async (id: number) => {
                       </select>
                     </div>
                     <div className="form-group">
-                      <label className="pl-2 pr-1 text-black" >Data e hora:</label>
-                        <DatePicker
-                          id={"filter_data_inicio"}
-                          selected={startDate}
-                          onChange={handleStartDateChange}
-                          showTimeSelect
-                          timeFormat="p"
-                          timeIntervals={15}
-                          timeCaption="Horário"
-                          dateFormat="Pp"
-                          locale={ptBR}
-                          placeholderText="Data de início"
-                          className="!text-black !border !border-black !h-7 p-2"
-                          filterDate={isDateWithinMonth}
-                          onMonthChange={handleMonthChange}
-                        />
+                      <label className="pl-2 pr-1 text-black" >Data e hora inicial:</label>
+                      <DatePicker
+                        id={"filter_data_inicio"}
+                        selected={startDate}
+                        onChange={handleStartDateChange}
+                        showTimeSelect
+                        isClearable
+                        timeFormat="p"
+                        timeIntervals={15}
+                        timeCaption="Horário"
+                        dateFormat="Pp"
+                        locale={ptBR}
+                        placeholderText="Data de início"
+                        className="!text-black !border !border-black !h-7 p-2"
+                        filterDate={isDateWithinMonth}
+                        onMonthChange={handleMonthChange}
+                      />
                     </div>
                     <div className="form-group">
-                    <label className="pl-2 pr-1 text-black" >Data e hora:</label>
+                      <label className="pl-2 pr-1 text-black" >Data e hora final:</label>
                       <DatePicker
                         id={"filter_data_fim"}
                         selected={endDate}
@@ -415,9 +409,6 @@ const handleEdit = async (id: number) => {
                         className="!text-black !border !border-black !h-7 p-2"
                         filterDate={isDateWithinMonth}
                         onMonthChange={handleMonthChange}
-                        minDate={startDate || undefined}
-                        minTime={startDate ? addHours(startDate, 1) : undefined}
-                        maxTime={startDate ? endOfMonth(startDate) : undefined}
                       />
                     </div>
                     <div className="form-group">
@@ -467,42 +458,39 @@ const handleEdit = async (id: number) => {
                       </select>
                     </div>
                     <div className="form-group">
-                      <label className="pl-2 pr-1 text-black" >Data e hora:</label>
-                        <DatePicker
-                          id={"filter_data_inicio_aprov"}
-                          selected={startDateAprov}
-                          onChange={handleStartDateChangeAprov}
-                          showTimeSelect
-                          timeFormat="p"
-                          timeIntervals={15}
-                          timeCaption="Horário"
-                          dateFormat="Pp"
-                          locale={ptBR}
-                          placeholderText="Data de início"
-                          className="!text-black !border !border-black !h-7 p-2"
-                          filterDate={isDateWithinMonth}
-                          onMonthChange={handleMonthChange}
-                        />
+                      <label className="pl-2 pr-1 text-black" >Data e hora inicial:</label>
+                      <DatePicker
+                        id={"filter_data_inicio_aprov"}
+                        selected={startDateAprov}
+                        onChange={handleStartDateChangeAprov}
+                        showTimeSelect
+                        timeFormat="p"
+                        timeIntervals={15}
+                        timeCaption="Horário"
+                        dateFormat="Pp"
+                        locale={ptBR}
+                        placeholderText="Data de início"
+                        className="!text-black !border !border-black !h-7 p-2"
+                        filterDate={isDateWithinMonth}
+                        onMonthChange={handleMonthChange}
+                      />
                     </div>
                     <div className="form-group">
-                    <label className="pl-2 pr-1 text-black" >Data e hora:</label>
+                      <label className="pl-2 pr-1 text-black" >Data e hora final:</label>
                       <DatePicker
-                          id={"filter_data_fim_aprov"}
-                          selected={endDateAprov}
-                          onChange={handleEndDateChangeAprov}
-                          showTimeSelect
-                          timeFormat="p"
-                          timeIntervals={15}
-                          timeCaption="Horário"
-                          dateFormat="Pp"
-                          locale={ptBR}
-                          placeholderText="Data de fim"
-                          className="!text-black !border !border-black !h-7 p-2"
-                          filterDate={isDateWithinMonth}
-                          onMonthChange={handleMonthChange}
-                          minDate={startDate || undefined}
-                          minTime={startDate ? addHours(startDate, 1) : undefined}
-                          maxTime={startDate ? endOfMonth(startDate) : undefined}
+                        id={"filter_data_fim_aprov"}
+                        selected={endDateAprov}
+                        onChange={handleEndDateChangeAprov}
+                        showTimeSelect
+                        timeFormat="p"
+                        timeIntervals={15}
+                        timeCaption="Horário"
+                        dateFormat="Pp"
+                        locale={ptBR}
+                        placeholderText="Data de fim"
+                        className="!text-black !border !border-black !h-7 p-2"
+                        filterDate={isDateWithinMonth}
+                        onMonthChange={handleMonthChange}
                       />
                     </div>
                     <div className="form-group">

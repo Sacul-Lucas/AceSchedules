@@ -70,11 +70,11 @@ export const CarregarDB = async (req: Request, res: Response) => {
         params.push(`%${sala}%`);
       }
       if (data) {
-        sql += ' AND r.dataAgendamentoInicial >= ?'; // Changed to >=
+        sql += ' AND r.dataAgendamentoInicial = ?';
         params.push(data);
       }
       if (hora) {
-        sql += ' AND r.dataAgendamentoFinal <= ?'; // Changed to <=
+        sql += ' AND r.dataAgendamentoFinal = ?';
         params.push(hora);
       }
       if (nome) {
@@ -82,7 +82,6 @@ export const CarregarDB = async (req: Request, res: Response) => {
         params.push(`%${nome}%`);
       }
       
-      // Query for total count of filtered reservations
       let sqlTotal = `SELECT COUNT(*) as total 
                        FROM reservas r
                        WHERE r.status = ?`;
@@ -92,11 +91,11 @@ export const CarregarDB = async (req: Request, res: Response) => {
         totalParams.push(`%${sala}%`);
       }
       if (data) {
-        sqlTotal += ' AND r.dataAgendamentoInicial >= ?'; // Changed to >=
+        sqlTotal += ' AND r.dataAgendamentoInicial = ?';
         totalParams.push(data);
       }
       if (hora) {
-        sqlTotal += ' AND r.dataAgendamentoFinal <= ?'; // Changed to <=
+        sqlTotal += ' AND r.dataAgendamentoFinal = ?';
         totalParams.push(hora);
       }
       if (nome) {
@@ -104,7 +103,6 @@ export const CarregarDB = async (req: Request, res: Response) => {
         totalParams.push(`%${nome}%`);
       }
       
-      // Execute queries
       const connection = await pool.getConnection();
       const [reservas] = await connection.query<any[]>(sql, params);
       const [[{ total }]] = await connection.query<any[]>(sqlTotal, totalParams);

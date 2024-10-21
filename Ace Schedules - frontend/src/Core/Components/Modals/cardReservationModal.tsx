@@ -113,6 +113,10 @@ export const CardReservationModal: React.FC<CardReservationModalProps> = ({
         setEndDate(null);
     };
 
+    const formatMonthWithCapital = (month: string) => {
+        return month.charAt(0).toUpperCase() + month.slice(1);
+    };
+
     useEffect(() => {
         const updateControlsWidth = () => {
             const controlsContainer = controlsContainerRef.current;
@@ -183,6 +187,14 @@ export const CardReservationModal: React.FC<CardReservationModalProps> = ({
                                     inline
                                     filterDate={isDateWithinMonth}
                                     onMonthChange={handleMonthChange}
+
+                                    renderCustomHeader={({ date, decreaseMonth, increaseMonth }) => (
+                                        <div>
+                                            <button type="button" onClick={decreaseMonth} className="react-datepicker__navigation react-datepicker__navigation--previous" aria-label="Previous Month"><span className="react-datepicker__navigation-icon react-datepicker__navigation-icon--previous">{"<"}</span></button>
+                                            <h2 className="react-datepicker__current-month">{`${formatMonthWithCapital(date.toLocaleString('pt-BR', { month: 'long' }))} ${date.getFullYear()}`}</h2>
+                                            <button type="button" onClick={increaseMonth} className="react-datepicker__navigation react-datepicker__navigation--next react-datepicker__navigation--next--with-time" aria-label="Next Month"><span className="react-datepicker__navigation-icon react-datepicker__navigation-icon--next">{">"}</span></button>
+                                        </div>
+                                    )}
                                 />
                             ) : (
                                 <DatePicker
@@ -202,6 +214,14 @@ export const CardReservationModal: React.FC<CardReservationModalProps> = ({
                                     minDate={startDate || undefined}
                                     minTime={startDate ? addHours(startDate, 1) : undefined}
                                     maxTime={startDate ? endOfMonth(startDate) : undefined}
+
+                                    renderCustomHeader={({ date, decreaseMonth, increaseMonth }) => (
+                                        <div>
+                                            <button type="button" onClick={decreaseMonth} className="react-datepicker__navigation react-datepicker__navigation--previous" aria-label="Previous Month"><span className="react-datepicker__navigation-icon react-datepicker__navigation-icon--previous">{"<"}</span></button>
+                                            <h2 className="react-datepicker__current-month">{`${formatMonthWithCapital(date.toLocaleString('pt-BR', { month: 'long' }))} ${date.getFullYear()}`}</h2>
+                                            <button type="button" onClick={increaseMonth} className="react-datepicker__navigation react-datepicker__navigation--next react-datepicker__navigation--next--with-time" aria-label="Next Month"><span className="react-datepicker__navigation-icon react-datepicker__navigation-icon--next">{">"}</span></button>
+                                        </div>
+                                    )}
                                 />
                             )}
                         </div>

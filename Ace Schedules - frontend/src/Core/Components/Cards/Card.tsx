@@ -38,6 +38,7 @@ export const Card: React.FC<PanelCardProps> = ({
     };
 
     const descriptionHeight = descriptionRef.current ? descriptionRef.current.clientHeight : 0;
+    console.log(descriptionHeight)
     let titleHeightPercentage: number = 1.28;
     const titleStyle = {
         maxHeight: isHovered ? `${descriptionHeight * titleHeightPercentage}px` : '12%',
@@ -53,7 +54,7 @@ export const Card: React.FC<PanelCardProps> = ({
                     <div className='card-description lg:!gap-[0.25rem]' id='card-description' ref={descriptionRef}>
                         <div className="card-custom-scrollbar overflow-auto justify-center items-center flex lg:!max-h-[4.5rem] lg:!min-h-[4.5rem] xsm:!max-h-[2.5rem] xsm:!min-h-[2.5rem]">
                             <p className="lg:!text-[0.65rem] lg:!p-0">
-                              {description}
+                                {description}
                             </p>
                         </div>
                         <button className="lg:!text-[0.65rem] lg:!p-[8px_0]" onClick={openModal}>Reservar</button>

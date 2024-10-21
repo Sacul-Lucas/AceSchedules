@@ -21,20 +21,13 @@ export const loadStyle = (cssPath: string) => {
 };
 
 export const removeStyle = (cssPath: string) => {
-    // Remove the <link> element that references the CSS
+    if (typeof cssPath !== 'string') {
+        console.error('cssPath deve ser uma string:', cssPath);
+        return;
+    }
+
     const link = document.querySelector(`link[href="${cssPath}"]`);
     if (link) {
         document.head.removeChild(link);
     }
-
-    // Remove <style> elements that may be related to the CSS
-    const styleElements = document.querySelectorAll('style');
-    styleElements.forEach((style) => {
-        const viteDevId = style.getAttribute('data-vite-dev-id');
-        // Check if the style has a vite dev id and it includes part of the cssPath
-        if (viteDevId && viteDevId.includes(cssPath.substring(cssPath.lastIndexOf('/') + 1))) {
-            document.head.removeChild(style);
-        }
-    });
 };
-

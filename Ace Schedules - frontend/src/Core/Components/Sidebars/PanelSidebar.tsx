@@ -3,6 +3,7 @@ import { Sidebar } from 'primereact/sidebar';
 import { Button } from 'primereact/button';
 import { Avatar } from 'primereact/avatar';
 import { Ripple } from 'primereact/ripple';
+import { ScrollPanel } from 'primereact/scrollpanel';
 import { StyleClass } from 'primereact/styleclass';
 import { Link, useNavigate } from 'react-router-dom';
 import { UserLogoutAction } from '../../Actions/UserLogoutAction';
@@ -148,161 +149,163 @@ export const PanelSidebar: React.FC<PanelSidebarProps> = ({
                                         />
                                     </span>
                                 </div>
-                                <div className="overflow-y-auto">
-                                    <ul className="p-3 m-0 list-none !no-underline">
-                                        <li>
-                                            <StyleClass nodeRef={btnRef1} selector="@next" enterClassName="hidden" enterActiveClassName="slidedown" leaveToClassName="hidden" leaveActiveClassName="slideup">
-                                                <div ref={btnRef1} className="flex p-3 cursor-pointer p-ripple align-items-center justify-content-between text-600">
-                                                    <span className="font-medium">Painéis</span>
-                                                    <i className="pi pi-chevron-down"></i>
-                                                    <Ripple />
-                                                </div>
-                                            </StyleClass>
-                                            <ul className="p-0 m-0 overflow-hidden list-none">
-                                                <li>
-                                                    <Link className="flex w-full p-3 transition-colors cursor-pointer p-ripple align-items-center border-round text-700 hover:surface-100 transition-duration-150" to={'https://etpc.com.br/'}>
-                                                        <i className="mr-2 pi pi-home"></i>
-                                                        <span className="font-medium">Página principal</span>
+                                <div className="overflow-x-hidden overflow-y-auto">
+                                    <ScrollPanel style={{ height: '100%' }} className='custombar1' aria-orientation='vertical'>
+                                        <ul className="p-3 m-0 list-none !no-underline">
+                                            <li>
+                                                <StyleClass nodeRef={btnRef1} selector="@next" enterClassName="hidden" enterActiveClassName="slidedown" leaveToClassName="hidden" leaveActiveClassName="slideup">
+                                                    <div ref={btnRef1} className="flex p-3 cursor-pointer p-ripple align-items-center justify-content-between text-600">
+                                                        <span className="font-medium">Painéis</span>
+                                                        <i className="pi pi-chevron-down"></i>
                                                         <Ripple />
-                                                    </Link>
-                                                    {usertype === 'Administrador' && (
-                                                        <>
-                                                            <Link className="flex w-full p-3 transition-colors cursor-pointer p-ripple align-items-center border-round text-700 hover:surface-100 transition-duration-150" to={'/Salas'}>
-                                                                <MdOutlineMeetingRoom className='mr-2 pi'/>
-                                                                <span className="font-medium">Administração de salas</span>
-                                                                <Ripple />
-                                                            </Link>
-                                                            <Link className="flex w-full p-3 transition-colors cursor-pointer p-ripple align-items-center border-round text-700 hover:surface-100 transition-duration-150" to={'/Reservas'}>
-                                                                <i className="mr-2 pi pi-clock"></i>
-                                                                <span className="font-medium">Administração de reservas</span>
-                                                                <Ripple />
-                                                            </Link>
-                                                            <Link className="flex w-full p-3 transition-colors cursor-pointer p-ripple align-items-center border-round text-700 hover:surface-100 transition-duration-150" to={'/Usuarios'}>
-                                                                <i className="mr-2 pi pi-user"></i>
-                                                                <span className="font-medium">Administração de usuários</span>
-                                                                <Ripple />
-                                                            </Link>
-                                                        </>
-                                                    )}
-                                                </li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                    <ul className="p-3 m-0 list-none">
-                                        <li>
-                                            <StyleClass nodeRef={btnRef2} selector="@next" enterClassName="hidden" enterActiveClassName="slidedown" leaveToClassName="hidden" leaveActiveClassName="slideup">
-                                                <div ref={btnRef2} className="flex p-3 cursor-pointer p-ripple align-items-center justify-content-between text-600">
-                                                    <span className="font-medium">Reservas</span>
-                                                    <i className="pi pi-chevron-down"></i>
-                                                    <Ripple />
-                                                </div>
-                                            </StyleClass>
-                                            <ul className="p-0 m-0 overflow-hidden list-none">
-                                                <li>
-                                                    <a className="flex w-full p-3 transition-colors cursor-pointer p-ripple align-items-center border-round text-700 hover:surface-100 transition-duration-150">
-                                                        <i className="mr-2 pi pi-history"></i>
-                                                        <span className="font-medium">Histórico</span>
+                                                    </div>
+                                                </StyleClass>
+                                                <ul className="p-0 m-0 overflow-hidden list-none">
+                                                    <li>
+                                                        <Link className="flex w-full p-3 transition-colors cursor-pointer p-ripple align-items-center border-round text-700 hover:surface-100 transition-duration-150" to={'https://etpc.com.br/'}>
+                                                            <i className="mr-2 pi pi-home"></i>
+                                                            <span className="font-medium">Página principal</span>
+                                                            <Ripple />
+                                                        </Link>
+                                                        {usertype === 'Administrador' && (
+                                                            <>
+                                                                <Link className="flex w-full p-3 transition-colors cursor-pointer p-ripple align-items-center border-round text-700 hover:surface-100 transition-duration-150" to={'/Salas'}>
+                                                                    <MdOutlineMeetingRoom className='mr-2 pi'/>
+                                                                    <span className="font-medium">Administração de salas</span>
+                                                                    <Ripple />
+                                                                </Link>
+                                                                <Link className="flex w-full p-3 transition-colors cursor-pointer p-ripple align-items-center border-round text-700 hover:surface-100 transition-duration-150" to={'/Reservas'}>
+                                                                    <i className="mr-2 pi pi-clock"></i>
+                                                                    <span className="font-medium">Administração de reservas</span>
+                                                                    <Ripple />
+                                                                </Link>
+                                                                <Link className="flex w-full p-3 transition-colors cursor-pointer p-ripple align-items-center border-round text-700 hover:surface-100 transition-duration-150" to={'/Usuarios'}>
+                                                                    <i className="mr-2 pi pi-user"></i>
+                                                                    <span className="font-medium">Administração de usuários</span>
+                                                                    <Ripple />
+                                                                </Link>
+                                                            </>
+                                                        )}
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                        <ul className="p-3 m-0 list-none">
+                                            <li>
+                                                <StyleClass nodeRef={btnRef2} selector="@next" enterClassName="hidden" enterActiveClassName="slidedown" leaveToClassName="hidden" leaveActiveClassName="slideup">
+                                                    <div ref={btnRef2} className="flex p-3 cursor-pointer p-ripple align-items-center justify-content-between text-600">
+                                                        <span className="font-medium">Reservas</span>
+                                                        <i className="pi pi-chevron-down"></i>
                                                         <Ripple />
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a className="flex w-full p-3 transition-colors cursor-pointer p-ripple align-items-center border-round text-700 hover:surface-100 transition-duration-150">
-                                                        <i className="mr-2 pi pi-bookmark"></i>
-                                                        <span className="font-medium">Salas mais reservadas</span>
-                                                        <Ripple />
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <StyleClass nodeRef={btnRef3} selector="@next" enterClassName="hidden" enterActiveClassName="slidedown" leaveToClassName="hidden" leaveActiveClassName="slideup">
-                                                        <a ref={btnRef3} className="flex w-full p-3 transition-colors cursor-pointer p-ripple align-items-center border-round text-700 hover:surface-100 transition-duration-150">
-                                                            <i className="mr-2 pi pi-check-square"></i>
-                                                            <span className="font-medium">Preferências</span>
-                                                            <i className="ml-auto mr-1 pi pi-chevron-down"></i>
+                                                    </div>
+                                                </StyleClass>
+                                                <ul className="p-0 m-0 overflow-hidden list-none">
+                                                    <li>
+                                                        <a className="flex w-full p-3 transition-colors cursor-pointer p-ripple align-items-center border-round text-700 hover:surface-100 transition-duration-150">
+                                                            <i className="mr-2 pi pi-history"></i>
+                                                            <span className="font-medium">Histórico</span>
                                                             <Ripple />
                                                         </a>
-                                                    </StyleClass>
-                                                    <ul className="hidden py-0 pl-3 pr-0 m-0 overflow-y-hidden list-none transition-all transition-duration-400 transition-ease-in-out">
-                                                        <li>
-                                                            <StyleClass nodeRef={btnRef4} selector="@next" enterClassName="hidden" enterActiveClassName="slidedown" leaveToClassName="hidden" leaveActiveClassName="slideup">
-                                                                <a ref={btnRef4} className="flex w-full p-3 transition-colors cursor-pointer p-ripple align-items-center border-round text-700 hover:surface-100 transition-duration-150">
-                                                                    <i className="mr-2 pi pi-chart-line"></i>
-                                                                    <span className="font-medium">Revenue</span>
-                                                                    <i className="ml-auto mr-1 pi pi-chevron-down"></i>
-                                                                    <Ripple />
-                                                                </a>
-                                                            </StyleClass>
-                                                            <ul className="hidden py-0 pl-3 pr-0 m-0 overflow-y-hidden list-none transition-all transition-duration-400 transition-ease-in-out">
-                                                                <li>
-                                                                    <a className="flex w-full p-3 transition-colors cursor-pointer p-ripple align-items-center border-round text-700 hover:surface-100 transition-duration-150">
-                                                                        <i className="mr-2 pi pi-table"></i>
-                                                                        <span className="font-medium">View</span>
-                                                                        <Ripple />
-                                                                    </a>
-                                                                </li>
-                                                                <li>
-                                                                    <a className="flex w-full p-3 transition-colors cursor-pointer p-ripple align-items-center border-round text-700 hover:surface-100 transition-duration-150">
-                                                                        <i className="mr-2 pi pi-search"></i>
-                                                                        <span className="font-medium">Search</span>
-                                                                        <Ripple />
-                                                                    </a>
-                                                                </li>
-                                                            </ul>
-                                                        </li>
-                                                        <li>
-                                                            <a className="flex w-full p-3 transition-colors cursor-pointer p-ripple align-items-center border-round text-700 hover:surface-100 transition-duration-150">
-                                                                <i className="mr-2 pi pi-chart-line"></i>
-                                                                <span className="font-medium">Expenses</span>
+                                                    </li>
+                                                    <li>
+                                                        <a className="flex w-full p-3 transition-colors cursor-pointer p-ripple align-items-center border-round text-700 hover:surface-100 transition-duration-150">
+                                                            <i className="mr-2 pi pi-bookmark"></i>
+                                                            <span className="font-medium">Salas mais reservadas</span>
+                                                            <Ripple />
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <StyleClass nodeRef={btnRef3} selector="@next" enterClassName="hidden" enterActiveClassName="slidedown" leaveToClassName="hidden" leaveActiveClassName="slideup">
+                                                            <a ref={btnRef3} className="flex w-full p-3 transition-colors cursor-pointer p-ripple align-items-center border-round text-700 hover:surface-100 transition-duration-150">
+                                                                <i className="mr-2 pi pi-check-square"></i>
+                                                                <span className="font-medium">Preferências</span>
+                                                                <i className="ml-auto mr-1 pi pi-chevron-down"></i>
                                                                 <Ripple />
                                                             </a>
-                                                        </li>
-                                                    </ul>
-                                                </li>
-                                                <li>
-                                                    <a className="flex w-full p-3 transition-colors cursor-pointer p-ripple align-items-center border-round text-700 hover:surface-100 transition-duration-150">
-                                                        <i className="mr-2 pi pi-question-circle"></i>
-                                                        <span className="font-medium">Suporte</span>
+                                                        </StyleClass>
+                                                        <ul className="hidden py-0 pl-3 pr-0 m-0 overflow-y-hidden list-none transition-all transition-duration-400 transition-ease-in-out">
+                                                            <li>
+                                                                <StyleClass nodeRef={btnRef4} selector="@next" enterClassName="hidden" enterActiveClassName="slidedown" leaveToClassName="hidden" leaveActiveClassName="slideup">
+                                                                    <a ref={btnRef4} className="flex w-full p-3 transition-colors cursor-pointer p-ripple align-items-center border-round text-700 hover:surface-100 transition-duration-150">
+                                                                        <i className="mr-2 pi pi-chart-line"></i>
+                                                                        <span className="font-medium">Revenue</span>
+                                                                        <i className="ml-auto mr-1 pi pi-chevron-down"></i>
+                                                                        <Ripple />
+                                                                    </a>
+                                                                </StyleClass>
+                                                                <ul className="hidden py-0 pl-3 pr-0 m-0 overflow-y-hidden list-none transition-all transition-duration-400 transition-ease-in-out">
+                                                                    <li>
+                                                                        <a className="flex w-full p-3 transition-colors cursor-pointer p-ripple align-items-center border-round text-700 hover:surface-100 transition-duration-150">
+                                                                            <i className="mr-2 pi pi-table"></i>
+                                                                            <span className="font-medium">View</span>
+                                                                            <Ripple />
+                                                                        </a>
+                                                                    </li>
+                                                                    <li>
+                                                                        <a className="flex w-full p-3 transition-colors cursor-pointer p-ripple align-items-center border-round text-700 hover:surface-100 transition-duration-150">
+                                                                            <i className="mr-2 pi pi-search"></i>
+                                                                            <span className="font-medium">Search</span>
+                                                                            <Ripple />
+                                                                        </a>
+                                                                    </li>
+                                                                </ul>
+                                                            </li>
+                                                            <li>
+                                                                <a className="flex w-full p-3 transition-colors cursor-pointer p-ripple align-items-center border-round text-700 hover:surface-100 transition-duration-150">
+                                                                    <i className="mr-2 pi pi-chart-line"></i>
+                                                                    <span className="font-medium">Expenses</span>
+                                                                    <Ripple />
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </li>
+                                                    <li>
+                                                        <a className="flex w-full p-3 transition-colors cursor-pointer p-ripple align-items-center border-round text-700 hover:surface-100 transition-duration-150">
+                                                            <i className="mr-2 pi pi-question-circle"></i>
+                                                            <span className="font-medium">Suporte</span>
+                                                            <Ripple />
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                        <ul className="p-3 m-0 list-none">
+                                            <li>
+                                                <StyleClass nodeRef={btnRef5} selector="@next" enterClassName="hidden" enterActiveClassName="slidedown" leaveToClassName="hidden" leaveActiveClassName="slideup">
+                                                    <div ref={btnRef5} className="flex p-3 cursor-pointer p-ripple align-items-center justify-content-between text-600">
+                                                        <span className="font-medium">Perfil</span>
+                                                        <i className="pi pi-chevron-down"></i>
                                                         <Ripple />
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                    <ul className="p-3 m-0 list-none">
-                                        <li>
-                                            <StyleClass nodeRef={btnRef5} selector="@next" enterClassName="hidden" enterActiveClassName="slidedown" leaveToClassName="hidden" leaveActiveClassName="slideup">
-                                                <div ref={btnRef5} className="flex p-3 cursor-pointer p-ripple align-items-center justify-content-between text-600">
-                                                    <span className="font-medium">Perfil</span>
-                                                    <i className="pi pi-chevron-down"></i>
-                                                    <Ripple />
-                                                </div>
-                                            </StyleClass>
-                                            <ul className="p-0 m-0 overflow-hidden list-none">
-                                                <li>
-                                                    <a className="flex w-full p-3 transition-colors cursor-pointer p-ripple align-items-center border-round text-700 hover:surface-100 transition-duration-150">
-                                                        <i className="mr-2 pi pi-user"></i>
-                                                        <span className="font-medium">Minha conta</span>
-                                                        <Ripple />
-                                                    </a>
-                                                </li>
+                                                    </div>
+                                                </StyleClass>
+                                                <ul className="p-0 m-0 overflow-hidden list-none">
+                                                    <li>
+                                                        <a className="flex w-full p-3 transition-colors cursor-pointer p-ripple align-items-center border-round text-700 hover:surface-100 transition-duration-150">
+                                                            <i className="mr-2 pi pi-user"></i>
+                                                            <span className="font-medium">Minha conta</span>
+                                                            <Ripple />
+                                                        </a>
+                                                    </li>
 
-                                                <li>
-                                                    <a className="flex w-full p-3 transition-colors cursor-pointer p-ripple align-items-center border-round text-700 hover:surface-100 transition-duration-150">
-                                                        <i className="mr-2 pi pi-cog"></i>
-                                                        <span className="font-medium">Configurações</span>
-                                                        <Ripple />
-                                                    </a>
-                                                </li>
-                                                
-                                                <li>
-                                                    <a className="flex w-full p-3 transition-colors p-ripple align-items-center border-round text-700 hover:surface-100 transition-duration-150" onClick={handleLogout}>
-                                                        <i className="mr-2 pi pi-sign-out"></i>
-                                                        <span className="font-medium">Sair</span>
-                                                        <Ripple />
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                    </ul>
+                                                    <li>
+                                                        <a className="flex w-full p-3 transition-colors cursor-pointer p-ripple align-items-center border-round text-700 hover:surface-100 transition-duration-150">
+                                                            <i className="mr-2 pi pi-cog"></i>
+                                                            <span className="font-medium">Configurações</span>
+                                                            <Ripple />
+                                                        </a>
+                                                    </li>
+                                                    
+                                                    <li>
+                                                        <a className="flex w-full p-3 transition-colors p-ripple align-items-center border-round text-700 hover:surface-100 transition-duration-150" onClick={handleLogout}>
+                                                            <i className="mr-2 pi pi-sign-out"></i>
+                                                            <span className="font-medium">Sair</span>
+                                                            <Ripple />
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </ScrollPanel>
                                 </div>
                                 <div className="mt-auto">
                                     <hr className="mx-3 mb-3 border-none border-top-1 surface-border" />

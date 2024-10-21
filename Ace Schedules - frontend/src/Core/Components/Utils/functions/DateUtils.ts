@@ -36,5 +36,5 @@ export const parseDateString = (dateStr: string): Date | null => {
     const minute = parseInt(match[5], 10);
   
     return new Date(year, month, day, hour, minute);
-  };
+};
   
