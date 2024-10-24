@@ -38,7 +38,7 @@ export const Card: React.FC<PanelCardProps> = ({
     };
 
     const descriptionHeight = descriptionRef.current ? descriptionRef.current.clientHeight : 0;
-    console.log(descriptionHeight)
+
     let titleHeightPercentage: number = 1.28;
     const titleStyle = {
         maxHeight: isHovered ? `${descriptionHeight * titleHeightPercentage}px` : '12%',

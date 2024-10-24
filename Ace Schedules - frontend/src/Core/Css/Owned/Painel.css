@@ -916,6 +916,7 @@ dialog {
   display: flex;
   gap: 0.3rem;
   align-items: center;
+  margin-bottom: 1dvh;
 }
 
 .input-contato h3 {
