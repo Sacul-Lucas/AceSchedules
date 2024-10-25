@@ -4,10 +4,12 @@ import { FaGithub } from "react-icons/fa6";
 
 interface NavSidebarProps {
     showSidebar: () => void,
+    isSidebarVisible?: boolean 
 }
 
 export const Navbar: React.FC<NavSidebarProps> = ({ 
-    showSidebar
+    showSidebar,
+    isSidebarVisible
 }) => {    
     return (
         <div>
@@ -18,7 +20,7 @@ export const Navbar: React.FC<NavSidebarProps> = ({
         
                 <div className="flex align-middle sub-bar">
 
-                    <div className="container1 lg:!ml-8" onClick={showSidebar}>
+                    <div className={`container1 lg:!ml-8 transition-all delay-150 ${isSidebarVisible ? 'opacity-0 invisible' : 'opacity-100 visible'}`} onClick={showSidebar}>
                         <div className="bar1 lg:!w-[2.5vw] lg:!min-h-[0.6dvh]"></div>
                         <div className="bar2 lg:!w-[2.5vw] lg:!min-h-[0.6dvh]"></div>
                         <div className="bar3 lg:!w-[2.5vw] lg:!min-h-[0.6dvh]"></div>

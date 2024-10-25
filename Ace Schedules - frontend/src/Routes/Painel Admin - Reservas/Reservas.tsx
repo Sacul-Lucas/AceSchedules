@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { AdminPopups } from "../../Core/Components/Pop-ups/AdminPopups";
-import { AdminSidebar } from "../../Core/Components/Sidebars/AdminSidebar";
 import DatePicker from "react-datepicker";
 import { ptBR } from 'date-fns/locale';
 import { formatDateForMySQL } from "../../Core/Components/Utils/functions/DateUtils";
 import { startOfMonth, endOfMonth, isWithinInterval } from "date-fns";
+import { PanelSidebar } from "../../Core/Components/Sidebars/PanelSidebar";
+import { DefineApp } from "../../Core/Components/Utils/DefineApp";
 
 export const Reservas: React.FC = () => {
   const [reservasPendentes, setReservasPendentes] = useState<any[]>([]);
@@ -169,6 +170,7 @@ export const Reservas: React.FC = () => {
         console.error("Erro ao aprovar reserva:", error);
       }
   };
+  
   const handleView = async (id: number) => {
     try {
         const response = await fetch(`/api/adminPaths/Reservas/Visualizar/${id}`, {
@@ -341,186 +343,188 @@ const handleEdit = async (id: number) => {
 
 
   return (
-    <AdminSidebar>
-      <AdminPopups
-        idModal={editMode ? 'Editmodal' : viewMode ? 'Viewmodal' : 'Addmodal'}
-        formLabel={editMode ? 'Editar reserva' : viewMode ? 'Visualizar reserva' : 'Criar reserva'}
-        show={show}
-        handleClose={handleClose}
-        selectedReserva={selectedReserva}
-        selectedUser={null}
-        onSave={actionSave}      
-        setSalaAlocada={setSalaAlocada}     
-        salaAlocada={salaAlocada} 
-        setIdSalaAlocada={setIdSalaAlocada}
-        idSalaAlocada={idSalaAlocada}       
-      />
+    <DefineApp cssPath="src/Core/Css/Owned/AdminRoom.css" appIcon="src/assets/icons/admin-alt-solid.svg" appTitle={`Ace Schedules - Painel administrador de reservas`}>
+      <PanelSidebar visible={true} isFixed>
+        <AdminPopups
+          idModal={editMode ? 'Editmodal' : viewMode ? 'Viewmodal' : 'Addmodal'}
+          formLabel={editMode ? 'Editar reserva' : viewMode ? 'Visualizar reserva' : 'Criar reserva'}
+          show={show}
+          handleClose={handleClose}
+          selectedReserva={selectedReserva}
+          selectedUser={null}
+          onSave={actionSave}      
+          setSalaAlocada={setSalaAlocada}     
+          salaAlocada={salaAlocada} 
+          setIdSalaAlocada={setIdSalaAlocada}
+          idSalaAlocada={idSalaAlocada}       
+        />
 
-      <div className="relative flex flex-col flex-auto">
-        <div className="container mt-4 xl:!max-w-[90%]">
-          <div className="row">
-            <div className="col-md-12">
-              <div className="card">
-                <div className="card-header">
-                  <h4>Agendamentos pendentes (<span id="detalhes-usuario">{totalreservasPendentes}</span>)
-                  </h4>
-                  <div className="flex items-stretch pt-3 w-100">
-                    <div className="form-group">
-                      <label className="pr-1 text-black" htmlFor="sala_aprov">Sala alocada:</label>
-                      <select className="!text-black !border !border-black !h-7 p-[0.1rem]" id="filter_sala" name="filter_sala" onChange={(e) => setFilterSalaAlocada(e.target.value)} value={filterSalaAlocada} required>
-                        <option value="">--Todas as salas--</option>
-                        {salas.map(sala => (
-                          <option key={sala.id} value={sala.id}>{sala.nome}</option>
-                        ))}
-                      </select>
-                    </div>
-                    <div className="form-group">
-                      <label className="pl-2 pr-1 text-black" >Data e hora inicial:</label>
-                      <DatePicker
-                        id={"filter_data_inicio"}
-                        selected={startDate}
-                        onChange={handleStartDateChange}
-                        showTimeSelect
-                        isClearable
-                        timeFormat="p"
-                        timeIntervals={15}
-                        timeCaption="Horário"
-                        dateFormat="Pp"
-                        locale={ptBR}
-                        placeholderText="Data de início"
-                        className="!text-black !border !border-black !h-7 p-2"
-                        filterDate={isDateWithinMonth}
-                        onMonthChange={handleMonthChange}
-                      />
-                    </div>
-                    <div className="form-group">
-                      <label className="pl-2 pr-1 text-black" >Data e hora final:</label>
-                      <DatePicker
-                        id={"filter_data_fim"}
-                        selected={endDate}
-                        onChange={handleEndDateChange}
-                        showTimeSelect
-                        timeFormat="p"
-                        timeIntervals={15}
-                        timeCaption="Horário"
-                        dateFormat="Pp"
-                        locale={ptBR}
-                        placeholderText="Data de fim"
-                        className="!text-black !border !border-black !h-7 p-2"
-                        filterDate={isDateWithinMonth}
-                        onMonthChange={handleMonthChange}
-                      />
-                    </div>
-                    <div className="form-group">
-                      <label className="pl-2 pr-1 text-black" htmlFor="nome">Nome do alocador:</label>
-                      <input className="!text-black !border !border-black !p-[0.1rem]" type="text" id="filter_nome" name="filter_nome" autoComplete="OFF" onChange={(e) => setFilterAlocador(e.target.value)} value={filterAlocador}/>
-                    </div>
-                  </div>
-                </div>
-                <div className="card-body">
-                  <table className="table table-bordered table-striped" id="reservas">
-                    <thead>
-                      <tr>
-                        <th>ID</th>
-                        <th>Data e hora de início da reserva</th>
-                        <th>Data e hora do final da reserva</th>
-                        <th>Sala alocada</th>
-                        <th>Nome do Alocador</th>
-                        <th>Ações</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {renderTableRows(reservasPendentes, 'pendentes')}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="container mt-4 xl:!max-w-[90%]">
-          <div className="row">
-            <div className="col-md-12">
-              <div className="card">
-                <div className="card-header">
-                <h4>Agendamentos aprovados
-                (<span id="detalhes-usuario">{totalreservasAprovadas}</span>)
-                <button type="button" onClick={handleAdd} className="btn btn-primary float-end">Adicionar agendamento</button>
-                </h4>
-                  <div className="flex items-stretch pt-3 w-100">
-                    <div className="form-group">
-                    <label className="pr-1 text-black" htmlFor="sala_aprov">Sala alocada:</label>
-                      <select className="!text-black !border !border-black !h-7 p-[0.1rem]" id="sala_aprov" name="sala_aprov" onChange={(e) => setFilterSalaAlocadaAprovada(e.target.value)} value={filterSalaAlocadaAprovada} required>
-                        <option value="">--Todas as salas--</option>
-                        {salas.map(sala => (
+        <div className="relative flex flex-col flex-auto">
+          <div className="container mt-4 xl:!max-w-[90%]">
+            <div className="row">
+              <div className="col-md-12">
+                <div className="card">
+                  <div className="card-header">
+                    <h4>Agendamentos pendentes (<span id="detalhes-usuario">{totalreservasPendentes}</span>)
+                    </h4>
+                    <div className="flex items-stretch pt-3 w-100">
+                      <div className="form-group">
+                        <label className="pr-1 text-black" htmlFor="sala_aprov">Sala alocada:</label>
+                        <select className="!text-black !border !border-black !h-7 p-[0.1rem]" id="filter_sala" name="filter_sala" onChange={(e) => setFilterSalaAlocada(e.target.value)} value={filterSalaAlocada} required>
+                          <option value="">--Todas as salas--</option>
+                          {salas.map(sala => (
                             <option key={sala.id} value={sala.id}>{sala.nome}</option>
-                        ))}
-                      </select>
-                    </div>
-                    <div className="form-group">
-                      <label className="pl-2 pr-1 text-black" >Data e hora inicial:</label>
-                      <DatePicker
-                        id={"filter_data_inicio_aprov"}
-                        selected={startDateAprov}
-                        onChange={handleStartDateChangeAprov}
-                        showTimeSelect
-                        timeFormat="p"
-                        timeIntervals={15}
-                        timeCaption="Horário"
-                        dateFormat="Pp"
-                        locale={ptBR}
-                        placeholderText="Data de início"
-                        className="!text-black !border !border-black !h-7 p-2"
-                        filterDate={isDateWithinMonth}
-                        onMonthChange={handleMonthChange}
-                      />
-                    </div>
-                    <div className="form-group">
-                      <label className="pl-2 pr-1 text-black" >Data e hora final:</label>
-                      <DatePicker
-                        id={"filter_data_fim_aprov"}
-                        selected={endDateAprov}
-                        onChange={handleEndDateChangeAprov}
-                        showTimeSelect
-                        timeFormat="p"
-                        timeIntervals={15}
-                        timeCaption="Horário"
-                        dateFormat="Pp"
-                        locale={ptBR}
-                        placeholderText="Data de fim"
-                        className="!text-black !border !border-black !h-7 p-2"
-                        filterDate={isDateWithinMonth}
-                        onMonthChange={handleMonthChange}
-                      />
-                    </div>
-                    <div className="form-group">
-                      <label className="pl-2 pr-1 text-black" htmlFor="nome_aprov">Nome do alocador:</label>
-                      <input className="!text-black !border !border-black !p-[0.1rem]" type="text" id="nome_aprov" name="nome_aprov" autoComplete="OFF" onChange={(e) => setFilterAlocadorAprovada(e.target.value)} value={filterAlocadorAprovada} />
+                          ))}
+                        </select>
+                      </div>
+                      <div className="form-group">
+                        <label className="pl-2 pr-1 text-black" >Data e hora inicial:</label>
+                        <DatePicker
+                          id={"filter_data_inicio"}
+                          selected={startDate}
+                          onChange={handleStartDateChange}
+                          showTimeSelect
+                          isClearable
+                          timeFormat="p"
+                          timeIntervals={15}
+                          timeCaption="Horário"
+                          dateFormat="Pp"
+                          locale={ptBR}
+                          placeholderText="Data de início"
+                          className="!text-black !border !border-black !h-7 p-2"
+                          filterDate={isDateWithinMonth}
+                          onMonthChange={handleMonthChange}
+                        />
+                      </div>
+                      <div className="form-group">
+                        <label className="pl-2 pr-1 text-black" >Data e hora final:</label>
+                        <DatePicker
+                          id={"filter_data_fim"}
+                          selected={endDate}
+                          onChange={handleEndDateChange}
+                          showTimeSelect
+                          timeFormat="p"
+                          timeIntervals={15}
+                          timeCaption="Horário"
+                          dateFormat="Pp"
+                          locale={ptBR}
+                          placeholderText="Data de fim"
+                          className="!text-black !border !border-black !h-7 p-2"
+                          filterDate={isDateWithinMonth}
+                          onMonthChange={handleMonthChange}
+                        />
+                      </div>
+                      <div className="form-group">
+                        <label className="pl-2 pr-1 text-black" htmlFor="nome">Nome do alocador:</label>
+                        <input className="!text-black !border !border-black !p-[0.1rem]" type="text" id="filter_nome" name="filter_nome" autoComplete="OFF" onChange={(e) => setFilterAlocador(e.target.value)} value={filterAlocador}/>
+                      </div>
                     </div>
                   </div>
+                  <div className="card-body">
+                    <table className="table table-bordered table-striped" id="reservas">
+                      <thead>
+                        <tr>
+                          <th>ID</th>
+                          <th>Data e hora de início da reserva</th>
+                          <th>Data e hora do final da reserva</th>
+                          <th>Sala alocada</th>
+                          <th>Nome do Alocador</th>
+                          <th>Ações</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {renderTableRows(reservasPendentes, 'pendentes')}
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
-                <div className="card-body">
-                  <table className="table table-bordered table-striped" id="reservas_aprov">
-                    <thead>
-                      <tr>
-                        <th>ID</th>
-                        <th>Data e hora de início da reserva</th>
-                        <th>Data e hora do final da reserva</th>
-                        <th>Sala alocada</th>
-                        <th>Nome do Alocador</th>
-                        <th>Ações</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {renderTableRows(reservasAprovadas, 'aprovados')}
-                    </tbody>
-                  </table>
+              </div>
+            </div>
+          </div>
+          <div className="container mt-4 xl:!max-w-[90%]">
+            <div className="row">
+              <div className="col-md-12">
+                <div className="card">
+                  <div className="card-header">
+                  <h4>Agendamentos aprovados
+                  (<span id="detalhes-usuario">{totalreservasAprovadas}</span>)
+                  <button type="button" onClick={handleAdd} className="btn btn-primary float-end">Adicionar agendamento</button>
+                  </h4>
+                    <div className="flex items-stretch pt-3 w-100">
+                      <div className="form-group">
+                      <label className="pr-1 text-black" htmlFor="sala_aprov">Sala alocada:</label>
+                        <select className="!text-black !border !border-black !h-7 p-[0.1rem]" id="sala_aprov" name="sala_aprov" onChange={(e) => setFilterSalaAlocadaAprovada(e.target.value)} value={filterSalaAlocadaAprovada} required>
+                          <option value="">--Todas as salas--</option>
+                          {salas.map(sala => (
+                              <option key={sala.id} value={sala.id}>{sala.nome}</option>
+                          ))}
+                        </select>
+                      </div>
+                      <div className="form-group">
+                        <label className="pl-2 pr-1 text-black" >Data e hora inicial:</label>
+                        <DatePicker
+                          id={"filter_data_inicio_aprov"}
+                          selected={startDateAprov}
+                          onChange={handleStartDateChangeAprov}
+                          showTimeSelect
+                          timeFormat="p"
+                          timeIntervals={15}
+                          timeCaption="Horário"
+                          dateFormat="Pp"
+                          locale={ptBR}
+                          placeholderText="Data de início"
+                          className="!text-black !border !border-black !h-7 p-2"
+                          filterDate={isDateWithinMonth}
+                          onMonthChange={handleMonthChange}
+                        />
+                      </div>
+                      <div className="form-group">
+                        <label className="pl-2 pr-1 text-black" >Data e hora final:</label>
+                        <DatePicker
+                          id={"filter_data_fim_aprov"}
+                          selected={endDateAprov}
+                          onChange={handleEndDateChangeAprov}
+                          showTimeSelect
+                          timeFormat="p"
+                          timeIntervals={15}
+                          timeCaption="Horário"
+                          dateFormat="Pp"
+                          locale={ptBR}
+                          placeholderText="Data de fim"
+                          className="!text-black !border !border-black !h-7 p-2"
+                          filterDate={isDateWithinMonth}
+                          onMonthChange={handleMonthChange}
+                        />
+                      </div>
+                      <div className="form-group">
+                        <label className="pl-2 pr-1 text-black" htmlFor="nome_aprov">Nome do alocador:</label>
+                        <input className="!text-black !border !border-black !p-[0.1rem]" type="text" id="nome_aprov" name="nome_aprov" autoComplete="OFF" onChange={(e) => setFilterAlocadorAprovada(e.target.value)} value={filterAlocadorAprovada} />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="card-body">
+                    <table className="table table-bordered table-striped" id="reservas_aprov">
+                      <thead>
+                        <tr>
+                          <th>ID</th>
+                          <th>Data e hora de início da reserva</th>
+                          <th>Data e hora do final da reserva</th>
+                          <th>Sala alocada</th>
+                          <th>Nome do Alocador</th>
+                          <th>Ações</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {renderTableRows(reservasAprovadas, 'aprovados')}
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </AdminSidebar>
+      </PanelSidebar>
+    </DefineApp>
   );
 };

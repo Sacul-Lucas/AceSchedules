@@ -10,6 +10,7 @@ import { Reservas } from "./Painel Admin - Reservas/Reservas";
 import { Usuarios } from "./Painel Admin - Usuários/Usuarios";
 import { Salas } from "./Painel Admin - Salas/Salas";  
 import { PageSpinner } from "../Core/Components/Utils/PageSpinner";
+import { Estatísticas } from "./Estatísticas/Estatísticas";
 
 export const AppRoutes = () => {
     return (
@@ -21,6 +22,7 @@ export const AppRoutes = () => {
                 <Route path="/Reservas" element={<Reservas/>} />
                 <Route path="/Usuarios" element={<Usuarios/>} />
                 <Route path="/Salas" element={<Salas/>} />
+                <Route path="/Estatísticas" element={<Estatísticas/>} />
                 <Route path="/Spinner" element={<PageSpinner isLoading={true}/>} />
             </Routes>
         </Router>

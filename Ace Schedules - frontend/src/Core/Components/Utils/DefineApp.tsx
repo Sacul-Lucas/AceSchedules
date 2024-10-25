@@ -91,7 +91,7 @@ export const DefineApp: React.FC<DefineAppProps> = ({
     }, [appTitle, appIcon]);
 
     return (
-        <div style={{ opacity: loaded ? 1 : 0, transition: 'opacity 0.65s' }}>
+        <div style={{ opacity: loaded ? 1 : 0, transition: 'opacity 0.65s' }} className={`${localStorage.getItem('previousCssPath') === cssPath ? '!animate-none transition-none' : ''}`}>
             {loadingError ? (
                 <div>Error loading the application.</div>
             ) : loaded && currentCssPathRef ? (

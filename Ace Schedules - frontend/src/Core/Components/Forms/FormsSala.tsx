@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from 'react';
-import '../../Css/Owned/AdminRoom.css';
 
 export interface Sala {
     id: number;

@@ -6,12 +6,6 @@
 
 /*Estilização do corpo do site*/
 
-* {
-  margin: 0;
-  padding: 0;
-  font-family: "Montserrat",Helvetica,Arial;
-}
-
 html {
   scroll-behavior: smooth;
   scrollbar-width: none;
@@ -19,29 +13,12 @@ html {
 
 body {
   background-color: #f8f9fa;
-  font-family: "Montserrat",Helvetica,Arial;
   scroll-behavior: smooth;
 }
 
-html::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-html::-webkit-scrollbar-thumb {
-  background: #757575;
-  border-radius: 0.65rem;
-}
-
-html::-webkit-scrollbar-thumb:hover {
-  background: #757575a1;
-}
-
-@supports not selector(::-webkit-scrollbar) {
-  html {
-    scroll-behavior: smooth;
-    scrollbar-width: thin;
-    scrollbar-color: #757575 transparent;
-  }
+.panelBody {
+  font-family: "Montserrat",Helvetica,Arial;
+  transition: all .5s ease-in-out;
 }
 
 /*Navbar e sub-bar*/
@@ -1137,6 +1114,19 @@ dialog {
   display: none !important;
 }
 
+/* Panel Sidebar */
+
+.sidebar-unlocked {
+  position: fixed !important;
+  height: 100% !important;
+  width: 100% !important;
+  z-index: 1100 !important;
+}
+
+.sidebar-locked {
+  position: sticky !important;
+  height: 100vh !important;
+}
 
 /*Ajustes de tela para todos os dispositivos*/
 

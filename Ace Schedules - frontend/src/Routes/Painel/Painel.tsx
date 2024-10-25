@@ -6,11 +6,21 @@ import { useEffect, useState } from "react";
 import { PanelSidebar } from "../../Core/Components/Sidebars/PanelSidebar";
 
 export const Painel = () => {
-    const [sidebarVisible, setSidebarVisible] = useState(false);
+    const sidebarVisibleState = localStorage.getItem('isSidebarLocked')
+    const sidebarLockedState = localStorage.getItem('isSidebarLocked')
+    const [sidebarVisible, setSidebarVisible] = useState(
+        sidebarVisibleState ? 
+        sidebarVisibleState && sidebarLockedState === 'true' ? true : false 
+        : true
+    );
     const [salas, setSalas] = useState<any[]>([])
 
     const toggleSidebar = () => {
-        setSidebarVisible(prev => !prev);
+        setSidebarVisible(prev => {
+            const newValue = !prev;
+            localStorage.setItem('isSidebarVisible', newValue.toString());
+            return newValue;
+        });
     };
 
     const loadSalas = async () => {
@@ -33,42 +43,44 @@ export const Painel = () => {
 
     return (
         <DefineApp cssPath="src/Core/Css/Owned/Painel.css" appIcon="src/assets/icons/calendar-alt-solid.svg" appTitle="Ace Schedules - Painel">
-            <PanelSidebar visible={sidebarVisible} setVisible={setSidebarVisible} />
-            
-            <Navbar showSidebar={toggleSidebar}/>
-            
-            <div className="enfeite1">
-                <img src="src/assets/img/enfeite1.png" alt=""/>
-            </div>
-            <div className="card-container">
-                <div className="row">
-                    <div className="col">
-                        <h1 className="lg:!text-[6vw] lg:!mt-9">Salas Disponíveis</h1>
-                        <p className="lg:!text-[1.4vw]">
-                            Nossa plataforma de agendamento de salas simplifica a reserva de espaços para reuniões, <br></br>eventos e atividades,
-                            proporcionando conveniência e eficiência para todos os usuários.
-                        </p>
-                        <h6 className="lg:!text-[1.3vw] lg:!pt-[40px]">Clique em reservar para realizar um pedido de agendamento</h6>
-                        <div className="lg:!gap-0 lg:!grid-cols-[repeat(4,_0fr)] cards-grid">
-                        {salas.length > 0 && salas.map(sala => (
-                                <Card
-                                    key={sala.id}
-                                    imgSrc={sala.id === 215 ? '/src/assets/img_salas/pic2.jpeg' : sala.id === 1 ? '/src/assets/img_salas/pic4.jpeg' : sala.id === 217 ? '/src/assets/img_salas/pic5.jpeg' : '/src/assets/img/etpc2.jpg'}
-                                    title={sala.nome}
-                                    description={sala.descricao}
-                                    características={sala.caracteristicas || []}
-                                    salaAlocada={sala.id}
-                                />
-                            ))}
+            <PanelSidebar visible={sidebarVisible} setVisible={setSidebarVisible}>
+                <main className="w-full panelBody">
+                    <Navbar showSidebar={toggleSidebar} isSidebarVisible={sidebarVisible}/>
+                    
+                    <div className="enfeite1">
+                        <img src="src/assets/img/enfeite1.png" alt=""/>
+                    </div>
+                    <div className="card-container">
+                        <div className="row">
+                            <div className="col">
+                                <h1 className="lg:!text-[6vw] lg:!mt-9">Salas Disponíveis</h1>
+                                <p className="lg:!text-[1.4vw]">
+                                    Nossa plataforma de agendamento de salas simplifica a reserva de espaços para reuniões, <br></br>eventos e atividades,
+                                    proporcionando conveniência e eficiência para todos os usuários.
+                                </p>
+                                <h6 className="lg:!text-[1.3vw] lg:!pt-[40px]">Clique em reservar para realizar um pedido de agendamento</h6>
+                                <div className="lg:!gap-0 lg:!grid-cols-[repeat(4,_0fr)] cards-grid">
+                                {salas.length > 0 && salas.map(sala => (
+                                        <Card
+                                            key={sala.id}
+                                            imgSrc={sala.id === 215 ? '/src/assets/img_salas/pic2.jpeg' : sala.id === 1 ? '/src/assets/img_salas/pic4.jpeg' : sala.id === 217 ? '/src/assets/img_salas/pic5.jpeg' : '/src/assets/img/etpc2.jpg'}
+                                            title={sala.nome}
+                                            description={sala.descricao}
+                                            características={sala.caracteristicas || []}
+                                            salaAlocada={sala.id}
+                                        />
+                                    ))}
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
-            <div className="enfeite2">
-                <img src="src/assets/img/enfeite2.png" alt=""/>
-            </div>
-
-            <Footer/>
+                    <div className="enfeite2">
+                        <img src="src/assets/img/enfeite2.png" alt=""/>
+                    </div>
+                                
+                    <Footer/>
+                </main>
+            </PanelSidebar>
         </DefineApp>
     )
 }
