@@ -1,0 +1,30 @@
+git config --global user.email teste@teste.com
+
+git config --global user.name ""
+
+git init
+
+git add .
+
+git commit -m "My first commit"
+
+git branch -M styleChanges
+
+git remote set-url origin https://github.com/Sacul-Lucas/AceSchedules.git
+
+git push -u origin styleChanges
+
+
+
+
+
+
+git branch functionChanges
+
+git checkout functionChanges
+
+git add .
+
+git commit -m ""
+
+git push origin functionChanges
