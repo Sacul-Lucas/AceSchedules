@@ -132,7 +132,7 @@ export const PanelSidebar: React.FC<PanelSidebarProps> = ({
 
     return (
         <div className="flex flex-row flex-nowrap">
-            <div className={`flex justify-content-center transition-all delay-200 ${visible ? '!flex' : '!hidden'}`} id='reservationPanel'>
+            <div className={`flex justify-content-center ${visible ? '!flex' : '!hidden'}`} id='reservationPanel'>
                 <Sidebar
                     visible={isFixed || visible}
                     onHide={() => {
@@ -142,7 +142,7 @@ export const PanelSidebar: React.FC<PanelSidebarProps> = ({
                         }
                     }}
                     appendTo={document.getElementById('reservationPanel')!}
-                    maskClassName={`${sidebarLockedState === 'true' ? 'sidebar-locked !animate-none' : 'sidebar-unlocked'}`}
+                    maskClassName={`${sidebarLockedState === 'true' ? 'sidebar-locked' : 'sidebar-unlocked'}`}
                     content={({ closeIconRef, hide }) => (
                         <div className="relative flex min-h-screen lg:static surface-ground">
                             <div id="app-sidebar-2" className="absolute top-0 left-0 flex-shrink-0 block w-full h-screen select-none surface-section lg:static z-1 border-right-1 surface-border">
@@ -229,7 +229,7 @@ export const PanelSidebar: React.FC<PanelSidebarProps> = ({
                                                             </Link>
                                                         </li>
                                                         <li>
-                                                            <Link className={`flex w-full p-3 transition-colors cursor-pointer p-ripple align-items-center border-round text-700 ${location.pathname === '/Estatísticas' ? 'bg-[#007bff] text-white' : 'hover:surface-100'} transition-duration-150 !no-underline`} to={'/Estatísticas'}>
+                                                            <Link className={`flex w-full p-3 transition-colors cursor-pointer p-ripple align-items-center border-round text-700 ${location.pathname === '/Estat%C3%ADsticas' ? 'bg-[#007bff] text-white' : 'hover:surface-100'} transition-duration-150 !no-underline`} to={'/Estatísticas'}>
                                                                 <i className="mr-2 pi pi-bookmark"></i>
                                                                 <span className="font-medium">Estatísticas</span>
                                                                 <Ripple />
@@ -335,8 +335,8 @@ export const PanelSidebar: React.FC<PanelSidebarProps> = ({
                     )}
                 />
             </div>
-                
-            {children}
+
+            {sidebarLockedState === 'true' && !visible && !Sidebar ? null : children}
         </div>
     )
 }

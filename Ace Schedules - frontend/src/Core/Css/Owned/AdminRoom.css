@@ -28,6 +28,8 @@
 .sidebar-locked {
     position: sticky !important;
     height: 100vh !important;
+    animation: none !important;
+    transition: none !important;
 }
 
 /* Drag area Images */

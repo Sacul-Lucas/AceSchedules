@@ -18,7 +18,6 @@ body {
 
 .panelBody {
   font-family: "Montserrat",Helvetica,Arial;
-  transition: all .5s ease-in-out;
 }
 
 /*Navbar e sub-bar*/
@@ -163,24 +162,6 @@ body {
     transform: translateY(0%);
   }
   100% {
-    opacity: 1;
-    transform: translateY(0%);
-  }
-}
-
-@keyframes anim-lineDown {
-  100% {
-    opacity: 0;
-    transform: translateY(80%);
-  }
-  50% {
-    opacity: 0;
-  }
-  20% {
-    opacity: 1;
-    transform: translateY(0%);
-  }
-  0% {
     opacity: 1;
     transform: translateY(0%);
   }

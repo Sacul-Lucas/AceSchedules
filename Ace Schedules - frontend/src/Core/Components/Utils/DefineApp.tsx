@@ -9,6 +9,44 @@ interface DefineAppProps {
     children: ReactNode;
 }
 
+let animationStyleTag: HTMLStyleElement | null = null;
+
+const disableAnimations = () => {
+    animationStyleTag = document.createElement('style');
+    animationStyleTag.innerHTML = `
+        @keyframes anim-lineUp {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(0); }
+        }
+        @keyframes anim-lineDown2 {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(0); }
+        }
+        ${localStorage.getItem('isSidebarLocked') === 'true' ? `
+        .p-sidebar {
+            transition: none !important;
+            animation: none !important;
+        }
+        ` : ''}
+    `;
+    document.head.appendChild(animationStyleTag);
+};
+
+const enableAnimations = () => {
+    animationStyleTag = document.createElement('style');
+    animationStyleTag.innerHTML = `
+        @keyframes anim-lineUp {
+            0% { transform: translateY(80%); }
+            100% { transform: translateY(0); }
+        }
+        @keyframes anim-lineDown2 {
+            0% { transform: translateY(-15%); }
+            100% { transform: translateY(0); }
+        }
+    `;
+    document.head.appendChild(animationStyleTag);
+};
+
 export const DefineApp: React.FC<DefineAppProps> = ({
     cssPath,
     appTitle,
@@ -23,7 +61,7 @@ export const DefineApp: React.FC<DefineAppProps> = ({
     useEffect(() => {
         let isMounted = true;
         const loadingDelay = parseInt(localStorage.getItem('loadingDelay')!) || 0;
-        const oldCssPath = localStorage.getItem('previousCssPath')
+        const oldCssPath = localStorage.getItem('previousCssPath');
 
         const referrer = document.referrer;
         const isExternalReferrer = referrer && !referrer.includes(window.location.hostname);
@@ -42,12 +80,17 @@ export const DefineApp: React.FC<DefineAppProps> = ({
 
                 if (!loaded && oldCssPath && oldCssPath !== cssPath) {
                     removeStyle(oldCssPath);
+                    enableAnimations();
                 }
 
                 await loadStyle(cssPath);
 
                 if (isMounted) {
                     currentCssPathRef.current = cssPath;
+
+                    if (oldCssPath === cssPath) {
+                        disableAnimations();
+                    }
 
                     if (!loaded && oldCssPath && oldCssPath !== cssPath || showSpinner) {
                         setTimeout(() => {
@@ -72,11 +115,12 @@ export const DefineApp: React.FC<DefineAppProps> = ({
             const previousCssPath = currentCssPathRef.current;
 
             if (!loaded && previousCssPath) {
-                localStorage.setItem('previousCssPath', previousCssPath)
+                localStorage.setItem('previousCssPath', previousCssPath);
             }
 
             if (!loaded && oldCssPath && oldCssPath !== cssPath) {
                 removeStyle(oldCssPath);
+                enableAnimations();
             }
         };
     }, [cssPath]);
@@ -91,7 +135,7 @@ export const DefineApp: React.FC<DefineAppProps> = ({
     }, [appTitle, appIcon]);
 
     return (
-        <div style={{ opacity: loaded ? 1 : 0, transition: 'opacity 0.65s' }} className={`${localStorage.getItem('previousCssPath') === cssPath ? '!animate-none transition-none' : ''}`}>
+        <div style={{ opacity: loaded || localStorage.getItem('isSidebarLocked') === 'true' ? 1 : 0, transition: 'opacity 0.65s' }}>
             {loadingError ? (
                 <div>Error loading the application.</div>
             ) : loaded && currentCssPathRef ? (
