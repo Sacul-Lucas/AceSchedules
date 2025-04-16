@@ -10,7 +10,7 @@ git commit -m "My first commit"
 
 git branch -M styleChanges
 
-git remote set-url origin https://github.com/Sacul-Lucas/AceSchedules.git
+git remote set-url/add origin https://github.com/Sacul-Lucas/AceSchedules.git
 
 git push -u origin styleChanges
 

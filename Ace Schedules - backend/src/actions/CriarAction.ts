@@ -55,15 +55,14 @@ export const CriarAction = async (req: Request, res: Response) => {
             const __dirname = path.dirname(__filename);
 
             const storage = multer.diskStorage({
-                destination: (req, file, cb) => {
+                destination: (_req, _file, cb) => {
                     const dir = path.resolve(__dirname, '../../../Ace Schedules - frontend/src/assets/img_salas');
                     if (!fs.existsSync(dir)) {
                         fs.mkdirSync(dir, { recursive: true });
                     }
                     cb(null, dir);
                 },
-                filename: (req, file, cb) => {
-                    const ext = path.extname(file.originalname).toLowerCase();
+                filename: (_req, file, cb) => {
                     const fileName = `${Date.now()}-${file.originalname}`;
 
                     const filePath = path.join(__dirname, '../../../Ace Schedules - frontend/src/assets/img_salas', file.originalname);
@@ -78,7 +77,7 @@ export const CriarAction = async (req: Request, res: Response) => {
 
             const upload = multer({
                 storage: storage,
-                fileFilter: (req, file, cb) => {
+                fileFilter: (_req, file, cb) => {
                     const ext = path.extname(file.originalname).toLowerCase();
                     if (ext !== '.png' && ext !== '.jpg' && ext !== '.jpeg') {
                         return cb(new Error(`Somente imagens no formato .png, .jpg ou .jpeg são permitidas. Tipo enviado: ${ext}`));
@@ -145,31 +144,47 @@ export const CriarAction = async (req: Request, res: Response) => {
             const { salaAlocada: sala, dataAgendamentoInicial, dataAgendamentoFinal } = req.body;
             console.log('Dados recebidos para reservas:', req.body);
 
-            if (!dataAgendamentoInicial || !dataAgendamentoFinal || !sala) {
-                return res.json({ success: false, message: 'Por favor, selecione um intervalo de datas e horários válidos' });
+            if (!dataAgendamentoInicial || !dataAgendamentoFinal || new Date(dataAgendamentoInicial) >= new Date(dataAgendamentoFinal) || !sala) {
+                return res.json({
+                    success: false,
+                    message: 'Por favor, selecione um intervalo de datas e horários válidos.'
+                });
             }
 
             dados = [req.session.userId, dataAgendamentoInicial, dataAgendamentoFinal, sala, isAdmin];
 
             const checkQuery = `
-                SELECT dataAgendamentoInicial, dataAgendamentoFinal, sala FROM reservas 
-                WHERE dataAgendamentoInicial = ? AND dataAgendamentoFinal = ? AND sala = ?
+            SELECT * FROM reservas 
+            WHERE sala = ?
+            AND (
+                (dataAgendamentoInicial <= ? AND dataAgendamentoFinal > ?) OR
+                (dataAgendamentoInicial < ? AND dataAgendamentoFinal >= ?) OR
+                (dataAgendamentoInicial >= ? AND dataAgendamentoFinal <= ?)
+            )
             `;
-            const rows: any = await queryDatabase(checkQuery, [req.session.userId, dataAgendamentoInicial, dataAgendamentoFinal, sala]);
+            const rows: any = await queryDatabase(checkQuery, [
+                sala,
+                dataAgendamentoInicial, dataAgendamentoInicial,
+                dataAgendamentoFinal, dataAgendamentoFinal,
+                dataAgendamentoInicial, dataAgendamentoFinal
+            ]);
+
             console.log('Resultado da consulta de reservas:', rows);
 
             if (rows.length > 0) {
-                console.log('Período de agendamento já reservado');
-                return res.json({ success: false, message: 'Período de agendamento já reservado' });
+                console.log('Conflito de agendamento detectado com os seguintes registros:', rows);
+                return res.json({ success: false, message: 'Já existe uma reserva que conflita com o período selecionado' });
             }
 
             console.log('Inserindo nova reserva');
+            
             const insertQuery = `
                 INSERT INTO ${reqRoute} ${varsAction} VALUES ${valuesAction}
             `;
             console.log('Consulta de inserção de reservas:', insertQuery, 'Dados:', dados);
+
             await queryDatabase(insertQuery, dados);
-            return res.json({ success: true, message: 'Reserva criada com sucesso' });
+            return res.json({ success: true, message: `Reserva efetuada com sucesso` });
 
         } else if (currPath.includes('/Usuarios')) {
             console.log('Rota de usuários chamada');

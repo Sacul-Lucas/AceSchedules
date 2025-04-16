@@ -11,7 +11,7 @@ export type CreateReservationActionOutput = {
     data: string
 }
 
-export type RegisterUserStatus = 'SUCCESS' | 'RESERVATION_ALREADY_EXISTS' | 'UNKNOWN';
+export type RegisterUserStatus = 'SUCCESS' | 'RESERVATION_ALREADY_EXISTS' | 'INVALID_VALUES' | 'UNKNOWN';
 
 export class CreateReservationAction {
     static async execute(input: CreateReservationActionInput): Promise<CreateReservationActionOutput> {
@@ -30,6 +30,11 @@ export class CreateReservationAction {
             if (success) {
                 return {
                     status: 'SUCCESS',
+                    data: response.data.message
+                };
+            } else if (!input.dataAgendamentoInicial || !input.dataAgendamentoFinal || new Date(input.dataAgendamentoInicial) >= new Date(input.dataAgendamentoFinal) || !input.salaAlocada) {
+                return {
+                    status: 'INVALID_VALUES',
                     data: response.data.message
                 };
             } else {

@@ -1,9 +1,10 @@
 import { useState, useEffect, useRef } from "react";
 import DatePicker from "react-datepicker";
 import { ptBR } from 'date-fns/locale';
-import { startOfMonth, endOfMonth, isWithinInterval, addHours } from 'date-fns';
+import { startOfMonth, endOfMonth, isWithinInterval, addHours, setHours, setMinutes } from 'date-fns';
 import { CreateReservationAction } from "../../Actions/CreateReservationAction";
 import { formatDateForMySQL } from "../Utils/functions/DateUtils";
+import { Toast } from 'primereact/toast';
 import "react-datepicker/dist/react-datepicker.css";
 
 interface CardReservationModalProps {
@@ -21,8 +22,17 @@ export const CardReservationModal: React.FC<CardReservationModalProps> = ({
     const [endDate, setEndDate] = useState<Date | null>(null);
     const [currentMonth, setCurrentMonth] = useState<Date>(new Date());
     const [showStartPicker, setShowStartPicker] = useState<boolean>(true);
-    const [error, setError] = useState('');
-    const [success, setSuccess] = useState('');
+    const toast = useRef<Toast>(null);
+
+    const now = new Date();
+    const isToday = startDate
+      ? startDate.toDateString() === now.toDateString()
+      : false;
+    
+    const minSelectableTime = isToday ? now : setHours(setMinutes(new Date(), 0), 0);
+    const maxSelectableTime = setHours(setMinutes(new Date(), 45), 23);
+
+    console.log(maxSelectableTime)
 
     const isDateWithinMonth = (date: Date) => {
         const monthStart = startOfMonth(currentMonth);
@@ -64,30 +74,54 @@ export const CardReservationModal: React.FC<CardReservationModalProps> = ({
 
         switch (reservationRes.status) {
             case 'SUCCESS':
-                setSuccess(message);
-                setError('');
+                toast.current?.show({
+                    severity: 'success',
+                    summary: 'Pronto!',
+                    detail: message,
+                    life: 3000,
+                    closable: false
+                });
               break;
       
             case 'RESERVATION_ALREADY_EXISTS':
-                setError(message);
-                setSuccess('');
+                toast.current?.show({
+                    severity: 'warn',
+                    summary: 'Conflito de datas e/ou horários',
+                    detail: message,
+                    life: 3000,
+                    closable: false
+                });
+              break;
+
+            case 'INVALID_VALUES':
+                toast.current?.show({
+                  severity: 'warn',
+                  summary: 'Dados incompletos',
+                  detail: message,
+                  life: 3000,
+                  closable: false
+                });
               break;
       
             case 'UNKNOWN':
-                setError(message);
-                setSuccess('');
+                toast.current?.show({
+                    severity: 'error',
+                    summary: 'Erro',
+                    detail: message,
+                    life: 3000,
+                    closable: false
+                });
               break;
       
             default:
-              setError('Não foi possível realizar uma reserva no momento. Tente novamente mais tarde.');
-              setSuccess('');
+                toast.current?.show({
+                  severity: 'error',
+                  summary: 'Erro',
+                  detail: message,
+                  life: 3000,
+                  closable: false
+                });
               break;
-        }
-        
-        if (startDate && endDate) {
-            alert(`Reserva feita de ${startDate.toLocaleString()} até ${endDate.toLocaleString()}`);
-        } else {
-            alert('Por favor, selecione um intervalo de datas e horários válidos.');
         }
     };
 
@@ -160,7 +194,7 @@ export const CardReservationModal: React.FC<CardReservationModalProps> = ({
                                         <span className="selected-date">{startDate ? startDate.toLocaleString() : 'Escolha'}</span>
                                     </div>
                                 </button>
-                                <button className={`end-date !m-0 ${!showStartPicker ? "active" : ""}`} onClick={() => setShowStartPicker(false)}>
+                                <button className={`end-date !m-0 ${!showStartPicker ? "active" : ""}`} onClick={() => setShowStartPicker(false)} disabled={!startDate}>
                                     <div className="flex flex-col items-start">
                                         <span className={`font-semibold label flex flex-row gap-[63%] w-full mb-1 items-center align-middle`}>
                                             Fim
@@ -187,6 +221,9 @@ export const CardReservationModal: React.FC<CardReservationModalProps> = ({
                                     inline
                                     filterDate={isDateWithinMonth}
                                     onMonthChange={handleMonthChange}
+                                    minDate={new Date()}
+                                    minTime={minSelectableTime}
+                                    maxTime={maxSelectableTime}
 
                                     renderCustomHeader={({ date, decreaseMonth, increaseMonth }) => (
                                         <div>
@@ -212,7 +249,11 @@ export const CardReservationModal: React.FC<CardReservationModalProps> = ({
                                     filterDate={isDateWithinMonth}
                                     onMonthChange={handleMonthChange}
                                     minDate={startDate || undefined}
-                                    minTime={startDate ? addHours(startDate, 1) : undefined}
+                                    minTime={
+                                        startDate && endDate && startDate.toDateString() === endDate.toDateString()
+                                          ? addHours(startDate, 1)
+                                          : setHours(setMinutes(new Date(), 0), 0)
+                                    }
                                     maxTime={startDate ? endOfMonth(startDate) : undefined}
 
                                     renderCustomHeader={({ date, decreaseMonth, increaseMonth }) => (
@@ -232,6 +273,8 @@ export const CardReservationModal: React.FC<CardReservationModalProps> = ({
                     </div>
                 </div>
             </div>
+
+            <Toast ref={toast} />
         </dialog>
     );
 };

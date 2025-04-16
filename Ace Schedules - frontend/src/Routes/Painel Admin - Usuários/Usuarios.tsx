@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { AdminPopups } from "../../Core/Components/Pop-ups/AdminPopups";
 import { handleAlert, ResponsePopup } from "../../Core/Components/Pop-ups/ResponsePopup";
-import { PanelSidebar } from "../../Core/Components/Sidebars/PanelSidebar";
+import { PanelSidebar } from "../../Core/Components/Sidebar/PanelSidebar";
 import { DefineApp } from "../../Core/Components/Utils/DefineApp";
 
 export const Usuarios: React.FC = () => {
@@ -243,7 +243,6 @@ export const Usuarios: React.FC = () => {
                 </div>
                 <ResponsePopup 
                     type={error ? 'error' : 'success'} 
-                    redirectLink={''}
                     title={error ? 'Erro' : 'Pronto!'} 
                     description={error || success} 
                 />

@@ -4,7 +4,7 @@ import withReactContent from 'sweetalert2-react-content'
 
 interface ResponsePopupProps {
     type: 'success' | 'error';
-    redirectLink: string;
+    redirectLink?: string | any;
     title: string;
     description: string;
 }

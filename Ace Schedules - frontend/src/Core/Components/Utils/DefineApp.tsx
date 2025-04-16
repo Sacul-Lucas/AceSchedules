@@ -9,44 +9,6 @@ interface DefineAppProps {
     children: ReactNode;
 }
 
-let animationStyleTag: HTMLStyleElement | null = null;
-
-const disableAnimations = () => {
-    animationStyleTag = document.createElement('style');
-    animationStyleTag.innerHTML = `
-        @keyframes anim-lineUp {
-            0% { transform: translateY(0); }
-            100% { transform: translateY(0); }
-        }
-        @keyframes anim-lineDown2 {
-            0% { transform: translateY(0); }
-            100% { transform: translateY(0); }
-        }
-        ${localStorage.getItem('isSidebarLocked') === 'true' ? `
-        .p-sidebar {
-            transition: none !important;
-            animation: none !important;
-        }
-        ` : ''}
-    `;
-    document.head.appendChild(animationStyleTag);
-};
-
-const enableAnimations = () => {
-    animationStyleTag = document.createElement('style');
-    animationStyleTag.innerHTML = `
-        @keyframes anim-lineUp {
-            0% { transform: translateY(80%); }
-            100% { transform: translateY(0); }
-        }
-        @keyframes anim-lineDown2 {
-            0% { transform: translateY(-15%); }
-            100% { transform: translateY(0); }
-        }
-    `;
-    document.head.appendChild(animationStyleTag);
-};
-
 export const DefineApp: React.FC<DefineAppProps> = ({
     cssPath,
     appTitle,
@@ -80,17 +42,12 @@ export const DefineApp: React.FC<DefineAppProps> = ({
 
                 if (!loaded && oldCssPath && oldCssPath !== cssPath) {
                     removeStyle(oldCssPath);
-                    enableAnimations();
                 }
 
                 await loadStyle(cssPath);
 
                 if (isMounted) {
                     currentCssPathRef.current = cssPath;
-
-                    if (oldCssPath === cssPath) {
-                        disableAnimations();
-                    }
 
                     if (!loaded && oldCssPath && oldCssPath !== cssPath || showSpinner) {
                         setTimeout(() => {
@@ -120,7 +77,6 @@ export const DefineApp: React.FC<DefineAppProps> = ({
 
             if (!loaded && oldCssPath && oldCssPath !== cssPath) {
                 removeStyle(oldCssPath);
-                enableAnimations();
             }
         };
     }, [cssPath]);

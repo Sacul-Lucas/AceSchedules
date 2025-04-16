@@ -30,7 +30,7 @@ const PasswordRecovery: React.FC = () => {
   };
 
   return (
-    <DefineApp cssPath='src/Core/Css/Owned/Auth.css' appTitle='Ace Schedules - Login' appIcon='src/assets/icons/user-circle-solid.svg' isCssEquiv={true}>
+    <DefineApp cssPath='src/Core/Css/Owned/Auth.css' appTitle='Ace Schedules - Recuperação de senha' appIcon='src/assets/icons/user-circle-solid.svg'>
         <div className="sticky top-0 z-auto w-full h-full">
             <h1>Recuperação de senha</h1>
             

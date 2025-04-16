@@ -4,7 +4,7 @@ import DatePicker from "react-datepicker";
 import { ptBR } from 'date-fns/locale';
 import { startOfMonth, endOfMonth, isWithinInterval, addHours } from 'date-fns';
 import { handleAlert, ResponsePopup } from "../../Core/Components/Pop-ups/ResponsePopup";
-import { PanelSidebar } from "../../Core/Components/Sidebars/PanelSidebar";
+import { PanelSidebar } from "../../Core/Components/Sidebar/PanelSidebar";
 import { DefineApp } from "../../Core/Components/Utils/DefineApp";
 import { formatDateForMySQL } from "../../Core/Components/Utils/functions/DateUtils";
 
@@ -691,7 +691,6 @@ const handleEdit = async (id: number) => {
         </div>
         <ResponsePopup 
             type={error ? 'error' : 'success'} 
-            redirectLink={''}
             title={error ? 'Erro' : 'Pronto!'} 
             description={error || success} 
         />
