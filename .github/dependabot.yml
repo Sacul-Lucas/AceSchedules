@@ -9,16 +9,8 @@ updates:
     directory: "/Ace Schedules - frontend" # Location of package manifests
     schedule:
       interval: "daily"
-  - package-ecosystem: "yarn" # See documentation for possible values
-    directory: "/Ace Schedules - frontend" # Location of package manifests
-    schedule:
-      interval: "daily"
 
   - package-ecosystem: "npm" # See documentation for possible values
-    directory: "/Ace Schedules - backend" # Location of package manifests
-    schedule:
-      interval: "daily"
-  - package-ecosystem: "yarn" # See documentation for possible values
     directory: "/Ace Schedules - backend" # Location of package manifests
     schedule:
       interval: "daily"
