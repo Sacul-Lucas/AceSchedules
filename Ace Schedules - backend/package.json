@@ -32,7 +32,7 @@
     "mysql2": "^3.11.3",
     "node-cron": "^3.0.3",
     "nodemailer": "^6.9.15",
-    "nodemon": "^3.1.4",
+    "nodemon": "^3.1.9",
     "sequelize": "^6.37.3",
     "sirv": "^2.0.4",
     "ts-node": "^10.9.2",
