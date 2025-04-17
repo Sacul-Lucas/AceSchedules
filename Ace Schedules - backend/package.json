@@ -50,7 +50,7 @@
     "@types/mysql": "^2.15.26",
     "@types/node": "^20.12.7",
     "cross-env": "^7.0.3",
-    "eslint": "^9.9.1",
+    "eslint": "^9.24.0",
     "eslint-plugin-react": "^7.35.0",
     "globals": "^15.9.0",
     "ts-node-dev": "^2.0.0",
