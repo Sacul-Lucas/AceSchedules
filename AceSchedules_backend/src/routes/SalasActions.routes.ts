@@ -17,7 +17,7 @@ const __dirname = path.dirname(__filename);
 
 const storage = multer.diskStorage({
     destination: (_req, _file, cb) => {
-        const dir = path.resolve(__dirname, '../../../Ace Schedules - frontend/src/assets/img_salas');
+        const dir = path.resolve(__dirname, '../../../AceSchedules_frontend/src/assets/img_salas');
         if (!fs.existsSync(dir)) {
             fs.mkdirSync(dir, { recursive: true });
         }
@@ -26,7 +26,7 @@ const storage = multer.diskStorage({
     filename: (_req, file, cb) => {
         const fileName = `${Date.now()}-${file.originalname}`;
 
-        const filePath = path.join(__dirname, '../../../Ace Schedules - frontend/src/assets/img_salas', file.originalname);
+        const filePath = path.join(__dirname, '../../../AceSchedules_frontend/src/assets/img_salas', file.originalname);
 
         if (fs.existsSync(filePath)) {
             return cb(new Error(`Uma imagem com este nome já existe. Por favor, renomeie a imagem.`), null);

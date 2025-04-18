@@ -36,7 +36,7 @@ export const Painel = () => {
                     {salas.length > 0 && salas.map(sala => (
                         <Card
                             key={sala.id}
-                            imgSrc={`/src/assets/img_salas/${sala.backImg}`}
+                            imgSrc={`/AceSchedules/src/assets/img_salas/${sala.backImg}`}
                             title={sala.nome}
                             description={sala.descricao}
                             características={sala.caracteristicas || []}

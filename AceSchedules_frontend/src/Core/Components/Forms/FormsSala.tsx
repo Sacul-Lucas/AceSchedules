@@ -194,7 +194,7 @@ export const FormsSalas: React.FC<FormsSalasProps> = ({
                                 <div className="mt-2">
                                     <label htmlFor="view_imagem">Imagem atual:</label>
                                     <img
-                                        src={`/src/assets/img_salas/${selectedSala.backImg}`} // Corrija o caminho de acordo com o que foi armazenado
+                                        src={`/AceSchedules/src/assets/img_salas/${selectedSala.backImg}`}
                                         alt={selectedSala?.nome || "Sala sem nome"}
                                         className="max-w-full h-auto border rounded-lg shadow-md"
                                     />
@@ -242,7 +242,7 @@ export const FormsSalas: React.FC<FormsSalasProps> = ({
                         {selectedSala?.backImg && (
                             <div className="mt-2">
                                 <img
-                                    src={`/src/assets/img_salas/${selectedSala.backImg}`} // Corrija o caminho de acordo com o que foi armazenado
+                                    src={`/AceSchedules/src/assets/img_salas/${selectedSala.backImg}`}
                                     alt={selectedSala?.nome || "Sala sem nome"}
                                     className="max-w-full h-auto border rounded-lg shadow-md"
                                 />

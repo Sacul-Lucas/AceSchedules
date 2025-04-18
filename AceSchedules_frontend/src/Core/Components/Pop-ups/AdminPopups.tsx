@@ -49,7 +49,7 @@ export const AdminPopups: React.FC<AdminPopupsProps> = ({
         setIsSaving(true); // Desativa o botão de salvar
     
         try {
-            if (location.pathname === '/Reservas') {
+            if (location.pathname === '/AceSchedules/Reservas') {
                 const dataAgendamentoInicial = (document.getElementById(idModal === 'Editmodal' ? 'EditData' : 'AddData') as HTMLInputElement)?.value;
                 const dataAgendamentoFinal = (document.getElementById(idModal === 'Editmodal' ? 'EditHora' : 'AddHora') as HTMLInputElement)?.value;
     
@@ -61,7 +61,7 @@ export const AdminPopups: React.FC<AdminPopupsProps> = ({
                 };
     
                 await onSave(formData);
-            } else if (location.pathname === '/Usuarios') {
+            } else if (location.pathname === '/AceSchedules/Usuarios') {
                 const formData = {
                     id: selectedUser?.id || null,
                     usuario: (document.getElementById(idModal === 'Editmodal' ? 'EditName' : 'AddName') as HTMLInputElement)?.value || '',
@@ -73,7 +73,7 @@ export const AdminPopups: React.FC<AdminPopupsProps> = ({
                 };
     
                 await onSave(formData);
-            } else if (location.pathname === '/Salas') {
+            } else if (location.pathname === '/AceSchedules/Salas') {
                 const formData = new FormData();
                 formData.append('id', selectedSala?.id ? selectedSala.id.toString() : '');
                 formData.append('nome', (document.getElementById(idModal === 'Editmodal' ? 'EditSala' : 'AddSala') as HTMLInputElement)?.value || '');
@@ -105,7 +105,7 @@ export const AdminPopups: React.FC<AdminPopupsProps> = ({
     
     const renderForm = () => {
         switch (location.pathname) {
-            case '/Salas':
+            case '/AceSchedules/Salas':
                 if (idModal === "Editmodal") {
                     return (
                        <FormsSalas
@@ -153,7 +153,7 @@ export const AdminPopups: React.FC<AdminPopupsProps> = ({
                         />
                     );
                 }
-            case '/Reservas':
+            case '/AceSchedules/Reservas':
                 if (idModal === "Editmodal") {
                     return (
                         <FormsReserva
@@ -195,7 +195,7 @@ export const AdminPopups: React.FC<AdminPopupsProps> = ({
                     />
                 );
             }
-            case '/Usuarios':
+            case '/AceSchedules/Usuarios':
                 if (idModal === "Editmodal") {
                     return (
                         <FormsUsuarios

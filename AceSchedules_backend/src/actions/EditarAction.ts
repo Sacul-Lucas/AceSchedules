@@ -54,7 +54,7 @@ function getOldImage(salaId: string): Promise<string | null> {
 
 // Função auxiliar para deletar uma imagem antiga do sistema de arquivos
 function deleteOldImage(imagePath: string) {
-    const fullImagePath = path.resolve(__dirname, '../../../Ace Schedules - frontend/src/assets/img_salas', imagePath);
+    const fullImagePath = path.resolve(__dirname, '../../../AceSchedules_frontend/src/assets/img_salas', imagePath);
     fs.unlink(fullImagePath, (error) => {
         if (error) {
             console.log('Erro ao deletar a imagem antiga:', error);

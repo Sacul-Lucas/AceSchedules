@@ -49,7 +49,7 @@ export const DeletarAction = (req: Request, res: Response) => {
             const imagePath = results[0][imgColumn];
             if (imagePath) {
                 // Caminho completo da imagem no sistema de arquivos
-                const fullImagePath = path.resolve(__dirname, '../../../Ace Schedules - frontend/src/assets/img_salas', imagePath);
+                const fullImagePath = path.resolve(__dirname, '../../../AceSchedules_frontend/src/assets/img_salas', imagePath);
 
                 // Remover a imagem do sistema de arquivos
                 fs.unlink(fullImagePath, (unlinkError) => {
