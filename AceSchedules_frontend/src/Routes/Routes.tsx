@@ -17,7 +17,7 @@ import { Estatísticas } from "./Estatísticas/Estatísticas";
 
 export const AppRoutes = () => {
     return (
-        <Router>
+        <Router basename="/AceSchedules">
             <Routes>
                 <Route path="/" element={<Cadastro/>} />
                 <Route path="/Login" element={<Login/>} />
