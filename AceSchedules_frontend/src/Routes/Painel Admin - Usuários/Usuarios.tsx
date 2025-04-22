@@ -3,6 +3,9 @@ import { AdminPopups } from "../../Core/Components/Pop-ups/AdminPopups";
 import { handleAlert, ResponsePopup } from "../../Core/Components/Pop-ups/ResponsePopup";
 import { PanelSidebar } from "../../Core/Components/Sidebar/PanelSidebar";
 import { DefineApp } from "../../Core/Components/Utils/DefineApp";
+import adminUserStyles from '../../Core/Css/Owned/AdminRoom.module.css';
+import appAdminIcon from "../../assets/icons/admin-alt-solid.svg";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 export const Usuarios: React.FC = () => {
 
@@ -150,7 +153,7 @@ export const Usuarios: React.FC = () => {
     }, [filterNome, filterEmail, filterUserType]);
 
     return (
-        <DefineApp cssPath="src/Core/Css/Owned/AdminRoom.css" appIcon="src/assets/icons/admin-alt-solid.svg" appTitle={`Ace Schedules - Painel administrador de salas`}>
+        <DefineApp appIcon={appAdminIcon} appTitle={`Ace Schedules - Painel administrador de salas`}>
             <PanelSidebar visible={true} isFixed>
                 <AdminPopups
                     idModal={editMode ? 'Editmodal' : viewMode ? 'Viewmodal' : 'Addmodal'}
@@ -160,87 +163,90 @@ export const Usuarios: React.FC = () => {
                     selectedUser={selectedUser}
                     onSave={actionSave}              
                 />
-    
-                <div className="container mt-4 xl:!max-w-[75%] h-fit">
-                    <div className="row">
-                        <div className="col-md-12">
-                            <div className="card">
-                                <div className="card-header">
-                                    <h4>Usuários (<span id="detalhes-usuario">{totalUsuarios}</span>)
-                                        <button type="button" onClick={handleAdd} className="btn btn-primary float-end">Adicionar usuário</button>
-                                    </h4>
-                                    <div className="flex justify-start pt-3 w-100">
-                                        <div className="">
-                                            <label className="pr-2 text-black" htmlFor="nome">Nome do usuário:</label>
-                                            <input
-                                                className="!text-black !border !border-black p-[0.1rem]" 
-                                                type="text"
-                                                id="filter_nome"
-                                                name="filter_nome"
-                                                autoComplete="OFF"
-                                                value={filterNome}
-                                                onChange={(e) => setFilterNome(e.target.value)}
-                                            />
-                                        </div>
-                                        <div>
-                                            <label className="pr-2 pl-2 text-black border-width: 2px;" htmlFor="email">Selecione o email:</label>
-                                            <input
-                                                className="!text-black !border !border-black p-[0.1rem]" 
-                                                type="email"
-                                                id="filter_Email"
-                                                name="filter_Email"
-                                                value={filterEmail}
-                                                onChange={(e) => setFilterEmail(e.target.value)}
-                                            />
-                                        </div>
-                                        <div className="pl-2">
-                                            <label className="pl-2 pr-2 text-black" htmlFor="user">Selecione o tipo de usuário:</label>
-                                            <select
-                                                className="!text-black !border !border-black p-[0.1rem]"
-                                                id="filter_user"
-                                                name="filter_user"
-                                                value={filterUserType}
-                                                onChange={(e) => setFilterUserType(e.target.value)}
-                                            >
-                                                <option value="">---Todos---</option>
-                                                <option value="Empresa">Empresa</option>
-                                                <option value="Administrador">Administrador</option>
-                                            </select>
+
+                <div className="relative flex flex-col flex-auto items-center">
+                    <div className={`${adminUserStyles.container} mt-4 xl:!max-w-[75%] h-fit w-full`}>
+                        <div className="row">
+                            <div className="col-md-12">
+                                <div className="card">
+                                    <div className="card-header">
+                                        <h4>Usuários (<span id="detalhes-usuario">{totalUsuarios}</span>)
+                                            <button type="button" onClick={handleAdd} className="btn btn-primary float-end">Adicionar usuário</button>
+                                        </h4>
+                                        <div className="flex justify-start pt-3 w-100">
+                                            <div className="">
+                                                <label className="pr-2 text-black" htmlFor="nome">Nome do usuário:</label>
+                                                <input
+                                                    className="!text-black !border !border-black p-[0.1rem]" 
+                                                    type="text"
+                                                    id="filter_nome"
+                                                    name="filter_nome"
+                                                    autoComplete="OFF"
+                                                    value={filterNome}
+                                                    onChange={(e) => setFilterNome(e.target.value)}
+                                                />
+                                            </div>
+                                            <div>
+                                                <label className="pr-2 pl-2 text-black border-width: 2px;" htmlFor="email">Selecione o email:</label>
+                                                <input
+                                                    className="!text-black !border !border-black p-[0.1rem]" 
+                                                    type="email"
+                                                    id="filter_Email"
+                                                    name="filter_Email"
+                                                    value={filterEmail}
+                                                    onChange={(e) => setFilterEmail(e.target.value)}
+                                                />
+                                            </div>
+                                            <div className="pl-2">
+                                                <label className="pl-2 pr-2 text-black" htmlFor="user">Selecione o tipo de usuário:</label>
+                                                <select
+                                                    className="!text-black !border !border-black p-[0.1rem]"
+                                                    id="filter_user"
+                                                    name="filter_user"
+                                                    value={filterUserType}
+                                                    onChange={(e) => setFilterUserType(e.target.value)}
+                                                >
+                                                    <option value="">---Todos---</option>
+                                                    <option value="Empresa">Empresa</option>
+                                                    <option value="Administrador">Administrador</option>
+                                                </select>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div className="card-body">
-                                    <table className="table table-bordered table-striped" id="usuarios">
-                                        <thead>
-                                            <tr>
-                                                <th>ID</th>
-                                                <th>Usuário</th>
-                                                <th>Email</th>
-                                                <th>Tipo de Usuário</th>
-                                                <th className="w-fit">Ações</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {usuarios.length > 0 ? usuarios.map((usuario) => (
-                                                <tr key={usuario.id}>
-                                                    <td>{usuario.id}</td>
-                                                    <td>{usuario.usuario}</td>
-                                                    <td>{usuario.email}</td>
-                                                    <td>{usuario.usertype}</td>
-                                                    <td className="!flex !justify-end">
-                                                        <button type='button' data-id={usuario.id} className='mx-1 viewBtn btn btn-info btn-sm' onClick={() => handleView(usuario.id)}>Visualizar</button>
-                                                        <button type='button' data-id={usuario.id} className='mx-1 editBtn btn btn-success btn-sm' onClick={() => handleEdit(usuario.id)}>Editar</button>
-                                                        <button type='button' data-id={usuario.id} className='mx-1 deleteBtn btn btn-danger btn-sm' onClick={() => actionDelete(usuario.id)} >Deletar</button>
-                                                    </td>
+                                    <div className="card-body">
+                                        <table className="table table-bordered table-striped" id="usuarios">
+                                            <thead>
+                                                <tr>
+                                                    <th>ID</th>
+                                                    <th>Usuário</th>
+                                                    <th>Email</th>
+                                                    <th>Tipo de Usuário</th>
+                                                    <th className="w-fit">Ações</th>
                                                 </tr>
-                                            )):<tr><td colSpan={6}>Nenhum usuario encontrado.</td></tr>}
-                                        </tbody>
-                                    </table>
-                                </div>  
+                                            </thead>
+                                            <tbody>
+                                                {usuarios.length > 0 ? usuarios.map((usuario) => (
+                                                    <tr key={usuario.id}>
+                                                        <td>{usuario.id}</td>
+                                                        <td>{usuario.usuario}</td>
+                                                        <td>{usuario.email}</td>
+                                                        <td>{usuario.usertype}</td>
+                                                        <td className="!flex !justify-end">
+                                                            <button type='button' data-id={usuario.id} className='mx-1 viewBtn btn btn-info btn-sm' onClick={() => handleView(usuario.id)}>Visualizar</button>
+                                                            <button type='button' data-id={usuario.id} className='mx-1 editBtn btn btn-success btn-sm' onClick={() => handleEdit(usuario.id)}>Editar</button>
+                                                            <button type='button' data-id={usuario.id} className='mx-1 deleteBtn btn btn-danger btn-sm' onClick={() => actionDelete(usuario.id)} >Deletar</button>
+                                                        </td>
+                                                    </tr>
+                                                )):<tr><td colSpan={6}>Nenhum usuario encontrado.</td></tr>}
+                                            </tbody>
+                                        </table>
+                                    </div>  
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
+    
                 <ResponsePopup 
                     type={error ? 'error' : 'success'} 
                     title={error ? 'Erro' : 'Pronto!'} 

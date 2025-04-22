@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import adminFormSalasStyles from '../../Css/Owned/AdminRoom.module.css';
 
 export interface Sala {
     id: number;
@@ -202,9 +203,9 @@ export const FormsSalas: React.FC<FormsSalasProps> = ({
                             )}
                         </div>
 
-                        <div className="container">
+                        <div className={adminFormSalasStyles.container}>
                             <h3>Enviar imagem</h3>
-                            <div className="drag-area" ref={dragAreaRef}>
+                            <div className={adminFormSalasStyles.dragArea} ref={dragAreaRef}>
                                 <div className="icon">
                                     <i className="fa-solid fa-image"></i>
                                 </div>

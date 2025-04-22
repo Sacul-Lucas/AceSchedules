@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { DefineApp } from '../../Core/Components/Utils/DefineApp';
+import appUserIcon from '../../assets/icons/user-circle-solid.svg';
 
 const PasswordRecovery: React.FC = () => {
   // State para armazenar o tipo de recuperação selecionado (email ou telefone)
@@ -30,7 +31,7 @@ const PasswordRecovery: React.FC = () => {
   };
 
   return (
-    <DefineApp cssPath='src/Core/Css/Owned/Auth.css' appTitle='Ace Schedules - Recuperação de senha' appIcon='src/assets/icons/user-circle-solid.svg'>
+    <DefineApp appTitle='Ace Schedules - Recuperação de senha' appIcon={appUserIcon}>
         <div className="sticky top-0 z-auto w-full h-full">
             <h1>Recuperação de senha</h1>
             
