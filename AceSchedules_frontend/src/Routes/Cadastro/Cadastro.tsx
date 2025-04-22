@@ -3,7 +3,9 @@ import { AuthForm } from '../../Core/Components/Forms/AuthForm.tsx';
 import { handleAlert, ResponsePopup } from '../../Core/Components/Pop-ups/ResponsePopup.tsx';
 import { DefineApp } from '../../Core/Components/Utils/DefineApp.tsx';
 import { RegisterUserAction } from '../../Core/Actions/RegisterUserAction.ts';
+import authStyles from "../../Core/Css/Owned/Auth.module.css";
 import etpcLogo from '../../assets/img/Logo_etpc.png';
+import appIcon from '../../assets/icons/user-circle-solid.svg';
 
 export const Cadastro = () => {
     const [usuario, setUser] = useState('');
@@ -25,62 +27,62 @@ export const Cadastro = () => {
             email,
             senha,
             usertype
-        })
+        });
 
-        const message = regRes.data
+        const message = regRes.data;
 
         switch (regRes.status) {
             case 'SUCCESS':
                 setSuccess(message);
                 setError('');
-              break;
-      
+                break;
+
             case 'EMAIL_ALREADY_EXISTS':
                 setError(message);
                 setSuccess('');
-              break;
-      
+                break;
+
             case 'UNKNOWN':
                 setError(message);
                 setSuccess('');
-              break;
-      
+                break;
+
             default:
-              setError('Não foi possível fazer login no momento. Tente novamente mais tarde.');
-              setSuccess('');
-              break;
+                setError('Não foi possível fazer login no momento. Tente novamente mais tarde.');
+                setSuccess('');
+                break;
         }
 
         setTimeout(() => {
             handleAlert();
-        }, 50)
+        }, 50);
     };
 
-
     return (
-        <DefineApp cssPath='src/Core/Css/Owned/Auth.css' appIcon='src/assets/icons/user-circle-solid.svg' appTitle='Ace Schedules - Cadastro'>
-            <div id="logoETPC" className="logoETPC lg:!max-w-[21%] lg:!ml-[78%] sm:!max-w-[45%] sm:!ml-[55%]">
-                <img src={etpcLogo} className="animate-[2s_showUp_ease-in] transition-all" />
+        <DefineApp appIcon={appIcon} appTitle='Ace Schedules - Cadastro' bodyStyle={authStyles.AuthBody}>
+            <div className={`${authStyles.logoETPC} lg:!max-w-[21%] lg:!ml-[78%] sm:!max-w-[45%] sm:!ml-[55%]`}>
+                <img src={etpcLogo} className="animate-[2s_showUp_ease-in] transition-all" alt="Logo ETPC" />
             </div>
-            <AuthForm 
+
+            <AuthForm
                 formId={'Cadastro'}
-                formAction={handleSubmit} 
-                formBttTitle={'Criar conta'} 
+                formAction={handleSubmit}
+                formBttTitle={'Criar conta'}
                 formMethod={'POST'}
-                userAction={(e: { target: { value: SetStateAction<string>; }; }) => setUser(e.target.value)} 
-                telAction={(e: { target: { value: SetStateAction<string>; }; }) => setTel(e.target.value!)} 
+                userAction={(e: { target: { value: SetStateAction<string>; }; }) => setUser(e.target.value)}
+                telAction={(e: { target: { value: SetStateAction<string>; }; }) => setTel(e.target.value!)}
                 cnpjAction={(e: { target: { value: SetStateAction<string>; }; }) => setCnpj(e.target.value)}
-                emailAction={(e: { target: { value: SetStateAction<string>; }; }) => setEmail(e.target.value)} 
-                senhaAction={(e: { target: { value: SetStateAction<string>; }; }) => setSenha(e.target.value)} 
+                emailAction={(e: { target: { value: SetStateAction<string>; }; }) => setEmail(e.target.value)}
+                senhaAction={(e: { target: { value: SetStateAction<string>; }; }) => setSenha(e.target.value)}
                 typeAction={(e: { target: { value: SetStateAction<string>; }; }) => setUserType(e.target.value)}
             />
-            
-            <ResponsePopup 
-                type={error ? 'error' : 'success'} 
+
+            <ResponsePopup
+                type={error ? 'error' : 'success'}
                 redirectLink={error ? '/' : '/Login'}
-                title={error ? 'Erro' : 'Pronto!'} 
-                description={error || success} 
+                title={error ? 'Erro' : 'Pronto!'}
+                description={error || success}
             />
         </DefineApp>
-    )
-}
+    );
+};

@@ -1,20 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;1,100&family=Wix+Madefor+Text&display=swap');
-@import 'primereact/resources/primereact.css';
-@import 'primereact/resources/themes/lara-light-indigo/theme.css';
-@import 'primeicons/primeicons.css';
-@import 'primeflex/primeflex.css';
 
 /*Estilização do corpo do site*/
-
-html {
-  scroll-behavior: smooth;
-  scrollbar-width: none;
-}
-
-body {
-  background-color: #f8f9fa;
-  scroll-behavior: smooth;
-}
 
 .panelBody {
   font-family: "Montserrat",Helvetica,Arial;
@@ -32,7 +18,7 @@ body {
   animation: 1s anim-lineDown2 ease-in;
 }
 
-.sub-bar {
+.subBar {
   display: flex;
   height: 8vh;
   background-color: #292944;
@@ -42,7 +28,7 @@ body {
   animation: 1s anim-lineDown2 ease-in;
 }
 
-.sub-bar p {
+.subBar p {
   font-size: 2vw;
   color: #00B6CA;
   height: 2.5dvh;
@@ -259,36 +245,9 @@ body {
   text-align: center;
 }
 
-.col button {
-  width: 160px;
-
-  font-size: 21px;
-  font-weight: 700;
-
-  cursor: pointer;
-  outline: none;
-
-  padding: 12px 0;
-  
-  border: 0;
-  border-radius: 20px;
-
-  margin-top: 30px;
-  margin-left: 46%;
-
-  color: #292944;
-  background: #edb700;
-  transition: all .5s ease;
-}
-
-.col button:hover {
-  background:#ca9b01;
-}
-
-
 /*Textos*/
 
-h1 {
+.panelTitle {
   color: #1c1c31;
   font-size: 8vw;
   text-align: center;
@@ -296,7 +255,7 @@ h1 {
   letter-spacing: -1px;
 }
 
-h5 {
+.cardTitle {
   color: #edb70f;
   background: linear-gradient(to top, rgba(24, 28, 34, 0.65), transparent);
 
@@ -311,7 +270,7 @@ h5 {
   font-weight: normal;
 
   font-size: 0.65rem;
-  font-weight: 700;
+  font-weight: 700 !important;
 
   margin: 0;
 
@@ -330,7 +289,7 @@ h5 {
 
 }
 
-h6 {
+.intDescription {
   color: #292944;
   font-size: 2.25vw;
   line-height: 15px;
@@ -340,18 +299,8 @@ h6 {
   text-align: center;
 }
 
-p {
-  color: #00b6ca;
-  font-size: 15px;
-  line-height: 20px;
-  margin-top: 2px;
-  margin-bottom: -10px;
-  font-weight: 700;
-}
-
-
 dialog {
-  color:transparent;
+  color: transparent;
 }
 
 /*Imagens de background*/
@@ -379,7 +328,7 @@ dialog {
 
 /*Cards*/
 
-.card-container {
+.cardContainer {
   background-position: center;
   background-size: cover;
   background-color: #f8f9fa;
@@ -406,7 +355,7 @@ dialog {
   opacity: 0.9;
 }
 
-.card-description {
+.cardDescription {
   width: 85%;
   max-width: 100%;
   height: auto;
@@ -431,7 +380,7 @@ dialog {
   transition-duration: 500ms;
 }
 
-.cards-grid {  
+.cardsGrid {  
   height: auto;
   align-items: center;
   justify-content: center;
@@ -439,14 +388,14 @@ dialog {
   grid-template-columns: repeat(2, 1fr);
 }
 
-.card-description p {
+.cardDescription p {
   font-size: 0.45rem;
   padding: 2.5vh 0 0 0;
   margin: 0 !important;
   color: white;
 }
 
-.card-description a {
+.cardDescription a {
   font-size: 0.75rem;
   padding-left: 0.5rem;
 }
@@ -469,20 +418,20 @@ dialog {
   transition: all .5s ease;
 }
 
-.card-custom-scrollbar::-webkit-scrollbar {
+.cardCutomScrollbar::-webkit-scrollbar {
   width: 1.25dvw;
 }
 
-.card-custom-scrollbar::-webkit-scrollbar-track {
+.cardCutomScrollbar::-webkit-scrollbar-track {
   background: transparent;
 }
 
-.card-custom-scrollbar::-webkit-scrollbar-thumb {
+.cardCutomScrollbar::-webkit-scrollbar-thumb {
   background: #edb70f;
   border-radius: 0.65rem;
 }
 
-.card-custom-scrollbar::-webkit-scrollbar-thumb:hover {
+.cardCutomScrollbar::-webkit-scrollbar-thumb:hover {
   background: #ca9b01;
 }
 
@@ -499,13 +448,13 @@ dialog {
   transform: translateY(-10px);
   opacity: 1;
 }
-.card:hover .card-description {
+.card:hover .cardDescription {
   opacity: 1;
 }
 
 /*Pop-ups da reserva*/
 
-.card-modal-container {
+.cardModalContainer {
   background-color: rgba(0, 0, 0, 0.25);
   position: fixed;
   display: flex;
@@ -518,7 +467,7 @@ dialog {
   animation: .4s showUp ease-in-out;
 }
 
-.card-modal {
+.cardModal {
   background-color: whitesmoke;
   border-radius: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
@@ -531,7 +480,7 @@ dialog {
   animation: .8s showUp ease-in-out;
 }
 
-.card-modal h1 {
+.cardModal h1 {
   margin: 0;
   padding: 0;
   font-size: 1.25rem;
@@ -539,7 +488,7 @@ dialog {
   font-weight: 600;
 }
 
-.card-modal p {
+.cardModal p {
   font-size: 0.5rem;
   color: #1c1c31;
   margin: 0 !important;
@@ -550,16 +499,16 @@ dialog {
   font-size: 0.5rem;
 }
 
-.card-modal li {
+.cardModal li {
   margin-top: 5px;
   font-weight: 500;
 }
 
-.card-modal ul {
+.cardModal ul {
   list-style-type: disc;
 }
 
-.card-modal-container button {
+.cardModalContainerBtt button {
   width: 35%;
   color: #292944;
   /* font-size: 1vw; */
@@ -579,48 +528,9 @@ dialog {
   margin-right: 0 !important;
 }
 
-#modal {
+.cardModalDialog {
   width: 100%;
   max-width: 90vw;
-}
-
-.date-picker-wrapper {
-  max-width: 100%;
-  width: 100%;
-  box-sizing: border-box;
-}
-
-.react-datepicker {
-  max-width: 100%;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-}
-
-.react-datepicker__navigation--previous {
-  left: -16%;
-}
-
-.react-datepicker__navigation--next--with-time:not(.react-datepicker__navigation--next--with-today-button) {
-  right: -16%;
-}
-
-.react-datepicker__navigation {
-  align-items: center;
-  background: none !important;
-  display: flex;
-  justify-content: center;
-  text-align: center;
-  cursor: pointer !important;
-  position: absolute;
-  top: 2px;
-  padding: 0 !important;
-  margin: 0 !important;
-  border: none !important;
-  z-index: 1;
-  height: 32px;
-  width: 7.5rem !important;
-  text-indent: -999em;
-  overflow: hidden;
 }
 
 /*Nome de usuário e animação*/
@@ -775,49 +685,9 @@ dialog {
 
 }
 
-/*Botão painel admin*/
-.painelir {
-  height: 50vh;
-  width: 100%;
-  background-image: url(/src/assets/img/etpc2.jpg);
-  background-position: center;
-  background-size: cover;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 2rem;
-}
-
-.painelir h2 {
-  color: #edb700;
-  font-size: 1.5rem;
-}
-
-.painelir button {
-  color: #edb700;
-  background: #24243a;
-  padding: 20px 25px;
-  font-size: 0.65rem;
-  cursor: pointer;
-  transition: 0.5s;
-  text-transform: uppercase;
-}
-
-.painelir button:hover {
-  background: #edb700;
-  color: #24243a;
-}
-
-.Btn-painelir {
-  background: transparent;
-  border: 0px solid var(--button-color, #000);
-  border-radius: 1rem;
-}
-
 /*Contato ETPC */
 
-#footer {
+.footer {
   background-color: #333;
   color: #fff;
   position: relative;
@@ -825,7 +695,7 @@ dialog {
   clear: both;
 }
 
-#footer .rodape-content {
+.footer .rodapeContent {
   width: 100%;
   height: 45vh;
   background-color: #292944;
@@ -835,44 +705,44 @@ dialog {
   flex-wrap: wrap;
 }
 
-.contatos-logo {
+.contatosLogo {
   width: 30vw;
 }
 
-.contatos-etpc {
+.contatosEtpc {
   width: 95%;
   display: flex;
   align-items: flex-start;
   justify-content: center;
 }
 
-.primeira-coluna {
+.primeiraColuna {
   width: 60%;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
 }
 
-.contatos-sub {
+.contatosSub {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
 }
 
-.contatos-sub h4 {
+.contatosSub h4 {
   color: white;
   font-weight: bold;
   font-size: 2vw;
 }
 
-.input-contato {
+.inputContato {
   display: flex;
   gap: 0.3rem;
   align-items: center;
   margin-bottom: 1dvh;
 }
 
-.input-contato h3 {
+.inputContato h3 {
   color: #03cfe6;
   cursor: pointer;
   transition: 0.3s;
@@ -880,11 +750,11 @@ dialog {
   vertical-align: middle;
 }
 
-.input-contato h3:hover {
+.inputContato h3:hover {
   color: white;
 }
 
-.input-contato input {
+.inputContato input {
   color: black;
   outline: none;
   width: 30vw;
@@ -892,7 +762,7 @@ dialog {
   padding: 0.15rem;
 }
 
-.resto-contatos-sub {
+.restoContatosSub {
   display: flex;
   flex-direction: column;
   margin-top: 0.2rem;
@@ -900,16 +770,16 @@ dialog {
   font-size: 1.85vw;
 }
 
-.resto-contatos-sub span {
+.restoContatosSub span {
   color: white;
 }
 
-.resto-contatos-sub h3 {
+.restoContatosSub h3 {
   color: white;
   font-size: 1.85vw;
 }
 
-.segunda-coluna-links {
+.segundaColunaLinks {
   width: 30%;
   height: auto;
   display: flex;
@@ -919,7 +789,7 @@ dialog {
   
 }
 
-.segunda-coluna-links a {
+.segundaColunaLinks a {
   text-decoration: none;
   color: #D9D9D9;
 
@@ -927,11 +797,11 @@ dialog {
   transition: 0.3s;
 }
 
-.segunda-coluna-links a:hover {
+.segundaColunaLinks a:hover {
   color: #a5a5a5;
 }
 
-.terceira-coluna-social {
+.terceiraColunaSocial {
   height: auto;
   align-items: end;
   display: flex;
@@ -939,7 +809,7 @@ dialog {
   gap: 0.5rem;
 }
 
-.terceira-coluna-social i {
+.terceiraColunaSocial i {
   font-size: 1.65rem;
   text-decoration: none;
   color: white;
@@ -947,11 +817,11 @@ dialog {
   display: flex;
 }
 
-.terceira-coluna-social i:hover {
+.terceiraColunaSocial i:hover {
   color: #9e9e9e;
 }
 
-#footer .footer-tag {
+.footer .footerTag {
   width: 100%;
   height: 10.5vh;
   background: #00B6CA;
@@ -960,7 +830,7 @@ dialog {
   justify-content: center;
 }
 
-.tag-content {
+.tagContent {
   width: 95%;
   display: flex;
   height: 10vh;
@@ -968,51 +838,57 @@ dialog {
   gap: 0.65rem;
 }
 
-.tag-content span {
+.tagContent span {
   color: white;
   font-size: 0.35rem;
 }
 
-.etpc-direitos {
+.etpcDireitos {
   width: 80%;
   display: flex;
   align-items: center;
   text-align: start;
 }
 
-.etpc-direitos p {
+.etpcDireitos p {
   color: white;
   font-size: 0.35rem;
   font-weight: 500;
   margin: 0;
 }
 
-.logo-ace {
+.logoAce {
   width: 20%;
   display: flex;
   justify-content: end;
 }
 
-.logo-ace img {
+.logoAce img {
   height: auto;
   min-height: 5vh;
   opacity: 0.6;
   transition: 0.3s;
 }
 
-.logo-ace img:hover {
+.logoAce img:hover {
   opacity: 1;
   cursor: pointer;
 }
 
 /* Agenda com range de datas e horários  */
 
-.date-range-toggle {
+.datePickerWrapper {
+  max-width: 100%;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.dateRangeToggle {
   display: flex;
   gap: 4px;
 }
 
-.date-range-toggle button {
+.dateRangeToggle button {
   background-color: #e5e5e5;
   border: none; 
   border-radius: 4px; 
@@ -1020,27 +896,35 @@ dialog {
   cursor: pointer;
   transition: background-color 0.3s;
   width: 100%;
+
+  font-size: 0.5rem;
+  font-weight: 600;
+
+  outline: none;
+  margin-top: 2.5dvh;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
 }
 
-.date-range-toggle button:hover {
+.dateRangeToggle button:hover {
   background-color: #e0e0e0;
 }
 
-.date-range-toggle button.active {
+.dateRangeToggle button.active {
   background-color: #d0d0d0;
 }
 
-.date-range-toggle .label {
+.dateRangeToggle .label {
   font-size: 14px;
   color: #333;
 }
 
-.date-range-toggle .selected-date {
+.dateRangeToggle .selectedDate {
   font-size: 12px;
   color: #666;
 }
 
-.clear-date-btt {
+.clearDateBtt {
   margin: 0 !important;
   width: auto;
   height: auto;
@@ -1070,7 +954,40 @@ dialog {
   letter-spacing: inherit;
 }
 
-.react-datepicker__header--time {
+.datePickerWrapper :global(.react-datepicker) {
+  max-width: 100%;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+.datePickerWrapper :global(.react-datepicker__navigation--previous) {
+  left: -16%;
+}
+
+.datePickerWrapper :global(.react-datepicker__navigation--next--with-time):not(:global(.react-datepicker__navigation--next--with-today-button)) {
+  right: -16%;
+}
+
+.datePickerWrapper :global(.react-datepicker__navigation) {
+  align-items: center;
+  background: none !important;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  cursor: pointer !important;
+  position: absolute;
+  top: 2px;
+  padding: 0 !important;
+  margin: 0 !important;
+  border: none !important;
+  z-index: 1;
+  height: 32px;
+  width: 7.5rem !important;
+  text-indent: -999em;
+  overflow: hidden;
+}
+
+.datePickerWrapper :global(.react-datepicker__header--time) {
   height: 3.65rem;
   align-items: center;
   vertical-align: middle;
@@ -1078,28 +995,29 @@ dialog {
   justify-content: center;
 }
 
-/* Scroll da sidebar */
-
-.p-scrollpanel.custombar1 .p-scrollpanel-bar {
-  background-color: #9e9e9e;
-  opacity: 1;
-  transition: background-color .3s;
-}
-
-.p-scrollpanel.custombar1 .p-scrollpanel-bar-x {
-  display: none !important;
+@media (max-width:641px)  {
+  .datePickerWrapper :global(.react-datepicker__time-container) {
+    width: 19dvw;
+  }
+  
+  .datePickerWrapper :global(.react-datepicker__time) {
+    justify-content: center;
+    align-items: center;
+    vertical-align: middle;
+    display: flex;
+  }
 }
 
 /* Panel Sidebar */
 
-.sidebar-unlocked {
+.sidebarUnlocked {
   position: fixed !important;
   height: 100% !important;
   width: 100% !important;
   z-index: 1100 !important;
 }
 
-.sidebar-locked {
+.sidebarLocked {
   position: sticky !important;
   height: 100vh !important;
 }
@@ -1112,18 +1030,7 @@ dialog {
 
 @media (min-width:481px)  {}
 
-@media (max-width:641px)  {
-  .react-datepicker__time-container {
-    width: 19dvw;
-  }
-  
-  .react-datepicker__time {
-    justify-content: center;
-    align-items: center;
-    vertical-align: middle;
-    display: flex;
-  }
-}
+@media (max-width:641px)  {}
 
 @media (min-width:961px)  {}
 

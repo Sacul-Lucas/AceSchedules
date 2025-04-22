@@ -7,6 +7,9 @@ import { handleAlert, ResponsePopup } from "../../Core/Components/Pop-ups/Respon
 import { PanelSidebar } from "../../Core/Components/Sidebar/PanelSidebar";
 import { DefineApp } from "../../Core/Components/Utils/DefineApp";
 import { formatDateForMySQL } from "../../Core/Components/Utils/functions/DateUtils";
+import adminReservasStyles from '../../Core/Css/Owned/AdminRoom.module.css';
+import appAdminIcon from "../../assets/icons/admin-alt-solid.svg";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 export const Reservas: React.FC = () => {
   const [reservasPendentes, setReservasPendentes] = useState<any[]>([]);
@@ -415,7 +418,7 @@ const handleEdit = async (id: number) => {
 
 
   return (
-    <DefineApp cssPath="src/Core/Css/Owned/AdminRoom.css" appIcon="src/assets/icons/admin-alt-solid.svg" appTitle={`Ace Schedules - Painel administrador de reservas`}>
+    <DefineApp appIcon={appAdminIcon} appTitle={`Ace Schedules - Painel administrador de reservas`}>
       <PanelSidebar visible={true} isFixed>
         <AdminPopups
           idModal={editMode ? 'Editmodal' : viewMode ? 'Viewmodal' : 'Addmodal'}
@@ -430,8 +433,8 @@ const handleEdit = async (id: number) => {
           setIdSalaAlocada={setIdSalaAlocada}
           idSalaAlocada={idSalaAlocada}       
         />
-        <div className="relative flex flex-col flex-auto">
-          <div className="container mt-4 xl:!max-w-[90%]">
+        <div className="relative flex flex-col flex-auto items-center">
+          <div className={`${adminReservasStyles.container} mt-4 xl:!max-w-[90%]`}>
             <div className="row">
               <div className="col-md-12">
                 <div className="card">
@@ -513,7 +516,7 @@ const handleEdit = async (id: number) => {
             </div>
           </div>
                         
-          <div className="container mt-4 xl:!max-w-[90%]">
+          <div className={`${adminReservasStyles.container} mt-4 xl:!max-w-[90%]`}>
             <div className="row">
               <div className="col-md-12">
                 <div className="card">
@@ -603,7 +606,7 @@ const handleEdit = async (id: number) => {
                         
           {/* Tabela concluidas */}
           {showConcluidas && (
-            <div className="container mt-4 xl:!max-w-[90%]">
+            <div className={`${adminReservasStyles.container} mt-4 xl:!max-w-[90%]`}>
               <div className="row">
                 <div className="col-md-12">
                   <div className="card">

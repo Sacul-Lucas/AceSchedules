@@ -1,6 +1,7 @@
 import { Card } from "../../Core/Components/Cards/Card";
 import { useEffect, useState } from "react";
 import { PanelBody } from "../../Core/Components/Body/PanelBody";
+import painelStyles from "../../Core/Css/Owned/Painel.module.css";
 
 export const Painel = () => {
     const [salas, setSalas] = useState<any[]>([])
@@ -25,14 +26,17 @@ export const Painel = () => {
 
     return (
         <PanelBody>
-            <div className="col">
-                <h1 className="lg:!text-[6vw] lg:!mt-9">Salas Disponíveis</h1>
+            <div className={painelStyles.col}>
+                <h1 className={`lg:!text-[6vw] lg:!mt-9 ${painelStyles.panelTitle}`}>Salas Disponíveis</h1>
                 <p className="lg:!text-[1.4vw]">
-                    Nossa plataforma de agendamento de salas simplifica a reserva de espaços para reuniões, <br></br>eventos e atividades,
-                    proporcionando conveniência e eficiência para todos os usuários.
+                    Nossa plataforma de agendamento de salas simplifica a reserva de espaços para reuniões, <br />
+                    eventos e atividades, proporcionando conveniência e eficiência para todos os usuários.
                 </p>
-                <h6 className="lg:!text-[1.3vw] lg:!pt-[40px]">Clique em reservar para realizar um pedido de agendamento</h6>
-                <div className="lg:!gap-0 lg:!grid-cols-[repeat(4,_0fr)] cards-grid">
+                <h6 className={`lg:!text-[1.3vw] lg:!pt-[40px] ${painelStyles.intDescription}`}>
+                    Clique em reservar para realizar um pedido de agendamento
+                </h6>
+
+                <div className={`lg:!gap-0 lg:!grid-cols-[repeat(4,_0fr)] ${painelStyles.cardsGrid}`}>
                     {salas.length > 0 && salas.map(sala => (
                         <Card
                             key={sala.id}

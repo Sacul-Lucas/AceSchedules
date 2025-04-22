@@ -1,11 +1,15 @@
 import { useState, useEffect, useRef } from "react";
 import DatePicker from "react-datepicker";
 import { ptBR } from 'date-fns/locale';
-import { startOfMonth, endOfMonth, isWithinInterval, addHours, setHours, setMinutes } from 'date-fns';
+import {
+    startOfMonth, endOfMonth, isWithinInterval,
+    addHours, setHours, setMinutes
+} from 'date-fns';
 import { CreateReservationAction } from "../../Actions/CreateReservationAction";
 import { formatDateForMySQL } from "../Utils/functions/DateUtils";
 import { Toast } from 'primereact/toast';
 import "react-datepicker/dist/react-datepicker.css";
+import reservationStyles from '../../Css/Owned/Painel.module.css';
 
 interface CardReservationModalProps {
     onClose: () => void;
@@ -25,14 +29,10 @@ export const CardReservationModal: React.FC<CardReservationModalProps> = ({
     const toast = useRef<Toast>(null);
 
     const now = new Date();
-    const isToday = startDate
-      ? startDate.toDateString() === now.toDateString()
-      : false;
-    
+    const isToday = startDate ? startDate.toDateString() === now.toDateString() : false;
+
     const minSelectableTime = isToday ? now : setHours(setMinutes(new Date(), 0), 0);
     const maxSelectableTime = setHours(setMinutes(new Date(), 45), 23);
-
-    console.log(maxSelectableTime)
 
     const isDateWithinMonth = (date: Date) => {
         const monthStart = startOfMonth(currentMonth);
@@ -46,31 +46,29 @@ export const CardReservationModal: React.FC<CardReservationModalProps> = ({
 
     useEffect(() => {
         const reservationModal = reservationRef.current;
-        if (reservationModal) {
-            reservationModal.showModal();
-        }
-
+        if (reservationModal) reservationModal.showModal();
         return () => {
-            if (reservationModal) {
-                reservationModal.close();
-            }
+            if (reservationModal) reservationModal.close();
         };
     }, [onClose]);
 
-    const handleConfirm = async (e: { preventDefault: () => void; }) => {
- 
+    const handleConfirm = async (e: { preventDefault: () => void }) => {
         e.preventDefault();
-        const dataAgendamentoInicial = formatDateForMySQL(startDate)
-        const dataAgendamentoFinal = formatDateForMySQL(endDate)
-
+        const dataAgendamentoInicial = formatDateForMySQL(startDate);
+        const dataAgendamentoFinal = formatDateForMySQL(endDate);
 
         const reservationRes = await CreateReservationAction.execute({
             dataAgendamentoInicial,
             dataAgendamentoFinal,
-            salaAlocada
-        })
+            salaAlocada,
+        });
 
-        const message = reservationRes.data
+        const message = reservationRes.data;
+
+        const toastOptions = {
+            life: 3000,
+            closable: false,
+        };
 
         switch (reservationRes.status) {
             case 'SUCCESS':
@@ -78,50 +76,34 @@ export const CardReservationModal: React.FC<CardReservationModalProps> = ({
                     severity: 'success',
                     summary: 'Pronto!',
                     detail: message,
-                    life: 3000,
-                    closable: false
+                    ...toastOptions
                 });
-              break;
-      
+                break;
             case 'RESERVATION_ALREADY_EXISTS':
                 toast.current?.show({
                     severity: 'warn',
                     summary: 'Conflito de datas e/ou horários',
                     detail: message,
-                    life: 3000,
-                    closable: false
+                    ...toastOptions
                 });
-              break;
-
+                break;
             case 'INVALID_VALUES':
                 toast.current?.show({
-                  severity: 'warn',
-                  summary: 'Dados incompletos',
-                  detail: message,
-                  life: 3000,
-                  closable: false
+                    severity: 'warn',
+                    summary: 'Dados incompletos',
+                    detail: message,
+                    ...toastOptions
                 });
-              break;
-      
+                break;
             case 'UNKNOWN':
+            default:
                 toast.current?.show({
                     severity: 'error',
                     summary: 'Erro',
                     detail: message,
-                    life: 3000,
-                    closable: false
+                    ...toastOptions
                 });
-              break;
-      
-            default:
-                toast.current?.show({
-                  severity: 'error',
-                  summary: 'Erro',
-                  detail: message,
-                  life: 3000,
-                  closable: false
-                });
-              break;
+                break;
         }
     };
 
@@ -176,37 +158,58 @@ export const CardReservationModal: React.FC<CardReservationModalProps> = ({
     }, [controlsContainerRef]);
 
     return (
-        <dialog ref={reservationRef} id="modal">
-            <div className="card-modal-container">
-                <div className="flex flex-col items-center justify-center align-middle lg:!w-[30dvw] lg:!p-[2rem_3rem] card-modal">
+        <dialog ref={reservationRef} className={reservationStyles.cardModalDialog}>
+            <div className={reservationStyles.cardModalContainer}>
+                <div className={`flex flex-col items-center justify-center align-middle lg:!w-[30dvw] lg:!p-[2rem_3rem] ${reservationStyles.cardModal}`}>
                     <div className="mb-4">
                         <h1 className="lg:!text-[2rem]">Selecione uma data e horário</h1>
                     </div>
                     <div className="flex flex-col items-center w-full gap-4">
-                        <div className="flex flex-row gap-4" ref={controlsContainerRef}>
-                            <div className="relative w-full date-range-toggle">
-                                <button className={`start-date !m-0 ${showStartPicker ? "active" : ""}`} onClick={() => setShowStartPicker(true)}>
+                        <div className={`flex flex-row gap-4 `} ref={controlsContainerRef}>
+                            <div className={`relative w-full ${reservationStyles.dateRangeToggle}`}>
+                                <button
+                                    className={`${showStartPicker ? `${reservationStyles.active}` : ''}`}
+                                    onClick={() => setShowStartPicker(true)}
+                                >
                                     <div className="flex flex-col items-start">
-                                        <span className="font-semibold label flex flex-row gap-[55%] w-full mb-1 items-center align-middle">
+                                        <span className={`font-semibold ${reservationStyles.label} flex flex-row gap-[55%] w-full mb-1 items-center align-middle`}>
                                             Início
-                                            <span className={`clear-date-btt ${startDate ? '!flex' : '!hidden'}`} onClick={clearStartDate}>X</span>
+                                            <span
+                                                className={`${reservationStyles.clearDateBtt} ${startDate ? '!flex' : '!hidden'}`}
+                                                onClick={clearStartDate}
+                                            >
+                                                X
+                                            </span>
                                         </span>
-                                        <span className="selected-date">{startDate ? startDate.toLocaleString() : 'Escolha'}</span>
+                                        <span className={reservationStyles.selectedDate}>
+                                            {startDate ? startDate.toLocaleString() : 'Escolha'}
+                                        </span>
                                     </div>
                                 </button>
-                                <button className={`end-date !m-0 ${!showStartPicker ? "active" : ""}`} onClick={() => setShowStartPicker(false)} disabled={!startDate}>
+                                <button
+                                    className={`${!showStartPicker ? `${reservationStyles.active}` : ''}`}
+                                    onClick={() => setShowStartPicker(false)}
+                                    disabled={!startDate}
+                                >
                                     <div className="flex flex-col items-start">
-                                        <span className={`font-semibold label flex flex-row gap-[63%] w-full mb-1 items-center align-middle`}>
+                                        <span className={`font-semibold ${reservationStyles.label} flex flex-row gap-[55%] w-full mb-1 items-center align-middle`}>
                                             Fim
-                                            <span className={`clear-date-btt ${endDate ? '!flex' : '!hidden'}`} onClick={clearEndDate}>X</span>
+                                            <span
+                                                className={`${reservationStyles.clearDateBtt} ${endDate ? '!flex' : '!hidden'}`}
+                                                onClick={clearEndDate}
+                                            >
+                                                X
+                                            </span>
                                         </span>
-                                        <span className="selected-date">{endDate ? endDate.toLocaleString() : 'Escolha'}</span>
+                                        <span className={reservationStyles.selectedDate}>
+                                            {endDate ? endDate.toLocaleString() : 'Escolha'}
+                                        </span>
                                     </div>
                                 </button>
                             </div>
                         </div>
-                        <div className="date-picker-wrapper">
-                            {showStartPicker ? (
+                        <div className={reservationStyles.datePickerWrapper}>
+                        {showStartPicker ? (
                                 <DatePicker
                                     selected={startDate || undefined}
                                     onChange={handleStartDateChange}
@@ -267,9 +270,9 @@ export const CardReservationModal: React.FC<CardReservationModalProps> = ({
                             )}
                         </div>
                     </div>
-                    <div className='flex flex-row items-center justify-center w-full gap-5 mt-4 align-middle'>
-                        <button id="close" className='lg:!text-[0.7rem]' onClick={onClose}>Cancelar</button>
-                        <button id="reserva" className='lg:!text-[0.7rem]' onClick={handleConfirm}>Confirmar</button>
+                    <div className={`flex flex-row items-center justify-center w-full gap-5 mt-4 align-middle ${reservationStyles.cardModalContainerBtt}`}>
+                        <button onClick={onClose} className="lg:!text-[0.7rem]">Cancelar</button>
+                        <button onClick={handleConfirm} className="lg:!text-[0.7rem]">Confirmar</button>
                     </div>
                 </div>
             </div>

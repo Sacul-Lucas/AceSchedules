@@ -13,6 +13,8 @@ import { GetUsertypeAction } from '../../Actions/GetUserTypeAction';
 import { getInitials } from '../Utils/functions/Formatter';
 import { FaUnlock } from "react-icons/fa6";
 import { FaLock } from "react-icons/fa6";
+import panelSidebarStyles from '../../Css/Owned/Painel.module.css';
+import logoAce from '../../../assets/img/Logo - Ace Schedules.jpg';
 
 interface PanelSidebarProps {
     visible?: boolean, 
@@ -132,7 +134,7 @@ export const PanelSidebar: React.FC<PanelSidebarProps> = ({
 
     return (
         <div className="flex flex-row flex-nowrap">
-            <div className={`flex justify-content-center ${visible ? '!flex' : '!hidden'}`} id='reservationPanel'>
+            <div className='flex justify-content-center' id='reservationPanel'>
                 <Sidebar
                     visible={isFixed || visible}
                     onHide={() => {
@@ -142,14 +144,14 @@ export const PanelSidebar: React.FC<PanelSidebarProps> = ({
                         }
                     }}
                     appendTo={document.getElementById('reservationPanel')!}
-                    maskClassName={`${sidebarLockedState === 'true' ? 'sidebar-locked' : 'sidebar-unlocked'}`}
+                    maskClassName={`${sidebarLockedState === 'true' ? panelSidebarStyles.sidebarLocked : panelSidebarStyles.sidebarUnlocked}`}
                     content={({ closeIconRef, hide }) => (
                         <div className="relative flex min-h-screen lg:static surface-ground">
                             <div id="app-sidebar-2" className="absolute top-0 left-0 flex-shrink-0 block w-full h-screen select-none surface-section lg:static z-1 border-right-1 surface-border">
                                 <div className="flex h-full flex-column">
                                     <div className="flex flex-shrink-0 px-4 pt-3 align-items-center justify-content-between">
                                         <span className="inline-flex gap-2 align-items-center">
-                                            <img src="src/assets/img/Logo - Ace Schedules.jpg" alt="hugenerd" width="40" height="40" className="mr-1 rounded-full"/>
+                                            <img src={logoAce} alt="hugenerd" width="40" height="40" className="mr-1 rounded-full"/>
                                             <span className="text-2xl font-semibold text-blue-500">Ace Schedules</span>
                                         </span>
                                         <span>
@@ -160,7 +162,7 @@ export const PanelSidebar: React.FC<PanelSidebarProps> = ({
                                                 icon="pi pi-times"
                                                 rounded
                                                 outlined
-                                                className={`h-2rem w-2rem transition-all delay-150 ${isSidebarLocked ? 'opacity-0 invisible' : 'opacity-100 visible'}`}
+                                                className={`h-2rem w-2rem transition-all delay-150 !rounded-full ${isSidebarLocked ? 'opacity-0 invisible' : 'opacity-100 visible'}`}
                                             />
                                         </span>
                                     </div>

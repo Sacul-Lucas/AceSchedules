@@ -1,16 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
-*{
+
+.AuthBody {
     margin: 0;
     padding: 0;
     font-family: 'poppins',sans-serif;
 }
 
-body{
-    max-height: 100vh;
-    overflow: hidden;
-}
-
-section{
+.Auth-section {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -26,7 +22,7 @@ section{
 
 }
 
-.form-box{
+.form-box {
     position: static;
     display: flex;
     justify-content: center;
@@ -45,7 +41,7 @@ section{
 
 }
 
-.Auth-title{
+.Auth-title {
     font-size: 1.5rem;
     line-height: 2rem;
     color: #edb70f;
@@ -55,21 +51,21 @@ section{
     margin-bottom: 1.75rem;
 }
 
-label {
+.Auth-label {
     color: rgb(255, 255, 255);
 }
 
-.inputbox{
+.inputbox {
     position: relative;
     display: flex;
 
-    margin: 0.2rem 0;
+    margin: 0.5rem 0;
 
     width: auto;
     height: 7dvh;
 }
 
-.inputbox label{
+.inputbox label {
     position: relative;
     display: flex;
     pointer-events: none;
@@ -81,10 +77,10 @@ label {
     font-size: 1em;
 }
 
-input:focus ~ label,
-input:valid ~ label{
+/* input:focus ~ label,
+input:valid ~ label {
 top: -5px;
-}
+} */
 
 .inputbox input {
     background: transparent;
@@ -101,7 +97,7 @@ top: -5px;
     border-bottom: 2px solid #ffffff;
 }
 
-.inputbox ion-icon{
+.inputbox ion-icon {
     position: absolute;
     right: 8px;
     top: 20px;
@@ -110,10 +106,10 @@ top: -5px;
     font-size: 1.2em;
 }
 
-input:-webkit-autofill,
-input:-webkit-autofill:hover, 
-input:-webkit-autofill:focus, 
-input:-webkit-autofill:active{
+.inputbox input:-webkit-autofill,
+.inputbox input:-webkit-autofill:hover, 
+.inputbox input:-webkit-autofill:focus, 
+.inputbox input:-webkit-autofill:active {
     -webkit-background-clip: text;
     -webkit-text-fill-color: #ffffff;
     transition: background-color 5000s ease-in-out 0s;
@@ -121,7 +117,7 @@ input:-webkit-autofill:active{
     border-radius: 0.25rem;
 }
 
-.forget{
+.forget {
     margin: -15px 0 15px ;
     font-size: .9em;
     color: #ffffff;
@@ -129,21 +125,21 @@ input:-webkit-autofill:active{
     justify-content: space-between;  
 }
 
-.forget label input{
+.forget label input {
     margin-right: 3px;
     
 }
 
-.forget span a{
+.forget span a {
     color: #ffffff;
     text-decoration: none;
 }
 
-.forget span a:hover{
+.forget span a:hover {
     text-decoration: underline;
 }
 
-.Auth{
+.Auth {
     border: none;
     outline: none;
     cursor: pointer;
@@ -156,24 +152,24 @@ input:-webkit-autofill:active{
     padding: 0.25rem;
 }
 
-.register{
+.register {
     font-size: .9em;
     color: #fff;
     text-align: center;
     margin: 25px 0 10px;
 }
 
-.register p a{
+.register p a {
     text-decoration: none;
     color: #ffffff;
     font-weight: 600;
 }
 
-.register p a:hover{
+.register p a:hover {
     text-decoration: underline;
 }
 
-.logoETPC{
+.logoETPC {
     display: block;
     position: fixed;
     padding-top: 1rem;

@@ -1,0 +1,14 @@
+@import 'primereact/resources/primereact.css';
+@import 'primereact/resources/themes/lara-light-indigo/theme.css';
+@import 'primeicons/primeicons.css';
+@import 'primeflex/primeflex.css';
+
+.p-scrollpanel.custombar1 .p-scrollpanel-bar {
+  background-color: #9e9e9e;
+  opacity: 1;
+  transition: background-color .3s;
+}
+
+.p-scrollpanel.custombar1 .p-scrollpanel-bar-x {
+  display: none !important;
+}
