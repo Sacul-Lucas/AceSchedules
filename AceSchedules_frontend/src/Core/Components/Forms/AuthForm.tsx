@@ -42,7 +42,7 @@ export const AuthForm: React.FC<AuthFormProps> = ({
                 <div className="sticky top-0 z-auto w-full h-full">
                     <h2 className={`${authStyles['Auth-title']} lg:!text-5xl sm:!text-5xl`}>{formId}</h2>
 
-                    <div className="mx-5 lg:!mx-11">
+                    <div className="!mx-5 lg:!mx-11">
                         {formId === 'Cadastro' && (
                             <div>
                                 <label className={authStyles['Auth-label']} htmlFor="usuario">Empresa/Usuário</label>
@@ -136,7 +136,7 @@ export const AuthForm: React.FC<AuthFormProps> = ({
                                     <button
                                         type="button"
                                         onClick={() => setShowPassword(!showPassword)}
-                                        className="absolute top-[10%] right-2 text-white hover:text-white-700 focus:outline-none"
+                                        className="absolute sm:!top-[10%] xsm:!top-[5%] right-2 text-white hover:text-white-700 focus:outline-none"
                                     >
                                         <i className={`pi ${showPassword ? 'pi-eye-slash' : 'pi-eye'}`}></i>
                                     </button>
@@ -146,15 +146,15 @@ export const AuthForm: React.FC<AuthFormProps> = ({
 
                         {formId === 'Login' ? (
                             <div>
-                                <div className={authStyles.forget}>
+                                <div className={`pt-2 ${authStyles.forget}`}>
                                     <span>Ainda não é cadastrado? <Link to="/">Cadastre-se</Link></span>
                                 </div>
-                                <div className={authStyles.forget}>
+                                <div className={`pt-2 ${authStyles.forget}`}>
                                     <span>Esqueceu sua senha? <Link to="/Login/Recovery">Recuperar senha</Link></span>
                                 </div>
                             </div>
                         ) : (
-                            <div className={authStyles.forget}>
+                            <div className={`pt-2 ${authStyles.forget}`}>
                                 <span>Já é cadastrado? <Link to="/Login">Entrar agora</Link></span>
                             </div>
                         )}
@@ -176,7 +176,7 @@ export const AuthForm: React.FC<AuthFormProps> = ({
 
                         <div className="flex items-center justify-center w-full h-auto mt-3 mb-4 align-middle">
                             <button
-                                className={`${authStyles.Auth} lg:w-[30%] lg:text-base text-base sm:text-lg sm:w-[30%] xsm:text-[0.625rem] xsm:w-[40%]`}
+                                className={`${authStyles.Auth} lg:!w-[30%] lg:!text-base text-base sm:!text-lg sm:!w-[30%] xsm:!text-[0.625rem] xsm:!w-[40%]`}
                                 type="submit"
                                 id={formBttTitle}
                                 name={formBttTitle}

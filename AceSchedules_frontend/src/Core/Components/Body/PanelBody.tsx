@@ -5,8 +5,8 @@ import { PanelSidebar } from "../Sidebar/PanelSidebar";
 import { DefineApp } from "../Utils/DefineApp";
 import appCalendarIcon from "../../../assets/icons/calendar-alt-solid.svg";
 import panelBodyStyles from '../../Css/Owned/Painel.module.css';
-import infeite1 from '../../../assets/img/enfeite1.png';
-import infeite2 from '../../../assets/img/enfeite2.png';
+import enfeite1 from '../../../assets/img/enfeite1.png';
+import enfeite2 from '../../../assets/img/enfeite2.png';
 
 interface PanelBodyProps {
   children: ReactNode;
@@ -35,7 +35,7 @@ export const PanelBody: React.FC<PanelBodyProps> = ({ children }) => {
           <Navbar showSidebar={toggleSidebar} isSidebarVisible={sidebarVisible} />
 
           <div className={panelBodyStyles.enfeite1}>
-            <img src={infeite1} alt="" />
+            <img src={enfeite1} alt="" />
           </div>
 
           <div className={panelBodyStyles.cardContainer}>
@@ -45,7 +45,7 @@ export const PanelBody: React.FC<PanelBodyProps> = ({ children }) => {
           </div>
 
           <div className={panelBodyStyles.enfeite2}>
-            <img src={infeite2} alt="" />
+            <img src={enfeite2} alt="" />
           </div>
 
           <Footer />
