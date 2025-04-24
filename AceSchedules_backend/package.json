@@ -8,8 +8,8 @@
     "tsc": "tsc",
     "postinstall": "npm run tsc",
     "build": "npm run build:client && npm run build:server tsc",
-    "build:client": "cd AceSchedules_frontend && yarn install && yarn build",
-    "build:server": "vite build --ssr src/entry-server.ts --outDir dist/server tsc",
+    "build:client": "cd client && yarn install && yarn build",
+    "build:server": "vite build --ssr src/entry-server.ts --outDir dist/server",
     "preview": "cross-env NODE_ENV=production node server",
     "compile": "tsc --project ./tsconfig.json",
     "start": "node dist/index.js"

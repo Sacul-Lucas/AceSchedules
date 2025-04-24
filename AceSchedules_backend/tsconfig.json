@@ -20,7 +20,7 @@
     "noFallthroughCasesInSwitch": true,
 
     "allowJs": true,
-    "outDir": "dist/server",
+    "outDir": "dist",
     "rootDir": "src",
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
