@@ -74,14 +74,20 @@ export const Footer = () => {
                     </div>
 
                     <div className={footerStyles.terceiraColunaSocial}>
-                        <a href="https://www.instagram.com/ETPCVR/">
-                            <FaInstagram />
+                        <a href="https://www.instagram.com/ETPCVR/">                                    
+                            <i>
+                                <FaInstagram/>
+                            </i>
                         </a>
-                        <a href="https://www.facebook.com/ETPCVR/">
-                            <FaSquareFacebook />
+                        <a href="https://www.facebook.com/ETPCVR/">                                    
+                            <i>
+                                <FaSquareFacebook/>
+                            </i>
                         </a>
-                        <a href="https://www.linkedin.com/school/escola-tecnica-pandia-calogeras/">
-                            <FaLinkedin />
+                        <a href="https://www.linkedin.com/school/escola-tecnica-pandia-calogeras/">                                   
+                            <i>
+                                <FaLinkedin/>
+                            </i>
                         </a>
                     </div>
                 </div>

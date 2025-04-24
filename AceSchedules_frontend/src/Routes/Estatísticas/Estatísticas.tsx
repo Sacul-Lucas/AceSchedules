@@ -43,7 +43,7 @@ export const Estatísticas = () => {
 
     return (
         <PanelBody>
-            <div className="flex mt-[10dvh] col">
+            <div className="flex mt-[10dvh] col justify-center align-middle">
                 <Chart type="pie" data={chartData} options={chartOptions} className="w-full md:w-30rem" />
             </div>
         </PanelBody>

@@ -13,8 +13,8 @@ import { GetUsertypeAction } from '../../Actions/GetUserTypeAction';
 import { getInitials } from '../Utils/functions/Formatter';
 import { FaUnlock } from "react-icons/fa6";
 import { FaLock } from "react-icons/fa6";
-import panelSidebarStyles from '../../Css/Owned/Painel.module.css';
 import logoAce from '../../../assets/img/Logo - Ace Schedules.jpg';
+import panelSidebarStyles from '../../Css/Owned/Painel.module.css';
 
 interface PanelSidebarProps {
     visible?: boolean, 

@@ -37,6 +37,8 @@
   animation: 1s anim-lineDown2 ease-in;
   vertical-align: middle;
   margin: 0 !important;
+  line-height: 20px;
+  font-weight: 700;
 }
 
 .subbarLinks {
