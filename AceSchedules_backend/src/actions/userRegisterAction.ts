@@ -1,7 +1,5 @@
-import mysql from 'mysql';
 import { Request, Response } from 'express';
-import { app } from '../server';
-import cors from 'cors';
+import mysql from 'mysql';
 import bcrypt from 'bcrypt';
 
 const pool = mysql.createPool({
@@ -14,12 +12,6 @@ const pool = mysql.createPool({
 });
 
 export const Cadastro = (req: Request, res: Response) => {
-
-    app.use(cors({
-        origin: 'http://localhost:5000',
-        credentials: true,
-        optionsSuccessStatus: 200
-    }));
 
     if (!req.body) {
         return res.status(400).json({ success: false, message: 'Corpo da solicitação está vazio' });
