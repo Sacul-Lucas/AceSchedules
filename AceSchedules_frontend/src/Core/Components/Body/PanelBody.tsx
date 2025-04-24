@@ -1,55 +1,56 @@
-import { ReactNode, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { Navbar } from "../Navbar/Navbar";
 import { Footer } from "../Footer/Footer";
 import { PanelSidebar } from "../Sidebar/PanelSidebar";
 import { DefineApp } from "../Utils/DefineApp";
+import appCalendarIcon from "../../../assets/icons/calendar-alt-solid.svg";
+import panelBodyStyles from '../../Css/Owned/Painel.module.css';
+import enfeite1 from '../../../assets/img/enfeite1.png';
+import enfeite2 from '../../../assets/img/enfeite2.png';
 
 interface PanelBodyProps {
-    children: ReactNode;
+  children: ReactNode;
 }
 
-export const PanelBody: React.FC<PanelBodyProps> = ({
-    children,
-}) => {
-    const sidebarVisibleState = localStorage.getItem('isSidebarLocked')
-    const sidebarLockedState = localStorage.getItem('isSidebarLocked')
-    const [sidebarVisible, setSidebarVisible] = useState(
-        sidebarVisibleState ? 
-        sidebarVisibleState && sidebarLockedState === 'true' ? true : false 
-        : true
-    );
+export const PanelBody: React.FC<PanelBodyProps> = ({ children }) => {
+  const [sidebarVisible, setSidebarVisible] = useState<boolean>(() => {
+    const stored = localStorage.getItem('isSidebarVisible');
+    return stored === null ? true : stored === 'true';
+  });
 
-    const toggleSidebar = () => {
-        setSidebarVisible(prev => {
-            const newValue = !prev;
-            localStorage.setItem('isSidebarVisible', newValue.toString());
-            return newValue;
-        });
-    };
+  useEffect(() => {
+    localStorage.setItem('isSidebarVisible', sidebarVisible.toString());
+  }, [sidebarVisible]);
 
-    return (
-        <DefineApp cssPath="src/Core/Css/Owned/Painel.css" appIcon="src/assets/icons/calendar-alt-solid.svg" appTitle="Ace Schedules - Painel">
-            <PanelSidebar visible={sidebarVisible} setVisible={setSidebarVisible}>
-                <main className="w-full panelBody">
-                    <Navbar showSidebar={toggleSidebar} isSidebarVisible={sidebarVisible}/>
-                    
-                    <div className="enfeite1">
-                        <img src="src/assets/img/enfeite1.png" alt=""/>
-                    </div>
-                    
-                    <div className="card-container">
-                        <div className="row">
-                            {children}
-                        </div>
-                    </div>
+  const toggleSidebar = () => setSidebarVisible(prev => !prev);
 
-                    <div className="enfeite2">
-                        <img src="src/assets/img/enfeite2.png" alt=""/>
-                    </div>
-                                
-                    <Footer/>
-                </main>
-            </PanelSidebar>
-        </DefineApp>
-    )
-}
+  return (
+    <DefineApp
+      bodyStyle="bg-[#f8f9fa]"
+      appIcon={appCalendarIcon}
+      appTitle="Ace Schedules - Painel"
+    >
+      <PanelSidebar visible={sidebarVisible} setVisible={setSidebarVisible}>
+        <main className={`w-full ${panelBodyStyles.panelBody}`}>
+          <Navbar showSidebar={toggleSidebar} isSidebarVisible={sidebarVisible} />
+
+          <div className={panelBodyStyles.enfeite1}>
+            <img src={enfeite1} alt="" />
+          </div>
+
+          <div className={panelBodyStyles.cardContainer}>
+            <div className={panelBodyStyles.row}>
+              {children}
+            </div>
+          </div>
+
+          <div className={panelBodyStyles.enfeite2}>
+            <img src={enfeite2} alt="" />
+          </div>
+
+          <Footer />
+        </main>
+      </PanelSidebar>
+    </DefineApp>
+  );
+};

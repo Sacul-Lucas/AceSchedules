@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { CardReservationModal } from './cardReservationModal.tsx';
+import cardModalStyles from '../../Css/Owned/Painel.module.css';
 
 interface CardModalProps {
     cardCaracterísticas?: any[];
@@ -40,7 +41,6 @@ export const CardModal: React.FC<CardModalProps> = ({
             }
         }
 
-        
         const modal = modalRef.current;
         if (modal) {
             modal.showModal();
@@ -56,9 +56,9 @@ export const CardModal: React.FC<CardModalProps> = ({
     return (
         !isReservationModalOpen ?
             <div>
-                <dialog ref={modalRef} id="modal">
-                    <div className="card-modal-container">
-                        <div className="flex flex-col items-center justify-center align-middle lg:!w-[32dvw] 2xl:!w-[25dvw] lg:!p-[2rem_3rem] card-modal">
+                <dialog ref={modalRef} className={cardModalStyles.cardModalDialog}>
+                    <div className={cardModalStyles.cardModalContainer}>
+                        <div className={`flex flex-col items-center justify-center align-middle lg:!w-[32dvw] 2xl:!w-[25dvw] lg:!p-[2rem_3rem] ${cardModalStyles.cardModal}`}>
                             <h1 className='lg:!text-[2rem]'>Informações {cardTitle}</h1>
                             <p className='lg:!text-[0.7rem]'>
                                 {cardCaracterísticas?.length !== undefined || 0 ? 
@@ -67,8 +67,8 @@ export const CardModal: React.FC<CardModalProps> = ({
                                     'Sem equipamentos ou ferramentas disponíveis nesta sala no momento :('
                                 }
                             </p>
-                            <ul ref={equipamentsRef} className='lg:!text-[0.7rem] equipList'></ul>
-                            <div className='flex flex-row items-center justify-center w-full gap-5 align-middle'>
+                            <ul ref={equipamentsRef} className={`lg:!text-[0.7rem] ${cardModalStyles.equipList}`}></ul>
+                            <div className={`flex flex-row items-center justify-center w-full gap-5 align-middle ${cardModalStyles.cardModalContainerBtt}`}>
                                 <button id="close" className='lg:!text-[0.7rem]' onClick={onClose}>Fechar</button>
                                 <button id="reserva" className='lg:!text-[0.7rem]' onClick={openReservationModal}>Prosseguir</button>
                             </div>

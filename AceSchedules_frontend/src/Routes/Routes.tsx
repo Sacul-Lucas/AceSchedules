@@ -9,11 +9,10 @@ import { Painel } from "./Painel/Painel";
 import { Reservas } from "./Painel Admin - Reservas/Reservas";
 import { Usuarios } from "./Painel Admin - Usuários/Usuarios";
 import { Salas } from "./Painel Admin - Salas/Salas";  
-import { PageSpinner } from "../Core/Components/Utils/PageSpinner";
 import { Config } from "./Sidebar/Configurações/Config";
 import { Historico } from "./Sidebar/Configurações/Historico";
-import PasswordRecovery from "./Login/RecuperarSenha";
 import { Estatísticas } from "./Estatísticas/Estatísticas";
+import PasswordRecovery from "./Login/RecuperarSenha";
 
 export const AppRoutes = () => {
     return (
@@ -29,7 +28,6 @@ export const AppRoutes = () => {
                 <Route path="/Config" element={<Config/>}/>
                 <Route path="/Historico" element={<Historico/>}/>
                 <Route path="/Estatísticas" element={<Estatísticas/>}/>
-                <Route path="/Spinner" element={<PageSpinner isLoading={true}/>} />
             </Routes>
         </Router>
     )

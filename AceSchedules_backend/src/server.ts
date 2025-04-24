@@ -26,7 +26,7 @@ app.use(express.json());
 app.use(express.static('public'));
 
 app.use(cors({
-  origin: 'http://localhost:5000',
+  origin: 'https://sacul-lucas.github.io/AceSchedules/',
   credentials: true,
   optionsSuccessStatus: 200
 }));

@@ -3,7 +3,9 @@ import { AuthForm } from '../../Core/Components/Forms/AuthForm.tsx';
 import { ResponsePopup, handleAlert } from '../../Core/Components/Pop-ups/ResponsePopup.tsx';
 import { AuthUserAction } from '../../Core/Actions/AuthUserAction.ts';
 import { DefineApp } from '../../Core/Components/Utils/DefineApp.tsx';
+import authStyles from "../../Core/Css/Owned/Auth.module.css";
 import etpcLogo from '../../assets/img/Logo_etpc.png';
+import appUserIcon from '../../assets/icons/user-circle-solid.svg';
 
 export const Login = () => {
     const [email, setEmail] = useState('');
@@ -12,66 +14,66 @@ export const Login = () => {
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
 
-    const handleSubmit = async (e: { preventDefault: () => void; }) => {
+    const handleSubmit = async (e: { preventDefault: () => void }) => {
         e.preventDefault();
 
         const authRes = await AuthUserAction.execute({
             email,
             senha,
             usertype
-        })
+        });
 
-        const message = authRes.data
+        const message = authRes.data;
 
         switch (authRes.status) {
             case 'SUCCESS':
                 setSuccess(message);
                 setError('');
-              break;
-      
+                break;
+
             case 'EMAIL_NOT_FOUND':
                 setError(message);
                 setSuccess('');
-              break;
-      
+                break;
+
             case 'UNKNOWN':
                 setError(message);
                 setSuccess('');
-              break;
-      
+                break;
+
             default:
-              setError('Não foi possível fazer login no momento. Tente novamente mais tarde.');
-              setSuccess('');
-              break;
+                setError('Não foi possível fazer login no momento. Tente novamente mais tarde.');
+                setSuccess('');
+                break;
         }
 
         setTimeout(() => {
             handleAlert();
-        }, 50)
+        }, 50);
     };
 
-
     return (
-        <DefineApp cssPath='src/Core/Css/Owned/Auth.css' appTitle='Ace Schedules - Login' appIcon='src/assets/icons/user-circle-solid.svg'>
-            <div id="logoETPC" className="logoETPC lg:!max-w-[21%] lg:!ml-[78%] sm:!max-w-[45%] sm:!ml-[55%]">
-                <img src={etpcLogo} className="animate-[2s_showUp_ease-in] transition-all" />
+        <DefineApp appTitle="Ace Schedules - Login" appIcon={appUserIcon} bodyStyle={authStyles.AuthBody}>
+            <div className={`${authStyles.logoETPC} lg:!max-w-[21%] lg:!ml-[78%] sm:!max-w-[45%] sm:!ml-[55%]`}>
+                <img src={etpcLogo} className="animate-[2s_showUp_ease-in] transition-all" alt="Logo ETPC" />
             </div>
-            <AuthForm 
-                formId={'Login'}
+
+            <AuthForm
+                formId="Login"
                 formAction={handleSubmit}
-                formBttTitle={'Entrar'}
-                formMethod={'POST'}
-                emailAction={(e: { target: { value: SetStateAction<string>; }; }) => setEmail(e.target.value)}
-                senhaAction={(e: { target: { value: SetStateAction<string>; }; }) => setSenha(e.target.value)}
-                typeAction={(e: { target: { value: SetStateAction<string>; }; }) => setUserType(e.target.value)} 
+                formBttTitle="Entrar"
+                formMethod="POST"
+                emailAction={(e: { target: { value: SetStateAction<string> } }) => setEmail(e.target.value)}
+                senhaAction={(e: { target: { value: SetStateAction<string> } }) => setSenha(e.target.value)}
+                typeAction={(e: { target: { value: SetStateAction<string> } }) => setUserType(e.target.value)}
             />
-            
-            <ResponsePopup 
-                type={error ? 'error' : 'success'} 
+
+            <ResponsePopup
+                type={error ? 'error' : 'success'}
                 redirectLink={error ? '/Login' : '/Painel'}
-                title={error ? 'Erro' : 'Pronto!'} 
-                description={error || success} 
+                title={error ? 'Erro' : 'Pronto!'}
+                description={error || success}
             />
         </DefineApp>
     );
-}
+};

@@ -7,11 +7,12 @@
     "dev": "tsx src/server.ts --inspect --transpile-only --ignore-watch node_modules ts-node-dev — respawn — pretty",
     "tsc": "tsc",
     "postinstall": "npm run tsc",
-    "build": "npm run build:client && npm run build:server",
+    "build": "npm run build:client && npm run build:server tsc",
     "build:client": "vite build --ssrManifest --outDir dist/client",
     "build:server": "vite build --ssr src/entry-server.ts --outDir dist/server",
     "preview": "cross-env NODE_ENV=production node server",
-    "compile": "tsc --project ./tsconfig.json"
+    "compile": "tsc --project ./tsconfig.json",
+    "start": "node dist/index.js"
   },
   "dependencies": {
     "@types/jest": "^29.5.12",
