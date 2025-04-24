@@ -14,6 +14,10 @@ export default defineConfig({
     },
 		host: 'localhost'
   },
+  build: {
+    outDir: '../dist/client',
+    emptyOutDir: true
+  },
   plugins: [react()],
   base: '/AceSchedules/'
 })
