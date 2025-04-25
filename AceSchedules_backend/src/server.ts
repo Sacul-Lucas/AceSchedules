@@ -6,6 +6,7 @@ import cookieParser from 'cookie-parser';
 import { startCronJob } from './actions/cronTask.ts';
 import dotenv from 'dotenv'; // Importando dotenv para carregar variáveis de ambiente  (npm install dotenv nodemailer twilio jsonwebtoken mysql2)
 import mysql from 'mysql2';
+import MySQLStoreFactory from 'express-mysql-session';
 
 declare module 'express-session' {
   interface SessionData {
@@ -33,6 +34,10 @@ export const pool = mysql.createPool({
   connectTimeout: 10000
 });
 
+const MySQLStore = MySQLStoreFactory(session);
+
+const sessionStore = new MySQLStore({}, pool.promise());
+
 const app = express();
 
 app.use(express.json());
@@ -54,9 +59,10 @@ app.use(session({
   secret: process.env.SESSION_SECRET || 'secreção', // Usando uma variável de ambiente para a secret
   resave: false,
   saveUninitialized: true,
+  store: sessionStore,
   cookie: { 
     httpOnly: true,
-    secure: true, // true em produção com HTTPS
+    secure: isProduction, // true em produção com HTTPS
     sameSite: 'none',
     maxAge: 1000 * 60 * 60 * 24 
   },
