@@ -39,6 +39,7 @@ export class LoadHistoryAction {
                 headers: {
                     'Content-Type': 'application/json',
                 },
+                withCredentials: true
             });
 
             const { success, reservas, total } = response.data;

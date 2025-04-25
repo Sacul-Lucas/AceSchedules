@@ -30,7 +30,7 @@ export const Usuarios: React.FC = () => {
 
     const loadUsuarios = async () => {
         try {
-            const response = await fetch(`${API_BASE_URL}/adminPaths/Usuarios/?nome=${encodeURIComponent(filterNome)}&email=${encodeURIComponent(filterEmail)}&user_type=${filterUserType}`);
+            const response = await fetch(`${API_BASE_URL}/adminPaths/Usuarios/?nome=${encodeURIComponent(filterNome)}&email=${encodeURIComponent(filterEmail)}&user_type=${filterUserType}`, {credentials: 'include'});
             if (response.ok) {
                 const data = await response.json();
                 setUsuarios(data.Usuarios || []); 
@@ -74,7 +74,7 @@ export const Usuarios: React.FC = () => {
 
     const handleEdit = async (id: number) => {
         try {
-            const response = await fetch(`${API_BASE_URL}/adminPaths/Usuarios/Visualizar/${id}`);
+            const response = await fetch(`${API_BASE_URL}/adminPaths/Usuarios/Visualizar/${id}`, {credentials: 'include'});
             if (response.ok) {
                 const data = await response.json();
                 if (data.success) {
@@ -101,7 +101,8 @@ export const Usuarios: React.FC = () => {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(formData)
+                body: JSON.stringify(formData),
+                credentials: 'include'
             });
     
             const result = await response.json();
@@ -125,7 +126,8 @@ export const Usuarios: React.FC = () => {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ id })
+                body: JSON.stringify({ id }),
+                credentials: 'include'
             });
 
             const result = await response.json();

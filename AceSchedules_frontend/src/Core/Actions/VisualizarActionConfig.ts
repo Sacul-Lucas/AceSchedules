@@ -14,7 +14,8 @@ export class VisualizarActionConfig {
             const response = await axios.get(`${API_BASE_URL}/userAuth/Getconfig`, {
                 headers: {
                     'Content-Type': 'application/json',
-                }
+                },
+                withCredentials: true
             });
 
             const { success, message, usuario } = response.data; // Adicionando o usuario para acesso

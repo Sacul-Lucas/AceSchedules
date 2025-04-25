@@ -24,6 +24,7 @@ const PasswordRecovery: React.FC = () => {
           emailOrPhone: inputValue,
           method: recoveryOption,
         }),
+        credentials: 'include'
       });
       alert('Um link de recuperação foi enviado!');
     } catch (error) {

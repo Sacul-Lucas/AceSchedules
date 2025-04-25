@@ -14,7 +14,8 @@ export class UserLogoutAction {
             const response = await axios.post(`${API_BASE_URL}/userAuth/logout`, {}, {
                 headers: {
                     'Content-Type': 'application/json',
-                }
+                },
+                withCredentials: true
             });
     
             const { success, message } = response.data;

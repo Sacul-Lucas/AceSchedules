@@ -30,7 +30,8 @@ export class RegisterUserAction {
             }, {
                 headers: {
                     'Content-Type': 'application/json',
-                }
+                },
+                withCredentials: true
             })
             const { success, message } = response.data;
     

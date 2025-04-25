@@ -14,7 +14,8 @@ export class GetUsertypeAction {
             const response = await axios.get(`${API_BASE_URL}/userAuth/usertype`, {
                 headers: {
                     'Content-Type': 'application/json',
-                }
+                },
+                withCredentials: true
             });
 
             const { success, message } = response.data;

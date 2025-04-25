@@ -9,7 +9,7 @@ export const Painel = () => {
 
     const loadSalas = async () => {
         try {
-            const response = await fetch(`${API_BASE_URL}/adminPaths/Salas`);
+            const response = await fetch(`${API_BASE_URL}/adminPaths/Salas`, {credentials: 'include'});
             if (response.ok) {
                 const data = await response.json();
                 setSalas(data.salas);

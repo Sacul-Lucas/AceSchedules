@@ -14,7 +14,8 @@ export class GetUsernameAction {
             const response = await axios.get(`${API_BASE_URL}/userAuth/username`, {
                 headers: {
                     'Content-Type': 'application/json',
-                }
+                },
+                withCredentials: true
             });
 
             const { success, message } = response.data;

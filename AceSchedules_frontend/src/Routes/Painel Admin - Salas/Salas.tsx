@@ -36,7 +36,7 @@ export const Salas: React.FC = () => {
 
     const handleView = async (id: number) => {
         try {
-            const response = await fetch(`${API_BASE_URL}/adminPaths/Salas/Visualizar/${id}`);
+            const response = await fetch(`${API_BASE_URL}/adminPaths/Salas/Visualizar/${id}`, {credentials: 'include'});
             if (response.ok) {
                 const data = await response.json();
                 if (data.success) {
@@ -65,7 +65,7 @@ export const Salas: React.FC = () => {
 
     const handleEdit = async (id: number) => {
         try {
-            const response = await fetch(`${API_BASE_URL}/adminPaths/Salas/Visualizar/${id}`);
+            const response = await fetch(`${API_BASE_URL}/adminPaths/Salas/Visualizar/${id}`, {credentials: 'include'});
             if (response.ok) {
                 const data = await response.json();
                 if (data.success) {
@@ -105,7 +105,8 @@ export const Salas: React.FC = () => {
             const endpoint = editMode ? `${API_BASE_URL}/adminPaths/Salas/Editar` : `${API_BASE_URL}/adminPaths/Salas/Criar`;
             const response = await fetch(endpoint, {
                 method: 'POST',
-                body: formData // Envia o FormData diretamente
+                body: formData, // Envia o FormData diretamente
+                credentials: 'include'
                 
             });
     
@@ -142,7 +143,7 @@ export const Salas: React.FC = () => {
 
     const loadSalas = async () => {
         try {
-            const response = await fetch(`${API_BASE_URL}/adminPaths/Salas?filter_nome=${encodeURIComponent(filterNome)}&apenas_bloqueadas=${apenasBloqueadas}`);
+            const response = await fetch(`${API_BASE_URL}/adminPaths/Salas?filter_nome=${encodeURIComponent(filterNome)}&apenas_bloqueadas=${apenasBloqueadas}`, {credentials: 'include'});
             if (response.ok) {
                 const data = await response.json();
                 setSalas(data.salas);
@@ -163,7 +164,8 @@ export const Salas: React.FC = () => {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ id })
+                body: JSON.stringify({ id }),
+                credentials: 'include'
             });
 
             const result = await response.json();

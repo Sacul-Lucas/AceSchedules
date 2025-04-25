@@ -26,7 +26,11 @@ export const pool = mysql.createPool({
   user: isProduction ? process.env.DB_USER : 'root',
   password: isProduction ? process.env.DB_PASSWORD : '201024',
   database: isProduction ? process.env.DB_NAME : 'aceschedules',
-  port: Number(isProduction ? process.env.DB_PORT : 5500)
+  port: Number(isProduction ? process.env.DB_PORT : 5500),
+  waitForConnections: true,
+  connectionLimit: 10,
+  queueLimit: 0,
+  connectTimeout: 10000
 });
 
 const app = express();
@@ -50,7 +54,12 @@ app.use(session({
   secret: process.env.SESSION_SECRET || 'secreção', // Usando uma variável de ambiente para a secret
   resave: false,
   saveUninitialized: true,
-  cookie: { secure: false, maxAge: 1000 * 60 * 60 * 24 },
+  cookie: { 
+    httpOnly: true,
+    secure: true, // true em produção com HTTPS
+    sameSite: 'none',
+    maxAge: 1000 * 60 * 60 * 24 
+  },
 }));
 
 app.use(

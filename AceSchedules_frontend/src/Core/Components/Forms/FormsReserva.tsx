@@ -80,7 +80,7 @@ export const FormsReserva: React.FC<FormsReservaProps> = ({
   useEffect(() => {
     const fetchSalas = async () => {
       try {
-        const response = await fetch(`${API_BASE_URL}/adminPaths/Salas`);
+        const response = await fetch(`${API_BASE_URL}/adminPaths/Salas`, {credentials: 'include'}) ;
         const data = await response.json();
 
         if (data && Array.isArray(data.salas)) {

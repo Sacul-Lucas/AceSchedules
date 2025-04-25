@@ -117,7 +117,7 @@ export const Reservas: React.FC = () => {
 
   const loadSalas = async () => {
     try {
-      const response = await fetch(`${API_BASE_URL}/adminPaths/Salas`);
+      const response = await fetch(`${API_BASE_URL}/adminPaths/Salas`, {credentials: 'include'});
       if (response.ok) {
         const data = await response.json();
         setSalas(data.salas || []);
@@ -136,7 +136,8 @@ const loadReservasPendentes = async () => {
         filterSalaAlocada
       )}&data=${encodeURIComponent(formatDateForMySQL(FilterDataInicio!))}&hora=${encodeURIComponent(
         formatDateForMySQL(FilterDataFim!)
-      )}&nome=${encodeURIComponent(filterAlocador)}`
+      )}&nome=${encodeURIComponent(filterAlocador)}`,
+      {credentials: 'include'}
     );
 
     if (response.ok) {
@@ -158,7 +159,8 @@ const loadReservasAprovadas = async () => {
         filterSalaAlocadaAprovada
       )}&data=${encodeURIComponent(formatDateForMySQL(FilterDataInicioAprovada!))}&hora=${encodeURIComponent(
         formatDateForMySQL(FilterDataFimAprovada!)
-      )}&nome=${encodeURIComponent(filterAlocadorAprovada)}`
+      )}&nome=${encodeURIComponent(filterAlocadorAprovada)}`,
+      {credentials: 'include'}
     );
 
     if (response.ok) {
@@ -180,7 +182,8 @@ const loadReservasConcluidas = async () => {
         filterSalaAlocadaConcluida
       )}&data=${encodeURIComponent(formatDateForMySQL(FilterDataInicioConcluida!))}&hora=${encodeURIComponent(
         formatDateForMySQL(FilterDataFimConcluida!)
-      )}&nome=${encodeURIComponent(filterAlocadorConcluida)}`
+      )}&nome=${encodeURIComponent(filterAlocadorConcluida)}`,
+      {credentials: 'include'}
     );
 
     if (response.ok) {
@@ -223,7 +226,8 @@ const handleShowConcluidas = async () => {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(formData)
+            body: JSON.stringify(formData),
+            credentials: 'include'
         });
         const result = await response.json();
         if (result.success) {
@@ -243,7 +247,8 @@ const handleShowConcluidas = async () => {
           method: 'GET',
           headers: {
               'Cache-Control': 'no-cache'
-          }
+          },
+          credentials: 'include'
         });
         if (response.ok) {
             const data = await response.json();
@@ -281,7 +286,8 @@ const handleEdit = async (id: number) => {
             method: 'GET',
             headers: {
               'Cache-Control': 'no-cache'
-            }
+            },
+            credentials: 'include'
         });
         if (response.ok) {
             const data = await response.json();
@@ -323,7 +329,8 @@ const handleEdit = async (id: number) => {
               headers: {
                   'Content-Type': 'application/json'
               },
-              body: JSON.stringify(formData) 
+              body: JSON.stringify(formData),
+              credentials: 'include'
           });
   
           const result = await response.json();
@@ -349,7 +356,8 @@ const handleEdit = async (id: number) => {
               headers: {
                   'Content-Type': 'application/json'
               },
-              body: JSON.stringify({ id })
+              body: JSON.stringify({ id }),
+              credentials: 'include'
           });
 
           const result = await response.json();
