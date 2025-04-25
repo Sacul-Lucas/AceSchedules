@@ -12,7 +12,6 @@ export default defineConfig(({ mode }) => {
             ? 'https://aceschedules-production.up.railway.app'
             : 'http://localhost:5001',
           changeOrigin: true,
-          secure: false,
         },
       },
       host: 'localhost',
