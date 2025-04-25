@@ -2,15 +2,11 @@
 
 name: Deploy Vite AceSchedules Site to GitHub Pages
 
-# Controls when the workflow will run
 on:
-  # Triggers the workflow on push or pull request events but only for the "God" branch
   push:
     branches: [ "God" ]
   pull_request:
     branches: [ "God" ]
-
-  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
 jobs:
@@ -25,10 +21,16 @@ jobs:
       - name: Checkout do código
         uses: actions/checkout@v3
 
+      - name: Set NODE_ENV to production
+        run: echo "NODE_ENV=production" >> $GITHUB_ENV
+
       - name: Instalar Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '22.14.0'
+
+      - name: Limpar cache de dependências
+        run: yarn cache clean
 
       - name: Instalar dependências
         run: yarn install
