@@ -25,6 +25,9 @@ jobs:
       - name: Checkout do código
         uses: actions/checkout@v3
 
+      - name: Set NODE_ENV to production
+        run: echo "NODE_ENV=production" >> $GITHUB_ENV
+
       - name: Instalar Node.js
         uses: actions/setup-node@v3
         with:
