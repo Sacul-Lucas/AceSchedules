@@ -17,27 +17,26 @@ declare module 'express-session' {
 // Carregar variáveis do arquivo .env
 dotenv.config();
 
+// Constants
+const isProduction = process.env.NODE_ENV === 'production'
+const port = process.env.PORT || 5001;
+// const base = process.env.BASE || '/'
+
 export const poolPromise = mysqlPromise.createPool({
-  host: process.env.DB_HOST || 'localhost',
-  user: process.env.DB_USER || 'root',
-  password: process.env.DB_PASSWORD || '201024',
-  database: process.env.DB_NAME || 'aceschedules',
-  port: Number(process.env.DB_PORT || 5500)
+  host: isProduction ? process.env.DB_HOST : 'localhost',
+  user: isProduction ? process.env.DB_USER : 'root',
+  password: isProduction ? process.env.DB_PASSWORD : '201024',
+  database: isProduction ? process.env.DB_NAME : 'aceschedules',
+  port: Number(isProduction ? process.env.DB_PORT : 5500)
 });
 
 export const pool = mysql.createPool({
-  host: process.env.DB_HOST || 'localhost',
-  user: process.env.DB_USER || 'root',
-  password: process.env.DB_PASSWORD || '201024',
-  database: process.env.DB_NAME || 'aceschedules',
-  port: Number(process.env.DB_PORT || 5500)
+  host: isProduction ? process.env.DB_HOST : 'localhost',
+  user: isProduction ? process.env.DB_USER : 'root',
+  password: isProduction ? process.env.DB_PASSWORD : '201024',
+  database: isProduction ? process.env.DB_NAME : 'aceschedules',
+  port: Number(isProduction ? process.env.DB_PORT : 5500)
 });
-
-
-// Constants
-// const isProduction = process.env.NODE_ENV === 'production'
-const port = process.env.PORT || 5001;
-// const base = process.env.BASE || '/'
 
 const app = express();
 
