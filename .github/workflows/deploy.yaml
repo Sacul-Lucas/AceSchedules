@@ -1,5 +1,3 @@
-# This is a basic workflow to help you get started with Actions
-
 name: Deploy Vite AceSchedules Site to GitHub Pages
 
 on:
@@ -20,9 +18,6 @@ jobs:
     steps:
       - name: Checkout do código
         uses: actions/checkout@v3
-
-      - name: Set NODE_ENV to production
-        run: echo "VITE_NODE_ENV=production" >> $GITHUB_ENV  # Alterado para VITE_NODE_ENV
 
       - name: Instalar Node.js
         uses: actions/setup-node@v3
