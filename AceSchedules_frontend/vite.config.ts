@@ -1,19 +1,21 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
 
-// https://vitejs.dev/config/
+const isProduction = process.env.NODE_ENV === 'production';
+
 export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'http://localhost:5001/',
+        target: isProduction
+          ? 'https://aceschedules-production.up.railway.app'
+          : 'http://localhost:5001',
         changeOrigin: true,
         secure: false,
-        protocolRewrite: 'http',
       },
     },
-		host: 'localhost'
+    host: 'localhost',
   },
   plugins: [react()],
-  base: '/AceSchedules/'
-})
+  base: '/AceSchedules/',
+});

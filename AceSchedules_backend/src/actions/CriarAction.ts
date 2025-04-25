@@ -1,34 +1,17 @@
-import mysql from 'mysql';
 import { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
 import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
 import { fileURLToPath } from 'url';
+import { pool } from '../server';
 
-const pool = mysql.createPool({
-    connectionLimit: 10,
-    host: 'localhost',
-    user: 'root',
-    password: '201024',
-    database: 'aceschedules',
-    port: 5500
-});
-
-function queryDatabase(query: string, params: any[]) {
-    return new Promise((resolve, reject) => {
-        pool.query(query, params, (error, results) => {
-            if (error) {
-                reject(error);
-            } else {
-                resolve(results);
-            }
-        });
-    });
+async function queryDatabase(query: string, params: any[]) {
+    const [results] = await pool.query(query, params);
+    return results;
 }
 
 export const CriarAction = async (req: Request, res: Response) => {
-
     if (!req.body) {
         return res.status(400).json({ success: false, message: 'Corpo da solicitação está vazio' });
     }
@@ -64,7 +47,6 @@ export const CriarAction = async (req: Request, res: Response) => {
                 },
                 filename: (_req, file, cb) => {
                     const fileName = `${Date.now()}-${file.originalname}`;
-
                     const filePath = path.join(__dirname, '../../../AceSchedules_frontend/src/assets/img_salas', file.originalname);
 
                     if (fs.existsSync(filePath)) {
@@ -154,13 +136,13 @@ export const CriarAction = async (req: Request, res: Response) => {
             dados = [req.session.userId, dataAgendamentoInicial, dataAgendamentoFinal, sala, isAdmin];
 
             const checkQuery = `
-            SELECT * FROM reservas 
-            WHERE sala = ?
-            AND (
-                (dataAgendamentoInicial <= ? AND dataAgendamentoFinal > ?) OR
-                (dataAgendamentoInicial < ? AND dataAgendamentoFinal >= ?) OR
-                (dataAgendamentoInicial >= ? AND dataAgendamentoFinal <= ?)
-            )
+                SELECT * FROM reservas 
+                WHERE sala = ?
+                AND (
+                    (dataAgendamentoInicial <= ? AND dataAgendamentoFinal > ?) OR
+                    (dataAgendamentoInicial < ? AND dataAgendamentoFinal >= ?) OR
+                    (dataAgendamentoInicial >= ? AND dataAgendamentoFinal <= ?)
+                )
             `;
             const rows: any = await queryDatabase(checkQuery, [
                 sala,
@@ -276,7 +258,6 @@ export const CriarAction = async (req: Request, res: Response) => {
 
 const getUserType = async (userId: number) => {
     const query = 'SELECT usertype FROM cadastro WHERE id = ?';
-    const result = await queryDatabase(query, [userId]);
+    const result: any = await queryDatabase(query, [userId]);
     return result[0]?.usertype;
 };
-

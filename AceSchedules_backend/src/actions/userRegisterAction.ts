@@ -1,24 +1,15 @@
 import { Request, Response } from 'express';
-import mysql from 'mysql';
 import bcrypt from 'bcrypt';
+import { pool } from '../server';
 
-const pool = mysql.createPool({
-    connectionLimit: 10,
-    host: 'localhost',
-    user: 'root',
-    password: '201024',
-    database: 'aceschedules',
-    port: 5500
-});
-
-export const Cadastro = (req: Request, res: Response) => {
-
+export const Cadastro = async (req: Request, res: Response) => {
     if (!req.body) {
         return res.status(400).json({ success: false, message: 'Corpo da solicitação está vazio' });
     }
 
     const { usuario, email, senha, usertype, telefone, cnpj } = req.body;
 
+    // Verificação de campos obrigatórios
     if (!usuario || !email || !senha || !usertype || !telefone || !cnpj) {
         return res.json({ success: false, message: 'Campos obrigatórios faltando' });
     }
@@ -29,12 +20,9 @@ export const Cadastro = (req: Request, res: Response) => {
     `;
     const checkValues = [usuario, email, cnpj, telefone];
 
-    pool.query(checkQuery, checkValues, (error, results) => {
-        if (error) {
-            console.error(error);
-            return res.status(500).json({ success: false, message: 'Erro no servidor' });
-        }
-
+    try {
+        // Verifica se já existe um usuário com o mesmo nome de usuário, email, telefone ou CNPJ
+        const [results]: any = await pool.query(checkQuery, checkValues);
         const total = results[0]['total'];
 
         if (total > 0) {
@@ -42,82 +30,66 @@ export const Cadastro = (req: Request, res: Response) => {
                 SELECT usuario, email, cnpj, telefone FROM cadastro 
                 WHERE usuario = ? OR email = ? OR cnpj = ? OR telefone = ?
             `;
-            pool.query(checkDetailsQuery, [usuario, email, cnpj, telefone], (error, rows) => {
-                if (error) {
-                    console.error(error);
-                    return res.status(500).json({ success: false, message: 'Erro no servidor' });
-                }
+            const [rows]: any = await pool.query(checkDetailsQuery, [usuario, email, cnpj, telefone]);
 
-                const existingUser = rows[0];
+            const existingUser = rows[0];
 
-                if (usuario === existingUser.usuario) {
-                    return res.json({ success: false, message: 'Nome de usuário já cadastrado' });
-                }
-
-                if (email === existingUser.email) {
-                    return res.json({ success: false, message: 'Email já cadastrado' });
-                }
-
-                if (cnpj === existingUser.cnpj) {
-                    return res.json({ success: false, message: 'CNPJ já cadastrado' });
-                }
-
-                if (telefone === existingUser.telefone) {
-                    return res.json({ success: false, message: 'Telefone já cadastrado' });
-                }
-                if (usuario.length > 30) {
-                    return res.json({ success: false, message: 'O nome de usuário não pode ter mais de 30 caracteres' });
-                }
-            
-                if (email.length > 50) {
-                    return res.json({ success: false, message: 'O email não pode ter mais que 50 caracteres' });
-                }
-
-            });
-        } else {
-            const isPhoneValid = (value: string) => {
-                const regex = /^\+\d{2} \(\d{2}\) \d{5}-\d{4}$/;
-                return regex.test(value);
-            };
-
-            const isCnpjValid = (value: string) => {
-                const regex = /^\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}$/;
-                return regex.test(value);
-            };
-
-            if (!isPhoneValid(telefone)) {
-                return res.json({ success: false, message: 'O telefone inserido está incompleto' }); 
+            if (usuario === existingUser.usuario) {
+                return res.json({ success: false, message: 'Nome de usuário já cadastrado' });
             }
 
-            if (!isCnpjValid(cnpj)) {
-                return res.json({ success: false, message: 'O CNPJ inserido está incompleto' }); 
+            if (email === existingUser.email) {
+                return res.json({ success: false, message: 'Email já cadastrado' });
             }
 
-            if (!isPhoneValid(telefone) && !isCnpjValid(cnpj)) {
-                return res.json({ success: false, message: 'Campos incompletos' }); 
+            if (cnpj === existingUser.cnpj) {
+                return res.json({ success: false, message: 'CNPJ já cadastrado' });
             }
 
-            bcrypt.hash(senha, 10, (err, hashedPassword) => {
-                if (err) {
-                    console.error(err);
-                    return res.status(500).json({ success: false, message: 'Erro na criptografia da senha' });
-                }
-
-                const insertQuery = `
-                    INSERT INTO cadastro (usuario, email, senha, usertype, telefone, cnpj) 
-                    VALUES (?, ?, ?, ?, ?, ?)
-                `;
-                const insertValues = [usuario, email, hashedPassword, usertype, telefone, cnpj];
-
-                pool.query(insertQuery, insertValues, (error) => {
-                    if (error) {
-                        console.error(error);
-                        return res.status(500).json({ success: false, message: 'Erro no servidor' });
-                    }
-
-                    return res.json({ success: true, message: 'Cadastro realizado com sucesso' });
-                });
-            });
+            if (telefone === existingUser.telefone) {
+                return res.json({ success: false, message: 'Telefone já cadastrado' });
+            }
         }
-    });
+
+        // Funções para validar telefone e CNPJ
+        const isPhoneValid = (value: string) => {
+            const regex = /^\+\d{2} \(\d{2}\) \d{5}-\d{4}$/;
+            return regex.test(value);
+        };
+
+        const isCnpjValid = (value: string) => {
+            const regex = /^\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}$/;
+            return regex.test(value);
+        };
+
+        if (!isPhoneValid(telefone)) {
+            return res.json({ success: false, message: 'O telefone inserido está incompleto' });
+        }
+
+        if (!isCnpjValid(cnpj)) {
+            return res.json({ success: false, message: 'O CNPJ inserido está incompleto' });
+        }
+
+        if (!isPhoneValid(telefone) && !isCnpjValid(cnpj)) {
+            return res.json({ success: false, message: 'Campos incompletos' });
+        }
+
+        // Criptografando a senha
+        const hashedPassword = await bcrypt.hash(senha, 10);
+
+        // Inserir novo usuário no banco de dados
+        const insertQuery = `
+            INSERT INTO cadastro (usuario, email, senha, usertype, telefone, cnpj) 
+            VALUES (?, ?, ?, ?, ?, ?)
+        `;
+        const insertValues = [usuario, email, hashedPassword, usertype, telefone, cnpj];
+
+        await pool.query(insertQuery, insertValues);
+
+        return res.json({ success: true, message: 'Cadastro realizado com sucesso' });
+
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ success: false, message: 'Erro no servidor' });
+    }
 };

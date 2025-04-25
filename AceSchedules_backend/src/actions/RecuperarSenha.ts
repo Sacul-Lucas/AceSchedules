@@ -1,16 +1,7 @@
 import { generateToken } from "../utils/tokenUtils"; // Função para gerar token
 import { sendEmail } from "../utils/emailUtils"; // Função para enviar e-mail
+import { pool } from "../server";
 // import { sendSMS } from "../utils/smsUtils"; // Função para enviar SMS
-import mysql from 'mysql2/promise'; // Certifique-se de que está usando o mysql2 com suporte a promessas
-
-const pool = mysql.createPool({
-  connectionLimit: 10,
-  host: 'localhost',
-  user: 'root',
-  password: '201024',
-  database: 'aceschedules',
-  port: 5500
-});
 
 // Função de recuperação de senha exportada
 export const PasswordRecovery = async (req, res) => {

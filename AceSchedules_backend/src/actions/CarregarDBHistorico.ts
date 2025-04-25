@@ -1,14 +1,5 @@
 import { Request, Response } from 'express';
-import mysql from 'mysql2/promise';
-
-const pool = mysql.createPool({
-  connectionLimit: 10,
-  host: 'localhost',
-  user: 'root',
-  password: '201024',
-  database: 'aceschedules',
-  port: 5500,
-});
+import { pool } from '../server';
 
 export const CarregarDBHistorico = async (req: Request, res: Response) => {
   try {

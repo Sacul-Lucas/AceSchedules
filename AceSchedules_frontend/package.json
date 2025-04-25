@@ -1,7 +1,7 @@
 {
   "name": "aceschedules",
   "version": "0.0.0",
-  "proxy": "http://localhost:5001",
+  "proxy": ["https://aceschedules-production.up.railway.app", "http://localhost:5001"],
   "scripts": {
     "dev": "vite --host --open --port 5000",
     "build": "tsc && vite build",

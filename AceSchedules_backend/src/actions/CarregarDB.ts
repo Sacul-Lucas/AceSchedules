@@ -1,15 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import mysql from 'mysql2/promise';
 import { Request, Response } from 'express';
-
-const pool = mysql.createPool({
-  connectionLimit: 10,
-  host: 'localhost',
-  user: 'root',
-  password: '201024',
-  database: 'aceschedules',
-  port: 5500,
-});
+import { pool } from '../server';
 
 export const CarregarDB = async (req: Request, res: Response) => {
   const currPath = req.originalUrl;

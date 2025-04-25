@@ -4,7 +4,8 @@ import cors from 'cors';
 import session from 'express-session';
 import cookieParser from 'cookie-parser';
 import { startCronJob } from './actions/cronTask.ts';
-// import dotenv from 'dotenv'; // Importando dotenv para carregar variáveis de ambiente  (npm install dotenv nodemailer twilio jsonwebtoken mysql2)
+import dotenv from 'dotenv'; // Importando dotenv para carregar variáveis de ambiente  (npm install dotenv nodemailer twilio jsonwebtoken mysql2)
+import mysqlPromise from 'mysql2/promise';
 
 declare module 'express-session' {
   interface SessionData {
@@ -13,7 +14,16 @@ declare module 'express-session' {
 }
 
 // Carregar variáveis do arquivo .env
-// dotenv.config();
+dotenv.config();
+
+export const pool = mysqlPromise.createPool({
+  host: process.env.DB_HOST || 'localhost',
+  user: process.env.DB_USER || 'root',
+  password: process.env.DB_PASSWORD || '201024',
+  database: process.env.DB_NAME || 'aceschedules',
+  port: Number(process.env.DB_PORT || 5500)
+});
+
 
 // Constants
 // const isProduction = process.env.NODE_ENV === 'production'
@@ -26,7 +36,10 @@ app.use(express.json());
 app.use(express.static('public'));
 
 app.use(cors({
-  origin: 'https://sacul-lucas.github.io/AceSchedules/',
+  origin: [
+    'https://sacul-lucas.github.io',
+    'http://localhost:5000'
+  ],
   credentials: true,
   optionsSuccessStatus: 200
 }));
