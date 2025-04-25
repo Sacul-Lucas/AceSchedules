@@ -17,6 +17,6 @@ export default defineConfig(({ mode }) => {
       host: 'localhost',
     },
     plugins: [react()],
-    base: isProduction ? '/AceSchedules/' : '/',
+    base: '/AceSchedules/',
   };
 });
