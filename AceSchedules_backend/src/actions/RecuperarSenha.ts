@@ -1,10 +1,10 @@
 import { generateToken } from "../utils/tokenUtils"; // Função para gerar token
 import { sendEmail } from "../utils/emailUtils"; // Função para enviar e-mail
-import { poolPromise } from "../server";
+import { pool } from "../server";
 // import { sendSMS } from "../utils/smsUtils"; // Função para enviar SMS
 
 // Função de recuperação de senha exportada
-export const PasswordRecovery = async (req, res) => {
+export const PasswordRecovery = (req, res) => {
   const { emailOrPhone, method } = req.body;
 
   // Consulta SQL direta para verificar se o e-mail ou telefone existe no banco de dados
@@ -20,25 +20,42 @@ export const PasswordRecovery = async (req, res) => {
   }
 
   try {
-    const [rows] = await poolPromise.query(query, [value]); // Método correto para o poolPromise do MySQL
-    const user = rows[0]; // Seleciona o primeiro usuário encontrado
+    // Usando callback para a consulta SQL
+    pool.query(query, [value], (error, rows) => {
+      if (error) {
+        console.error('Erro na consulta ao banco de dados:', error);
+        return res.status(500).send('Erro no servidor');
+      }
 
-    if (!user) {
-      return res.status(404).send('Usuário não encontrado');
-    }
+      const user = rows[0]; // Seleciona o primeiro usuário encontrado
 
-    // Gera o token para o usuário
-    const token = generateToken(user.id);
+      if (!user) {
+        return res.status(404).send('Usuário não encontrado');
+      }
 
-    // Envia o token por e-mail ou SMS, dependendo do método escolhido
-    if (method === 'email') {
-      await sendEmail(user.email, token); // Certifique-se de que sendEmail é assíncrono
-    }
-    // else {
-    //   await sendSMS(user.phone, token); // Certifique-se de que sendSMS é assíncrono
-    // }
+      // Gera o token para o usuário
+      const token = generateToken(user.id);
 
-    res.send('Token enviado com sucesso');
+      // Envia o token por e-mail ou SMS, dependendo do método escolhido
+      if (method === 'email') {
+        sendEmail(user.email, token, (error) => {
+          if (error) {
+            console.error('Erro ao enviar e-mail:', error);
+            return res.status(500).send('Erro ao enviar e-mail');
+          }
+          res.send('Token enviado com sucesso');
+        });
+      } else {
+        // Caso tenha SMS implementado, adicione aqui
+        // sendSMS(user.phone, token, (error) => {
+        //   if (error) {
+        //     console.error('Erro ao enviar SMS:', error);
+        //     return res.status(500).send('Erro ao enviar SMS');
+        //   }
+        //   res.send('Token enviado com sucesso');
+        // });
+      }
+    });
   } catch (error) {
     console.error('Erro no servidor:', error);
     res.status(500).send('Erro no servidor');

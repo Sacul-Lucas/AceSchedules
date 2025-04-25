@@ -5,8 +5,7 @@ import session from 'express-session';
 import cookieParser from 'cookie-parser';
 import { startCronJob } from './actions/cronTask.ts';
 import dotenv from 'dotenv'; // Importando dotenv para carregar variáveis de ambiente  (npm install dotenv nodemailer twilio jsonwebtoken mysql2)
-import mysqlPromise from 'mysql2/promise';
-import mysql from 'mysql';
+import mysql from 'mysql2';
 
 declare module 'express-session' {
   interface SessionData {
@@ -21,14 +20,6 @@ dotenv.config();
 const isProduction = process.env.NODE_ENV === 'production'
 const port = process.env.PORT || 5001;
 // const base = process.env.BASE || '/'
-
-export const poolPromise = mysqlPromise.createPool({
-  host: isProduction ? process.env.DB_HOST : 'localhost',
-  user: isProduction ? process.env.DB_USER : 'root',
-  password: isProduction ? process.env.DB_PASSWORD : '201024',
-  database: isProduction ? process.env.DB_NAME : 'aceschedules',
-  port: Number(isProduction ? process.env.DB_PORT : 5500)
-});
 
 export const pool = mysql.createPool({
   host: isProduction ? process.env.DB_HOST : 'localhost',

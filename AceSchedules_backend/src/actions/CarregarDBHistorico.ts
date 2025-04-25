@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
-import { poolPromise } from '../server';
+import { pool } from '../server';
 
-export const CarregarDBHistorico = async (req: Request, res: Response) => {
+export const CarregarDBHistorico = (req: Request, res: Response) => {
   try {
     // Verifique se o usuário está autenticado e a sessão existe
     if (!req.session || !req.session.userId) {
@@ -65,22 +65,32 @@ export const CarregarDBHistorico = async (req: Request, res: Response) => {
       totalParams.push(dataFN);
     }
 
-    // Executar consultas
-    const connection = await poolPromise.getConnection();
-    try {
-      // Executa a consulta das reservas
-      const [reservas] = await connection.query<any[]>(sql, params);
+    // Utiliza callbacks para consultas no MySQL
+    pool.query(sql, params, (error, reservas) => {
+      if (error) {
+        console.error('Erro ao carregar reservas:', error);
+        return res.status(500).json({ success: false, message: 'Erro ao carregar reservas.' });
+      }
+
       console.log('Reservas retornadas:', reservas);  // Loga o resultado das reservas
 
-      // Executa a consulta do total
-      const [[{ total }]] = await connection.query<any[]>(sqlTotal, totalParams);
-      console.log('Total de reservas retornadas:', total);  // Loga o resultado do total
+      pool.query(sqlTotal, totalParams, (error, totalResult) => {
+        if (error) {
+          console.error('Erro ao contar total de reservas:', error);
+          return res.status(500).json({ success: false, message: 'Erro ao carregar reservas.' });
+        }
 
-      // Enviar resposta ao frontend
-      res.json({ success: true, reservas, total });
-    } finally {
-      connection.release();  // Assegura liberação da conexão
-    }
+        if (Array.isArray(reservas)) {
+          const total = totalResult[0]?.total ?? 0;
+          res.json({ success: true, reservas, total });
+
+          console.log('Total de reservas retornadas:', total);  // Loga o resultado do total
+        } else {
+          res.status(500).json({ success: false, message: 'Erro ao carregar reservas.' });
+        }
+      });
+    });
+
   } catch (error) {
     console.error('Erro ao carregar reservas:', error);
     res.status(500).json({ success: false, message: 'Erro ao carregar reservas.' });
