@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { API_BASE_URL } from '../../Config';
 
 export type GetUsernameActionOutput = {
     status: GetUsernameActionStatus;
@@ -10,7 +11,7 @@ export type GetUsernameActionStatus = 'SUCCESS' | 'USER_NOT_FOUND' | 'UNKNOWN';
 export class GetUsernameAction {
     static async execute(): Promise<GetUsernameActionOutput> {
         try {
-            const response = await axios.get('/api/userAuth/username', {
+            const response = await axios.get(`${API_BASE_URL}/userAuth/username`, {
                 headers: {
                     'Content-Type': 'application/json',
                 }

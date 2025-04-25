@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { API_BASE_URL } from '../../Config';
 
 export type GetVisualizarActionOutput = {
     status: GetVisualizarActionStatus;
@@ -10,7 +11,7 @@ export type GetVisualizarActionStatus = 'SUCCESS' | 'USER_NOT_FOUND' | 'UNKNOWN'
 export class VisualizarActionConfig {
     static async execute(): Promise<GetVisualizarActionOutput> {
         try {
-            const response = await axios.get(`/api/userAuth/Getconfig`, {
+            const response = await axios.get(`${API_BASE_URL}/userAuth/Getconfig`, {
                 headers: {
                     'Content-Type': 'application/json',
                 }

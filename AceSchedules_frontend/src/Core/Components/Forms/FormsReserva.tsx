@@ -4,6 +4,7 @@ import { ptBR } from 'date-fns/locale';
 import { startOfMonth, endOfMonth, isWithinInterval, addHours } from 'date-fns';
 import { parseStringToDate } from '../Utils/functions/DateUtils';
 import "react-datepicker/dist/react-datepicker.css";
+import { API_BASE_URL } from '../../../Config';
 
 interface Sala {
   id: string;
@@ -79,7 +80,7 @@ export const FormsReserva: React.FC<FormsReservaProps> = ({
   useEffect(() => {
     const fetchSalas = async () => {
       try {
-        const response = await fetch('/api/adminPaths/Salas');
+        const response = await fetch(`${API_BASE_URL}/adminPaths/Salas`);
         const data = await response.json();
 
         if (data && Array.isArray(data.salas)) {

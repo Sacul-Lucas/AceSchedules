@@ -10,6 +10,7 @@ import { formatDateForMySQL } from "../../Core/Components/Utils/functions/DateUt
 import adminReservasStyles from '../../Core/Css/Owned/AdminRoom.module.css';
 import appAdminIcon from "../../assets/icons/admin-alt-solid.svg";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { API_BASE_URL } from "../../Config";
 
 export const Reservas: React.FC = () => {
   const [reservasPendentes, setReservasPendentes] = useState<any[]>([]);
@@ -116,7 +117,7 @@ export const Reservas: React.FC = () => {
 
   const loadSalas = async () => {
     try {
-      const response = await fetch('/api/adminPaths/Salas');
+      const response = await fetch(`${API_BASE_URL}/adminPaths/Salas`);
       if (response.ok) {
         const data = await response.json();
         setSalas(data.salas || []);
@@ -131,7 +132,7 @@ export const Reservas: React.FC = () => {
 const loadReservasPendentes = async () => {
   try {
     const response = await fetch(
-      `/api/adminPaths/Reservas/?status=0&sala=${encodeURIComponent(
+      `${API_BASE_URL}/adminPaths/Reservas/?status=0&sala=${encodeURIComponent(
         filterSalaAlocada
       )}&data=${encodeURIComponent(formatDateForMySQL(FilterDataInicio!))}&hora=${encodeURIComponent(
         formatDateForMySQL(FilterDataFim!)
@@ -153,7 +154,7 @@ const loadReservasPendentes = async () => {
 const loadReservasAprovadas = async () => {
   try {
     const response = await fetch(
-      `/api/adminPaths/Reservas/?status=1&sala=${encodeURIComponent(
+      `/${API_BASE_URL}/adminPaths/Reservas/?status=1&sala=${encodeURIComponent(
         filterSalaAlocadaAprovada
       )}&data=${encodeURIComponent(formatDateForMySQL(FilterDataInicioAprovada!))}&hora=${encodeURIComponent(
         formatDateForMySQL(FilterDataFimAprovada!)
@@ -175,7 +176,7 @@ const loadReservasAprovadas = async () => {
 const loadReservasConcluidas = async () => {
   try {
     const response = await fetch(
-      `/api/adminPaths/Reservas/?status=2&sala=${encodeURIComponent(
+      `/${API_BASE_URL}/adminPaths/Reservas/?status=2&sala=${encodeURIComponent(
         filterSalaAlocadaConcluida
       )}&data=${encodeURIComponent(formatDateForMySQL(FilterDataInicioConcluida!))}&hora=${encodeURIComponent(
         formatDateForMySQL(FilterDataFimConcluida!)
@@ -216,7 +217,7 @@ const handleShowConcluidas = async () => {
     };
 
       try {
-        const endpoint = '/api/adminPaths/Reservas/Editar';
+        const endpoint = `${API_BASE_URL}/adminPaths/Reservas/Editar`;
         const response = await fetch(endpoint, {
             method: 'POST',
             headers: {
@@ -238,7 +239,7 @@ const handleShowConcluidas = async () => {
   };
   const handleView = async (id: number) => {
     try {
-        const response = await fetch(`/api/adminPaths/Reservas/Visualizar/${id}`, {
+        const response = await fetch(`${API_BASE_URL}/adminPaths/Reservas/Visualizar/${id}`, {
           method: 'GET',
           headers: {
               'Cache-Control': 'no-cache'
@@ -276,7 +277,7 @@ const handleShowConcluidas = async () => {
 
 const handleEdit = async (id: number) => {
     try {
-        const response = await fetch(`/api/adminPaths/Reservas/Visualizar/${id}`, {
+        const response = await fetch(`${API_BASE_URL}/adminPaths/Reservas/Visualizar/${id}`, {
             method: 'GET',
             headers: {
               'Cache-Control': 'no-cache'
@@ -316,7 +317,7 @@ const handleEdit = async (id: number) => {
 
   const actionSave = async (formData: any) => {
       try {
-          const endpoint = editMode === true ? '/api/adminPaths/Reservas/Editar' : '/api/adminPaths/Reservas/Criar';
+          const endpoint = editMode === true ? `${API_BASE_URL}/adminPaths/Reservas/Editar` : `${API_BASE_URL}/adminPaths/Reservas/Criar`;
           const response = await fetch(endpoint, {
               method: 'POST',
               headers: {
@@ -343,7 +344,7 @@ const handleEdit = async (id: number) => {
 
   const actionDelete = async (id: number) => {
       try {
-          const response = await fetch(`/api/adminPaths/Reservas/Deletar`, {
+          const response = await fetch(`${API_BASE_URL}/adminPaths/Reservas/Deletar`, {
               method: 'POST',
               headers: {
                   'Content-Type': 'application/json'

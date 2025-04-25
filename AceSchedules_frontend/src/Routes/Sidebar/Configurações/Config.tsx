@@ -6,6 +6,7 @@ import { Avatar } from "primereact/avatar";
 import { getInitials, stringToColor } from "../../../Core/Components/Utils/functions/Formatter";
 import { Message } from 'primereact/message';
 import { PanelBody } from "../../../Core/Components/Body/PanelBody";
+import { API_BASE_URL } from "../../../Config";
 
 export const Config = () => {
     const [selectedUser, setSelectedUser] = useState<any>();
@@ -61,7 +62,7 @@ export const Config = () => {
     
     const actionSave = async () => {
         try {
-            const endpoint = '/api/userAuth/Editconfig';
+            const endpoint = `${API_BASE_URL}/userAuth/Editconfig`;
             const { usuario, email, senha, telefone, cnpj } = formValues;
     
             const response = await fetch(endpoint, {

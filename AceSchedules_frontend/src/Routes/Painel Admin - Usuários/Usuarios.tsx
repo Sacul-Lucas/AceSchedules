@@ -6,6 +6,7 @@ import { DefineApp } from "../../Core/Components/Utils/DefineApp";
 import adminUserStyles from '../../Core/Css/Owned/AdminRoom.module.css';
 import appAdminIcon from "../../assets/icons/admin-alt-solid.svg";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { API_BASE_URL } from "../../Config";
 
 export const Usuarios: React.FC = () => {
 
@@ -29,7 +30,7 @@ export const Usuarios: React.FC = () => {
 
     const loadUsuarios = async () => {
         try {
-            const response = await fetch(`/api/adminPaths/Usuarios/?nome=${encodeURIComponent(filterNome)}&email=${encodeURIComponent(filterEmail)}&user_type=${filterUserType}`);
+            const response = await fetch(`${API_BASE_URL}/adminPaths/Usuarios/?nome=${encodeURIComponent(filterNome)}&email=${encodeURIComponent(filterEmail)}&user_type=${filterUserType}`);
             if (response.ok) {
                 const data = await response.json();
                 setUsuarios(data.Usuarios || []); 
@@ -52,7 +53,7 @@ export const Usuarios: React.FC = () => {
 
     const handleView = async (id: number) => {
         try {
-            const response = await fetch(`/api/adminPaths/Usuarios/Visualizar/${id}`);
+            const response = await fetch(`${API_BASE_URL}/adminPaths/Usuarios/Visualizar/${id}`);
             if (response.ok) {
                 const data = await response.json();
                 if (data.success) {
@@ -73,7 +74,7 @@ export const Usuarios: React.FC = () => {
 
     const handleEdit = async (id: number) => {
         try {
-            const response = await fetch(`/api/adminPaths/Usuarios/Visualizar/${id}`);
+            const response = await fetch(`${API_BASE_URL}/adminPaths/Usuarios/Visualizar/${id}`);
             if (response.ok) {
                 const data = await response.json();
                 if (data.success) {
@@ -94,7 +95,7 @@ export const Usuarios: React.FC = () => {
 
     const actionSave = async (formData: any) => {
         try {
-            const endpoint = editMode === true ? '/api/adminPaths/Usuarios/Editar' : '/api/adminPaths/Usuarios/Criar';
+            const endpoint = editMode === true ? `${API_BASE_URL}/adminPaths/Usuarios/Editar` : `${API_BASE_URL}/adminPaths/Usuarios/Criar`;
             const response = await fetch(endpoint, {
                 method: 'POST',
                 headers: {
@@ -119,7 +120,7 @@ export const Usuarios: React.FC = () => {
 
     const actionDelete = async (id: number) => {
         try {
-            const response = await fetch(`/api/adminPaths/Usuarios/Deletar`, {
+            const response = await fetch(`${API_BASE_URL}/adminPaths/Usuarios/Deletar`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

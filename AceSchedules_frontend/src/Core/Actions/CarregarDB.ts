@@ -1,4 +1,5 @@
 import axios from "axios";
+import { API_BASE_URL } from "../../Config";
 
 export type Usuarioinput = {
     filterNome: string;
@@ -15,7 +16,7 @@ export type LoadUserStatus = 'SUCCESS' | 'ERROR' | 'UNKNOWN';
 export class LoadUserAction {
     static async execute(input: Usuarioinput): Promise<LoadUserActionOutput> {
         try {
-            const response = await axios.get(`/api/adminPaths/Usuarios`, {
+            const response = await axios.get(`${API_BASE_URL}/adminPaths/Usuarios`, {
                 params: {
                     filterNome: input.filterNome,
                     filterEmail: input.filterEmail,

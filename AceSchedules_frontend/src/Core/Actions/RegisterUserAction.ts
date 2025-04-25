@@ -1,4 +1,5 @@
 import axios from "axios";
+import { API_BASE_URL } from "../../Config";
 
 export type RegisterUserActionInput = {
     usuario: string
@@ -19,7 +20,7 @@ export type RegisterUserStatus = 'SUCCESS' | 'EMAIL_ALREADY_EXISTS' | 'UNKNOWN';
 export class RegisterUserAction {
     static async execute(input: RegisterUserActionInput): Promise<RegisterUserActionOutput> {
         try {
-            const response = await axios.post('/api/userAuth/cadastro', {
+            const response = await axios.post(`${API_BASE_URL}/userAuth/cadastro`, {
                 usuario: input.usuario,
                 telefone: input.telefone,
                 cnpj: input.cnpj,

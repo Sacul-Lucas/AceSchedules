@@ -6,6 +6,7 @@ import { DefineApp } from "../../Core/Components/Utils/DefineApp";
 import adminSalasStyles from '../../Core/Css/Owned/AdminRoom.module.css';
 import appAdminIcon from "../../assets/icons/admin-alt-solid.svg";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { API_BASE_URL } from "../../Config";
 
 export const Salas: React.FC = () => {
     const [salas, setSalas] = useState<any[]>([]);
@@ -35,7 +36,7 @@ export const Salas: React.FC = () => {
 
     const handleView = async (id: number) => {
         try {
-            const response = await fetch(`/api/adminPaths/Salas/Visualizar/${id}`);
+            const response = await fetch(`${API_BASE_URL}/adminPaths/Salas/Visualizar/${id}`);
             if (response.ok) {
                 const data = await response.json();
                 if (data.success) {
@@ -64,7 +65,7 @@ export const Salas: React.FC = () => {
 
     const handleEdit = async (id: number) => {
         try {
-            const response = await fetch(`/api/adminPaths/Salas/Visualizar/${id}`);
+            const response = await fetch(`${API_BASE_URL}/adminPaths/Salas/Visualizar/${id}`);
             if (response.ok) {
                 const data = await response.json();
                 if (data.success) {
@@ -101,7 +102,7 @@ export const Salas: React.FC = () => {
         console.log('Arquivo de imagem:', formData.get('backImg'));
     
         try {
-            const endpoint = editMode ? '/api/adminPaths/Salas/Editar' : '/api/adminPaths/Salas/Criar';
+            const endpoint = editMode ? `${API_BASE_URL}/adminPaths/Salas/Editar` : `${API_BASE_URL}/adminPaths/Salas/Criar`;
             const response = await fetch(endpoint, {
                 method: 'POST',
                 body: formData // Envia o FormData diretamente
@@ -141,7 +142,7 @@ export const Salas: React.FC = () => {
 
     const loadSalas = async () => {
         try {
-            const response = await fetch(`/api/adminPaths/Salas?filter_nome=${encodeURIComponent(filterNome)}&apenas_bloqueadas=${apenasBloqueadas}`);
+            const response = await fetch(`${API_BASE_URL}/adminPaths/Salas?filter_nome=${encodeURIComponent(filterNome)}&apenas_bloqueadas=${apenasBloqueadas}`);
             if (response.ok) {
                 const data = await response.json();
                 setSalas(data.salas);
@@ -157,7 +158,7 @@ export const Salas: React.FC = () => {
 
     const handleDelete = async (id: number) => {
         try {
-            const response = await fetch(`/api/adminPaths/Salas/Deletar`, {
+            const response = await fetch(`${API_BASE_URL}/adminPaths/Salas/Deletar`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

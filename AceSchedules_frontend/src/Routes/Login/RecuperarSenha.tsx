@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { DefineApp } from '../../Core/Components/Utils/DefineApp';
 import appUserIcon from '../../assets/icons/user-circle-solid.svg';
+import { API_BASE_URL } from '../../Config';
 
 const PasswordRecovery: React.FC = () => {
   // State para armazenar o tipo de recuperação selecionado (email ou telefone)
@@ -14,7 +15,7 @@ const PasswordRecovery: React.FC = () => {
 
   const handleSubmit = async () => {
     try {
-      await fetch('/api/userAuth/password-recovery', {
+      await fetch(`${API_BASE_URL}/userAuth/password-recovery`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

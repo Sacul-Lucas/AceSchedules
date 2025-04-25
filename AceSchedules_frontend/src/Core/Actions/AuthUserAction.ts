@@ -1,4 +1,5 @@
 import axios from "axios";
+import { API_BASE_URL } from "../../Config";
 
 export type AuthUserActionInput = {
 	email: string;
@@ -16,7 +17,7 @@ export type AuthUserStatus = 'SUCCESS' | 'EMAIL_NOT_FOUND' | 'UNKNOWN';
 export class AuthUserAction {
     static async execute(input: AuthUserActionInput): Promise<AuthUserActionOutput> {
         try {
-            const response = await axios.post('/api/userAuth/login', {
+            const response = await axios.post(`${API_BASE_URL}/userAuth/login`, {
                 email: input.email,
                 senha: input.senha,
                 usertype: input.usertype

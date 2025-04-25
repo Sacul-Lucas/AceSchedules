@@ -1,4 +1,5 @@
 import axios from "axios";
+import { API_BASE_URL } from "../../Config";
 
 export type Historyinput = {
     filterSalaAlocada: string;
@@ -33,7 +34,7 @@ export class LoadHistoryAction {
             // Log dos dados que serão enviados na requisição
             console.log("Parâmetros enviados na requisição:", params);
 
-            const response = await axios.get(`/api/userAuth/CarregarHistorico`, {
+            const response = await axios.get(`${API_BASE_URL}/userAuth/CarregarHistorico`, {
                 params,
                 headers: {
                     'Content-Type': 'application/json',

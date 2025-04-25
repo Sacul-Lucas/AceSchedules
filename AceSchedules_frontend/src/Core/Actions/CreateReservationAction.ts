@@ -1,4 +1,5 @@
 import axios from "axios";
+import { API_BASE_URL } from "../../Config";
 
 export type CreateReservationActionInput = {
     dataAgendamentoInicial: string
@@ -16,7 +17,7 @@ export type RegisterUserStatus = 'SUCCESS' | 'RESERVATION_ALREADY_EXISTS' | 'INV
 export class CreateReservationAction {
     static async execute(input: CreateReservationActionInput): Promise<CreateReservationActionOutput> {
         try {
-            const response = await axios.post('/api/adminPaths/Reservas/Criar', {
+            const response = await axios.post(`${API_BASE_URL}/adminPaths/Reservas/Criar`, {
                 dataAgendamentoInicial: input.dataAgendamentoInicial,
                 dataAgendamentoFinal: input.dataAgendamentoFinal,
                 salaAlocada: input.salaAlocada

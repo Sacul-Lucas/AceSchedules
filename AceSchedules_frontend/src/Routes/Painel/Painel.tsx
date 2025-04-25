@@ -2,13 +2,14 @@ import { Card } from "../../Core/Components/Cards/Card";
 import { useEffect, useState } from "react";
 import { PanelBody } from "../../Core/Components/Body/PanelBody";
 import painelStyles from "../../Core/Css/Owned/Painel.module.css";
+import { API_BASE_URL } from "../../Config";
 
 export const Painel = () => {
     const [salas, setSalas] = useState<any[]>([])
 
     const loadSalas = async () => {
         try {
-            const response = await fetch('/api/adminPaths/Salas');
+            const response = await fetch(`${API_BASE_URL}/adminPaths/Salas`);
             if (response.ok) {
                 const data = await response.json();
                 setSalas(data.salas);

@@ -5,6 +5,7 @@ import { ptBR } from 'date-fns/locale';
 import { Historyinput, LoadHistoryAction } from "../../../Core/Actions/CarregarHistorico";
 import { formatDateForMySQL } from "../../../Core/Components/Utils/functions/DateUtils";
 import { PanelBody } from "../../../Core/Components/Body/PanelBody";
+import { API_BASE_URL } from "../../../Config";
 
  export const Historico = () => {
     const [reservasPendentes, setReservasPendentes] = useState<any[]>([]);
@@ -68,7 +69,7 @@ import { PanelBody } from "../../../Core/Components/Body/PanelBody";
 
     const loadSalas = async () => {
         try {
-        const response = await fetch('/api/adminPaths/Salas');
+        const response = await fetch(`${API_BASE_URL}/adminPaths/Salas`);
         if (response.ok) {
             const data = await response.json();
             setSalas(data.salas || []);
