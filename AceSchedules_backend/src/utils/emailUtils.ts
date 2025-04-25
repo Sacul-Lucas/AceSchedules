@@ -1,11 +1,11 @@
 import nodemailer from 'nodemailer';
 
-export const sendEmail = async (email: string, token: string, p0: (error: any) => any) => {
+export const sendEmail = async (email: string, token: string) => {
   const transporter = nodemailer.createTransport({
-    service: 'gmail', // Ou o serviço de e-mail que você usa
+    service: 'gmail',
     auth: {
-      user: process.env.EMAIL_USER, // Seu e-mail
-      pass: process.env.EMAIL_PASSWORD, // Sua senha ou chave de aplicativo
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASSWORD,
     },
   });
 
@@ -19,7 +19,9 @@ export const sendEmail = async (email: string, token: string, p0: (error: any) =
   try {
     await transporter.sendMail(mailOptions);
     console.log('E-mail enviado com sucesso');
+    return null; // retorna null se não houver erro
   } catch (error) {
     console.error('Erro ao enviar e-mail:', error);
+    return error; // retorna o erro se houver
   }
 };

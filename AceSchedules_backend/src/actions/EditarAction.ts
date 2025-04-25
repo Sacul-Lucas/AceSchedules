@@ -30,7 +30,7 @@ function queryDatabase(query: string, params: any[]): Promise<QueryResult> {
 function getOldImage(salaId: string): Promise<string | null> {
     return new Promise((resolve, reject) => {
         const query = 'SELECT backImg FROM salas WHERE id = ?';
-        pool.query(query, [salaId], (error, results) => {
+        pool.query(query, [salaId], (error, results: any[]) => { // Tipando como 'any[]'
             if (error) {
                 return reject(error);
             }
@@ -54,7 +54,6 @@ function deleteOldImage(imagePath: string) {
         }
     });
 }
-
 
 export const EditarAction = async (req: Request, res: Response) => {
     if (!req.body || !req.body.id) {
@@ -162,6 +161,7 @@ export const EditarAction = async (req: Request, res: Response) => {
         const updateQuery = `UPDATE ${reqRoute} SET ${updateFields} WHERE id = ?`;
         const result: QueryResult = await queryDatabase(updateQuery, dados);
 
+        // Verificar se nenhuma linha foi afetada
         if (result.affectedRows === 0) {
             return res.json({ success: false, message: 'Nenhuma atualização feita. Verifique se o ID está correto.' });
         }

@@ -38,7 +38,7 @@ export const PasswordRecovery = (req, res) => {
 
       // Envia o token por e-mail ou SMS, dependendo do método escolhido
       if (method === 'email') {
-        sendEmail(user.email, token, (error) => {
+        sendEmail(user.email, token).then((error) => {
           if (error) {
             console.error('Erro ao enviar e-mail:', error);
             return res.status(500).send('Erro ao enviar e-mail');

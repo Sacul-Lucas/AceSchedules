@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { pool } from '../server';
+import { RowDataPacket } from 'mysql2';
 
 export const VisualizarAction = (req: Request, res: Response) => {
     const { id } = req.params;
@@ -35,16 +36,14 @@ export const VisualizarAction = (req: Request, res: Response) => {
             FROM reservas r
             JOIN salas s ON r.sala = s.id
             JOIN cadastro c ON r.usuario = c.id
-            WHERE r.id = ?;`;
+            WHERE r.id = ?`;
 
     } else {
         reqRoute = 'cadastro';
         msgId = 'Usuário';
         query = `SELECT * FROM ${reqRoute} WHERE id=?`;
-
     }
 
-    
     const values = [id];
 
     pool.query(query, values, (error, results) => {
@@ -53,8 +52,8 @@ export const VisualizarAction = (req: Request, res: Response) => {
             return res.status(500).json({ success: false, message: 'Erro no servidor' });
         }
 
-        if (results.length > 0) {
-            const dataReturn = results[0];
+        if (Array.isArray(results) && results.length > 0) {
+            const dataReturn = results[0] as RowDataPacket;
             return res.json({ success: true, data: dataReturn, message: `${msgId} visualizado/a com sucesso!` });
         } else {
             return res.json({ success: false, message: `${msgId} não foi encontrado/a` });

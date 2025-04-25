@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { pool } from '../server';
+import { RowDataPacket } from 'mysql2';
 
 export const VisualizarConfig = (req: Request, res: Response) => {
     console.log("Verificando a autenticação do usuário...");
@@ -18,18 +19,18 @@ export const VisualizarConfig = (req: Request, res: Response) => {
             return res.status(500).json({ success: false, message: 'Erro no servidor' });
         }
 
-        console.log("Resultados da consulta:", results);
+        if (Array.isArray(results) && results.length > 0) {
+            const usuario = results[0] as RowDataPacket;
 
-        if (results.length === 0) {
+            console.log("Usuário encontrado:", usuario);
+
+            return res.status(200).json({
+                success: true,
+                usuario
+            });
+        } else {
             console.log("Usuário não encontrado. Retornando erro 404.");
             return res.status(404).json({ success: false, message: 'Usuário não encontrado' });
         }
-
-        console.log("Usuário encontrado:", results[0]);
-
-        return res.status(200).json({
-            success: true,
-            usuario: results[0]
-        });
     });
 };

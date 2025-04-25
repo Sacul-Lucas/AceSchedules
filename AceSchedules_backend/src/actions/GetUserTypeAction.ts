@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { pool } from '../server';
+import { RowDataPacket } from 'mysql2';
 
 export const GetUsertype = (req: Request, res: Response) => {
     if (!req.session || !req.session.userId) {
@@ -14,8 +15,10 @@ export const GetUsertype = (req: Request, res: Response) => {
             return res.status(500).json({ success: false, message: 'Erro no servidor' });
         }
 
-        if (results.length > 0) {
-            const user = results[0];
+        // Verificando se o resultado é do tipo RowDataPacket[] (um array de resultados)
+        if (Array.isArray(results) && results.length > 0) {
+            // Aqui fazemos o cast para RowDataPacket[] para garantir que o TypeScript entenda o tipo correto.
+            const user = results[0] as RowDataPacket; // O resultado é um RowDataPacket
             return res.json({ success: true, usertype: user.usertype });
         } else {
             return res.status(404).json({ success: false, message: 'Usuário não encontrado' });

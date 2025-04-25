@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
 import { pool } from '../server';
+import { RowDataPacket } from 'mysql2';
 
 export const Login = (req: Request, res: Response) => {
     if (!req.body) {
@@ -8,6 +9,10 @@ export const Login = (req: Request, res: Response) => {
     }
 
     const { email, senha, usertype } = req.body;
+
+    if (!email || !senha || !usertype) {
+        return res.json({ success: false, message: 'Campos obrigatórios faltando' });
+    }
 
     const query = `SELECT * FROM cadastro WHERE (email = ? OR usuario = ?) AND usertype = ?`;
     const values = [email, email, usertype];
@@ -18,12 +23,8 @@ export const Login = (req: Request, res: Response) => {
             return res.status(500).json({ success: false, message: 'Erro no servidor' });
         }
 
-        if (!email || !senha || !usertype) {
-            return res.json({ success: false, message: 'Campos obrigatórios faltando' });
-        }
-
-        if (results.length > 0) {
-            const user = results[0];
+        if (Array.isArray(results) && results.length > 0) {
+            const user = results[0] as RowDataPacket;
 
             bcrypt.compare(senha, user.senha, (err, match) => {
                 if (err) {

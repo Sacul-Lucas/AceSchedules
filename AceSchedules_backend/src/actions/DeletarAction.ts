@@ -27,7 +27,7 @@ export const DeletarAction = (req: Request, res: Response) => {
 
         // Primeiro, buscar a imagem associada à sala antes de deletar
         const selectQuery = `SELECT ${imgColumn} FROM ${reqRoute} WHERE id = ?`;
-        pool.query(selectQuery, [id], (error, results) => {
+        pool.query(selectQuery, [id], (error, results: any[]) => { // Aqui, tipamos os resultados como um array
             if (error) {
                 console.log(error);
                 return res.status(500).json({ success: false, message: 'Erro ao buscar a imagem.' });
@@ -76,12 +76,13 @@ const deleteFromDatabase = (reqRoute: string, id: string, msgId: string, res: Re
     const deleteQuery = `DELETE FROM ${reqRoute} WHERE id = ?`;
     const values = [id];
 
-    pool.query(deleteQuery, values, (error, results) => {
+    pool.query(deleteQuery, values, (error, results: any) => { // Aqui também tipamos como 'any'
         if (error) {
             console.log(error);
             return res.status(500).json({ success: false, message: 'Erro no servidor' });
         }
 
+        // Verificar o número de linhas afetadas
         if (results.affectedRows > 0) {
             return res.json({ success: true, message: `${msgId} deletada(o) com sucesso!` });
         } else {
