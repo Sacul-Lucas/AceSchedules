@@ -2,6 +2,18 @@ import { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
 import { pool } from '../server';
 
+function queryDatabase(query: string, params: any[]): Promise<any> {
+    return new Promise((resolve, reject) => {
+        pool.query(query, params, (error, results) => {
+            if (error) {
+                reject(error);
+            } else {
+                resolve(results);
+            }
+        });
+    });
+}
+
 export const EditarConfig = async (req: Request, res: Response) => {
     const userId = req.session?.userId;
 
@@ -28,8 +40,8 @@ export const EditarConfig = async (req: Request, res: Response) => {
     }
 
     try {
-        // Verificar os dados atuais do usuário
-        const [currentUser]: any = await pool.query('SELECT usuario, email, senha, telefone, cnpj FROM cadastro WHERE id = ?', [userId]);
+        const getUserQuery = 'SELECT usuario, email, senha, telefone, cnpj FROM cadastro WHERE id = ?';
+        const currentUser = await queryDatabase(getUserQuery, [userId]);
 
         if (!currentUser || currentUser.length === 0) {
             return res.status(404).json({ success: false, message: 'Usuário não encontrado' });
@@ -46,7 +58,6 @@ export const EditarConfig = async (req: Request, res: Response) => {
 
         let senhaAtualizada = false;
 
-        // Verificar se a senha foi alterada
         if (senha) {
             const isSamePassword = await bcrypt.compare(senha, currentData.senha);
             if (isSamePassword) {
@@ -57,37 +68,32 @@ export const EditarConfig = async (req: Request, res: Response) => {
             }
         }
 
-        // Caso não tenha alterações e a senha não tenha sido fornecida
         if (!hasChanges && !senha) {
             return res.json({ success: false, message: 'Digite as alterações desejadas' });
         }
 
-        // Verificar se o email já está em uso por outro usuário
-        const [emailCheckResult]: any = await pool.query('SELECT COUNT(*) AS count FROM cadastro WHERE email = ? AND id != ?', [email, userId]);
+        const emailCheckQuery = 'SELECT COUNT(*) AS count FROM cadastro WHERE email = ? AND id != ?';
+        const emailCheckResult = await queryDatabase(emailCheckQuery, [email, userId]);
         if (emailCheckResult[0].count > 0) {
             errors.email = 'O email já está em uso por outro usuário.';
         }
 
-        // Se houver erros de validação, retornar
         if (Object.keys(errors).length > 0) {
             return res.json({ success: false, errors });
         }
 
-        // Atualizar dados do usuário
         let updateQuery = 'UPDATE cadastro SET usuario = ?, email = ?, telefone = ?, cnpj = ? WHERE id = ?';
-        let queryParams = [usuario, email, telefone, cnpj, userId];
+        const queryParams = [usuario, email, telefone, cnpj, userId];
 
         if (senhaAtualizada) {
             const hashedPassword = await bcrypt.hash(senha, 10);
             updateQuery = 'UPDATE cadastro SET usuario = ?, email = ?, senha = ?, telefone = ?, cnpj = ? WHERE id = ?';
-            queryParams.splice(2, 0, hashedPassword); // Adiciona a senha criptografada no lugar correto
+            queryParams.splice(2, 0, hashedPassword);
         }
 
-        // Executar a consulta de atualização
-        const [updateResult]: any = await pool.query(updateQuery, queryParams);
+        const result: any = await queryDatabase(updateQuery, queryParams);
 
-        // Verificar se houve alteração
-        if (updateResult.affectedRows === 0) {
+        if (result.affectedRows === 0) {
             return res.json({ success: false, message: 'Nenhuma atualização feita. Verifique se o ID está correto.' });
         }
 

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Request, Response } from 'express';
-import { pool } from '../server';
+import { poolPromise } from '../server';
 
 export const CarregarDB = async (req: Request, res: Response) => {
   const currPath = req.originalUrl;
@@ -28,7 +28,7 @@ export const CarregarDB = async (req: Request, res: Response) => {
         sqlTotal += ` AND status = 1`;
       }
     
-      const connection = await pool.getConnection();
+      const connection = await poolPromise.getConnection();
       try {
         const [rows] = await connection.query<any[]>(sql, params);
         const [totalResult] = await connection.query<any[]>(sqlTotal, params);
@@ -96,7 +96,7 @@ export const CarregarDB = async (req: Request, res: Response) => {
       }
       
       // Execute queries
-      const connection = await pool.getConnection();
+      const connection = await poolPromise.getConnection();
       const [reservas] = await connection.query<any[]>(sql, params);
       const [[{ total }]] = await connection.query<any[]>(sqlTotal, totalParams);
       
@@ -129,7 +129,7 @@ export const CarregarDB = async (req: Request, res: Response) => {
         params.push(`%${nome}%`);
       }
 
-      const connection = await pool.getConnection();
+      const connection = await poolPromise.getConnection();
       const [rows] = await connection.query<any[]>(sql, params);
       const [totalResult] = await connection.query<any[]>(sqlTotal, params);
 

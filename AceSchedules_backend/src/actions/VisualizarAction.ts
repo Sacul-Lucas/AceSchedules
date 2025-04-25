@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { pool } from '../server';
 
-export const VisualizarAction = async (req: Request, res: Response) => {
+export const VisualizarAction = (req: Request, res: Response) => {
     const { id } = req.params;
 
     if (!id) {
@@ -13,7 +13,6 @@ export const VisualizarAction = async (req: Request, res: Response) => {
     let msgId = '';
     let query = '';
 
-    // Definindo a rota e a consulta com base no caminho da URL
     if (currPath.includes('/Salas/Visualizar')) {
         reqRoute = 'salas';
         msgId = 'Sala';
@@ -22,8 +21,7 @@ export const VisualizarAction = async (req: Request, res: Response) => {
     } else if (currPath.includes('/Reservas')) {
         reqRoute = 'reservas';
         msgId = 'Reserva';
-        query = `
-            SELECT 
+        query = `SELECT 
                 r.id AS id, 
                 DATE_FORMAT(r.dataAgendamentoInicial, '%d/%m/%Y %H:%i:%s') AS data, 
                 DATE_FORMAT(r.dataAgendamentoFinal, '%d/%m/%Y %H:%i:%s') AS hora, 
@@ -37,17 +35,23 @@ export const VisualizarAction = async (req: Request, res: Response) => {
             FROM reservas r
             JOIN salas s ON r.sala = s.id
             JOIN cadastro c ON r.usuario = c.id
-            WHERE r.id = ?;
-        `;
+            WHERE r.id = ?;`;
+
     } else {
         reqRoute = 'cadastro';
         msgId = 'Usuário';
         query = `SELECT * FROM ${reqRoute} WHERE id=?`;
+
     }
 
-    try {
-        const values = [id];
-        const [results]: any = await pool.query(query, values);
+    
+    const values = [id];
+
+    pool.query(query, values, (error, results) => {
+        if (error) {
+            console.log(error);
+            return res.status(500).json({ success: false, message: 'Erro no servidor' });
+        }
 
         if (results.length > 0) {
             const dataReturn = results[0];
@@ -55,8 +59,5 @@ export const VisualizarAction = async (req: Request, res: Response) => {
         } else {
             return res.json({ success: false, message: `${msgId} não foi encontrado/a` });
         }
-    } catch (error) {
-        console.error(error);
-        return res.status(500).json({ success: false, message: 'Erro no servidor' });
-    }
+    });
 };

@@ -1,9 +1,9 @@
 import { Request, Response } from 'express';
 import { pool } from '../server';
 
-export const VisualizarConfig = async (req: Request, res: Response) => {
+export const VisualizarConfig = (req: Request, res: Response) => {
     console.log("Verificando a autenticação do usuário...");
-
+    
     if (!req.session || !req.session.userId) {
         console.log("Usuário não autenticado. Retornando erro 401.");
         return res.status(401).json({ success: false, message: 'Usuário não autenticado' });
@@ -12,8 +12,11 @@ export const VisualizarConfig = async (req: Request, res: Response) => {
     const query = `SELECT usuario, email, telefone, cnpj, usertype FROM cadastro WHERE id = ?`;
     console.log("Executando a consulta com o userId:", req.session.userId);
 
-    try {
-        const [results]: any = await pool.query(query, [req.session.userId]);
+    pool.query(query, [req.session.userId], (err, results) => {
+        if (err) {
+            console.error("Erro ao executar a consulta:", err);
+            return res.status(500).json({ success: false, message: 'Erro no servidor' });
+        }
 
         console.log("Resultados da consulta:", results);
 
@@ -28,8 +31,5 @@ export const VisualizarConfig = async (req: Request, res: Response) => {
             success: true,
             usuario: results[0]
         });
-    } catch (error) {
-        console.error("Erro ao executar a consulta:", error);
-        return res.status(500).json({ success: false, message: 'Erro no servidor' });
-    }
+    });
 };

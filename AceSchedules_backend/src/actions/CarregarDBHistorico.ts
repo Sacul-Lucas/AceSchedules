@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { pool } from '../server';
+import { poolPromise } from '../server';
 
 export const CarregarDBHistorico = async (req: Request, res: Response) => {
   try {
@@ -66,7 +66,7 @@ export const CarregarDBHistorico = async (req: Request, res: Response) => {
     }
 
     // Executar consultas
-    const connection = await pool.getConnection();
+    const connection = await poolPromise.getConnection();
     try {
       // Executa a consulta das reservas
       const [reservas] = await connection.query<any[]>(sql, params);

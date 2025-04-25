@@ -1,6 +1,6 @@
 import { generateToken } from "../utils/tokenUtils"; // Função para gerar token
 import { sendEmail } from "../utils/emailUtils"; // Função para enviar e-mail
-import { pool } from "../server";
+import { poolPromise } from "../server";
 // import { sendSMS } from "../utils/smsUtils"; // Função para enviar SMS
 
 // Função de recuperação de senha exportada
@@ -20,7 +20,7 @@ export const PasswordRecovery = async (req, res) => {
   }
 
   try {
-    const [rows] = await pool.query(query, [value]); // Método correto para o pool do MySQL
+    const [rows] = await poolPromise.query(query, [value]); // Método correto para o poolPromise do MySQL
     const user = rows[0]; // Seleciona o primeiro usuário encontrado
 
     if (!user) {
