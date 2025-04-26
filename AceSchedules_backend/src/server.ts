@@ -36,7 +36,17 @@ export const pool = mysql.createPool({
 
 const MySQLStore = MySQLStoreFactory(session);
 
-const sessionStore = new MySQLStore({}, pool.promise());
+const sessionStore = new MySQLStore({
+  host: isProduction ? process.env.DB_HOST : 'localhost',
+  user: isProduction ? process.env.DB_USER : 'root',
+  password: isProduction ? process.env.DB_PASSWORD : '201024',
+  database: isProduction ? process.env.DB_NAME : 'aceschedules',
+  port: Number(isProduction ? process.env.DB_PORT : 5500),
+  // Outras opções opcionais do store:
+  clearExpired: true,
+  checkExpirationInterval: 900000, // 15 minutos
+  expiration: 86400000 // 24 horas
+});
 
 const app = express();
 
