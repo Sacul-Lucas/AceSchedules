@@ -44,7 +44,18 @@ app.use(express.json());
 app.use(express.static('public'));
 
 app.use(cors({
-  origin: isProduction ? 'https://sacul-lucas.github.io' : 'http://localhost:5000', 
+  origin: (origin, callback) => {
+    const allowedOrigins = [
+      'https://sacul-lucas.github.io',
+      'http://localhost:5000'
+    ];
+
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true,
   optionsSuccessStatus: 200
 }));
