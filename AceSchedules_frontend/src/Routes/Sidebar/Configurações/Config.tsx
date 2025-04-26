@@ -71,6 +71,7 @@ export const Config = () => {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({ usuario, email, senha, telefone, cnpj }),
+                credentials: 'include'
             });
     
             const result = await response.json();
