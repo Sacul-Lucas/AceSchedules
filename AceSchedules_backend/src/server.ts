@@ -44,10 +44,7 @@ app.use(express.json());
 app.use(express.static('public'));
 
 app.use(cors({
-  origin: [
-    'https://sacul-lucas.github.io',
-    'http://localhost:5000'
-  ],
+  origin: isProduction ? 'https://sacul-lucas.github.io' : 'http://localhost:5000', 
   credentials: true,
   optionsSuccessStatus: 200
 }));
@@ -61,7 +58,7 @@ app.use(session({
   saveUninitialized: true,
   store: sessionStore,
   cookie: { 
-    httpOnly: isProduction ? false : true,
+    httpOnly: true,
     secure: isProduction, // true somente em produção
     sameSite: isProduction ? 'none' : 'lax',
     maxAge: 1000 * 60 * 60 * 24 
