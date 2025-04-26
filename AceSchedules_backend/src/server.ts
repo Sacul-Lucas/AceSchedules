@@ -61,7 +61,7 @@ app.use(session({
   saveUninitialized: true,
   store: sessionStore,
   cookie: { 
-    httpOnly: true,
+    httpOnly: isProduction ? false : true,
     secure: isProduction, // true somente em produção
     sameSite: isProduction ? 'none' : 'lax',
     maxAge: 1000 * 60 * 60 * 24 
