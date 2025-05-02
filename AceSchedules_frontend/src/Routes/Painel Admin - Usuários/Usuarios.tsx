@@ -235,7 +235,7 @@ export const Usuarios: React.FC = () => {
                                                         <td>{usuario.email}</td>
                                                         <td>{usuario.usertype}</td>
                                                         <td className="!flex !justify-end">
-                                                            <button type='button' data-id={usuario.id} className='mx-1 viewBtn btn btn-info btn-sm' onClick={() => handleView(usuario.id)}>Visualizar</button>
+                                                            <button type='button' data-id={usuario.id} className='mx-1 viewBtn btn btn-info btn-sm text-white' onClick={() => handleView(usuario.id)}>Visualizar</button>
                                                             <button type='button' data-id={usuario.id} className='mx-1 editBtn btn btn-success btn-sm' onClick={() => handleEdit(usuario.id)}>Editar</button>
                                                             <button type='button' data-id={usuario.id} className='mx-1 deleteBtn btn btn-danger btn-sm' onClick={() => actionDelete(usuario.id)} >Deletar</button>
                                                         </td>

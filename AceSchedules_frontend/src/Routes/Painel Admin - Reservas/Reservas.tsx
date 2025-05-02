@@ -9,8 +9,8 @@ import { DefineApp } from "../../Core/Components/Utils/DefineApp";
 import { formatDateForMySQL } from "../../Core/Components/Utils/functions/DateUtils";
 import adminReservasStyles from '../../Core/Css/Owned/AdminRoom.module.css';
 import appAdminIcon from "../../assets/icons/admin-alt-solid.svg";
-import 'bootstrap/dist/css/bootstrap.min.css';
 import { API_BASE_URL } from "../../Config";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 export const Reservas: React.FC = () => {
   const [reservasPendentes, setReservasPendentes] = useState<any[]>([]);
@@ -155,7 +155,7 @@ const loadReservasPendentes = async () => {
 const loadReservasAprovadas = async () => {
   try {
     const response = await fetch(
-      `/${API_BASE_URL}/adminPaths/Reservas/?status=1&sala=${encodeURIComponent(
+      `${API_BASE_URL}/adminPaths/Reservas/?status=1&sala=${encodeURIComponent(
         filterSalaAlocadaAprovada
       )}&data=${encodeURIComponent(formatDateForMySQL(FilterDataInicioAprovada!))}&hora=${encodeURIComponent(
         formatDateForMySQL(FilterDataFimAprovada!)
@@ -178,7 +178,7 @@ const loadReservasAprovadas = async () => {
 const loadReservasConcluidas = async () => {
   try {
     const response = await fetch(
-      `/${API_BASE_URL}/adminPaths/Reservas/?status=2&sala=${encodeURIComponent(
+      `${API_BASE_URL}/adminPaths/Reservas/?status=2&sala=${encodeURIComponent(
         filterSalaAlocadaConcluida
       )}&data=${encodeURIComponent(formatDateForMySQL(FilterDataInicioConcluida!))}&hora=${encodeURIComponent(
         formatDateForMySQL(FilterDataFimConcluida!)
@@ -399,7 +399,7 @@ const handleEdit = async (id: number) => {
             <td>{reserva.sala_nome}</td>
             <td>{reserva.usuario}</td>
             <td className="fit-contents">
-                <button type='button' data-id={reserva.id} className='mx-1 viewBtn btn btn-info btn-sm' onClick={() => handleView(reserva.id)}>Visualizar</button>
+                <button type='button' data-id={reserva.id} className='mx-1 viewBtn btn btn-info btn-sm text-white' onClick={() => handleView(reserva.id)}>Visualizar</button>
                 {tableType === 'pendentes' && (
                     <>
                       <button type='button' data-id={reserva.id} className='mx-1 editBtn btn btn-success btn-sm' onClick={() => handleApprove(reserva.id)}>Aprovar</button>

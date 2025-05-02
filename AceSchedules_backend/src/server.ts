@@ -1,12 +1,14 @@
-import express from 'express';
+import { startCronJob } from './actions/cronTask.ts';
 import { router } from './routes/Router';
+import express from 'express';
 import cors from 'cors';
 import session from 'express-session';
 import cookieParser from 'cookie-parser';
-import { startCronJob } from './actions/cronTask.ts';
 import dotenv from 'dotenv'; // Importando dotenv para carregar variáveis de ambiente  (npm install dotenv nodemailer twilio jsonwebtoken mysql2)
 import mysql from 'mysql2';
 import MySQLStoreFactory from 'express-mysql-session';
+// import path from 'path';
+// import { fileURLToPath } from 'url';
 
 declare module 'express-session' {
   interface SessionData {
@@ -50,8 +52,11 @@ const sessionStore = new MySQLStore({
 
 const app = express();
 
+// const __filename = fileURLToPath(import.meta.url);
+// const __dirname = path.dirname(__filename);
+
 app.use(express.json());
-app.use(express.static('public'));
+// app.use('api/uploads/salas', express.static(path.resolve(__dirname, '../public/uploads/salas')));
 
 app.use(cors({
   origin: (origin, callback) => {
@@ -70,8 +75,12 @@ app.use(cors({
   optionsSuccessStatus: 200
 }));
 
+app.use((_req, res, next) => {
+  res.header('Access-Control-Allow-Credentials', 'true');
+  next();
+});
+
 app.use(cookieParser());
-app.use(express.json());
 
 app.use(session({
   secret: process.env.SESSION_SECRET || 'secreção', // Usando uma variável de ambiente para a secret

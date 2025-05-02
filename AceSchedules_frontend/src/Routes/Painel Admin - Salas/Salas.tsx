@@ -107,7 +107,6 @@ export const Salas: React.FC = () => {
                 method: 'POST',
                 body: formData, // Envia o FormData diretamente
                 credentials: 'include'
-                
             });
     
             // Verifique a resposta do servidor
@@ -257,7 +256,7 @@ export const Salas: React.FC = () => {
                                                         <td>{sala.id}</td>
                                                         <td style={{ color: sala.status === '1' ? 'red' : '' }}>{sala.nome}</td>
                                                         <td className="!flex !justify-end">
-                                                            <button type='button' data-id={sala.id} onClick={() => handleView(sala.id)} className='mx-1 viewBtn btn btn-info btn-sm'>Visualizar</button>
+                                                            <button type='button' data-id={sala.id} onClick={() => handleView(sala.id)} className='mx-1 viewBtn btn btn-info btn-sm text-white'>Visualizar</button>
                                                             <button type='button' data-id={sala.id} onClick={() => handleEdit(sala.id)} className='mx-1 editBtn btn btn-success btn-sm'>Editar</button>
                                                             <button type='button' data-id={sala.id} onClick={() => handleDelete(sala.id)} className='mx-1 deleteBtn btn btn-danger btn-sm'>Deletar</button>
                                                         </td>

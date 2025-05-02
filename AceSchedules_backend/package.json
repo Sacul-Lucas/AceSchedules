@@ -4,10 +4,12 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "tsx src/server.ts --inspect --transpile-only --ignore-watch node_modules",
+    "dev": "tsx watch src/server.ts",
     "tsc": "tsc",
     "build": "tsc",
-    "start": "node dist/server.js"
+    "start": "node dist/server.js",
+    "preview": "cross-env NODE_ENV=production node server",
+    "compile": "tsc --project ./tsconfig.json"
   },
   "dependencies": {
     "@types/jest": "^29.5.12",

@@ -75,24 +75,19 @@ export const AdminPopups: React.FC<AdminPopupsProps> = ({
                 await onSave(formData);
             } else if (location.pathname === '/AceSchedules/Salas') {
                 const formData = new FormData();
+
+                const backImgInput = document.getElementById(idModal === 'Editmodal' ? 'EditIMG' : 'AddIMG') as HTMLInputElement;
+                const backImgFile = backImgInput?.files ? backImgInput.files[0] : null;
+                
+                if (backImgFile) {
+                    formData.append('backImg', backImgFile);
+                }
+
                 formData.append('id', selectedSala?.id ? selectedSala.id.toString() : '');
                 formData.append('nome', (document.getElementById(idModal === 'Editmodal' ? 'EditSala' : 'AddSala') as HTMLInputElement)?.value || '');
                 formData.append('descricao', (document.getElementById(idModal === 'Editmodal' ? 'EditDescription' : 'AddDescription') as HTMLInputElement)?.value || '');
                 formData.append('caracteristicas', (document.getElementById(idModal === 'Editmodal' ? 'EditCaract' : 'AddCaract') as HTMLInputElement)?.value || '');
                 formData.append('status', statusChecked || '');
-    
-                const backImgInput = document.getElementById(idModal === 'Editmodal' ? 'EditIMG' : 'AddIMG') as HTMLInputElement;
-                const backImgFile = backImgInput?.files ? backImgInput.files[0] : null;
-                if (backImgFile) {
-                    formData.append('backImg', backImgFile);
-                }
-    
-                console.log('ID:', Number(formData.get('id')));  // Transformando para número
-                console.log('Nome:', formData.get('nome'));
-                console.log('Descrição:', formData.get('descricao'));
-                console.log('Características:', formData.get('caracteristicas'));
-                console.log('Status:', formData.get('status'));
-                console.log('Imagem:', formData.get('backImg'));
 
                 await onSave(formData);
             }
