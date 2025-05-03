@@ -1,18 +1,18 @@
 import { startCronJob } from './actions/cronTask.ts';
 import { router } from './routes/Router';
+import { fileURLToPath } from 'url';
 import express from 'express';
 import cors from 'cors';
 import session from 'express-session';
 import cookieParser from 'cookie-parser';
-import dotenv from 'dotenv'; // Importando dotenv para carregar variáveis de ambiente  (npm install dotenv nodemailer twilio jsonwebtoken mysql2)
+import dotenv from 'dotenv';
 import mysql from 'mysql2';
 import MySQLStoreFactory from 'express-mysql-session';
-// import path from 'path';
-// import { fileURLToPath } from 'url';
+import path from 'path';
 
 declare module 'express-session' {
   interface SessionData {
-    userId: number; // ou o tipo que você está usando
+    userId: number;
   }
 }
 
@@ -44,19 +44,17 @@ const sessionStore = new MySQLStore({
   password: isProduction ? process.env.DB_PASSWORD : '201024',
   database: isProduction ? process.env.DB_NAME : 'aceschedules',
   port: Number(isProduction ? process.env.DB_PORT : 5500),
-  // Outras opções opcionais do store:
   clearExpired: true,
-  checkExpirationInterval: 900000, // 15 minutos
-  expiration: 86400000 // 24 horas
+  checkExpirationInterval: 900000,
+  expiration: 86400000
 });
 
 const app = express();
 
-// const __filename = fileURLToPath(import.meta.url);
-// const __dirname = path.dirname(__filename);
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 app.use(express.json());
-// app.use('api/uploads/salas', express.static(path.resolve(__dirname, '../public/uploads/salas')));
 
 app.use(cors({
   origin: (origin, callback) => {
@@ -89,7 +87,7 @@ app.use(session({
   store: sessionStore,
   cookie: { 
     httpOnly: true,
-    secure: isProduction, // true somente em produção
+    secure: isProduction,
     sameSite: isProduction ? 'none' : 'lax',
     maxAge: 1000 * 60 * 60 * 24 
   },
@@ -104,6 +102,19 @@ app.use(
 );
 
 app.use('/api', router);
+
+app.use('/api/uploads/salas', (req, res, next) => {
+  const filePath = path.join(__dirname, '../public/uploads/salas', req.url);
+  res.type(path.extname(filePath));
+  express.static(path.resolve(__dirname, '../public/uploads/salas'))(req, res, next);
+
+  res.header('Access-Control-Allow-Origin', 'https://sacul-lucas.github.io');
+  res.header('Access-Control-Allow-Origin', 'http://localhost:5000');
+  res.header('Access-Control-Allow-Credentials', 'true');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  res.header('Cross-Origin-Resource-Policy', 'cross-origin');
+  // next();
+}, express.static(path.resolve(__dirname, '../public/uploads/salas')));
 
 // Iniciar o cron job
 startCronJob();
