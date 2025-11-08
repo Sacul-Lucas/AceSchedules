@@ -1,8 +1,9 @@
 import { Card } from "../../Core/Components/Cards/Card";
 import { useEffect, useState } from "react";
 import { PanelBody } from "../../Core/Components/Body/PanelBody";
-import painelStyles from "../../Core/Css/Owned/Painel.module.css";
 import { API_BASE_URL } from "../../Config";
+
+import painelStyles from "../../Core/Css/Owned/Painel.module.css";
 
 export const Painel = () => {
     const [salas, setSalas] = useState<any[]>([])

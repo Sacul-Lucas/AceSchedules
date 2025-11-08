@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { AdminPopups } from "../../Core/Components/Pop-ups/AdminPopups";
-import DatePicker from "react-datepicker";
 import { ptBR } from 'date-fns/locale';
 import { startOfMonth, endOfMonth, isWithinInterval, addHours } from 'date-fns';
 import { handleAlert, ResponsePopup } from "../../Core/Components/Pop-ups/ResponsePopup";
 import { PanelSidebar } from "../../Core/Components/Sidebar/PanelSidebar";
 import { DefineApp } from "../../Core/Components/Utils/DefineApp";
 import { formatDateForMySQL } from "../../Core/Components/Utils/functions/DateUtils";
+import { API_BASE_URL } from "../../Config";
+
 import adminReservasStyles from '../../Core/Css/Owned/AdminRoom.module.css';
 import appAdminIcon from "../../assets/icons/admin-alt-solid.svg";
-import { API_BASE_URL } from "../../Config";
+import DatePicker from "react-datepicker";
+
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 export const Reservas: React.FC = () => {

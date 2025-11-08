@@ -1,10 +1,10 @@
 import { FormsUsuarios, Usuario } from "../Forms/FormsUsuarios";
-import Button from 'react-bootstrap/Button';
-import Modal from 'react-bootstrap/Modal';
 import { FormsSalas, Sala} from '../Forms/FormsSala';
 import { FormsReserva, Reserva } from '../Forms/FormsReserva';
 import { Dispatch, SetStateAction, useState } from "react";
 import { formatDateForMySQL, parseDateString } from "../Utils/functions/DateUtils";
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
 
 
 interface AdminPopupsProps {
@@ -253,9 +253,11 @@ export const AdminPopups: React.FC<AdminPopupsProps> = ({
                 <Modal.Header closeButton>
                     <Modal.Title>{formLabel}</Modal.Title>
                 </Modal.Header>
+
                 <Modal.Body>
                     {renderForm()}
                 </Modal.Body>
+                
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleClose}>Fechar</Button>
                     {idModal !== "Viewmodal" && (

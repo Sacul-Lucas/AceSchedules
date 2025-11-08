@@ -1,10 +1,12 @@
 import React, { FormEventHandler, useEffect, useState } from 'react';
-import DatePicker from "react-datepicker";
+import { API_BASE_URL } from '../../../Config';
 import { ptBR } from 'date-fns/locale';
 import { startOfMonth, endOfMonth, isWithinInterval, addHours } from 'date-fns';
 import { parseStringToDate } from '../Utils/functions/DateUtils';
+import DatePicker from "react-datepicker";
+
 import "react-datepicker/dist/react-datepicker.css";
-import { API_BASE_URL } from '../../../Config';
+
 
 interface Sala {
   id: string;

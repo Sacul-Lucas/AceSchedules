@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { DefineApp } from '../../Core/Components/Utils/DefineApp';
-import appUserIcon from '../../assets/icons/user-circle-solid.svg';
 import { API_BASE_URL } from '../../Config';
+import appUserIcon from '../../assets/icons/user-circle-solid.svg';
 
 const PasswordRecovery: React.FC = () => {
   // State para armazenar o tipo de recuperação selecionado (email ou telefone)

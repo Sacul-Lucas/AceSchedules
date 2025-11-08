@@ -81,7 +81,7 @@ app.use((_req, res, next) => {
 app.use(cookieParser());
 
 app.use(session({
-  secret: process.env.SESSION_SECRET || 'secreção', // Usando uma variável de ambiente para a secret
+  secret: process.env.SESSION_SECRET || 'secreção',
   resave: false,
   saveUninitialized: true,
   store: sessionStore,

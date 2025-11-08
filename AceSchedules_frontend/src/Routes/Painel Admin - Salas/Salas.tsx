@@ -3,10 +3,11 @@ import { AdminPopups } from '../../Core/Components/Pop-ups/AdminPopups';
 import { handleAlert, ResponsePopup } from "../../Core/Components/Pop-ups/ResponsePopup";
 import { PanelSidebar } from "../../Core/Components/Sidebar/PanelSidebar";
 import { DefineApp } from "../../Core/Components/Utils/DefineApp";
+import { API_BASE_URL } from "../../Config";
 import adminSalasStyles from '../../Core/Css/Owned/AdminRoom.module.css';
 import appAdminIcon from "../../assets/icons/admin-alt-solid.svg";
+
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { API_BASE_URL } from "../../Config";
 
 export const Salas: React.FC = () => {
     const [salas, setSalas] = useState<any[]>([]);
