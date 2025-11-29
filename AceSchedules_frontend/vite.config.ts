@@ -9,7 +9,7 @@ export default defineConfig(({ mode }) => {
       proxy: {
         '/api': {
           target: isProduction
-            ? 'https://aceschedules-production.up.railway.app'
+            ? 'https://aceschedules.onrender.com'
             : 'http://localhost:5001',
           changeOrigin: true,
         },
