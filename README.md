@@ -14,8 +14,8 @@ Trabalho de conclusão de curso (TCC) baseado na criação de um sistema de rese
 - `Validação cadastral (b)`: criptografia de senhas no momento do cadastro
 - `Validação cadastral (c)`: verificação de conflitos entre dados cadastrais (nome de usuário, email, número de telefone e CNPJ)
 
-- `Usuário administrador`: possibilidade da criação de usuários administradores, que administrariam os usuários, espaços/ferramentas e reservas criadas (em andamento)
-- `Mudança de dados cadastrais`: possibilidade de mudança de dados cadastrais (em andamento)
+- `Usuário administrador`: possibilidade da criação de usuários administradores, que administrariam os usuários, espaços/ferramentas e reservas criadas
+- `Mudança de dados cadastrais`: possibilidade de mudança de dados cadastrais
 - `Recuperação de senha`: possibilidade de recuperação de senha (em andamento)
   
 - `Reservas`: reserva de espaços/ferramentas em um período de datas e horários definido pelo usuário
