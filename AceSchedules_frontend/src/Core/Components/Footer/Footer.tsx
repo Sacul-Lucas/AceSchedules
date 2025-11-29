@@ -1,17 +1,10 @@
 import { FaInstagram, FaLinkedin, FaSquareFacebook } from "react-icons/fa6"
-import { useNavigate } from "react-router-dom"
 import moment from 'moment';
 import footerStyles from '../../Css/Owned/Painel.module.css';
 import logoFooterWhite from '../../../assets/img/logo-footer-white.png';
 import logoAce from '../../../assets/img/Logo - Ace Schedules.jpg';
 
 export const Footer = () => {
-    const navigate = useNavigate();
-
-    const goToSecret = () => {
-        navigate('/src/Routes/Secret/Projeto nêmesis/1 Player/Projeto nêmesis.html');
-    }
-
     return (
         <footer id="footer" className={`animate-[2s_showUp_ease-in] transition-all ${footerStyles.footer}`}>
             <div className={footerStyles.rodapeContent}>
@@ -106,7 +99,6 @@ export const Footer = () => {
                             src={logoAce}
                             className="rounded-full lg:!w-[4vw]" 
                             title="aceschedulesLogo" 
-                            onClick={goToSecret}
                         />
                     </div>
 
