@@ -4,6 +4,7 @@
 
 ![](https://img.shields.io/badge/Status-Em%20desenvolvimento-blue)
 ![](https://img.shields.io/github/commit-activity/t/Sacul-Lucas/AceSchedules)
+![](https://img.shields.io/github/contributors/Sacul-Lucas/AceSchedules?color=blue)
 
 Trabalho de conclusão de curso (TCC) baseado na criação de um sistema de reservas para espaços/ferramentas de instituições/empresas (a instituição utilizada foi a própria instituição de ensino ETPC).
 
