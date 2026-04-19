@@ -29,6 +29,14 @@ jobs:
 
       - name: Instalar dependências
         run: yarn install
+        continue-on-error: true
+        
+      - name: Retry install if failed
+        if: failure()
+        run: |
+          echo "First attempt failed, retrying..."
+          sleep 10
+          yarn install
 
       - name: Build do projeto
         run: yarn build
