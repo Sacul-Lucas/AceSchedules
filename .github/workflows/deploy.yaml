@@ -7,6 +7,11 @@ on:
     branches: [ "God" ]
   workflow_dispatch:
 
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -29,14 +34,6 @@ jobs:
 
       - name: Instalar dependências
         run: yarn install
-        continue-on-error: true
-        
-      - name: Retry install if failed
-        if: failure()
-        run: |
-          echo "First attempt failed, retrying..."
-          sleep 10
-          yarn install
 
       - name: Build do projeto
         run: yarn build
