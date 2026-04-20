@@ -1,0 +1,50 @@
+name: Test AceSchedules Frontend
+
+on:
+  pull_request:
+    branches: [ "God" ]
+  push:
+    branches: [ "God" ]  # Para testes após merge também
+
+permissions:
+  contents: read  # ← APENAS read para testes
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: ./AceSchedules_frontend
+
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      - name: Instalar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'yarn'
+
+      - name: Instalar dependências
+        run: yarn install --frozen-lockfile
+
+      - name: Lint código
+        run: yarn lint  # ou yarn lint:fix se existir
+
+      - name: Testes unitários
+        run: yarn test  # ou yarn test:unit
+
+      - name: Build para verificação
+        run: yarn build
+
+      - name: Verificar se build foi bem-sucedido
+        run: |
+          if [ -d "dist" ]; then
+            echo "✅ Build OK! Tamanho do bundle:"
+            du -sh dist/*
+          else
+            echo "❌ Build falhou - pasta dist não existe"
+            exit 1
+          fi
