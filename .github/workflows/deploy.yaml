@@ -3,9 +3,7 @@ name: Deploy Vite AceSchedules Site to GitHub Pages
 on:
   push:
     branches: [ "God" ]
-  pull_request:
-    branches: [ "God" ]
-  workflow_dispatch:
+  #workflow_dispatch:
 
 permissions:
   contents: write
@@ -22,33 +20,24 @@ jobs:
 
     steps:
       - name: Checkout do código
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Instalar Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: '22.14.0'
-
-      - name: Limpar cache de dependências
-        run: yarn cache clean
+          node-version: '22'
+          cache: 'yarn'
 
       - name: Instalar dependências
-        run: yarn install
-        continue-on-error: true
-        
-      - name: Retry install if failed
-        if: failure()
-        run: |
-          echo "First attempt failed, retrying..."
-          sleep 10
-          yarn install
+        run: yarn install --frozen-lockfile
 
       - name: Build do projeto
         run: yarn build
 
       - name: Deploy para GitHub Pages
-        if: github.event_name == 'push' && github.ref == 'refs/heads/God'
-        uses: peaceiris/actions-gh-pages@v3
+        uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./AceSchedules_frontend/dist
+          force_orphan: true
+          commit_message: 'Deploy: {{ github.sha }}'
