@@ -3,7 +3,6 @@ name: Deploy Vite AceSchedules Site to GitHub Pages
 on:
   push:
     branches: [ "God" ]
-  #workflow_dispatch:
 
 permissions:
   contents: write
@@ -27,9 +26,10 @@ jobs:
         with:
           node-version: '22'
           cache: 'yarn'
+          cache-dependency-path: AceSchedules_frontend/yarn.lock
 
       - name: Instalar dependências
-        run: yarn install --frozen-lockfile
+        run: yarn install
 
       - name: Build do projeto
         run: yarn build
