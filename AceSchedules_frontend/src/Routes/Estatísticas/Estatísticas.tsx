@@ -1,6 +1,5 @@
 import { Chart } from 'primereact/chart';
 import { useEffect, useState } from "react";
-import { PanelBody } from '../../Core/Components/Body/PanelBody';
 
 export const Estatísticas = () => {
     const [chartData, setChartData] = useState({});
@@ -42,10 +41,8 @@ export const Estatísticas = () => {
     }, []);
 
     return (
-        <PanelBody>
-            <div className="flex mt-[10dvh] col justify-center align-middle">
-                <Chart type="pie" data={chartData} options={chartOptions} className="w-full md:w-30rem" />
-            </div>
-        </PanelBody>
+        <div className="flex mt-[10dvh] col justify-center align-middle">
+            <Chart type="pie" data={chartData} options={chartOptions} className="w-full md:w-30rem" />
+        </div>
     )
 }

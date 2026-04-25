@@ -15,7 +15,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  animation: 1s anim-lineDown2 ease-in;
 }
 
 .subBar {
@@ -25,7 +24,6 @@
   position: relative;
   justify-content: center;
   align-items: center;
-  animation: 1s anim-lineDown2 ease-in;
 }
 
 .subBar p {
@@ -34,7 +32,6 @@
   height: 2.5dvh;
   text-transform: uppercase;
   position: relative;
-  animation: 1s anim-lineDown2 ease-in;
   vertical-align: middle;
   margin: 0 !important;
   line-height: 20px;
@@ -76,7 +73,6 @@
   display: block;
   position: static;
   cursor: pointer;
-  animation: 1.2s anim-lineDown2 ease-in;
 }
 
 .bar1,
@@ -136,43 +132,6 @@
   transform: translateY(4px);
 }
 
-
-@keyframes anim-lineUp {
-  0% {
-    opacity: 0;
-    transform: translateY(80%);
-  }
-  20% {
-    opacity: 0;
-  }
-  50% {
-    opacity: 1;
-    transform: translateY(0%);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0%);
-  }
-}
-
-@keyframes anim-lineDown2 {
-  0% {
-    opacity: 0;
-    transform: translateY(-15%);
-  }
-  20% {
-    opacity: 0;
-  }
-  50% {
-    opacity: 1;
-    transform: translateY(0%);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0%);
-  }
-}
-
 @keyframes showUp {
   0% {
     opacity: 0;
@@ -203,7 +162,6 @@
   text-align: center;
   font-size: 4.25vw;
   position: relative;
-  animation: 1.2s anim-lineDown2 ease-in;
 }
 
 .barSocial i {
@@ -213,8 +171,6 @@
 
   transition: 0.5s;
   color: #00b6ca;
-
-  animation: 1.2s anim-lineDown2 ease-in;
 }
 
 .barSocial i:hover {
@@ -225,8 +181,6 @@
 
 .row {
   height: 88%;
-  animation: 3s showUp ease-in;
-
 }
 
 .col {
@@ -314,7 +268,6 @@ dialog {
   width: 8.5%;
   margin-right: 0.5rem;
   height: auto;
-  animation: .5s anim-lineDown2 ease-in;
 }
 
 .enfeite2 {
@@ -324,8 +277,6 @@ dialog {
   bottom: 0.5rem;
   margin-left: 0.5rem;
   height: auto;
-  animation: .5s anim-lineUp ease-out;
-
 }
 
 /*Cards*/

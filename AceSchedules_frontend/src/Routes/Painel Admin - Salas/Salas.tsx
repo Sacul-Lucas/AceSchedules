@@ -1,12 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { AdminPopups } from '../../Core/Components/Pop-ups/AdminPopups';
 import { handleAlert, ResponsePopup } from "../../Core/Components/Pop-ups/ResponsePopup";
-import { PanelSidebar } from "../../Core/Components/Sidebar/PanelSidebar";
-import { DefineApp } from "../../Core/Components/Utils/DefineApp";
 import { API_BASE_URL } from "../../Config";
 import adminSalasStyles from '../../Core/Css/Owned/AdminRoom.module.css';
-import appAdminIcon from "../../assets/icons/admin-alt-solid.svg";
-
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 export const Salas: React.FC = () => {
@@ -194,92 +190,90 @@ export const Salas: React.FC = () => {
     }, [filterNome, apenasBloqueadas]);
 
     return (
-        <DefineApp appIcon={appAdminIcon} appTitle={`Ace Schedules - Painel administrador de salas`}>
-            <PanelSidebar visible={true} isFixed>
-                <AdminPopups
-                    idModal={editMode ? 'Editmodal' : viewMode ? 'Viewmodal' : 'Addmodal'}
-                    formLabel={editMode ? 'Editar sala' : viewMode ? 'Visualizar sala' : 'Criar sala'}
-                    selectedSala={selectedSala}
-                    show={show}
-                    handleClose={handleClose}
-                    onSave={actionSave}     
-                />
+        <div>
+            <AdminPopups
+                idModal={editMode ? 'Editmodal' : viewMode ? 'Viewmodal' : 'Addmodal'}
+                formLabel={editMode ? 'Editar sala' : viewMode ? 'Visualizar sala' : 'Criar sala'}
+                selectedSala={selectedSala}
+                show={show}
+                handleClose={handleClose}
+                onSave={actionSave}     
+            />
 
-                <div className="relative flex flex-col flex-auto items-center">
-                    <div className={`${adminSalasStyles.container} mt-4 xl:!max-w-[75%] h-fit w-full`}>
-                        <div className="row">
-                            <div className="col-md-12">
-                                <div className="card">
-                                    <div className="card-header">
-                                        <h4>
-                                            {!apenasBloqueadas && (
-                                                <span id="quantidade_salas_text">
-                                                    Salas: (<span id="total_salas">{totalSalas}</span>);
-                                                </span>
-                                            )}
-                                            Salas bloqueadas: (<span id="bloqueadas_salas">{bloqueadasSalas}</span>)
-                                            <button type="button" onClick={handleAdd} className="btn btn-primary float-end">Adicionar sala</button>
-                                            <div className="flex items-center justify-start pt-3 text-lg align-middle w-100">
-                                                <label className="pr-2 !m-0 text-black" htmlFor="filter_nome">Nome da sala:</label>
-                                                <input 
-                                                    className="pl-2 !text-black !border !border-black !h-7 p-[0.1rem]" 
-                                                    type="text" 
-                                                    id="filter_nome" 
-                                                    name="filter_nome" 
-                                                    autoComplete="OFF" 
-                                                    value={filterNome}
-                                                    onChange={(e) => setFilterNome(e.target.value)}
-                                                />
-                                                <label htmlFor="apenas_bloqueadas" className="pl-2 pr-2 !m-0 text-black">Mostrar apenas bloqueadas</label>
-                                                <input 
-                                                    className="!text-black !border !border-black !h-7 p-[0.1rem]" 
-                                                    type="checkbox" 
-                                                    id="apenas_bloqueadas" 
-                                                    name="apenas_bloqueadas" 
-                                                    checked={apenasBloqueadas}
-                                                    onChange={(e) => setApenasBloqueadas(e.target.checked)}
-                                                />
-                                            </div>
-                                        </h4>
-                                    </div>
-                                    <div className="card-body">
-                                        <table className="table table-bordered table-striped" id="salas">
-                                            <thead>
-                                                <tr>
-                                                    <th>ID</th>
-                                                    <th>Nome da Sala</th>
-                                                    <th>Ações</th>
+            <div className="relative flex flex-col flex-auto items-center">
+                <div className={`${adminSalasStyles.container} mt-4 xl:!max-w-[75%] h-fit w-full`}>
+                    <div className="row">
+                        <div className="col-md-12">
+                            <div className="card">
+                                <div className="card-header">
+                                    <h4>
+                                        {!apenasBloqueadas && (
+                                            <span id="quantidade_salas_text">
+                                                Salas: (<span id="total_salas">{totalSalas}</span>);
+                                            </span>
+                                        )}
+                                        Salas bloqueadas: (<span id="bloqueadas_salas">{bloqueadasSalas}</span>)
+                                        <button type="button" onClick={handleAdd} className="btn btn-primary float-end">Adicionar sala</button>
+                                        <div className="flex items-center justify-start pt-3 text-lg align-middle w-100">
+                                            <label className="pr-2 !m-0 text-black" htmlFor="filter_nome">Nome da sala:</label>
+                                            <input 
+                                                className="pl-2 !text-black !border !border-black !h-7 p-[0.1rem]" 
+                                                type="text" 
+                                                id="filter_nome" 
+                                                name="filter_nome" 
+                                                autoComplete="OFF" 
+                                                value={filterNome}
+                                                onChange={(e) => setFilterNome(e.target.value)}
+                                            />
+                                            <label htmlFor="apenas_bloqueadas" className="pl-2 pr-2 !m-0 text-black">Mostrar apenas bloqueadas</label>
+                                            <input 
+                                                className="!text-black !border !border-black !h-7 p-[0.1rem]" 
+                                                type="checkbox" 
+                                                id="apenas_bloqueadas" 
+                                                name="apenas_bloqueadas" 
+                                                checked={apenasBloqueadas}
+                                                onChange={(e) => setApenasBloqueadas(e.target.checked)}
+                                            />
+                                        </div>
+                                    </h4>
+                                </div>
+                                <div className="card-body">
+                                    <table className="table table-bordered table-striped" id="salas">
+                                        <thead>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Nome da Sala</th>
+                                                <th>Ações</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {salas.length > 0 ? salas.map(sala => (
+                                                <tr key={sala.id}>
+                                                    <td>{sala.id}</td>
+                                                    <td style={{ color: sala.status === '1' ? 'red' : '' }}>{sala.nome}</td>
+                                                    <td className="!flex !justify-end">
+                                                        <button type='button' data-id={sala.id} onClick={() => handleView(sala.id)} className='mx-1 viewBtn btn btn-info btn-sm text-white'>Visualizar</button>
+                                                        <button type='button' data-id={sala.id} onClick={() => handleEdit(sala.id)} className='mx-1 editBtn btn btn-success btn-sm'>Editar</button>
+                                                        <button type='button' data-id={sala.id} onClick={() => handleDelete(sala.id)} className='mx-1 deleteBtn btn btn-danger btn-sm'>Deletar</button>
+                                                    </td>
                                                 </tr>
-                                            </thead>
-                                            <tbody>
-                                                {salas.length > 0 ? salas.map(sala => (
-                                                    <tr key={sala.id}>
-                                                        <td>{sala.id}</td>
-                                                        <td style={{ color: sala.status === '1' ? 'red' : '' }}>{sala.nome}</td>
-                                                        <td className="!flex !justify-end">
-                                                            <button type='button' data-id={sala.id} onClick={() => handleView(sala.id)} className='mx-1 viewBtn btn btn-info btn-sm text-white'>Visualizar</button>
-                                                            <button type='button' data-id={sala.id} onClick={() => handleEdit(sala.id)} className='mx-1 editBtn btn btn-success btn-sm'>Editar</button>
-                                                            <button type='button' data-id={sala.id} onClick={() => handleDelete(sala.id)} className='mx-1 deleteBtn btn btn-danger btn-sm'>Deletar</button>
-                                                        </td>
-                                                    </tr>
-                                                )) : (
-                                                    <tr><td colSpan={5}>Nenhuma sala encontrada.</td></tr>
-                                                )}
-                                            </tbody>
-                                        </table>
-                                    </div>
+                                            )) : (
+                                                <tr><td colSpan={5}>Nenhuma sala encontrada.</td></tr>
+                                            )}
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                
-                <ResponsePopup 
-                    type={error ? 'error' : 'success'} 
-                    title={error ? 'Erro' : 'Pronto!'} 
-                    description={error || success} 
-                />
-            </PanelSidebar>
-        </DefineApp>
+            </div>
+            
+            <ResponsePopup 
+                type={error ? 'error' : 'success'} 
+                title={error ? 'Erro' : 'Pronto!'} 
+                description={error || success} 
+            />
+        </div>
     );
 };

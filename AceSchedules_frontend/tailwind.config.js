@@ -34,7 +34,43 @@ export const theme = {
         '100%': {
           opacity: 1
         }
-      }
+      },
+
+      lineUp: {
+        '0%': {
+          opacity: '0',
+          transform: 'translateY(80%)',
+        },
+        '20%': {
+          opacity: '0',
+        },
+        '50%': {
+          opacity: '1',
+          transform: 'translateY(0%)',
+        },
+        '100%': {
+          opacity: '1',
+          transform: 'translateY(0%)',
+        },
+      },
+      
+      lineDown: {
+        '0%': {
+          opacity: '0',
+          transform: 'translateY(-15%)',
+        },
+        '20%': {
+          opacity: '0',
+        },
+        '50%': {
+          opacity: '1',
+          transform: 'translateY(0%)',
+        },
+        '100%': {
+          opacity: '1',
+          transform: 'translateY(0%)',
+        },
+      },
     }
   },
 };

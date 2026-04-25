@@ -1,34 +1,39 @@
-import { useRef, SetStateAction, Dispatch, useState, useEffect, ReactNode } from 'react';
+import { useRef, SetStateAction, Dispatch, useState, useEffect, ReactNode, useLayoutEffect } from 'react';
+import { GetUsertypeAction } from '../../Actions/GetUserTypeAction';
+import { GetUsernameAction } from '../../Actions/GetUsernameAction';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { UserLogoutAction } from '../../Actions/UserLogoutAction';
+import { getInitials } from '../Utils/functions/Formatter';
+import { MdOutlineMeetingRoom } from 'react-icons/md';
+import { ScrollPanel } from 'primereact/scrollpanel';
+import { StyleClass } from 'primereact/styleclass';
 import { Sidebar } from 'primereact/sidebar';
 import { Button } from 'primereact/button';
 import { Avatar } from 'primereact/avatar';
 import { Ripple } from 'primereact/ripple';
-import { ScrollPanel } from 'primereact/scrollpanel';
-import { StyleClass } from 'primereact/styleclass';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { UserLogoutAction } from '../../Actions/UserLogoutAction';
-import { GetUsernameAction } from '../../Actions/GetUsernameAction';
-import { MdOutlineMeetingRoom } from 'react-icons/md';
-import { GetUsertypeAction } from '../../Actions/GetUserTypeAction';
-import { getInitials } from '../Utils/functions/Formatter';
 import { FaUnlock } from "react-icons/fa6";
 import { FaLock } from "react-icons/fa6";
+
 import logoAce from '../../../assets/img/Logo - Ace Schedules.jpg';
 import panelSidebarStyles from '../../Css/Owned/Painel.module.css';
 
 interface PanelSidebarProps {
     visible?: boolean, 
     setVisible?: Dispatch<SetStateAction<boolean>>,
-    isFixed?: boolean
-    children: ReactNode
+    isFixed?: boolean,
+    children: ReactNode,
+    canAnimate: boolean
 }
 
 export const PanelSidebar: React.FC<PanelSidebarProps> = ({ 
     visible, 
     setVisible,
     isFixed,
-    children
+    children,
+    canAnimate
 }) => {
+    const [mounted, setMounted] = useState(false);
+
     const [username, setUsername] = useState('');
     const [usertype, setUsertype] = useState('');
     const location = useLocation();
@@ -53,6 +58,8 @@ export const PanelSidebar: React.FC<PanelSidebarProps> = ({
         });
     }
 
+    const isVisible = isFixed ? true : visible;
+
     const navigate = useNavigate();
 
     const handleLogout = async (e: { preventDefault: () => void; }) => {
@@ -62,6 +69,7 @@ export const PanelSidebar: React.FC<PanelSidebarProps> = ({
 
         switch (logoutRes.status) {
             case 'SUCCESS':
+                sessionStorage.removeItem('visited')
                 navigate('/Login');
                 break;
 
@@ -132,11 +140,17 @@ export const PanelSidebar: React.FC<PanelSidebarProps> = ({
         }
     }, [sidebarLockedState, isFixed]);
 
+    useLayoutEffect(() => {
+      setMounted(true);
+    }, []);
+
+    if (!mounted) return null;
+
     return (
         <div className="flex flex-row flex-nowrap">
             <div className='flex justify-content-center' id='reservationPanel'>
                 <Sidebar
-                    visible={isFixed || visible}
+                    visible={isVisible}
                     onHide={() => {
                         if (!isFixed && setVisible) {
                             setVisible(false);
@@ -144,7 +158,8 @@ export const PanelSidebar: React.FC<PanelSidebarProps> = ({
                         }
                     }}
                     appendTo={document.getElementById('reservationPanel')!}
-                    maskClassName={`${sidebarLockedState === 'true' ? panelSidebarStyles.sidebarLocked : panelSidebarStyles.sidebarUnlocked}`}
+                    className={`${isSidebarLocked && !canAnimate ? '!transition-none !animate-none' : ''}`}
+                    maskClassName={`${sidebarLockedState === 'true' ? `${panelSidebarStyles.sidebarLocked} !transition-none !animate-none` : panelSidebarStyles.sidebarUnlocked}`}
                     content={({ closeIconRef, hide }) => (
                         <div className="relative flex min-h-screen lg:static surface-ground">
                             <div id="app-sidebar-2" className="absolute top-0 left-0 flex-shrink-0 block w-full h-screen select-none surface-section lg:static z-1 border-right-1 surface-border">
@@ -230,14 +245,14 @@ export const PanelSidebar: React.FC<PanelSidebarProps> = ({
                                                                 <Ripple />
                                                             </Link>
                                                         </li>
-                                                        {/* <li>
+                                                        <li>
                                                             <Link className={`flex w-full p-3 transition-colors cursor-pointer p-ripple align-items-center border-round text-700 ${location.pathname === '/Estat%C3%ADsticas' ? 'bg-[#007bff] text-white' : 'hover:surface-100'} transition-duration-150 !no-underline`} to={'/Estatísticas'}>
                                                                 <i className="mr-2 pi pi-bookmark"></i>
                                                                 <span className="font-medium">Estatísticas</span>
                                                                 <Ripple />
                                                             </Link>
-                                                        </li> */}
-                                                        <li>
+                                                        </li>
+                                                        {/* <li>
                                                             <StyleClass nodeRef={btnRef3} selector="@next" enterClassName="hidden" enterActiveClassName="slidedown" leaveToClassName="hidden" leaveActiveClassName="slideup">
                                                                 <a ref={btnRef3} className="flex w-full p-3 transition-colors cursor-pointer p-ripple align-items-center border-round text-700 hover:surface-100 transition-duration-150">
                                                                     <i className="mr-2 pi pi-check-square"></i>
@@ -281,7 +296,7 @@ export const PanelSidebar: React.FC<PanelSidebarProps> = ({
                                                                     </Link>
                                                                 </li>
                                                             </ul>
-                                                        </li>
+                                                        </li> */}
                                                     </ul>
                                                 </li>
                                             </ul>
