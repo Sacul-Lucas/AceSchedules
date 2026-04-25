@@ -5,16 +5,18 @@ import logoBlueEtpc from '../../../assets/img/logo.png';
 
 interface NavSidebarProps {
     showSidebar: () => void,
-    isSidebarVisible?: boolean 
+    isSidebarVisible?: boolean, 
+    canAnimate: boolean
 }
 
 export const Navbar: React.FC<NavSidebarProps> = ({ 
     showSidebar,
-    isSidebarVisible
+    isSidebarVisible,
+    canAnimate
 }) => {    
     return (
         <header>
-            <div className={navbarStyles.navbar}>
+            <div className={`${navbarStyles.navbar} ${canAnimate ? "animate-[1s_lineDown_ease-in]" : ""}`}>
                 <a href="https://fundacaocsn.org.br/">
                     <img 
                         src={logoCsn}
@@ -24,10 +26,10 @@ export const Navbar: React.FC<NavSidebarProps> = ({
                 </a>
             </div>
 
-            <div className={`flex align-middle ${navbarStyles.subBar}`}>
+            <div className={`flex align-middle ${navbarStyles.subBar} ${canAnimate ? "animate-[1s_lineDown_ease-in]" : ""}`}>
 
                 <div 
-                    className={`lg:!ml-8 transition-all delay-150 ${navbarStyles.container1} ${isSidebarVisible ? 'opacity-0 invisible' : 'opacity-100 visible'}`} 
+                    className={`lg:!ml-8 transition-all delay-150 ${navbarStyles.container1} ${isSidebarVisible ? 'opacity-0 invisible' : 'opacity-100 visible'} ${canAnimate ? "animate-[12s_lineDown_ease-in]" : ""}`} 
                     onClick={showSidebar}
                 >
                     <div className={`lg:!w-[2.5vw] lg:!min-h-[0.6dvh] ${navbarStyles.bar1}`}></div>
@@ -44,26 +46,26 @@ export const Navbar: React.FC<NavSidebarProps> = ({
                 </a>
 
                 <div className={`lg:!gap-16 lg:!mr-4 ${navbarStyles.subbarLinks}`}>
-                    <p className="lg:!text-[1vw] lg:!h-auto">QUEM SOMOS</p>
+                    <p className={`lg:!text-[1vw] lg:!h-auto ${canAnimate ? "animate-[1s_lineDown_ease-in]" : ""}`}>QUEM SOMOS</p>
 
-                    <ul className={`lg:!gap-2 lg:!text-[2.3vw] ${navbarStyles.barSocial}`}>
+                    <ul className={`lg:!gap-2 lg:!text-[2.3vw] ${navbarStyles.barSocial} ${canAnimate ? "animate-[1s_lineDown_ease-in]" : ""}`}>
                         <li>
                             <a href="https://instagram.com/aceschedules?igshid=MzRlODBiNWFlZA==">
-                                <i className="fa-brands fa-instagram lg:!w-[25%]">
+                                <i className={`fa-brands fa-instagram lg:!w-[25%]`}>
                                     <FaInstagram/>
                                 </i>
                             </a>
                         </li>
                         <li>
                             <a href="https://br.linkedin.com/school/escola-tecnica-pandia-calogeras/">
-                                <i className="fa-brands fa-linkedin lg:!w-[25%]">
+                                <i className={`fa-brands fa-linkedin lg:!w-[25%]`}>
                                     <FaLinkedin/>
                                 </i>
                             </a>
                         </li>
                         <li>
                             <a href="https://github.com/Sacul-Lucas/AceSchedule">
-                                <i className="fa-brands fa-github lg:!w-[25%]">
+                                <i className={`fa-brands fa-github lg:!w-[25%]`}>
                                     <FaGithub/>
                                 </i>
                             </a>

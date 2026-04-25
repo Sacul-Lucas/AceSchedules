@@ -635,6 +635,59 @@ video {
   flex: 1 1 0%;
 }
 
+@keyframes anim-lineUp {
+  0% {
+    opacity: 0;
+    transform: translateY(80%);
+  }
+  20% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(0%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0%);
+  }
+}
+
+.animate-\[500ms_lineUp_ease-out\] {
+  animation: .5s anim-lineUp ease-out;
+}
+
+@keyframes anim-lineDown {
+  0% {
+    opacity: 0;
+    transform: translateY(-15%);
+  }
+  20% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(0%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0%);
+  }
+}
+
+.animate-\[1s_lineDown_ease-in\] {
+  animation: 1s lineDown ease-in;
+}
+
+.animate-\[12s_lineDown_ease-in\] {
+  animation: 1.2s lineDown ease-in;
+}
+
+.animate-\[500ms_lineDown_ease-in\] {
+  animation: .5s lineDown ease-in;
+}
+
+
 @keyframes showUp {
   0% {
     opacity: 0;

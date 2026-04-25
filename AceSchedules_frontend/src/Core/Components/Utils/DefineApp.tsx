@@ -23,7 +23,7 @@ export const DefineApp: React.FC<DefineAppProps> = ({
     }, [appTitle, appIcon]);
 
     return (
-        <div className={`transition-opacity duration-500 opacity-100 ${bodyStyle}`}>
+        <div className={bodyStyle}>
             {children}
         </div>
     );

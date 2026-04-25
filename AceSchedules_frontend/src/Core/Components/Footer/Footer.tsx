@@ -4,9 +4,15 @@ import footerStyles from '../../Css/Owned/Painel.module.css';
 import logoFooterWhite from '../../../assets/img/logo-footer-white.png';
 import logoAce from '../../../assets/img/Logo - Ace Schedules.jpg';
 
-export const Footer = () => {
+interface FooterProps {
+    canAnimate: boolean
+}
+
+export const Footer: React.FC<FooterProps> = ({ 
+    canAnimate
+}) => {
     return (
-        <footer id="footer" className={`animate-[2s_showUp_ease-in] transition-all ${footerStyles.footer}`}>
+        <footer id="footer" className={`${canAnimate ? "animate-[2s_showUp_ease-in]" : ""} transition-all ${footerStyles.footer}`}>
             <div className={footerStyles.rodapeContent}>
                 <div className={`lg:!w-[100%] ${footerStyles.contatosEtpc}`}>
                     <div className={`lg:!w-[30%] ${footerStyles.primeiraColuna}`}>

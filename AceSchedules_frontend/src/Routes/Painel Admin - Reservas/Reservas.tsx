@@ -3,13 +3,10 @@ import { AdminPopups } from "../../Core/Components/Pop-ups/AdminPopups";
 import { ptBR } from 'date-fns/locale';
 import { startOfMonth, endOfMonth, isWithinInterval, addHours } from 'date-fns';
 import { handleAlert, ResponsePopup } from "../../Core/Components/Pop-ups/ResponsePopup";
-import { PanelSidebar } from "../../Core/Components/Sidebar/PanelSidebar";
-import { DefineApp } from "../../Core/Components/Utils/DefineApp";
 import { formatDateForMySQL } from "../../Core/Components/Utils/functions/DateUtils";
 import { API_BASE_URL } from "../../Config";
 
 import adminReservasStyles from '../../Core/Css/Owned/AdminRoom.module.css';
-import appAdminIcon from "../../assets/icons/admin-alt-solid.svg";
 import DatePicker from "react-datepicker";
 
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -429,29 +426,201 @@ const handleEdit = async (id: number) => {
 
 
   return (
-    <DefineApp appIcon={appAdminIcon} appTitle={`Ace Schedules - Painel administrador de reservas`}>
-      <PanelSidebar visible={true} isFixed>
-        <AdminPopups
-          idModal={editMode ? 'Editmodal' : viewMode ? 'Viewmodal' : 'Addmodal'}
-          formLabel={editMode ? 'Editar reserva' : viewMode ? 'Visualizar reserva' : 'Criar reserva'}
-          show={show}
-          handleClose={handleClose}
-          selectedReserva={selectedReserva}
-          selectedUser={null}
-          onSave={actionSave}      
-          setSalaAlocada={setSalaAlocada}     
-          salaAlocada={salaAlocada} 
-          setIdSalaAlocada={setIdSalaAlocada}
-          idSalaAlocada={idSalaAlocada}       
-        />
-        <div className="relative flex flex-col flex-auto items-center">
+    <div>
+      <AdminPopups
+        idModal={editMode ? 'Editmodal' : viewMode ? 'Viewmodal' : 'Addmodal'}
+        formLabel={editMode ? 'Editar reserva' : viewMode ? 'Visualizar reserva' : 'Criar reserva'}
+        show={show}
+        handleClose={handleClose}
+        selectedReserva={selectedReserva}
+        selectedUser={null}
+        onSave={actionSave}      
+        setSalaAlocada={setSalaAlocada}     
+        salaAlocada={salaAlocada} 
+        setIdSalaAlocada={setIdSalaAlocada}
+        idSalaAlocada={idSalaAlocada}       
+      />
+      <div className="relative flex flex-col flex-auto items-center">
+        <div className={`${adminReservasStyles.container} mt-4 xl:!max-w-[90%]`}>
+          <div className="row">
+            <div className="col-md-12">
+              <div className="card">
+                <div className="card-header">
+                  <h4>Agendamentos pendentes (<span id="detalhes-usuario">{totalreservasPendentes}</span>)
+                  </h4>
+                  <div className="flex items-stretch pt-3 w-100">
+                    <div className="form-group">
+                      <label className="pr-1 text-black" >Data e hora inicial:</label>
+                      <DatePicker
+                        id={"filter_data_inicio"}
+                        selected={startDate}
+                        onChange={handleStartDateChange}
+                        showTimeSelect
+                        isClearable
+                        timeFormat="p"
+                        timeIntervals={15}
+                        timeCaption="Horário"
+                        dateFormat="Pp"
+                        locale={ptBR}
+                        placeholderText="Data de início"
+                        className="!text-black !border !border-black !h-7 p-2"
+                        filterDate={isDateWithinMonth}
+                        onMonthChange={handleMonthChange}
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label className="pl-2 pr-1 text-black" >Data e hora final:</label>
+                      <DatePicker
+                        id={"filter_data_fim"}
+                        selected={endDate}
+                        onChange={handleEndDateChange}
+                        showTimeSelect
+                        timeFormat="p"
+                        timeIntervals={15}
+                        timeCaption="Horário"
+                        dateFormat="Pp"
+                        locale={ptBR}
+                        placeholderText="Data de fim"
+                        className="!text-black !border !border-black !h-7 p-2"
+                        filterDate={isDateWithinMonth}
+                        onMonthChange={handleMonthChange}
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label className="pr-1 pl-2 text-black" htmlFor="sala_aprov">Sala alocada:</label>
+                      <select className="!text-black !border !border-black !h-7 p-[0.1rem]" id="filter_sala" name="filter_sala" onChange={(e) => setFilterSalaAlocada(e.target.value)} value={filterSalaAlocada} required>
+                        <option value="">--Todas as salas--</option>
+                        {salas.map(sala => (
+                          <option key={sala.id} value={sala.id}>{sala.nome}</option>
+                        ))}
+                      </select>
+                    </div>
+                    <div className="form-group">
+                      <label className="pl-2 pr-1 text-black" htmlFor="nome">Nome do alocador:</label>
+                      <input className="!text-black !border !border-black !p-[0.1rem]" type="text" id="filter_nome" name="filter_nome" autoComplete="OFF" onChange={(e) => setFilterAlocador(e.target.value)} value={filterAlocador}/>
+                    </div>
+                  </div>
+                </div>
+                <div className="card-body">
+                  <table className="table table-bordered table-striped" id="reservas">
+                    <thead>
+                      <tr>
+                        <th>ID</th>
+                        <th>Data e hora de início da reserva</th>
+                        <th>Data e hora do final da reserva</th>
+                        <th>Sala alocada</th>
+                        <th>Nome do Alocador</th>
+                        <th>Ações</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {renderTableRows(reservasPendentes, 'pendentes')}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+                      
+        <div className={`${adminReservasStyles.container} mt-4 xl:!max-w-[90%]`}>
+          <div className="row">
+            <div className="col-md-12">
+              <div className="card">
+                <div className="card-header">
+                <h4>Agendamentos aprovados
+                (<span id="detalhes-usuario">{totalreservasAprovadas}</span>)
+                <button type="button" onClick={handleAdd} className="btn btn-primary float-end">Adicionar agendamento</button>
+                </h4>
+                  <div className="flex items-stretch pt-3 w-100">
+                    <div className="form-group">
+                      <label className="pr-1 text-black" >Data e hora inicial:</label>
+                      <DatePicker
+                        id={"filter_data_inicio"}
+                        selected={startDate}
+                        onChange={handleStartDateChangeAprov}
+                        showTimeSelect
+                        isClearable
+                        timeFormat="p"
+                        timeIntervals={15}
+                        timeCaption="Horário"
+                        dateFormat="Pp"
+                        locale={ptBR}
+                        placeholderText="Data de início"
+                        className="!text-black !border !border-black !h-7 p-2"
+                        filterDate={isDateWithinMonth}
+                        onMonthChange={handleMonthChange}
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label className="pl-2 pr-1 text-black" >Data e hora final:</label>
+                      <DatePicker
+                        id={"filter_data_fim"}
+                        selected={endDate}
+                        onChange={handleEndDateChangeAprov}
+                        showTimeSelect
+                        timeFormat="p"
+                        timeIntervals={15}
+                        timeCaption="Horário"
+                        dateFormat="Pp"
+                        locale={ptBR}
+                        placeholderText="Data de fim"
+                        className="!text-black !border !border-black !h-7 p-2"
+                        filterDate={isDateWithinMonth}
+                        onMonthChange={handleMonthChange}
+                      />
+                    </div>
+                    <div className="form-group">
+                    <label className="pr-1 pl-2 text-black" htmlFor="sala_aprov">Sala alocada:</label>
+                      <select className="!text-black !border !border-black !h-7 p-[0.1rem]" id="sala_aprov" name="sala_aprov" onChange={(e) => setFilterSalaAlocadaAprovada(e.target.value)} value={filterSalaAlocadaAprovada} required>
+                        <option value="">--Todas as salas--</option>
+                        {salas.map(sala => (
+                            <option key={sala.id} value={sala.id}>{sala.nome}</option>
+                        ))}
+                      </select>
+                    </div>
+                    <div className="form-group">
+                      <label className="pl-2 pr-1 text-black" htmlFor="nome_aprov">Nome do alocador:</label>
+                      <input className="!text-black !border !border-black !p-[0.1rem]" type="text" id="nome_aprov" name="nome_aprov" autoComplete="OFF" onChange={(e) => setFilterAlocadorAprovada(e.target.value)} value={filterAlocadorAprovada} />
+                    </div>
+                  </div>
+                </div>
+                <div className="card-body">
+                  <table className="table table-bordered table-striped" id="reservas_aprov">
+                    <thead>
+                      <tr>
+                        <th>ID</th>
+                        <th>Data e hora de início da reserva</th>
+                        <th>Data e hora do final da reserva</th>
+                        <th>Sala alocada</th>
+                        <th>Nome do Alocador</th>
+                        <th>Ações</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {renderTableRows(reservasAprovadas, 'aprovados')}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+                      
+                      
+        <button className="btn btn-secondary mt-6" onClick={handleShowConcluidas}>{showConcluidas ? "Ocultar reservas concluídas" : "Visualizar reservas concluídas"}</button>                
+                      
+                      
+        {/* Tabela concluidas */}
+        {showConcluidas && (
           <div className={`${adminReservasStyles.container} mt-4 xl:!max-w-[90%]`}>
             <div className="row">
               <div className="col-md-12">
                 <div className="card">
                   <div className="card-header">
-                    <h4>Agendamentos pendentes (<span id="detalhes-usuario">{totalreservasPendentes}</span>)
-                    </h4>
+                  <h4>Agendamentos concluídos
+                  (<span id="detalhes-usuario">{totalreservasConcluidas}</span>)
+                  </h4>
                     <div className="flex items-stretch pt-3 w-100">
                       <div className="form-group">
                         <label className="pr-1 text-black" >Data e hora inicial:</label>
@@ -473,110 +642,29 @@ const handleEdit = async (id: number) => {
                         />
                       </div>
                       <div className="form-group">
-                        <label className="pl-2 pr-1 text-black" >Data e hora final:</label>
+                      <label className="pl-2 pr-1 text-black" >Data e hora:</label>
                         <DatePicker
-                          id={"filter_data_fim"}
-                          selected={endDate}
-                          onChange={handleEndDateChange}
-                          showTimeSelect
-                          timeFormat="p"
-                          timeIntervals={15}
-                          timeCaption="Horário"
-                          dateFormat="Pp"
-                          locale={ptBR}
-                          placeholderText="Data de fim"
-                          className="!text-black !border !border-black !h-7 p-2"
-                          filterDate={isDateWithinMonth}
-                          onMonthChange={handleMonthChange}
+                            id={"filter_data_fim_Conc"}
+                            selected={endDateConc}
+                            onChange={handleEndDateChangeConc}
+                            showTimeSelect
+                            timeFormat="p"
+                            timeIntervals={15}
+                            timeCaption="Horário"
+                            dateFormat="Pp"
+                            locale={ptBR}
+                            placeholderText="Data de fim"
+                            className="!text-black !border !border-black !h-7 p-2"
+                            filterDate={isDateWithinMonth}
+                            onMonthChange={handleMonthChange}
+                            minDate={startDate || undefined}
+                            minTime={startDate ? addHours(startDate, 1) : undefined}
+                            maxTime={startDate ? endOfMonth(startDate) : undefined}
                         />
                       </div>
                       <div className="form-group">
-                        <label className="pr-1 pl-2 text-black" htmlFor="sala_aprov">Sala alocada:</label>
-                        <select className="!text-black !border !border-black !h-7 p-[0.1rem]" id="filter_sala" name="filter_sala" onChange={(e) => setFilterSalaAlocada(e.target.value)} value={filterSalaAlocada} required>
-                          <option value="">--Todas as salas--</option>
-                          {salas.map(sala => (
-                            <option key={sala.id} value={sala.id}>{sala.nome}</option>
-                          ))}
-                        </select>
-                      </div>
-                      <div className="form-group">
-                        <label className="pl-2 pr-1 text-black" htmlFor="nome">Nome do alocador:</label>
-                        <input className="!text-black !border !border-black !p-[0.1rem]" type="text" id="filter_nome" name="filter_nome" autoComplete="OFF" onChange={(e) => setFilterAlocador(e.target.value)} value={filterAlocador}/>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="card-body">
-                    <table className="table table-bordered table-striped" id="reservas">
-                      <thead>
-                        <tr>
-                          <th>ID</th>
-                          <th>Data e hora de início da reserva</th>
-                          <th>Data e hora do final da reserva</th>
-                          <th>Sala alocada</th>
-                          <th>Nome do Alocador</th>
-                          <th>Ações</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {renderTableRows(reservasPendentes, 'pendentes')}
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-                        
-          <div className={`${adminReservasStyles.container} mt-4 xl:!max-w-[90%]`}>
-            <div className="row">
-              <div className="col-md-12">
-                <div className="card">
-                  <div className="card-header">
-                  <h4>Agendamentos aprovados
-                  (<span id="detalhes-usuario">{totalreservasAprovadas}</span>)
-                  <button type="button" onClick={handleAdd} className="btn btn-primary float-end">Adicionar agendamento</button>
-                  </h4>
-                    <div className="flex items-stretch pt-3 w-100">
-                      <div className="form-group">
-                        <label className="pr-1 text-black" >Data e hora inicial:</label>
-                        <DatePicker
-                          id={"filter_data_inicio"}
-                          selected={startDate}
-                          onChange={handleStartDateChangeAprov}
-                          showTimeSelect
-                          isClearable
-                          timeFormat="p"
-                          timeIntervals={15}
-                          timeCaption="Horário"
-                          dateFormat="Pp"
-                          locale={ptBR}
-                          placeholderText="Data de início"
-                          className="!text-black !border !border-black !h-7 p-2"
-                          filterDate={isDateWithinMonth}
-                          onMonthChange={handleMonthChange}
-                        />
-                      </div>
-                      <div className="form-group">
-                        <label className="pl-2 pr-1 text-black" >Data e hora final:</label>
-                        <DatePicker
-                          id={"filter_data_fim"}
-                          selected={endDate}
-                          onChange={handleEndDateChangeAprov}
-                          showTimeSelect
-                          timeFormat="p"
-                          timeIntervals={15}
-                          timeCaption="Horário"
-                          dateFormat="Pp"
-                          locale={ptBR}
-                          placeholderText="Data de fim"
-                          className="!text-black !border !border-black !h-7 p-2"
-                          filterDate={isDateWithinMonth}
-                          onMonthChange={handleMonthChange}
-                        />
-                      </div>
-                      <div className="form-group">
-                      <label className="pr-1 pl-2 text-black" htmlFor="sala_aprov">Sala alocada:</label>
-                        <select className="!text-black !border !border-black !h-7 p-[0.1rem]" id="sala_aprov" name="sala_aprov" onChange={(e) => setFilterSalaAlocadaAprovada(e.target.value)} value={filterSalaAlocadaAprovada} required>
+                      <label className="pr-1 pl-2 text-black" htmlFor="sala_conc">Sala alocada:</label>
+                        <select className="!text-black !border !border-black !h-7 p-[0.1rem]" id="sala_conc" name="sala_conc" onChange={(e) => setFilterSalaAlocadaConcluida(e.target.value)} value={filterSalaAlocadaConcluida} required>
                           <option value="">--Todas as salas--</option>
                           {salas.map(sala => (
                               <option key={sala.id} value={sala.id}>{sala.nome}</option>
@@ -584,13 +672,13 @@ const handleEdit = async (id: number) => {
                         </select>
                       </div>
                       <div className="form-group">
-                        <label className="pl-2 pr-1 text-black" htmlFor="nome_aprov">Nome do alocador:</label>
-                        <input className="!text-black !border !border-black !p-[0.1rem]" type="text" id="nome_aprov" name="nome_aprov" autoComplete="OFF" onChange={(e) => setFilterAlocadorAprovada(e.target.value)} value={filterAlocadorAprovada} />
+                        <label className="pl-2 pr-1 text-black" htmlFor="nome_conc">Nome do alocador:</label>
+                        <input className="!text-black !border !border-black !p-[0.1rem]" type="text" id="nome_conc" name="nome_conc" autoComplete="OFF" onChange={(e) => setFilterAlocadorConcluida(e.target.value)} value={filterAlocadorConcluida} />
                       </div>
                     </div>
                   </div>
                   <div className="card-body">
-                    <table className="table table-bordered table-striped" id="reservas_aprov">
+                    <table className="table table-bordered table-striped" id="reservas_conc">
                       <thead>
                         <tr>
                           <th>ID</th>
@@ -598,11 +686,10 @@ const handleEdit = async (id: number) => {
                           <th>Data e hora do final da reserva</th>
                           <th>Sala alocada</th>
                           <th>Nome do Alocador</th>
-                          <th>Ações</th>
                         </tr>
                       </thead>
                       <tbody>
-                        {renderTableRows(reservasAprovadas, 'aprovados')}
+                        {renderTableRows(reservasConcluidas, 'concluidas')}
                       </tbody>
                     </table>
                   </div>
@@ -610,105 +697,13 @@ const handleEdit = async (id: number) => {
               </div>
             </div>
           </div>
-                        
-                        
-          <button className="btn btn-secondary mt-6" onClick={handleShowConcluidas}>{showConcluidas ? "Ocultar reservas concluídas" : "Visualizar reservas concluídas"}</button>                
-                        
-                        
-          {/* Tabela concluidas */}
-          {showConcluidas && (
-            <div className={`${adminReservasStyles.container} mt-4 xl:!max-w-[90%]`}>
-              <div className="row">
-                <div className="col-md-12">
-                  <div className="card">
-                    <div className="card-header">
-                    <h4>Agendamentos concluídos
-                    (<span id="detalhes-usuario">{totalreservasConcluidas}</span>)
-                    </h4>
-                      <div className="flex items-stretch pt-3 w-100">
-                        <div className="form-group">
-                          <label className="pr-1 text-black" >Data e hora inicial:</label>
-                          <DatePicker
-                            id={"filter_data_inicio"}
-                            selected={startDate}
-                            onChange={handleStartDateChange}
-                            showTimeSelect
-                            isClearable
-                            timeFormat="p"
-                            timeIntervals={15}
-                            timeCaption="Horário"
-                            dateFormat="Pp"
-                            locale={ptBR}
-                            placeholderText="Data de início"
-                            className="!text-black !border !border-black !h-7 p-2"
-                            filterDate={isDateWithinMonth}
-                            onMonthChange={handleMonthChange}
-                          />
-                        </div>
-                        <div className="form-group">
-                        <label className="pl-2 pr-1 text-black" >Data e hora:</label>
-                          <DatePicker
-                              id={"filter_data_fim_Conc"}
-                              selected={endDateConc}
-                              onChange={handleEndDateChangeConc}
-                              showTimeSelect
-                              timeFormat="p"
-                              timeIntervals={15}
-                              timeCaption="Horário"
-                              dateFormat="Pp"
-                              locale={ptBR}
-                              placeholderText="Data de fim"
-                              className="!text-black !border !border-black !h-7 p-2"
-                              filterDate={isDateWithinMonth}
-                              onMonthChange={handleMonthChange}
-                              minDate={startDate || undefined}
-                              minTime={startDate ? addHours(startDate, 1) : undefined}
-                              maxTime={startDate ? endOfMonth(startDate) : undefined}
-                          />
-                        </div>
-                        <div className="form-group">
-                        <label className="pr-1 pl-2 text-black" htmlFor="sala_conc">Sala alocada:</label>
-                          <select className="!text-black !border !border-black !h-7 p-[0.1rem]" id="sala_conc" name="sala_conc" onChange={(e) => setFilterSalaAlocadaConcluida(e.target.value)} value={filterSalaAlocadaConcluida} required>
-                            <option value="">--Todas as salas--</option>
-                            {salas.map(sala => (
-                                <option key={sala.id} value={sala.id}>{sala.nome}</option>
-                            ))}
-                          </select>
-                        </div>
-                        <div className="form-group">
-                          <label className="pl-2 pr-1 text-black" htmlFor="nome_conc">Nome do alocador:</label>
-                          <input className="!text-black !border !border-black !p-[0.1rem]" type="text" id="nome_conc" name="nome_conc" autoComplete="OFF" onChange={(e) => setFilterAlocadorConcluida(e.target.value)} value={filterAlocadorConcluida} />
-                        </div>
-                      </div>
-                    </div>
-                    <div className="card-body">
-                      <table className="table table-bordered table-striped" id="reservas_conc">
-                        <thead>
-                          <tr>
-                            <th>ID</th>
-                            <th>Data e hora de início da reserva</th>
-                            <th>Data e hora do final da reserva</th>
-                            <th>Sala alocada</th>
-                            <th>Nome do Alocador</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {renderTableRows(reservasConcluidas, 'concluidas')}
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}       
-        </div>
-        <ResponsePopup 
-            type={error ? 'error' : 'success'} 
-            title={error ? 'Erro' : 'Pronto!'} 
-            description={error || success} 
-        />
-      </PanelSidebar>
-    </DefineApp>
+        )}       
+      </div>
+      <ResponsePopup 
+          type={error ? 'error' : 'success'} 
+          title={error ? 'Erro' : 'Pronto!'} 
+          description={error || success} 
+      />
+    </div>
   );
 };
