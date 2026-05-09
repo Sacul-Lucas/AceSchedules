@@ -6,6 +6,9 @@ import { Message } from 'primereact/message';
 import { useEffect, useState } from "react";
 import { Avatar } from "primereact/avatar";
 import { IMaskInput } from "react-imask";
+import { PanelLayout } from "../../../Core/Components/Layout/PanelLayout";
+
+import appCalendarIcon from "../../../assets/icons/calendar-alt-solid.svg";
 
 export const Config = () => {
     const [selectedUser, setSelectedUser] = useState<any>();
@@ -95,141 +98,143 @@ export const Config = () => {
     }, []);
 
     return (
-        <div className="flex h-[60vh] w-[100%] place-items-center place-content-center">
-            <div className="mt-4 rounded-md border-2 flex !p-0 place-self-center size-52 w-[60vw] h-[50vh]">
-                <div className="min-w-[12vw] max-w-fit flex flex-col items-center h-full">
-                    <div className="flex flex-col items-center justify-center pr-4 pl-4 pt-5 ">
-                        <Avatar
-                            className="w-24 h-24 text-white text-3xl"
-                            label={getInitials(selectedUser?.usuario)}
-                            shape="circle"
-                            style={{ backgroundColor: stringToColor(formValues.usuario || '') }}
-                        />
-                        <h4 className="pb-5 pr-5 pl-5 text-center text-2xl">
-                            {selectedUser?.usuario}
-                        </h4>
-                    </div>
-                    <div className="flex flex-col w-full">
-                        <a className="border-b-2 pt-2 pb-4 flex place-items-start justify-start pl-5" href="#account-general">Conta</a>
-                    </div>
-                </div>
-                <div className="w-full max-w-[48vw] h-full border-l-2 pt-10 pl-10 pr-10">
-                    <h2 className="font-weight-bold py-3 mb-4 text-xl">Configurações de conta</h2>
-                    <div className="!grid grid-rows-3 grid-flow-col gap-4 w-full h-1/2">
-                        <div className="mb-3 w-full">
-                            <label htmlFor="nomeConfig" className="block text-sm font-medium text-gray-700">Nome do Usuário:</label>
-                            <input
-                                type="text"
-                                name="usuario"
-                                id="nomeConfig"
-                                className="form-control rounded-md border border-zinc-400 w-full p-2"
-                                placeholder="Insira o nome do usuário"
-                                value={formValues.usuario || ""}
-                                onChange={handleInputChange}
-                                required
+        <PanelLayout layoutTitle="Ace Schedules - Configurações" layoutIcon={appCalendarIcon}>
+            <div className="flex h-[60vh] w-[100%] place-items-center place-content-center">
+                <div className="mt-4 rounded-md border-2 flex !p-0 place-self-center size-52 w-[60vw] h-[50vh]">
+                    <div className="min-w-[12vw] max-w-fit flex flex-col items-center h-full">
+                        <div className="flex flex-col items-center justify-center pr-4 pl-4 pt-5 ">
+                            <Avatar
+                                className="w-24 h-24 text-white text-3xl"
+                                label={getInitials(selectedUser?.usuario)}
+                                shape="circle"
+                                style={{ backgroundColor: stringToColor(formValues.usuario || '') }}
                             />
-                            {fieldErrors.usuario && <Message severity="error" text={fieldErrors.usuario}/>}                                                            
+                            <h4 className="pb-5 pr-5 pl-5 text-center text-2xl">
+                                {selectedUser?.usuario}
+                            </h4>
                         </div>
-                        <div className="mb-3 w-full">
-                            <label htmlFor="emailConfig" className="block text-sm font-medium text-gray-700">Email:</label>
-                            <input
-                                type="email"
-                                name="email"
-                                id="emailConfig"
-                                className="form-control rounded-md border border-zinc-400 w-full p-2"
-                                placeholder="Insira o email do usuário"
-                                value={formValues.email || ""}
-                                onChange={handleInputChange}
-                            />
-                            {fieldErrors.email && <Message severity ="error" text={fieldErrors.email} />}                             
+                        <div className="flex flex-col w-full">
+                            <a className="border-b-2 pt-2 pb-4 flex place-items-start justify-start pl-5" href="#account-general">Conta</a>
                         </div>
-                        <div className="mb-3 relative w-full">
-                            <label htmlFor="senhaConfig" className="block text-sm font-medium text-gray-700">
-                                Mudar senha:
-                            </label>
-                            <input
-                                type={showPassword ? "text" : "password"}
-                                name="senha"
-                                id="senhaConfig"
-                                className="form-control rounded-md border border-zinc-400 w-full p-2 pr-10"
-                                placeholder="Insira uma nova senha"
-                                value={formValues.senha || ""}
-                                onChange={handleInputChange}
-                            />
+                    </div>
+                    <div className="w-full max-w-[48vw] h-full border-l-2 pt-10 pl-10 pr-10">
+                        <h2 className="font-weight-bold py-3 mb-4 text-xl">Configurações de conta</h2>
+                        <div className="!grid grid-rows-3 grid-flow-col gap-4 w-full h-1/2">
+                            <div className="mb-3 w-full">
+                                <label htmlFor="nomeConfig" className="block text-sm font-medium text-gray-700">Nome do Usuário:</label>
+                                <input
+                                    type="text"
+                                    name="usuario"
+                                    id="nomeConfig"
+                                    className="form-control rounded-md border border-zinc-400 w-full p-2"
+                                    placeholder="Insira o nome do usuário"
+                                    value={formValues.usuario || ""}
+                                    onChange={handleInputChange}
+                                    required
+                                />
+                                {fieldErrors.usuario && <Message severity="error" text={fieldErrors.usuario}/>}                                                            
+                            </div>
+                            <div className="mb-3 w-full">
+                                <label htmlFor="emailConfig" className="block text-sm font-medium text-gray-700">Email:</label>
+                                <input
+                                    type="email"
+                                    name="email"
+                                    id="emailConfig"
+                                    className="form-control rounded-md border border-zinc-400 w-full p-2"
+                                    placeholder="Insira o email do usuário"
+                                    value={formValues.email || ""}
+                                    onChange={handleInputChange}
+                                />
+                                {fieldErrors.email && <Message severity ="error" text={fieldErrors.email} />}                             
+                            </div>
+                            <div className="mb-3 relative w-full">
+                                <label htmlFor="senhaConfig" className="block text-sm font-medium text-gray-700">
+                                    Mudar senha:
+                                </label>
+                                <input
+                                    type={showPassword ? "text" : "password"}
+                                    name="senha"
+                                    id="senhaConfig"
+                                    className="form-control rounded-md border border-zinc-400 w-full p-2 pr-10"
+                                    placeholder="Insira uma nova senha"
+                                    value={formValues.senha || ""}
+                                    onChange={handleInputChange}
+                                />
+                                <button
+                                    type="button"
+                                    onClick={() => setShowPassword(!showPassword)}
+                                    className="absolute top-[75%] right-2 text-gray-500 hover:text-gray-700 focus:outline-none"
+                                >
+                                    <i className={`pi ${showPassword ? 'pi-eye-slash' : 'pi-eye'}`}></i>
+                                </button>
+                                {fieldErrors.senha && <Message severity ="error" text={fieldErrors.senha} />}                                                            
+                            </div>
+                            <div className="mb-3 w-full">
+                                <label htmlFor="tellConfig" className="block text-sm font-medium text-gray-700">Contato:</label>
+                                <IMaskInput
+                                    className="form-control border rounded-md border-zinc-400 w-full p-2"
+                                    mask="+{55} (00) 00000-0000"
+                                    definitions={{ '0': /[0-9]/ }}
+                                    unmask={true}
+                                    type="text"
+                                    id="tellConfig"
+                                    name="telefone"
+                                    placeholder="Insira o telefone"
+                                    value={formValues.telefone || ""}
+                                    onAccept={(value: any) => {
+                                        setFormValues({ ...formValues, telefone: value });
+
+                                        // Remover erro do campo ao aceitar um novo valor
+                                        setFieldErrors((prevErrors: any) => ({
+                                            ...prevErrors,
+                                            telefone: undefined,  // Limpa o erro do campo telefone
+                                        }));
+                                    }}
+                                    required
+                                />
+                                {fieldErrors.telefone && <Message severity ="error" text={fieldErrors.telefone} />}                                                                               
+                            </div>
+                            <div className="mb-3 w-full">
+                                <label htmlFor="cnpjConfig" className="block text-sm font-medium text-gray-700">CNPJ:</label>
+                                <IMaskInput
+                                    mask="00.000.000/0000-00"
+                                    definitions={{ '0': /[0-9]/ }}
+                                    unmask="typed"
+                                    type="text"
+                                    id="cnpjConfig"
+                                    name="cnpj"
+                                    placeholder="Insira o CNPJ"
+                                    className="form-control border rounded-md border-zinc-400 w-full p-2"
+                                    value={formValues.cnpj || ""}
+                                    onAccept={(value: any) => setFormValues({ ...formValues, cnpj: value })}
+                                    onChange={handleInputChange}
+                                    required
+                                />
+                                {fieldErrors.cnpj && <Message severity ="error" text={fieldErrors.cnpj} />}                                                                                                  
+                            </div>
+                            <div className="relative">
+                                {success && <Message className="absolute text-4xl w-fit mt-[1.2rem] overflow-hidden custom-messages" severity="success" text={success} />}
+                                {error && <Message className="absolute text-4xl w-fit mt-[1.2rem] overflow-hidden custom-messages" severity="error" text={error} />}
+                            </div>
+                                
+                        </div>
+                        <div className="flex place-self-stretch mt-4 space-x-4 pt-3">
                             <button
                                 type="button"
-                                onClick={() => setShowPassword(!showPassword)}
-                                className="absolute top-[75%] right-2 text-gray-500 hover:text-gray-700 focus:outline-none"
-                            >
-                                <i className={`pi ${showPassword ? 'pi-eye-slash' : 'pi-eye'}`}></i>
+                                className="bg-blue-500 text-white px-4 py-2 rounded"
+                                onClick={actionSave}>
+                                Salvar mudanças
                             </button>
-                            {fieldErrors.senha && <Message severity ="error" text={fieldErrors.senha} />}                                                            
+                            <button
+                                type="button"
+                                className="bg-gray-300 text-black px-4 py-2 rounded"
+                                onClick={handleCancel}>
+                                Remover mudanças
+                            </button>
                         </div>
-                        <div className="mb-3 w-full">
-                            <label htmlFor="tellConfig" className="block text-sm font-medium text-gray-700">Contato:</label>
-                            <IMaskInput
-                                className="form-control border rounded-md border-zinc-400 w-full p-2"
-                                mask="+{55} (00) 00000-0000"
-                                definitions={{ '0': /[0-9]/ }}
-                                unmask={true}
-                                type="text"
-                                id="tellConfig"
-                                name="telefone"
-                                placeholder="Insira o telefone"
-                                value={formValues.telefone || ""}
-                                onAccept={(value: any) => {
-                                    setFormValues({ ...formValues, telefone: value });
-                                    
-                                    // Remover erro do campo ao aceitar um novo valor
-                                    setFieldErrors((prevErrors: any) => ({
-                                        ...prevErrors,
-                                        telefone: undefined,  // Limpa o erro do campo telefone
-                                    }));
-                                }}
-                                required
-                            />
-                            {fieldErrors.telefone && <Message severity ="error" text={fieldErrors.telefone} />}                                                                               
-                        </div>
-                        <div className="mb-3 w-full">
-                            <label htmlFor="cnpjConfig" className="block text-sm font-medium text-gray-700">CNPJ:</label>
-                            <IMaskInput
-                                mask="00.000.000/0000-00"
-                                definitions={{ '0': /[0-9]/ }}
-                                unmask="typed"
-                                type="text"
-                                id="cnpjConfig"
-                                name="cnpj"
-                                placeholder="Insira o CNPJ"
-                                className="form-control border rounded-md border-zinc-400 w-full p-2"
-                                value={formValues.cnpj || ""}
-                                onAccept={(value: any) => setFormValues({ ...formValues, cnpj: value })}
-                                onChange={handleInputChange}
-                                required
-                            />
-                            {fieldErrors.cnpj && <Message severity ="error" text={fieldErrors.cnpj} />}                                                                                                  
-                        </div>
-                        <div className="relative">
-                            {success && <Message className="absolute text-4xl w-fit mt-[1.2rem] overflow-hidden custom-messages" severity="success" text={success} />}
-                            {error && <Message className="absolute text-4xl w-fit mt-[1.2rem] overflow-hidden custom-messages" severity="error" text={error} />}
-                        </div>
-                        
-                    </div>
-                    <div className="flex place-self-stretch mt-4 space-x-4 pt-3">
-                        <button
-                            type="button"
-                            className="bg-blue-500 text-white px-4 py-2 rounded"
-                            onClick={actionSave}>
-                            Salvar mudanças
-                        </button>
-                        <button
-                            type="button"
-                            className="bg-gray-300 text-black px-4 py-2 rounded"
-                            onClick={handleCancel}>
-                            Remover mudanças
-                        </button>
                     </div>
                 </div>
             </div>
-        </div>
+        </PanelLayout>
     );
 };

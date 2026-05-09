@@ -1,5 +1,7 @@
 import { Chart } from 'primereact/chart';
 import { useEffect, useState } from "react";
+import { PanelLayout } from '../../Core/Components/Layout/PanelLayout';
+import appCalendarIcon from "../../assets/icons/calendar-alt-solid.svg";
 
 export const Estatísticas = () => {
     const [chartData, setChartData] = useState({});
@@ -41,8 +43,11 @@ export const Estatísticas = () => {
     }, []);
 
     return (
-        <div className="flex mt-[10dvh] col justify-center align-middle">
-            <Chart type="pie" data={chartData} options={chartOptions} className="w-full md:w-30rem" />
-        </div>
+        <PanelLayout layoutTitle='Ace Schedules - Estatísticas' layoutIcon={appCalendarIcon}>
+            <div className="flex pt-[10dvh] col justify-center align-middle">
+                <Chart type="pie" data={chartData} options={chartOptions} className="w-full md:w-30rem" />
+            </div>
+        </PanelLayout>
+
     )
 }

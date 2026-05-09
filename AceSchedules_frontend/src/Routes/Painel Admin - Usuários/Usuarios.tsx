@@ -9,6 +9,7 @@ import adminUserStyles from '../../Core/Css/Owned/AdminRoom.module.css';
 import appAdminIcon from "../../assets/icons/admin-alt-solid.svg";
 
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { AdminLayout } from "../../Core/Components/Layout/AdminLayout";
 
 export const Usuarios: React.FC = () => {
 
@@ -158,7 +159,7 @@ export const Usuarios: React.FC = () => {
     }, [filterNome, filterEmail, filterUserType]);
 
     return (
-        <div>
+        <AdminLayout>
             <AdminPopups
                 idModal={editMode ? 'Editmodal' : viewMode ? 'Viewmodal' : 'Addmodal'}
                 formLabel={editMode ? 'Editar usuário' : viewMode ? 'Visualizar usuário' : 'Criar usuário'}
@@ -255,6 +256,6 @@ export const Usuarios: React.FC = () => {
                 title={error ? 'Erro' : 'Pronto!'} 
                 description={error || success} 
             />
-        </div>
+        </AdminLayout>
     );
 };
