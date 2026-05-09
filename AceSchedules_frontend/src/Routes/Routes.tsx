@@ -3,7 +3,6 @@ import {
     Routes,
     Route
 } from "react-router-dom";
-import { AdminLayout } from "../Core/Components/Body/AdminLayout";
 import { Reservas } from "./Painel Admin - Reservas/Reservas";
 import { Usuarios } from "./Painel Admin - Usuários/Usuarios";
 import { Historico } from "./Sidebar/Configurações/Historico";
@@ -26,9 +25,7 @@ export const AppRoutes = () => {
                     <Route path="/Config" element={<Config/>}/>
                     <Route path="/Historico" element={<Historico/>}/>
                     <Route path="/Estatísticas" element={<Estatísticas/>}/>
-                </Route>
 
-                <Route element={<AdminLayout />}>
                     <Route path="/Usuarios" element={<Usuarios />} />
                     <Route path="/Reservas" element={<Reservas/>} />
                     <Route path="/Salas" element={<Salas/>} />

@@ -10,6 +10,7 @@ import adminReservasStyles from '../../Core/Css/Owned/AdminRoom.module.css';
 import DatePicker from "react-datepicker";
 
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { AdminLayout } from "../../Core/Components/Layout/AdminLayout";
 
 export const Reservas: React.FC = () => {
   const [reservasPendentes, setReservasPendentes] = useState<any[]>([]);
@@ -426,7 +427,7 @@ const handleEdit = async (id: number) => {
 
 
   return (
-    <div>
+    <AdminLayout>
       <AdminPopups
         idModal={editMode ? 'Editmodal' : viewMode ? 'Viewmodal' : 'Addmodal'}
         formLabel={editMode ? 'Editar reserva' : viewMode ? 'Visualizar reserva' : 'Criar reserva'}
@@ -704,6 +705,6 @@ const handleEdit = async (id: number) => {
           title={error ? 'Erro' : 'Pronto!'} 
           description={error || success} 
       />
-    </div>
+    </AdminLayout>
   );
 };

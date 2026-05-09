@@ -4,6 +4,7 @@ import { handleAlert, ResponsePopup } from "../../Core/Components/Pop-ups/Respon
 import { API_BASE_URL } from "../../Config";
 import adminSalasStyles from '../../Core/Css/Owned/AdminRoom.module.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { AdminLayout } from "../../Core/Components/Layout/AdminLayout";
 
 export const Salas: React.FC = () => {
     const [salas, setSalas] = useState<any[]>([]);
@@ -190,7 +191,7 @@ export const Salas: React.FC = () => {
     }, [filterNome, apenasBloqueadas]);
 
     return (
-        <div>
+        <AdminLayout>
             <AdminPopups
                 idModal={editMode ? 'Editmodal' : viewMode ? 'Viewmodal' : 'Addmodal'}
                 formLabel={editMode ? 'Editar sala' : viewMode ? 'Visualizar sala' : 'Criar sala'}
@@ -274,6 +275,6 @@ export const Salas: React.FC = () => {
                 title={error ? 'Erro' : 'Pronto!'} 
                 description={error || success} 
             />
-        </div>
+        </AdminLayout>
     );
 };
