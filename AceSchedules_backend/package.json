@@ -28,7 +28,7 @@
     "morgan": "^1.11.0",
     "multer": "^2.2.0",
     "mysql": "^2.18.1",
-    "mysql2": "^3.14.0",
+    "mysql2": "^3.23.1",
     "node-cron": "^3.0.3",
     "nodemailer": "^9.0.1",
     "nodemon": "^3.1.4",
